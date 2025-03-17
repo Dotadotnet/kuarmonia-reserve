@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: kuarmoniashop-app
+    ports:
+      - "5173:5173"  # پورت مربوط به سرور Vite
+    volumes:
+      - .:/app  # اشتراک‌گذاری پوشه پروژه از ماشین میزبان با کانتینر
+    environment:
+      - NODE_ENV=development
+    working_dir: /app  # دایرکتوری کاری داخل کانتینر
+    command: yarn dev  # دستور اجرای سرور Vite
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
