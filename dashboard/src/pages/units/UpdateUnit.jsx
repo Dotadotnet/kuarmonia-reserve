@@ -1,4 +1,4 @@
-
+"use client";
 import Button from "@/components/shared/button/Button";
 import { useGetUnitQuery, useUpdateUnitMutation } from "@/services/unit/unitApi";
 import { toast } from "react-hot-toast";

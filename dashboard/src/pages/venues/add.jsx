@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import StepAddVenue from "./steps/StepAddVenue";
 import Logo from "@/components/shared/logo/Logo";
