@@ -1,13 +1,13 @@
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const kuarmoniaApi = createApi({
   reducerPath: "kuarmoniaApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL,
+    baseUrl: import.meta.env.VITE_BASE_URL
   }),
   tagTypes: [
     "User",
+    "Admin",
     "Product",
     "Brand",
     "Category",
@@ -17,10 +17,18 @@ export const kuarmoniaApi = createApi({
     "Purchase",
     "Review",
     "Tag",
-    "Unit",
+    "Currency",
     "Post",
     "Blog",
-    "Gallery"
+    "Gallery",
+    "VenueType",
+    "VenueStandard",
+    "VenueSetting",
+    "VenueAward",
+    "VenueAmenity",
+    "Venue",
+    "CeremonyType",
+    "VenueService",
   ],
-  endpoints: () => ({}),
+  endpoints: () => ({})
 });

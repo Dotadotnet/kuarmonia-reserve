@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 5px;
+    position: relative;
+  }
+  
+  #gallery {
+    display: grid;
+    height: calc(100vh - 10px);
+    grid-template: repeat(6, 1fr) / repeat(6, 1fr);
+    grid-gap: 0.5em;
+  }
+  
+  #gallery > div {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  
+  #gallery > div img {
+    width: 100%;
+    min-height: 100%;
+    transition: all 1s ease;
+  }
+  
+  #gallery > div a {
+    opacity: 0;
+    position: absolute;
+    color: #000;
+    background-color: #000;
+    font: bold 4em "Helvetica";
+    padding: 2rem;
+    mix-blend-mode: difference;
+    width: 100%;
+    height: 100%;
+    transition: opacity 1s ease;
+  }
+  
+  #gallery > div:hover img {
+    filter: blur(4px);
+  }
+  
+  #gallery > div:hover a {
+    opacity: 1;
+  }
+  
+  /* Lightbox styles */
+  [id^="lightbox-"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    opacity: 0;
+    transition: opacity 450ms ease-in-out;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  
+  [id^="lightbox-"]:target {
+    opacity: 1;
+    pointer-events: inherit;
+  }
+  
+  [id^="lightbox-"] .content {
+    max-width: 90%;
+    position: relative;
+    color: #fff;
+  }
+  
+  [id^="lightbox-"] img {
+    max-height: 90vh;
+    max-width: 100%;
+    filter: blur(50px);
+  }
+  
+  [id^="lightbox-"] .title {
+    display: block;
+    margin: 0;
+    padding: 1em;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transform: translateY(50%);
+    font-size: 1.5em;
+    opacity: 0;
+  }
+  
+  [id^="lightbox-"] .title::after {
+    content: '';
+    background-color: rgba(0, 0, 0, 0.4);
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    transition: all 350ms ease-in-out 250ms;
+    opacity: 0;
+    transform-origin: bottom;
+  }
+  
+  [id^="lightbox-"]:target .title {
+    opacity: 1;
+  }
+  
+  [id^="lightbox-"]:target .title::after {
+    opacity: 1;
+  }
+  
+  [id^="lightbox-"] .close {
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+    opacity: 0;
+    text-decoration: none;
+    color: #fff;
+    transform-origin: right top;
+    transition: all 0.3s ease;
+  }
+  
+  [id^="lightbox-"]:target .close {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  [id^="lightbox-"]:target .close::after {
+    content: "X";
+  }
+  

@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useSignInMutation } from "@/services/auth/authApi";
 import { toast } from "react-hot-toast";
 import ThemeToggle from "@/components/ThemeToggle";
-import logo from "/logo.png";
+import logo from "/logo.gif";
 const Signin = () => {
   const [signin, { isLoading, data, error }] = useSignInMutation();
 

@@ -12,7 +12,7 @@ const Signup = () => {
         <div className="flex flex-row items-center gap-x-2">
           <hr className="w-full   dark:border-gray-600" />{" "}
           <img
-            src="/logo.png"
+            src="/logo.gif"
             alt="logo"
             width={141}
             height={40}

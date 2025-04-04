@@ -1,5 +1,4 @@
 import React from "react";
-import { LuShieldCheck, LuShieldAlert } from "react-icons/lu";
 
 const StepIndicator = ({ currentStep, totalSteps, onStepClick, completedSteps, invalidSteps }) => {
   return (

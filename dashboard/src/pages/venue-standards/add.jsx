@@ -1,7 +1,9 @@
 import React from "react";
 import StepAddStandard from "./steps/StepAddStandard";
 import Logo from "@/components/shared/logo/Logo";
-import ThemeToggle from "@/components/shared/navbar/ThemeToggle/ThemeToggle";
+import ToggleThemeButton from "@/components/ThemeToggle";
+import BackButton from "@/components/shared/button/BackButton";
+
 function AddStandard() {
   return (
     <section
@@ -13,15 +15,14 @@ function AddStandard() {
       <div className="max-w-md w-full dark:bg-gray-800 bg-white flex flex-col gap-y-4 p-5 sm:p-8 rounded-primary shadow-lg z-10">
         <div className="flex flex-row items-center gap-x-2">
           <hr className="w-full" />
-
+          <BackButton />
           <Logo />
           <hr className="w-full" />
         </div>
-
+       
         <StepAddStandard />
-      <ThemeToggle />
+        <ToggleThemeButton />
       </div>
-
     </section>
   );
 }

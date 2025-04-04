@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import DetailCard from "./DetailCard";
 import Modal from "../shared/Modal";
-import Image from "next/image";
 import { useAddReviewMutation } from "@/services/review/reviewApi";
 import { toast } from "react-hot-toast";
 import Inform from "../icons/Inform";

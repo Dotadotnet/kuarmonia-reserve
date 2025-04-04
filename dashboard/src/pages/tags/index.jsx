@@ -1,33 +1,22 @@
 import ControlPanel from "../ControlPanel";
 import React, { useState, useEffect } from "react";
-import { useGetTagsQuery } from "@/services/tag/tagApi";
-import AddTag from "./add";
+import { useGetTagsQuery, useDeleteTagMutation } from "@/services/tag/tagApi";
 import { toast } from "react-hot-toast";
 import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
 import StatusIndicator from "@/components/shared/tools/StatusIndicator";
-import Pagination from "@/components/shared/pagination/Pagination";
-import AddButton from "@/components/shared/button/AddButton";
-import DeleteTag from "./DeleteTag";
 import UpdateTag from "./UpdateTag";
+import Add from "./add";
+import Search from "@/components/shared/search";
+import DeleteModal from "@/components/shared/modal/DeleteModal";
 
 const Tags = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const { data, isLoading, error, refetch } = useGetTagsQuery({
-    page: currentPage,
-    limit: itemsPerPage,
-    status: statusFilter === "all" ? undefined : statusFilter,
-    search: searchTerm,
-  });
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
-
-  const openAddModal = () => setIsAddModalOpen(true);
-  const closeAddModal = () => setIsAddModalOpen(false);
-console.log(data)
+  const { data, isLoading, error, refetch } = useGetTagsQuery();
+  const [
+    deleteTag,
+    { isLoading: deleting, data: deleteData, error: deleteError }
+  ] = useDeleteTagMutation();
   useEffect(() => {
     if (isLoading) {
       toast.loading("در حال دریافت تگ‌ها...", { id: "tag-loading" });
@@ -41,16 +30,24 @@ console.log(data)
     if (error?.data) {
       toast.error(error?.data?.message, { id: "tag-loading" });
     }
-  }, [data, error, isLoading]);
+    if (deleting) {
+      toast.loading("در حال حذف برچسب...", { id: "deleteTag" });
+    }
+
+    if (deleteData) {
+      toast.success(deleteData?.message, { id: "deleteTag" });
+    }
+
+    if (deleteError?.data) {
+      toast.error(deleteError?.data?.message, { id: "deleteTag" });
+    }
+  }, [data, error, isLoading, deleting, deleteData, deleteError]);
 
   return (
     <>
       <ControlPanel>
-        <div className="md:flex md:flex-row md:items-center md:justify-between ">
-          <AddButton onClick={openAddModal} />
-        </div>
-
-        {/* نمایش داده‌های تگ‌ها */}
+        <Search searchTerm={searchTerm} />
+        <Add />
         <div className="mt-8 w-full grid grid-cols-12 text-slate-400 px-4 ">
           <div className="col-span-11 lg:col-span-3  text-sm">
             <span className="hidden lg:flex">نویسنده</span>
@@ -114,31 +111,18 @@ console.log(data)
 
               <div className="col-span-2 md:col-span-1 gap-2  text-center flex justify-center md:items-center items-left">
                 <article className="lg:flex-row flex flex-col gap-x-2 justify-left gap-y-2">
-                  <span
-                  
-                  >
-                    <UpdateTag id={tag?._id} />
-
-                  </span>
                   <span>
-                    <DeleteTag id={tag?._id} />
+                    <UpdateTag id={tag?._id} />
                   </span>
+                  <DeleteModal
+                    message="آیا از حذف این تگ  اطمینان دارید؟"
+                    isLoading={deleting}
+                    onDelete={() => deleteTag(tag?._id)}
+                  />
                 </article>
               </div>
             </div>
           ))
-        )}
-
-        {/* Pagination */}
-
-      
-        {/* مودال افزودن/ویرایش */}
-        {isAddModalOpen && (
-          <AddTag
-            isOpen={isAddModalOpen}
-            onClose={closeAddModal}
-            onSuccess={refetch}
-          />
         )}
       </ControlPanel>
     </>

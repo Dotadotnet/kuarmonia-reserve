@@ -11,7 +11,6 @@ const Step3 = ({ register, errors, control }) => {
     limit: 10000
   });
   const propertyTypes = propertyTypesData?.data || [];
-  console.log(propertyTypes);
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [availableFeatures, setAvailableFeatures] = useState([]);
 
@@ -110,7 +109,7 @@ const Step3 = ({ register, errors, control }) => {
                     label={feature}
                     id={feature}
                     register={register}
-                    description={availableFeatures.description} // ارسال description
+                    description={availableFeatures.description} 
                     defaultChecked={value?.hasAmenity || false}
                     onChange={(e) => {
                       onChange({

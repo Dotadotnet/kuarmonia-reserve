@@ -1,10 +1,8 @@
 
 
-"use client";
 
 import Spinner from "@/components/shared/Spinner";
 import { useForgotPasswordMutation } from "@/services/auth/authApi";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -50,7 +48,7 @@ const ResetPassword = () => {
         <div className="flex flex-row items-center gap-x-2">
           <hr className="w-full" />
           <Image
-            src="/logo.png"
+            src="/logo.gif"
             alt="logo"
             width={141}
             height={40}

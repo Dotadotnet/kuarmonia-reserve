@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
-import Image from "next/image";
 
 const ThumbnailStep = ({
   nextStep,
@@ -17,8 +16,8 @@ const ThumbnailStep = ({
       <div className="flex flex-col items-center">
         <div className="profile-container shine-effect rounded-full flex justify-center mb-4">
           {thumbnailPreview ? (
-            <Image
-              src={thumbnailPreview?.url}
+            <img
+              src={thumbnailPreview}
               alt="standard"
               height={100}
               width={100}

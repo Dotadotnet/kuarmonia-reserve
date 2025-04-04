@@ -1,51 +1,97 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import NavigationButton from "@/components/shared/button/NavigationButton";
-import { useForm } from "react-hook-form";
 import SendButton from "@/components/shared/button/SendButton";
 import { useAddVenueMutation } from "@/services/venue/venueApi";
-import ThumbnailStep from "./ThumbnailStep";
-import StepIndicator from "./StepIndicator";
-import TitleStep from "./TitleStep";
-import CertifiedStep from "./CertifiedStep";
-import { useRouter } from "next/router";
-
-const StepAddVenue = () => {
-  const [thumbnail, setThumbnail] = useState(null);
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from "./Step4";
+import Step5 from "./Step5";
+import Step6 from "./Step6";
+import Step7 from "./Step7";
+import { useNavigate } from "react-router-dom";
+import ToggleThemeButton from "@/components/ThemeToggle";
+const StepAddVenue = ({
+  currentStep,
+  setCurrentStep,
+  thumbnailPreview,
+  setThumbnailPreview,
+  register,
+  errors,
+  trigger,
+  handleSubmit,
+  setValue,
+  watch,
+  control,
+  setGalleryPreview,
+  galleryPreview,
+  setGallery,
+  setSelectedCountry,
+  setSelectedState,
+  setSelectedCity,
+  selectedCountry,
+  selectedState,
+  selectedCity,
+  setSelectedLocation,
+  selectedLocation,
+  ourEventSpaces,
+  setOurEventSpaces
+}) => {
   const [addVenue, { isLoading, data, error }] = useAddVenueMutation();
-  const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState({});
   const [invalidSteps, setInvalidSteps] = useState({});
-  const [keynotes, setKeynotes] = useState([""]);
-  const {
-    register,
+  const [thumbnail, setThumbnail] = useState(null);
 
-    formState: { errors },
-    trigger,
-    handleSubmit,
-    watch,
-  } = useForm({
-    mode: "onChange",
-  });
-  const totalSteps = 3;
+  const totalSteps = 8;
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-  
+
+    formData.append("name", data.title);
+    formData.append("summary", data.title);
+    formData.append("rating", data.rating);
     formData.append("thumbnail", thumbnail);
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("referenceUrl", data.referenceUrl);
-    formData.append("issuingOrganization", data.issuingOrganization);
+    for (let i = 0; i < gallery.length; i++) {
+      formData.append("gallery", gallery[i]);
+    }
+    formData.append("tags", data.tags);
+    formData.append("category", data.category);
+    formData.append("about", data.about);
+    formData.append("basePrice", data.basePrice);
+    formData.append("isReception", data.isReception);
+    formData.append("currency", data.currency);
+    formData.append(
+      "campaign",
+      JSON.stringify({
+        title: data.campaignTitle,
+        state: data.campaignState
+      })
+    );
+    formData.append(
+      "capeacity",
+      JSON.stringify({
+        minCapacity: data.minCapacity,
+        maxCapacity: data.maxCapacity
+      })
+    );
     formData.append("country", data.country);
-    formData.append("year", data.year);
-    formData.append("isInternational", data.isInternational);
-  
- 
-    addVenue(formData);
+    formData.append("state", data.state);
+    formData.append("city", data.city);
+    formData.append("plateNumber", data.plateNumber);
+    formData.append("phone", data.phone);
+    formData.append("street", data.street);
+    formData.append("postalCode", data.postalCode);
+    formData.append("location", selectedLocation);
+    formData.append("amenities", data.amenities);
+    formData.append("services", data.services);
+    formData.append("settings", data.settings);
+    formData.append("ceremonyTypes", data.CeremonyTypes);
+    formData.append("awards", data.selectedAwards);
+    formData.append("standards", data.selectedStandards);
   };
-  
-  const router = useRouter();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoading) {
@@ -54,7 +100,7 @@ const StepAddVenue = () => {
 
     if (data?.success) {
       toast.success(data?.message, { id: "addVenue" });
-      router.push("./");   
+      navigate("./");
     }
     if (data && !data?.success) {
       toast.error(data?.message, { id: "addVenue" });
@@ -83,13 +129,6 @@ const StepAddVenue = () => {
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("description");
-        if (!valid) {
-          toast.error("لطفاً توضیحات جایزه را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        break;
 
       case 3:
         valid = await trigger("issuingOrganization");
@@ -112,6 +151,39 @@ const StepAddVenue = () => {
         }
         break;
 
+      case 4:
+        valid = await trigger("issuingOrganization");
+        if (!valid) {
+          toast.error("لطفاً نکات کلیدی را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+
+        break;
+      case 5:
+        valid = await trigger("issuingOrganization");
+        if (!valid) {
+          toast.error("لطفاً نکات کلیدی را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        break;
+        case 6:
+          valid = await trigger("issuingOrganization");
+          if (!valid) {
+            toast.error("لطفاً نکات کلیدی را وارد کنید");
+            setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+            return;
+          }
+          break;
+          case 7:
+            valid = await trigger("issuingOrganization");
+            if (!valid) {
+              toast.error("لطفاً نکات کلیدی را وارد کنید");
+              setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+              return;
+            }
+            break;
       default:
         break;
     }
@@ -129,83 +201,116 @@ const StepAddVenue = () => {
     switch (step) {
       case 1:
         return (
-          <ThumbnailStep
-            thumbnail={thumbnail}
+          <Step1
             setThumbnail={setThumbnail}
+            setThumbnailPreview={setThumbnailPreview}
+            thumbnailPreview={thumbnailPreview}
             nextStep={nextStep}
             register={register}
             errors={errors.thumbnail}
+            setValue={setValue}
+            control={control}
           />
         );
       case 2:
         return (
-          <TitleStep
+          <Step2
             register={register}
             errors={errors}
             prevStep={prevStep}
             nextStep={nextStep}
+            setGalleryPreview={setGalleryPreview}
+            galleryPreview={galleryPreview}
+            setGallery={setGallery}
+            control={control}
           />
         );
       case 3:
         return (
-          <CertifiedStep
-            keynotes={keynotes}
-            setKeynotes={setKeynotes}
+          <Step3
+            register={register}
+            errors={errors}
+            watch={watch}
+            prevStep={prevStep}
+            nextStep={nextStep}
+            control={control}
+          />
+        );
+      case 4:
+        return (
+          <Step4
+            register={register}
+            errors={errors}
+            watch={watch}
+            prevStep={prevStep}
+            nextStep={nextStep}
+            control={control}
+            setSelectedCountry={setSelectedCountry}
+            setSelectedState={setSelectedState}
+            setSelectedCity={setSelectedCity}
+            selectedCountry={selectedCountry}
+            selectedState={selectedState}
+            selectedCity={selectedCity}
+            setSelectedLocation={setSelectedLocation}
+          />
+        );
+      case 5:
+        return (
+          <Step5
             register={register}
             errors={errors}
             prevStep={prevStep}
             nextStep={nextStep}
+            control={control}
+            setValue={setValue}
           />
         );
-     
+      case 6:
+        return (
+          <Step6
+            register={register}
+            errors={errors}
+            prevStep={prevStep}
+            nextStep={nextStep}
+            control={control}
+          />
+        );
+      case 7:
+        return (
+          <Step7
+            register={register}
+            errors={errors}
+            prevStep={prevStep}
+            nextStep={nextStep}
+            control={control}
+            ourEventSpaces={ourEventSpaces}
+            setOurEventSpaces={setOurEventSpaces}
+
+          />
+        );
       default:
         return null;
     }
   };
-  const handleStepClick = async (step) => {
-    if (step < currentStep) {
-      setCurrentStep(step);
-    } else if (step > currentStep) {
-      let canProceed = true;
-      for (let i = 1; i < step; i++) {
-        if (!completedSteps[i]) {
-          canProceed = false;
-          toast.error(`لطفاً ابتدا مرحله ${i} را تکمیل کنید.`);
-          setCurrentStep(i);
-          break;
-        }
-      }
-      if (canProceed) {
-        setCurrentStep(step);
-      }
-    }
-  };
-
-
 
   return (
-    <form
-      action=""
-      className="w-full max-w-xl  flex flex-col gap-y-4"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <StepIndicator
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-        onStepClick={handleStepClick}
-        completedSteps={completedSteps}
-        invalidSteps={invalidSteps}
-      />
+    <div className="bg-white  dark:bg-gray-800 rounded-lg  p-4 w-full ">
+      <form
+        action=""
+        className="w-full max-w-xl  flex flex-col gap-y-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        {renderStepContent(currentStep)}
 
-      {renderStepContent(currentStep)}
-
-      {currentStep === totalSteps && (
-        <div className="flex justify-between mt-12">
-          <SendButton />
-          <NavigationButton direction="prev" onClick={prevStep} />
-        </div>
-      )}
-    </form>
+        {currentStep === totalSteps && (
+          <div className="flex justify-between mt-12">
+            <SendButton />
+            <NavigationButton direction="prev" onClick={prevStep} />
+          </div>
+        )}
+      </form>
+      <ToggleThemeButton />
+    </div>
   );
 };
 

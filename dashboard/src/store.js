@@ -14,7 +14,7 @@ import purchaseSlice from "./features/purchase/purchaseSlice";
 import filterSlice from "./features/filter/filterSlice";
 import userSlice from "@/features/user/userSlice";
 import tagSlice from "@/features/tag/tagSlice";
-import unitSlice from "@/features/unit/unitSlice";
+import currencySlice from "@/features/currency/currencySlice";
 export const store = configureStore({
   reducer: {
     [kuarmoniaApi.reducerPath]: kuarmoniaApi.reducer,
@@ -29,7 +29,7 @@ export const store = configureStore({
     filter: filterSlice,
     user:userSlice,
     tag:tagSlice,
-    unit:unitSlice,
+    currency:currencySlice,
     // productFilter: productFilterSlice,
   },
   middleware: (getDefaultMiddleware) =>

@@ -36,7 +36,7 @@ app.use(
   })
 );
 
-app.use("/api/unit", require("./routes/unit.route"));
+app.use("/api/currency", require("./routes/currency.route"));
 app.use("/api/tag", require("./routes/tag.route"));
 app.use("/api/category", require("./routes/category.route"));
 app.use("/api/product", require("./routes/product.route"));
@@ -51,6 +51,14 @@ app.use("/api/post", require("./routes/post.route"));
 app.use("/api/blog", require("./routes/blog.route"));
 app.use("/api/session", require("./routes/session.route"));
 app.use("/api/gallery", require("./routes/gallery.route"));
+app.use("/api/venue", require("./routes/venue.route"));
+app.use("/api/venueType", require("./routes/venueType.route"));
+app.use("/api/venueAmenity", require("./routes/venueAmenity.route"));
+app.use("/api/venueService", require("./routes/venueService.route"));
+app.use("/api/venueSetting", require("./routes/venueSetting.route"));
+app.use("/api/venueAward", require("./routes/venueAward.route"));
+app.use("/api/venueStandard", require("./routes/venueStandard.route"));
+app.use("/api/ceremonyType", require("./routes/ceremonyType.route"));
 
 app.use(error);
 

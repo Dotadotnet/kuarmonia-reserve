@@ -25,28 +25,26 @@ const UpdateCategory = ({ id }) => {
     if (isLoading) {
       toast.loading("در حال دریافت  ...", { id: "category-loading" });
     }
-    if (data?.success) {
-      toast.success(data?.message, { id: "category-loading" });
-      toast.dismiss( { id: "category-loading" });
-
+    if (data) {
+      toast.success(data?.description, { id: "category-loading" });
     }
     if (error?.data) {
-      toast.error(error?.data?.message, { id: "category-loading" });
+      toast.error(error?.data?.description, { id: "category-loading" });
     }
 
     if (isUpdateing) {
       toast.loading("در حال پردازش...", { id: "category" });
     }
-    if (updateData?.success) {
-      toast.success(updateData?.message, { id: "category" });
+    if (updateData) {
+      toast.success(updateData?.description, { id: "category" });
       reset();
       setIsOpen(false);
     }
-    if (updateData && !updateData?.success) {
-      toast.error(updateData?.message, { id: "category" });
+    if (updateData && !updateData) {
+      toast.error(updateData?.description, { id: "category" });
     }
     if (updateError?.data) {
-      toast.error(updateError?.data?.message, { id: "category" });
+      toast.error(updateError?.data?.description, { id: "category" });
     }
   }, [isLoading, error, isUpdateing, updateError,updateData,data]);
 
@@ -71,7 +69,7 @@ const UpdateCategory = ({ id }) => {
         <Modal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          className="lg:w-1/3 md:w-1/2 w-full z-50"
+          className="lg:w-1/3 md:w-1/2 w-full z-50 p-4"
         >
           <form
             className="text-sm w-full h-full flex flex-col gap-y-4"

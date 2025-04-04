@@ -16,21 +16,19 @@ const AddCategory = () => {
 
   useEffect(() => {
     if (isAdding) {
-      toast.loading("در حال پردازش...", { id: "category" });
+      toast.loading("در حال افزودن  برچسب...", { id: "add-Category" });
     }
-    if (addData?.success) {
-      toast.success(addData?.message, { id: "category" });
+
+    if (addData) {
+      toast.success(addData?.description, { id: "add-Category" });
+      setIsOpen(false);
       reset()
-      setIsOpen(false)
-    }
-    if (addData && !addData?.success) {
-      toast.error(addData?.message, { id: "category" });
     }
 
     if (addError?.data) {
-      toast.error(addError?.data?.message, { id: "category" });
+      toast.error(addError?.data?.description, { id: "add-Category" });
     }
-  }, [addData, , addError, , isAdding, , reset]);
+  }, [isAdding, addData, addError]);
   const onSubmit = async (data) => {
     const requestData = {
       title: data.title,

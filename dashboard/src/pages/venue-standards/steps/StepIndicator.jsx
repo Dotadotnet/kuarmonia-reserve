@@ -1,6 +1,6 @@
 import React from "react";
-import { LuShieldCheck, LuShieldAlert } from "react-icons/lu";
-
+import ShieldAlert from "@/components/icons/ShieldAlert"
+import ShieldCheck from "@/components/icons/ShieldCheck"
 const StepIndicator = ({ currentStep, totalSteps, onStepClick, completedSteps, invalidSteps }) => {
   return (
     <div className="flex items-center justify-between mb-6 w-full">
@@ -38,9 +38,9 @@ const StepIndicator = ({ currentStep, totalSteps, onStepClick, completedSteps, i
                 aria-label={`مرحله ${step}`}
               >
                 {isInvalid ? (
-                  <LuShieldCheck className="h-6 w-6 text-orange-200" />
+                  <ShieldAlert className="h-6 w-6 text-orange-200" />
                 ) : isCompleted ? (
-                  <LuShieldAlert className="h-6 w-6" />
+                  <ShieldCheck className="h-6 w-6" />
                 ) : (
                   step
                 )}

@@ -68,9 +68,7 @@ const ListCategory = () => {
     <>
       <ControlPanel>
         <Search searchTerm={searchTerm} />
-        {/* نمایش داده‌های تگ‌ها */}
         <Add />
-        {/* نمایش داده‌های تگ‌ها */}
         <div className="mt-8 w-full grid grid-cols-12 text-slate-400 px-4 ">
           <div className="col-span-11 lg:col-span-3  text-sm">
             <span className="hidden lg:flex">نویسنده</span>

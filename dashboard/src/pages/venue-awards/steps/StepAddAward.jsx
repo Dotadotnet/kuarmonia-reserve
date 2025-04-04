@@ -8,7 +8,7 @@ import ThumbnailStep from "./ThumbnailStep";
 import StepIndicator from "./StepIndicator";
 import TitleStep from "./TitleStep";
 import CertifiedStep from "./CertifiedStep";
-import { useRouter } from "next/router";
+import { useNavigate } from "react-router-dom";
 
 const StepAddAward = () => {
   const [thumbnail, setThumbnail] = useState(null);
@@ -45,22 +45,20 @@ const StepAddAward = () => {
     addAward(formData);
   };
   
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoading) {
-      toast.loading("در حال افزودن ...", { id: "addAward" });
+      toast.loading("در حال افزودن ...", { id: "add-Award" });
     }
 
-    if (data?.success) {
-      toast.success(data?.message, { id: "addAward" });
-      router.push("./");   
+    if (data) {
+      toast.success(data?.description, { id: "add-Award" });
+      navigate("/venue-awards");   
     }
-    if (data && !data?.success) {
-      toast.error(data?.message, { id: "addAward" });
-    }
+ 
     if (error?.data) {
-      toast.error(error?.data?.message, { id: "addAward" });
+      toast.error(error?.data?.description, { id: "add-Award" });
     }
   }, [isLoading, data, error]);
 

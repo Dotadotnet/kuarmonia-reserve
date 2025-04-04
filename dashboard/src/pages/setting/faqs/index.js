@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Panel from "@/layouts/Panel";
+
 import { useGetFaqsQuery, useRemoveFaqMutation } from "@/services/faq/faqApi";
 import AddFaq from "./add";
 import { toast } from "react-hot-toast";
@@ -7,7 +7,6 @@ import StatusIndicator from "@/components/shared/tools/StatusIndicator";
 import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
 import { FiEdit3 } from "react-icons/fi";
 import Pagination from "@/components/shared/pagination/Pagination";
-import Image from "next/image";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
 import Search from "@/components/shared/search";
 

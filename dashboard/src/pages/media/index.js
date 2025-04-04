@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Panel from "@/layouts/Panel";
+
 import {
   useGetMediasQuery,
   useDeleteMediaMutation
@@ -9,7 +9,6 @@ import StatusIndicator from "@/components/shared/tools/StatusIndicator";
 import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
 import Pagination from "@/components/shared/pagination/Pagination";
 import { useSelector } from "react-redux";
-import Image from "next/image";
 import { TfiVideoClapper } from "react-icons/tfi";
 import Search from "@/components/shared/search";
 import Add from "./add";

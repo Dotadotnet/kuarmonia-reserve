@@ -1,6 +1,6 @@
 
 const Category = require("../models/category.model");
-const User = require("../models/user.model");
+const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
 
 /* add new category */
@@ -15,7 +15,7 @@ exports.addCategory = async (req, res) => {
 
   const result = await category.save();
 
-  await User.findByIdAndUpdate(result.creator, {
+  await Admin.findByIdAndUpdate(result.creator, {
     $set: {
       category: result._id,
     },
@@ -66,7 +66,7 @@ exports.getCategory = async (req, res) => {
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
-    description: "Category fetched successfully",
+    description: "دسته بندی با موفقیت دریافت شد",
     data: category,
   });
 };

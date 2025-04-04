@@ -88,6 +88,7 @@ const Step3 = ({
       });
     }
   }, [fetchCategoriesData, fetchCategoriesData, fetchCategoriesError]);
+  
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2 gap-y-4 w-full">

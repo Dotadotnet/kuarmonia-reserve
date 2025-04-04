@@ -14,22 +14,7 @@ export default {
         primary: "1.5rem",
         secondary: "9999px",
       },
-      fontFamily: {
-        nozha: ['Nozha'],
-      },
       colors: {
-        primary: "#01BC1FD6",
-        secondary: "#E4FFEA",
-        neutral: "#515151",
-        padding: {
-          primary: "1rem",
-          secondary: "1.5rem",
-        },
-        borderRadius: {
-          DEFAULT: "10px",
-          primary: "1.5rem",
-          secondary: "9999px",
-        },
         gray: {
           50: '#F9FAFB',
           100: '#F3F4F6',
@@ -95,8 +80,8 @@ export default {
           900: '#941818',
           950: '#600F0F',
         },
-        primary: "#ef4444",
-        secondary: "#f87171",
+        primary: "#01BC1FD6",
+        secondary: "#E4FFEA",
         yellow: {
           50: '#FFF2C9',
           100: '#FFE7A0',

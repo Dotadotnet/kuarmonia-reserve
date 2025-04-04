@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Panel from "@/layouts/Panel";
+
 import { useRouter } from "next/router";
 import {
   useDeletePostMutation,
@@ -21,7 +21,6 @@ import Modal from "@/components/shared/modal/Modal";
 import GalleryUpload from "@/components/shared/gallery/ThumbnailUpload";
 import { FiTrash } from "react-icons/fi";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
-import Image from 'next/image';
 
 const Info = () => {
   const router = useRouter();

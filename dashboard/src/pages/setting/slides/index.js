@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Panel from "@/layouts/Panel";
+
 import {
   useGetSlidesQuery,
   useUpdateSlideMutation,
@@ -13,7 +13,6 @@ import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
 import { FiEdit3, FiTrash } from "react-icons/fi";
 import Pagination from "@/components/shared/pagination/Pagination";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
-import Image from "next/image";
 import { TfiVideoClapper } from "react-icons/tfi";
 
 const ListSlide = () => {

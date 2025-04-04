@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Panel from "@/layouts/Panel";
+
 
 export default function Setting() {
   const settings = [

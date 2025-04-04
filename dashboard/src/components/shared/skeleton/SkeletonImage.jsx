@@ -6,6 +6,7 @@ const SkeletonImage = ({
   height = null,
   borderRadius = "rounded-none",
   className = "",
+  txtSize = "text-4xl",
 }) => {
   return (
     <div
@@ -13,7 +14,7 @@ const SkeletonImage = ({
     >
       <div className={`absolute ${borderRadius} flex justify-center items-center top-0 left-0 w-full h-full bg-gray-300 dark:bg-gray-600 animate-pulse`}></div>
       {showSize && (
-        <div className=" absolute inset-0 mt-30 flex justify-center items-center text-6xl text-gray-600">
+        <div className={` absolute inset-0 mt-30 flex justify-center items-center  text-gray-600 ${txtSize} `}>
            {`${height} × ${width}`}
         </div>
       )}

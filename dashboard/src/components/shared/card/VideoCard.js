@@ -1,7 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
 import ReactPlayer from "react-player";
-import Image from "next/image";
 const VideoCard = ({
   id,
   index,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Panel from "@/layouts/Panel";
+
 import { useGetGalleriesQuery, useDeleteGalleryMutation } from "@/services/gallery/galleryApi";
 import AddGallery from "./add";
 import { toast } from "react-hot-toast";
@@ -8,7 +8,6 @@ import AddButton from "@/components/shared/button/AddButton";
 import SkeletonItem from "@/components/shared/skeleton/SkeletonItem"; 
 import { FiEdit3,FiTrash } from "react-icons/fi";
 import Pagination from "@/components/shared/pagination/Pagination";
-import Image from "next/image";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
 const ListGallery = () => {
   const [currentPage, setCurrentPage] = useState(1);

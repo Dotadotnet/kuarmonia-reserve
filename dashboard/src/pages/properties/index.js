@@ -1,4 +1,4 @@
-import Panel from "@/layouts/Panel";
+
 import React, { useState, useEffect, useMemo } from "react";
 import AddButton from "@/components/shared/button/AddButton";
 import {
@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
 import Pagination from "@/components/shared/pagination/Pagination";
 import { useSelector } from "react-redux";
-import Image from "next/image";
 
 const Listproperty = () => {
   const [currentPage, setCurrentPage] = useState(1);

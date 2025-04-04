@@ -8,7 +8,7 @@ import ThumbnailStep from "./ThumbnailStep";
 import StepIndicator from "./StepIndicator";
 import TitleStep from "./TitleStep";
 import CertifiedStep from "./CertifiedStep";
-import { useRouter } from "next/router";
+import { useNavigate } from "react-router-dom";
 
 const StepAddStandard = () => {
   const [thumbnail, setThumbnail] = useState(null);
@@ -29,7 +29,6 @@ const StepAddStandard = () => {
   });
   const totalSteps = 3;
 
-  const watchedFields = watch();
   const onSubmit = async (data) => {
     const formData = new FormData();
 
@@ -42,34 +41,22 @@ const StepAddStandard = () => {
     formData.append("year", data.year);
     formData.append("isInternational", data.isInternational);
 
-    // تبدیل FormData به شیء برای بررسی
-    const entries = {};
-    formData.forEach((value, key) => {
-      entries[key] = value;
-    });
-
-    console.log("FormData entries:", entries);
-
-    // ارسال داده‌ها
     addStandard(formData);
   };
 
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoading) {
-      toast.loading("در حال افزودن دسته بندی...", { id: "addStandard" });
+      toast.loading("در حال افزودن دسته بندی...", { id: "add-standard" });
     }
 
-    if (data?.success) {
-      toast.success(data?.message, { id: "addStandard" });
-      router.push("./");
-    }
-    if (data && !data?.success) {
-      toast.error(data?.message, { id: "addStandard" });
+    if (data) {
+      toast.success(data?.description, { id: "add-standard" });
+      navigate("/venue-standards");
     }
     if (error?.data) {
-      toast.error(error?.data?.message, { id: "addStandard" });
+      toast.error(error?.data?.description, { id: "add-standard" });
     }
   }, [isLoading, data, error]);
 

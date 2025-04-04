@@ -1,5 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import SidebarItem from "./SidebarItem";
+import Currency from "@/components/icons/Currency";
+import Post from "@/components/icons/Post";
+import Blog from "@/components/icons/Blog";
+import Gallery from "@/components/icons/Gallery";
+import Apartment from "@/components/icons/Apartment";
+import PType from "@/components/icons/PType";
+import PSale from "@/components/icons/PSale";
+import Standard from "@/components/icons/Standard";
+import Medal from "@/components/icons/Medal";
+import Buildings from "@/components/icons/Buildings";
+import Switch from "@/components/icons/Switch";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import Expand from "@/components/icons/Expand";
 import Calendar from "@/components/icons/Calendar";
@@ -7,13 +19,13 @@ import Messages from "@/components/icons/Messages";
 import Dashboard from "@/components/icons/Dashboard";
 import User from "@/components/icons/User";
 import Category from "@/components/icons/Category";
-import Arrow from "@/components/icons/Arrow";
-import Product from "@/components/icons/Products";
 import Tag from "@/components/icons/Tag";
-import Unit from "@/components/icons/Unit";
-import Post from "@/components/icons/Post";
-import Blog from "@/components/icons/Blog";
-import Gallery from "@/components/icons/Gallery";
+import Setting from "@/components/icons/Setting";
+import Celebration from "@/components/icons/Celebration";
+import VenueService from "@/components/icons/VenueService";
+import Amentity from "@/components/icons/Amentity";
+import Type from "@/components/icons/Type";
+import Ship from "@/components/icons/Ship";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   const location = useLocation();
@@ -61,6 +73,52 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       document.querySelector("body").classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
+
+  const sidebarItems = [
+    {
+      title: "داشبورد",
+      icon: Dashboard,
+      path: "/",
+      subItems: [
+        { title: "اصلی", path: "/" },
+        { title: "آنالیز", path: "/analytics" }
+      ]
+    },
+    { title: "کاربران", icon: User, path: "/users" },
+    { title: " دسته بندی", icon: Category, path: "/categories" },
+    { title: "تگها", icon: Tag, path: "/tags" },
+    { title: "واحد پول", icon: Currency, path: "/currencies" },
+    { title: "پست ها ", icon: Post, path: "/posts" },
+    { title: "مجله", icon: Blog, path: "/blogs" },
+    { title: "گالری", icon: Gallery, path: "/galleries" },
+    {
+      title: "ملک",
+      icon: Apartment,
+      path: "/property",
+      subItems: [
+        { title: "املاک", icon: Apartment, path: "/property-list" },
+        { title: "نوع معامله", icon: Switch, path: "/property-trade" },
+        { title: "نوع فروش", icon: PSale, path: "/property-sale" },
+        { title: "نوع ملک", icon: Buildings, path: "/property-type" },
+        { title: "استاندارها", icon: Standard, path: "/property-standard" },
+        { title: "جوایز", icon: Medal, path: "/property-award" }
+      ]
+    },
+    {
+      title: "مراسم",
+      icon: Celebration,
+      subItems: [
+        { title: "مراسمات", icon: Apartment, path: "/venues" },
+        { title: "نوع مراسم", icon: Type, path: "/venue-ceremony-types" },
+        { title: "نوع محل مراسم", icon: Ship, path: "/venue-types" },
+        { title: "خدمات", icon: VenueService, path: "/venue-services" },
+        { title: "امکانات", icon: Amentity, path: "/venue-amenities" },
+        { title: "تنظیمات", icon: Setting, path: "/venue-settings" },
+        { title: "استاندارد", icon: Standard, path: "/venue-standards" },
+        { title: "جوایز", icon: Medal, path: "/venue-awards" }
+      ]
+    }
+  ];
 
   return (
     <div className="min-w-fit">
@@ -128,401 +186,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               </span>
             </h3>
             <ul className="mt-3">
-              {/* Dashboard */}
-              <SidebarLinkGroup
-                activecondition={
-                  pathname === "/" || pathname.includes("dashboard")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <a
-                        href="#0"
-                        className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                          pathname === "/" || pathname.includes("dashboard")
-                            ? ""
-                            : "hover:text-gray-900 dark:hover:text-white"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleClick();
-                          setSidebarExpanded(true);
-                        }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <Dashboard
-                              className={`shrink-0 fill-current ${
-                                pathname === "/" ||
-                                pathname.includes("dashboard")
-                                  ? "text-violet-500"
-                                  : "text-gray-400 dark:text-gray-500"
-                              }`}
-                            />
-                            <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                              داشبورد
-                            </span>
-                          </div>
-                          {/* Icon */}
-                          <div className="flex shrink-0 ml-2">
-                            <Arrow
-                              className={`w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500 ${
-                                open && "rotate-180"
-                              }`}
-                            />
-                          </div>
-                        </div>
-                      </a>
-                      <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                        <ul className={`pl-8 mt-1 ${!open && "hidden"}`}>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-violet-500"
-                                  : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                اصلی
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to=""
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-violet-500"
-                                  : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                انالیز
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
-
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("calendar") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/users"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("calendar")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <User
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("calendar")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      کاربران
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-              {/* tags */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("tags") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/tags"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("tags")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Tag
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("tags")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      تگ ها
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-              {/* Categories */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("calendar") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/categories"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("categories")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Category
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("categories")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      دسته بندی
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-              {/* units */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("units") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/units"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("units")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Unit
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("units")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      واحد
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-                {/* posts */}
-                <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("post") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/posts"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("posts")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Post
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("posts")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      پست ها
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-                {/* blogs */}
-                <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("blogs") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/blogs"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("blogs")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Blog
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("blogs")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      مجله
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-                 {/* gallery */}
-                 <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("galleries") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/galleries"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("galleries")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Gallery
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("galleries")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      گالری
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-              {/* Products */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("products") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/products"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("products")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Product
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("products")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      محصولات
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-              {/* Messages */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("messages") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("messages")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="grow flex items-center">
-                      <Messages
-                        className={`shrink-0 fill-current ${
-                          pathname.includes("messages")
-                            ? "text-violet-500"
-                            : "text-gray-400 dark:text-gray-500"
-                        }`}
-                      />
-                      <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                        پیام ها
-                      </span>
-                    </div>
-                    {/* Badge */}
-                    <div className="flex flex-shrink-0 ml-2">
-                      <span className="inline-flex items-center justify-center h-5 text-xs font-medium text-white bg-violet-400 px-2 rounded">
-                        4
-                      </span>
-                    </div>
-                  </div>
-                </NavLink>
-              </li>
-
-              {/* Calendar */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] ${
-                  pathname.includes("calendar") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("calendar")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <Calendar
-                      className={`shrink-0 fill-current ${
-                        pathname.includes("calendar")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium mr-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      تاریخ نگار
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-            </ul>
+              {sidebarItems.map((item, index) => (
+                <SidebarItem key={index} item={item} />
+              ))}
+            </ul>{" "}
           </div>
         </div>
 

@@ -11,7 +11,6 @@ import {
   MdOutlineFavoriteBorder,
 } from "react-icons/md";
 import Button from "../button/Button";
-import Image from 'next/image'
 import "keen-slider/keen-slider.min.css";
 import {
   useAddToFavoriteMutation,
