@@ -1,0 +1,8 @@
+.pro-detail {
+  font-family: "Manrope", sans-serif;
+}
+
+.product-prev img,
+.product-thumb img {
+  border-radius: 8px;
+}

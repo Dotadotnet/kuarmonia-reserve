@@ -1,0 +1,506 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@plugin "tailwind-scrollbar-hide";
+@plugin "@tailwindcss/forms";
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Poppins:wght@400;600;700&display=swap");
+
+@font-face {
+  font-family:"Vazir";
+  src:url("/fonts/vazir/Vazir.eot");
+  src:url("/fonts/vazir/Vazir.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/vazir/Vazir.woff2") format("woff2"),
+    url("/fonts/vazir/Vazir.woff") format("woff"),
+    url("/fonts/vazir/Vazir.ttf") format("truetype");
+  font-weight:normal;
+  font-style:normal;
+  font-display:swap;
+}
+
+@font-face {
+  font-family:"Nozha";
+  src:url("/fonts/DigiNozha/DigiNozha2Bold.eot");
+  src:url("/fonts/DigiNozha/DigiNozha2Bold.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/DigiNozha/DigiNozha2Bold.woff2") format("woff2"),
+    url("/fonts/DigiNozha/DigiNozha2Bold.woff") format("woff"),
+    url("/fonts/DigiNozha/DigiNozha2Bold.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+}
+
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+@theme {
+  --color-primary:#01BC1F;
+  --color-neutral:#515151;
+  --color-secondary:#E4FFEA;
+  --color-light:#edf2f9;
+  --color-dark:#152e4d;
+  --color-darker:#12263f;
+  --radius-DEFAULT:10px;
+  --radius-primary:1.5rem;
+  --radius-secondary:9999px;
+  --spacing-116:28rem;
+  --spacing-128:32rem;
+  --gridTemplateColumns-16:repeat(16, minmax(0, 1fr));
+  --gridTemplateColumns-20:repeat(20, minmax(0, 1fr));
+  --gridTemplateColumns-24:repeat(24, minmax(0, 1fr));
+  --font-nozha:"nozha";
+}
+ 
+.dassdfadsafasdfadsfdsafdasfasdfasdfadsfdasfsadfadsddddadsfafadsfasfasdfdsadssdsad{
+  color: red;
+}
+html {
+  scroll-behavior:smooth;  
+}
+
+body {
+  font-family:"Vazir", "Poppins", sans-serif !important;
+  direction:rtl;
+}
+
+.font-vazir {
+  font-family:"Vazir";
+}
+
+h1,
+h2 {
+  font-family:"Vazir";
+  @apply dark:text-gray-100;
+}
+
+p {
+  @apply text-neutral dark:text-gray-100;
+}
+
+.color-cyan {
+  background-color:#152e4d;
+}
+
+::selection {
+  @apply bg-secondary text-primary;
+}
+
+body::-webkit-scrollbar {
+  display:none;
+  /* مخفی کردن نوار اسکرول */
+}
+
+/* Width and height */
+::-webkit-scrollbar {
+  width:10px;
+  height:10px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input.hide-arrow::-webkit-outer-spin-button,
+input.hide-arrow::-webkit-inner-spin-button {
+  -webkit-appearance:none;
+  margin:0;
+}
+
+/* Firefox */
+input.hide-arrow[type="number"] {
+  -moz-appearance:textfield;
+}
+
+/* hide whatsapp ======================================== */
+a:has(> svg.fa-whatsapp) {
+  display:none;
+}
+
+/* hide whatsapp ======================================== */
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color:transparent;
+}
+
+/* Thumb */
+::-webkit-scrollbar-thumb {
+  background-color:rgb(1 188 31 / 0.8);
+  border-radius:10px;
+}
+
+/* Thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color:rgb(1 188 31 / 0.5);
+}
+
+/* Corner */
+::-webkit-scrollbar-corner {
+  background-color:#f1f1f1;
+}
+
+/* Resizer */
+::-webkit-scrollbar-resizer {
+  background-color:#ddd;
+}
+
+input[type="radio"] {
+  @apply form-radio;
+}
+
+input[type="checkbox"] {
+  @apply form-checkbox;
+}
+
+select {
+  @apply form-select;
+}
+
+textarea {
+  @apply form-textarea;
+}
+
+input,
+textarea,
+select {
+  @apply focus:!ring-0 focus:!outline-0 focus:!outline-offset-0 dark:!border-blue-500 dark:!bg-[#0a2d4d] dark:focus:!border-blue-500 dark:focus:!bg-[#0a2d4d];
+}
+
+textarea {
+  @apply form-textarea rounded text-sm resize-none;
+}
+
+select {
+  @apply form-select rounded text-sm resize-none;
+}
+
+blockquote {
+  @apply border-r-4 border-primary p-4 italic text-green-500 text-base leading-8 my-5;
+}
+
+/* حالت دارک مود */
+.dark blockquote {
+  @apply border-r-4 border-blue-500 p-4 italic text-blue-500 text-base leading-8 my-5;
+}
+
+.custom-button {
+  @apply cursor-pointer rounded-full border border-green-500/5 dark:border-blue-500/5 bg-green-500/5 dark:bg-blue-500/5 p-2 text-green-500 dark:text-blue-500 transition-colors hover:border-green-500/10 dark:hover:border-blue-500/10 hover:bg-green-500/10 dark:hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70;
+}
+
+.apply-button {
+  @apply cursor-pointer border border-white dark:border-blue-800 py-2 text-green-500 bg-green-800/10 dark:bg-blue-800/10 dark:text-blue-500 text-center flex justify-center items-center transition-colors border-green-500/10 dark:border-blue-500/10 hover:bg-green-600/20 dark:hover:bg-blue-600/20 hover:!opacity-100 group-hover:opacity-70;
+}
+
+.reject-button {
+  @apply border border-red-600 py-2 bg-red-500/10 text-red-500 dark:text-red-500 text-center flex justify-center items-center transition-colors border-red-500/10 hover:bg-red-500/20 hover:!opacity-100 group-hover:opacity-70;
+}
+
+.delete-button {
+  @apply line-clamp-1 cursor-pointer rounded-full border border-red-500/5 bg-red-500/5 p-2 text-red-500 transition-colors hover:border-red-500/10 hover:bg-red-500/10 hover:!opacity-100 group-hover:opacity-70;
+}
+
+.edit-button {
+  @apply line-clamp-1 cursor-pointer rounded-full border border-green-500/5 bg-green-500/5 p-2 text-green-500 transition-colors hover:border-green-500/10 hover:bg-green-500/10 hover:!opacity-100 group-hover:opacity-70;
+}
+
+.link-hover {
+  @apply hover:bg-green-500 dark:hover:bg-blue-500;
+}
+
+.slide-in-ul {
+  @apply relative cursor-pointer bg-transparent bg-repeat-round;
+}
+
+.slide-in-ul::before {
+  @apply absolute before:transition-all before:mt-2 before:h-2 before:rounded-xl before:bg-primary dark:before:bg-blue-500;
+  content:"";
+  left:50%;
+  right:50%;
+  bottom:-4px;
+  height:2px;
+  background-color:currentColor;
+  transition:all 0.3s ease-in-out;
+}
+
+.slide-in-ul:hover::before {
+  left:0;
+  right:0;
+  top:2;
+}
+
+.fullscreen-editor {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:9999;
+  background-color:white;
+}
+
+@keyframes spin-slow {
+  0% {
+    transform:rotate(0deg);
+  }
+
+  100% {
+    transform:rotate(360deg);
+  }
+}
+
+.element {
+  overflow:hidden;
+  /* اسکرول بار را مخفی می‌کند */
+}
+
+.element::-webkit-scrollbar {
+  display:none;
+  /* مخفی کردن اسکرول بار در مرورگرهای Webkit مانند Chrome و Safari */
+}
+
+.animate-spin-slow {
+  animation:spin-slow 30s linear infinite;
+}
+
+.table {
+  border-collapse:collapse;
+  /* برای کنار هم قرار گرفتن مرزها */
+}
+
+.table td,
+.table th {
+  border:2px solid #3490dc;
+  /* رنگ و ضخامت مرز سلول‌ها */
+  padding:8px;
+  /* فاصله داخلی سلول‌ها */
+}
+
+.table th {
+  background-color:#f4f4f4;
+  /* رنگ پس‌زمینه هدر */
+}
+
+/* .ck-dropdown__panel {
+  padding-right:200px !important;
+} */
+
+.profile-container {
+  position:relative;
+  width:150px;
+  height:150px;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border:2px solid rgba(220, 233, 245, 1);
+  background:rgba(220, 233, 245, 0.8);
+}
+
+.dark .profile-container {
+  border:1px solid rgba(255, 255, 255, 0.8);
+  background:rgba(255, 255, 255, 0.2);
+}
+
+.profile-pic {
+  width:92%;
+  height:92%;
+  object-fit:cover;
+  border-radius:50%;
+  background:rgba(255, 255, 255, 0.5);
+  box-shadow:0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.shine-effect::before,
+.shine-effect::after {
+  content:"";
+  position:absolute;
+  top:0;
+  width:20%;
+  height:100%;
+  background:rgba(220, 233, 245, 0.4);
+  transform:skewX(-45deg);
+  border:2px solid rgba(220, 233, 245, 0.8);
+  animation:shine 3s infinite;
+}
+
+.dark .shine-effect::before {
+  background:rgba(255, 255, 255, 0.5);
+  border:2px solid rgba(255, 255, 255, 0.8);
+}
+
+@keyframes shine {
+  0% {
+    left:-100%;
+  }
+
+  100% {
+    left:200%;
+    /* خروج کامل از تصویر */
+  }
+}
+
+.wave {
+  opacity:0.8;
+  position:absolute;
+  bottom:40%;
+  left:50%;
+  width:6000px;
+  height:6000px;
+  background-color:rgba(0, 135, 113, 0.08);
+  margin-left:-3000px;
+  transform-origin:50% 48%;
+  border-radius:46%;
+  pointer-events:none;
+  transform:rotate(100deg);
+}
+
+.wave2 {
+  opacity:0.8;
+  transform:rotate(70deg);
+}
+
+.wave3 {
+  opacity:0.6;
+  transform:rotate(80deg);
+}
+
+.dark .wave {
+  background:rgba(14, 73, 181, 0.2);
+}
+
+.dark .wave {
+  background:rgba(14, 73, 181, 0.2);
+}
+
+@keyframes spin-slow {
+  from {
+    transform:rotate(0deg);
+  }
+
+  to {
+    transform:rotate(360deg);
+  }
+}
+
+.animate-spin-slow:hover,
+focus {
+  animation:spin-slow 5s linear infinite;
+}
+
+.sliderBox {
+  height:auto;
+  width:auto;
+}
+
+.tab-item.active {
+  background-color:#3b82f6;
+  /* رنگ پس‌زمینه فعال */
+  color:white;
+  /* رنگ متن فعال */
+  box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);
+  /* سایه برای تب فعال */
+  border-radius:8px;
+  /* گوشه‌های گرد برای تب فعال */
+}
+
+.navForSlider .swiper-slide img {
+  border:2px solid transparent;
+  border-radius:10px;
+}
+
+.navForSlider .swiper-slide-thumb-active img {
+  border-color:rgb(79 70 229);
+}
+
+.floating {
+  position:fixed;
+  width:60px;
+  height:60px;
+  bottom:80px;
+  right:10px;
+  background-color:#25d366;
+  color:#fff;
+  border-radius:50px;
+  text-align:center;
+  font-size:30px;
+  box-shadow:2px 2px 3px #999;
+  z-index:100;
+}
+
+.dark .floating {
+  box-shadow:none;
+}
+
+.swiper-pagination {
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:10;
+  display:flex;
+  align-items:flex-end;
+}
+
+.custom-pagination-dot {
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background-color:#ccc;
+  margin:0 5px;
+  transition:background-color 0.3s;
+}
+
+.custom-pagination-dot.swiper-pagination-bullet-active {
+  background-color:#e29a14;
+}
+
+.swiper-initialized {
+  height:100%;
+}
+
+
+.swiper {
+  width:100%;
+  height:100%;
+}
+
+.swiper-slide {
+  text-align:center;
+  font-size:18px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.autoplay-progress {
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  z-index:10;
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  color:orange;
+}
+
+.autoplay-progress svg {
+  --progress:0;
+  position:absolute;
+  left:0;
+  top:0px;
+  z-index:10;
+  width:100%;
+  height:100%;
+  stroke-width:4px;
+  stroke:orange;
+  fill:none;
+  stroke-dashoffset:calc(125.6px * (1 - var(--progress)));
+  stroke-dasharray:125.6;
+  transform:rotate(-90deg);
+}
+
+.swiper-pagination {
+  display:flex;
+  justify-content:center;
+}
+
+.swiper-pagination span {
+  background-color:orange;
+}
