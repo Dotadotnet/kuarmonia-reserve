@@ -13,7 +13,7 @@ const Modal = ({ isOpen, onClose, children, className }) => {
       ></div>
       <div
         className={
-          "z-50 bg-white dark:bg-slate-800  p-secondary shadow-lg border border-primary dark:border-blue-600 mx-4 h-96 overflow-y-auto scrollbar-hide lg:w-1/2 md:w-3/5 w-full" +
+          "z-50 bg-white dark:bg-slate-800  p-6 shadow-lg border border-primary dark:border-blue-600 mx-4 h-96 overflow-y-auto scrollbar-hide lg:w-1/2 md:w-3/5 w-full" +
           ` ${className} rounded-primary`
         }
       >

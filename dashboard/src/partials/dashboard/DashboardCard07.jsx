@@ -1,5 +1,5 @@
+"use client";
 import React from "react";
-
 function DashboardCard07() {
   return (
     <div className="col-span-full xl:col-span-8 bg-white dark:bg-gray-800 shadow-sm rounded-xl">

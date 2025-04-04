@@ -1,4 +1,5 @@
 // components/signup/steps/PasswordStep.jsx
+"use client";
 import React from "react";
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
 
