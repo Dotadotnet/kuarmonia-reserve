@@ -59,7 +59,7 @@ app.use("/api/venueService", require("./routes/venueService.route"));
 app.use("/api/venueSetting", require("./routes/venueSetting.route"));
 app.use("/api/venueAward", require("./routes/venueAward.route"));
 app.use("/api/venueVendor", require("./routes/venueVendor.route"));
-app.use("/api/venueStandard", require("./routes/venueStandard.route"));
+app.use("/api/venueStandard", require("./routes/VenueStandard.route"));
 app.use("/api/ceremonyType", require("./routes/ceremonyType.route"));
 
 app.use(error);
