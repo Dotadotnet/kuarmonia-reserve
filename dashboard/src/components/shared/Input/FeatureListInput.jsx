@@ -8,7 +8,7 @@ const FeatureListInput = ({ features, setFeatures, register, errors }) => {
 
   const handleRemoveFeature = (index) => {
     const updated = [...features];
-    updated.splice(index, 1);
+    updated.splice(index,  1);
     setFeatures(updated);
   };
 
