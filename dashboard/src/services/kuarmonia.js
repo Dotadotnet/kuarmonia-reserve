@@ -29,6 +29,8 @@ export const kuarmoniaApi = createApi({
     "Venue",
     "CeremonyType",
     "VenueService",
+    "SocialLink",
+    "VenueVendor"
   ],
   endpoints: () => ({})
 });

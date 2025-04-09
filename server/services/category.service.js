@@ -5,28 +5,50 @@ const remove = require("../utils/remove.util");
 
 /* add new category */
 exports.addCategory = async (req, res) => {
-  const { body } = req;
-  console.log(body)
-  const category = new Category({
-    title: body.title,
-    description: body.description,
-    creator: req.admin._id,
-  });
+  try {
+    const { body } = req;
 
-  const result = await category.save();
+    let thumbnail = null;
 
-  await Admin.findByIdAndUpdate(result.creator, {
-    $set: {
-      category: result._id,
-    },
-  });
+    if (req.uploadedFiles && req.uploadedFiles["thumbnail"] && req.uploadedFiles["thumbnail"].length) {
+      thumbnail = {
+        url: req.uploadedFiles["thumbnail"][0].url,
+        public_id: req.uploadedFiles["thumbnail"][0].key,
+      };
+    }
 
-  res.status(201).json({
-    acknowledgement: true,
-    message: "Created",
-    description: "دسته بندی با موفقیت ایجاد شد",
-  });
+    const category = new Category({
+      title: body.title,
+      description: body.description,
+      thumbnail: thumbnail,
+      creator: req.admin._id,
+      icon:body.icon,
+    });
+
+    const result = await category.save();
+
+    await Admin.findByIdAndUpdate(result.creator, {
+      $set: {
+        category: result._id,
+      },
+    });
+
+    res.status(201).json({
+      acknowledgement: true,
+      message: "Created",
+      description: "دسته بندی با موفقیت ایجاد شد",
+    });
+  } catch (error) {
+    console.error("Error in addCategory:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در ایجاد دسته بندی",
+      error: error.message,
+    });
+  }
 };
+
 /* get all categories */
 exports.getCategories = async (res) => {
   const categories = await Category.find({ isDeleted: { $ne: true } })

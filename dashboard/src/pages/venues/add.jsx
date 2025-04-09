@@ -20,9 +20,38 @@ function AddVenue() {
   const [selectedState, setSelectedState] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [ourEventSpaces, setOurEventSpaces] = useState([{
-      name: "", description: "", seatedCapacity: "", standingCapacity: "", squareFootage: "", roomCost: "", images: [], isPriceIncluded: true 
-}]);
+  const [features, setFeatures] = useState([{ title: "", content: [""] }]);
+  const [socialLinksData, setSocialLinksData] = useState([
+    { network: null, link: "" }
+  ]);
+  const [ourEventSpaces, setOurEventSpaces] = useState([
+    {
+      name: "",
+      intro: "",
+      description: "",
+      seatedCapacity: "",
+      standingCapacity: "",
+      squareFootage: "",
+      roomCost: "",
+      spaces: [],
+      previewSpaces: [],
+      isPriceIncluded: true
+    }
+  ]);
+  console.log(ourEventSpaces)
+  const [venuePackages, setVenuePackages] = useState([
+    {
+      type: "rental",
+      guest: { min: "", max: "" },
+      pricing: {
+        peak: "",
+        offPeak: ""
+      },
+      description: "",
+      whatsIncluded: []
+    }
+  ]);
+
   const methods = useForm({
     mode: "all"
   });
@@ -35,11 +64,12 @@ function AddVenue() {
     setValue,
     control
   } = methods;
+
   const venue = {
     thumbnail: thumbnailPreview,
     title: watch("title"),
     summary: watch("summary"),
-    rating: watch("rating"),
+    star: watch("star"),
     venueTypes: watch("venueTypes"),
     currency: watch("currency"),
     basePrice: watch("basePrice"),
@@ -52,15 +82,16 @@ function AddVenue() {
     about: watch("about"),
     isReception: watch("isReception", false),
     gallery: galleryPreview,
-    address: `${selectedCountry} , ${selectedState} , ${selectedCity} `,
+    address: ` ${selectedState} , ${selectedCity} `,
     location: selectedLocation,
     amenities: watch("amenities"),
     services: watch("services"),
     settings: watch("settings"),
     awards: watch("selectedAwards", []),
-    standards: watch("selectedStandards", [])
+    standards: watch("selectedStandards", []),
+    ourEventSpaces: ourEventSpaces,
+    packages: venuePackages
   };
-  console.log(ourEventSpaces)
   return (
     <section className="relative overflow-hidden bg-[#dce9f5] dark:bg-[#1a202c] w-screen h-screen  flex flex-col items-center justify-start p-4">
       <div className="wave"></div>
@@ -78,9 +109,9 @@ function AddVenue() {
             768: { slidesPerView: 3 }
           }}
           autoHeight={true}
-          className="w-full !h-screen  flex items-center justify-center"
+          className="w-full !h-screen !mr-0 flex items-center justify-center"
         >
-          <SwiperSlide className=" !ml-0 !mr-0  flex items-center justify-center min-h-[400px]">
+          <SwiperSlide className=" !mr-0  flex items-center justify-center min-h-[400px]">
             <StepAddVenue
               currentStep={currentStep}
               setCurrentStep={setCurrentStep}
@@ -88,6 +119,7 @@ function AddVenue() {
               setThumbnailPreview={setThumbnailPreview}
               setGalleryPreview={setGalleryPreview}
               galleryPreview={galleryPreview}
+              gallery={gallery}
               setGallery={setGallery}
               register={register}
               trigger={trigger}
@@ -106,14 +138,20 @@ function AddVenue() {
               selectedLocation={selectedLocation}
               ourEventSpaces={ourEventSpaces}
               setOurEventSpaces={setOurEventSpaces}
+              venuePackages={venuePackages}
+              setVenuePackages={setVenuePackages}
+              features={features}
+              setFeatures={setFeatures}
+              socialLinksData={socialLinksData}
+              setSocialLinksData={setSocialLinksData}
             />
           </SwiperSlide>
 
-          <SwiperSlide className=" flex items-center justify-center min-h-[400px]">
+          <SwiperSlide className=" flex scale-90 !mr-0 items-center justify-center min-h-[400px]">
             <ProductCard venue={venue} />
           </SwiperSlide>
 
-          <SwiperSlide className="!ml-0 !mr-0 flex items-center justify-center ">
+          <SwiperSlide className=" flex !mr-0 items-center justify-center ">
             <VenueContent venue={venue} />
           </SwiperSlide>
         </Swiper>

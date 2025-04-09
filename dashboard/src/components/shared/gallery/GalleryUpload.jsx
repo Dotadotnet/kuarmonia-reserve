@@ -67,6 +67,7 @@ const GalleryUpload = ({
           accept="image/*, video/*"
           className="absolute top-0 left-0 h-full w-full opacity-0 cursor-pointer"
           multiple
+          {...register("gallery")}
           onChange={(event) => {
             handleGalleryPreview(event);
           }}

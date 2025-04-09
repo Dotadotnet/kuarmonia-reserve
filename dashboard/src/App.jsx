@@ -10,6 +10,7 @@ import SignUp from "./pages/auth/signup/index";
 import Users from "./pages/users/index";
 import { Toaster } from "react-hot-toast";
 import Categories from "./pages/categories";
+import SocialLinks from "./pages/socialLinks";
 import AddCategory from "./pages/categories/add";
 import Tags from "./pages/tags";
 import Currencies from "./pages/currencies";
@@ -31,7 +32,8 @@ import VenueSetting  from "./pages/venue-settings";
 import VenueAward  from "./pages/venue-awards";
 import AddVenueAward from "./pages/venue-awards/add";
 import CeremonyType  from "./pages/ceremony-types";
-
+import VenueVendor  from "./pages/venue-vendors";
+import AddVenueVendor from "./pages/venue-vendors/add";
 
 function App() {
   const location = useLocation();
@@ -52,7 +54,8 @@ function App() {
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/users" element={<Users />} />
           <Route exact path="/tags" element={<Tags />} />
-          <Route exact path="/categories" element={<Categories />} />
+          <Route exact path="/categories" element={<Categories/>} />
+          <Route exact path="/socialLinks" element={<SocialLinks />} />
           <Route exact path="/currencies" element={<Currencies />} />
           <Route exact path="/posts" element={<Posts />} />
           <Route exact path="/posts/add" element={<AddPost />} />
@@ -72,6 +75,8 @@ function App() {
           <Route exact path="/venue-standards" element={<VenueStandard />} />
           <Route exact path="/venue-standards/add" element={<AddVenueStandard />} />
           <Route exact path="/venue-ceremony-types" element={<CeremonyType />} />
+          <Route exact path="/venue-vendors/add" element={<AddVenueVendor />} />
+          <Route exact path="/venue-vendors" element={<VenueVendor />} />
         </Routes>
       </Auth>
     </Providers>

@@ -16,35 +16,31 @@ const Dropdown = ({
   const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
   const [selectedItem, setSelectedItem] = useState(null);
 
-  // فیلتر کردن آیتم‌ها بر اساس جستجو
   const filteredItems = items.filter(
     (item) => typeof item?.value === "string" && item.value.includes(searchTerm)
   );
 
-  // انتخاب آیتم از لیست
   const handleItemSelect = (item) => {
     if (!isReadOnly) {
       setSelectedItem(item);
       if (handleSelect) {
-        handleSelect(item); // ارسال کل شیء item
+        handleSelect(item); 
       } else if (onChange) {
-        onChange(item); // ارسال کل شیء item
+        onChange(item); 
       }
       setIsOpen(false);
       setTooltipContent("");
     }
   };
 
-  // بارگذاری آیتم انتخاب شده هنگام تغییر مقدار
   useEffect(() => {
     if (value) {
-      // بررسی تطابق value با id آیتم‌ها
-      const selected = items.find((item) => item.id === value);
-      setSelectedItem(selected || null); // اگر پیدا نشد، آن را null قرار دهید
+const selected = items.find((item) => item.value === value);
+      setSelectedItem(selected || null);
     } else {
-      setSelectedItem(null); // اگر value تهی است، selectedItem را null کنید
+      setSelectedItem(null); 
     }
-  }, [value, items]); // وابسته به value و items
+  }, [value, items]); 
 
   const handleMouseEnter = (e, description) => {
     const rect = e.target.getBoundingClientRect();
@@ -107,7 +103,7 @@ const Dropdown = ({
                 onMouseLeave={handleMouseLeave}
                 className={`marker:relative  bg-gray-100 hover:bg-blue-100   ${iconOnly ? "flex justify-center" : "px-2 py-2"} dark:bg-gray-700 dark:hover:bg-gray-900 rounded-md cursor-pointer group`}
               >
-                {iconOnly ? item.icon : item.value} {/* نمایش value به جای id */}
+                {iconOnly ? item.icon : item.value}
               </li>
             ))}
           </ul>

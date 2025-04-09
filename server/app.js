@@ -39,6 +39,7 @@ app.use(
 app.use("/api/currency", require("./routes/currency.route"));
 app.use("/api/tag", require("./routes/tag.route"));
 app.use("/api/category", require("./routes/category.route"));
+app.use("/api/socialLink", require("./routes/socialLink.route"));
 app.use("/api/product", require("./routes/product.route"));
 app.use("/api/user", require("./routes/user.route"));
 app.use("/api/admin", require("./routes/admin.route"));
@@ -57,6 +58,7 @@ app.use("/api/venueAmenity", require("./routes/venueAmenity.route"));
 app.use("/api/venueService", require("./routes/venueService.route"));
 app.use("/api/venueSetting", require("./routes/venueSetting.route"));
 app.use("/api/venueAward", require("./routes/venueAward.route"));
+app.use("/api/venueVendor", require("./routes/venueVendor.route"));
 app.use("/api/venueStandard", require("./routes/venueStandard.route"));
 app.use("/api/ceremonyType", require("./routes/ceremonyType.route"));
 

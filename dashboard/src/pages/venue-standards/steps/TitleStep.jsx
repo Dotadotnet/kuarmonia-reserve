@@ -1,5 +1,5 @@
 // components/signup/steps/NameStep.jsx
-"use client";
+
 import React from "react";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 

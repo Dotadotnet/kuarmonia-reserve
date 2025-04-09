@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import StepAddStandard from "./steps/StepAddStandard";
 import Logo from "@/components/shared/logo/Logo";

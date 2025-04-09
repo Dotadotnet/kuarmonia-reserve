@@ -102,7 +102,6 @@ const Step3 = ({ register, errors, prevStep, nextStep, watch, control }) => {
             <StatusSwitch
               label={"آیا با این مبلغ مراسم و پذیرائی را برگزار می کند؟"}
               id="isReception"
-              
               onChange={(e) => onChange(e.target.checked)}
               defaultChecked={value}
             />
@@ -115,7 +114,7 @@ const Step3 = ({ register, errors, prevStep, nextStep, watch, control }) => {
         className="w-full flex p-4 rounded flex-col border gap-y-1"
       >
         <span className="text-sm">کمپین فروش*</span>
-        <p className="flex flex-row gap-x-4">
+        <div className="flex justify-center gap-x-2">
           <input
             type="text"
             name="campaignTitle"
@@ -140,14 +139,14 @@ const Step3 = ({ register, errors, prevStep, nextStep, watch, control }) => {
             name="campaignState"
             id="campaignState"
             {...register("campaignState", {
-              required: "وارد کردن وضعیت کمپین الزامی است",
+              required: "وارد کردن نوع مزایده الزامی است",
               minLength: {
                 value: 3,
-                message: "وضعیت کمپین باید حداقل ۳ حرف داشته باشد"
+                message: "نوع مزایده باید حداقل ۳ حرف داشته باشد"
               },
               maxLength: {
                 value: 30,
-                message: "وضعیت کمپین نباید بیشتر از ۳۰ حرف باشد"
+                message: "نوع مزایده نباید بیشتر از ۳۰ حرف باشد"
               }
             })}
             className="w-fit"
@@ -155,27 +154,30 @@ const Step3 = ({ register, errors, prevStep, nextStep, watch, control }) => {
             required
           >
             <option value="choose-state" disabled>
-              انتخاب وضعیت کمپین
+              انتخاب نوع مزایده
             </option>
-            <option value="new-arrival">جدید</option>
-            <option value="discount">تخفیف‌دار</option>
-            <option value="sold-out">تمام‌شده</option>
-            <option value="on-sale">در حال فروش</option>
+            <option value="auction">مزایده‌ای</option>
+            <option value="fixed-price">قیمت ثابت</option>
+            <option value="negotiable">قابل مذاکره</option>
+            <option value="limited-offer">پیشنهاد محدود</option>
+            <option value="exclusive">اختصاصی</option>
           </select>
-        </p>
-        {campaignState === "discount" && (
+        </div>
+        {campaignState === "limited-offer" && (
           <input
             type="number"
             name="discountAmount"
             id="discountAmount"
             {...register("discountAmount", {
-              required: "وارد کردن درصد تخفیف الزامی است",
-              min: { value: 1, message: "درصد تخفیف باید حداقل ۱ باشد" },
-              max: { value: 99, message: "درصد تخفیف نباید بیشتر از ۹۹ باشد" },
-              valueAsNumber: true // مقدار را به عدد تبدیل می‌کند
+              required: "وارد کردن درصد تخفیف  الزامی است",
+              min: {
+                value: 100000,
+                message: " درصد تخفیف باید حداقل ۱۰۰,۰۰۰ باشد"
+              },
+              valueAsNumber: true
             })}
             className="w-full border p-2 rounded mt-2"
-            placeholder="درصد تخفیف را وارد کنید"
+            placeholder=" درصد تخفیف را وارد کنید"
           />
         )}
       </label>

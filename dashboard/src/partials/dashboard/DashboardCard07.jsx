@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 function DashboardCard07() {
   return (

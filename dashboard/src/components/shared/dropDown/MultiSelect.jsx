@@ -15,7 +15,6 @@ const MultiSelect = ({
   const filteredItems = items.filter((item) =>
     item.value.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  console.log(items);
   const handleItemSelect = (item) => {
     const isAlreadySelected = selectedItems.some(
       (selected) => selected.id === item.id

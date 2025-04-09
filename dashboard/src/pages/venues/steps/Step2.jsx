@@ -96,9 +96,7 @@ const Step2 = ({
           setGallery={setGallery}
           setGalleryPreview={setGalleryPreview}
           maxFiles={36}
-          register={register("gallery", {
-            required: "آپلود حداقل یک تصویر الزامی است"
-          })}
+          register={register}
           title="آپلود تصاویر گالری"
         />
       </div>

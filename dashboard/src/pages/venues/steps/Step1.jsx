@@ -32,11 +32,10 @@ const Step1 = ({
       })),
     [fetchVenueTypesData]
   );
-  console.log("venueTypes", venueTypes);
-  const [rating, setRating] = useState(0);
-  const handleRatingChange = (rate) => {
-    setRating(rate);
-    setValue && setValue("rating", rate);
+  const [star, setstar] = useState(0);
+  const handlestarChange = (rate) => {
+    setstar(rate);
+    setValue && setValue("star", rate);
   };
   return (
     <>
@@ -133,8 +132,8 @@ const Step1 = ({
         <span className="text-sm">چند ستاره است ؟ (۱ تا ۵ ستاره) *</span>
         <ReactStars
           count={5}
-          value={rating}
-          onChange={handleRatingChange}
+          value={star}
+          onChange={handlestarChange}
           size={24}
           activeColor="gold"
         />

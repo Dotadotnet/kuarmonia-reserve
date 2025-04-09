@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect, useMemo } from "react";
 
 import {
@@ -94,7 +93,7 @@ const ListVenueType = () => {
                   <article className="flex-col flex gap-y-2  ">
                     <span className="line-clamp-1 text-base ">
                     
-                      <span className=" ">{venueType?.name}</span>
+                      <span className=" ">{venueType?.title}</span>
                     </span>
                     <span className="text-xs hidden lg:flex">
                       {new Date(venueType.createdAt).toLocaleDateString(

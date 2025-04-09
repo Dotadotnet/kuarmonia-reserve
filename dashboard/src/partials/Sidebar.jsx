@@ -1,4 +1,4 @@
-"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
@@ -27,6 +27,8 @@ import VenueService from "@/components/icons/VenueService";
 import Amentity from "@/components/icons/Amentity";
 import Type from "@/components/icons/Type";
 import Ship from "@/components/icons/Ship";
+import Vendor from "@/components/icons/Vendor";
+import Social from "@/components/icons/Social";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   const location = useLocation();
@@ -87,6 +89,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     },
     { title: "کاربران", icon: User, path: "/users" },
     { title: " دسته بندی", icon: Category, path: "/categories" },
+    { title: "َشبکه های اجتماعی", icon: Social, path: "/socialLinks" },
     { title: "تگها", icon: Tag, path: "/tags" },
     { title: "واحد پول", icon: Currency, path: "/currencies" },
     { title: "پست ها ", icon: Post, path: "/posts" },
@@ -116,7 +119,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "امکانات", icon: Amentity, path: "/venue-amenities" },
         { title: "تنظیمات", icon: Setting, path: "/venue-settings" },
         { title: "استاندارد", icon: Standard, path: "/venue-standards" },
-        { title: "جوایز", icon: Medal, path: "/venue-awards" }
+        { title: "جوایز", icon: Medal, path: "/venue-awards" },
+        { title: "همکاران", icon: Vendor, path: "/venue-vendors" }
       ]
     }
   ];

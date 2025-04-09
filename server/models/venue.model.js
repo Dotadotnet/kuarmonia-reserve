@@ -38,22 +38,29 @@ const venueSchema = new mongoose.Schema(
       minCapacity: {
         type: Number,
         required: true,
-        min: 10,  
+        min: 10
       },
       maxCapacity: {
         type: Number,
         required: true,
-        max: 500,
-      },
+        max: 500
+      }
     },
-    
+
     rating: {
       type: Number,
       min: 1,
       max: 5,
-      required: true,
+      required: true
     },
-    
+    category: {
+      type: ObjectId,
+      ref: "Category",
+    },
+    currency: {
+      type: ObjectId,
+      ref: "Currency",
+    },
     summary: {
       type: String,
       maxLength: [60, "توضیحات نمی‌تواند بیشتر از ۶۰ کاراکتر باشد"]
@@ -67,9 +74,9 @@ const venueSchema = new mongoose.Schema(
       ref: "Admin",
       required: [true, "شناسه نویسنده الزامی است"]
     },
-    isReception:{
-      type:Boolean,
-      default:true,
+    isReception: {
+      type: Boolean,
+      default: true
     },
     guestCapacity: {
       minCapacity: {
@@ -82,31 +89,78 @@ const venueSchema = new mongoose.Schema(
         required: [true, "حداکثر ظرفیت مهمان الزامی است"],
         min: [1, "حداکثر ظرفیت باید حداقل ۱ نفر باشد"],
         validate: {
-          validator: function(value) {
-            return value >= this.minCapacity; 
+          validator: function (value) {
+            return value >= this.minCapacity;
           },
           message: "حداکثر ظرفیت باید بیشتر از حداقل ظرفیت باشد"
         }
       }
-    },    
+    },
     features: [
       {
         name: { type: String, required: true },
         description: { type: String }
       }
     ],
+    tags: [{ type: ObjectId, ref: "Tags" }],
     servicesVenue: [{ type: ObjectId, ref: "ServiceVenue" }],
     settingVenue: [{ type: ObjectId, ref: "SettingVenue" }],
     awards: [{ type: ObjectId, ref: "VenueAward" }],
     events: [{ type: ObjectId, ref: "VenueEvent" }],
     amenities: [{ type: ObjectId, ref: "AmenityVenue" }],
-    priceDetails: [{type: ObjectId, ref: "PriceDetail"}],
-    CeremonyTypes: [{type: ObjectId, ref: "CeremonyType"}],
-    likes: [{type: ObjectId, ref: "Like"}],
-    disLikes: [{type: ObjectId, ref: "Like"}],
-    address: [{type: ObjectId, ref: "Address"}],
-    view: [{type: ObjectId, ref: "View"}],
-    location: { 
+    priceDetails: [{ type: ObjectId, ref: "PriceDetail" }],
+    CeremonyTypes: [{ type: ObjectId, ref: "CeremonyType" }],
+    likes: [{ type: ObjectId, ref: "Like" }],
+    disLikes: [{ type: ObjectId, ref: "Like" }],
+    address: [{ type: ObjectId, ref: "Address" }],
+    venueVendors: [{ type: ObjectId, ref: "VenueVendors" }],
+    view: [{ type: ObjectId, ref: "View" }],
+    ourEventSpaces: [
+      {
+        name: { type: String },
+        intro: { type: String },
+        description: { type: String },
+        seatedCapacity: { type: String },
+        standingCapacity: { type: String },
+        squareFootage: { type: String },
+        roomCost: { type: String },
+        spaces: [
+          {
+            public_id: { type: String, required: true },
+            alt: String,
+            caption: String
+          }
+        ],
+        previewSpaces: [{ type: String }],
+        isPriceIncluded: { type: Boolean, default: true }
+      }
+    ],
+
+    packages: [
+      {
+        type: {
+          type: String,
+          enum: ["rental", "beverage", "catering", "venodr", "custom"]
+        },
+        guestRange: {
+          min: Number,
+          max: Number
+        },
+        pricing: {
+          peak: {
+            min: Number,
+            max: Number
+          },
+          offPeak: {
+            min: Number,
+            max: Number
+          }
+        },
+        description: String,
+        includedItems: [String]
+      }
+    ],
+    location: {
       type: {
         lat: { type: Number, required: true },
         lng: { type: Number, required: true }
@@ -120,19 +174,25 @@ const venueSchema = new mongoose.Schema(
     },
     campaign: {
       title: {
-        type: String,
+        type: String
       },
       state: {
         type: String,
-        enum: ["auction", "fixed-price", "negotiable", "limited-offer", "exclusive"],
-      },
+        enum: [
+          "auction",
+          "fixed-price",
+          "negotiable",
+          "limited-offer",
+          "exclusive"
+        ]
+      }
     },
     stars: {
       type: Number,
       required: [true, "تعداد ستاره‌های هتل الزامی است"],
       min: [1, "حداقل تعداد ستاره ۱ است"],
       max: [5, "حداکثر تعداد ستاره ۵ است"]
-    },    
+    },
     reviews: [{ type: ObjectId, ref: "Review" }],
     canonicalUrl: {
       type: String,

@@ -59,33 +59,72 @@ const ProductCard = ({ venue }) => {
           </p>
           <p className="text-sm pb-0 flex gap-x-0.5 items-baseline"></p>
         </div>
-        <div className="border group-hover:border-primary   dark:group-hover:border-blue-500 dark:hover:border-blue-500 dark:text-gray-100 transition-colors delay-100 px-4 py-0.5 rounded-primary flex items-center gap-x-1 text-xs w-fit">
-        
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                fillRule="evenodd"
-                d="m12.065 21.243l-.006-.005zm.182-.274a29 29 0 0 0 3.183-3.392c2.04-2.563 3.281-5.09 3.365-7.337a6.8 6.8 0 1 0-13.591 0c.085 2.247 1.327 4.774 3.366 7.337a29 29 0 0 0 3.183 3.392q.166.15.247.218zm-.985 1.165S4 16.018 4 10a8 8 0 1 1 16 0c0 6.018-7.262 12.134-7.262 12.134c-.404.372-1.069.368-1.476 0M12 12.8a2.8 2.8 0 1 0 0-5.6a2.8 2.8 0 0 0 0 5.6m0 1.2a4 4 0 1 1 0-8a4 4 0 0 1 0 8"
-              />
-            </svg>
-          </span>
-            <span>مهاجرت به کانادا</span>
-        </div>
+        {venue?.address?.length > 18 ? (
+          <div className="border group-hover:border-primary   dark:group-hover:border-blue-500 dark:hover:border-blue-500 dark:text-gray-100 transition-colors delay-100 px-4 py-0.5 rounded-primary flex items-center gap-x-1 text-xs w-fit">
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  fillRule="evenodd"
+                  d="m12.065 21.243l-.006-.005zm.182-.274a29 29 0 0 0 3.183-3.392c2.04-2.563 3.281-5.09 3.365-7.337a6.8 6.8 0 1 0-13.591 0c.085 2.247 1.327 4.774 3.366 7.337a29 29 0 0 0 3.183 3.392q.166.15.247.218zm-.985 1.165S4 16.018 4 10a8 8 0 1 1 16 0c0 6.018-7.262 12.134-7.262 12.134c-.404.372-1.069.368-1.476 0M12 12.8a2.8 2.8 0 1 0 0-5.6a2.8 2.8 0 0 0 0 5.6m0 1.2a4 4 0 1 1 0-8a4 4 0 0 1 0 8"
+                />
+              </svg>
+            </span>
+            <span>{venue?.address}</span>
+          </div>
+        ) : (
+          <SkeletonText lines={1} />
+        )}
         <div className="flex flex-row flex-wrap justify-between">
-          <Button className="px-8 py-2 text-base mt-2" disabled>
-            <del>رزرو کن</del>
+          <Button
+            className="flex justify-center items-center px-4 py-2 text-base mt-2"
+            disabled
+          >
+            {venue?.campaignState === "limited-offer" && (
+              <del className="text-white text-sm">{venue?.basePrice}</del>
+            )}
+            <span
+              className="w-6 h-6 text-lg  inline-block text-left  text-white font-semibold"
+              dangerouslySetInnerHTML={{
+                __html: venue?.currency?.symbol
+              }}
+            />
+            <span className="text-white font-bold">
+              {venue?.campaignState === "limited-offer"
+                ? venue?.basePrice && venue?.discountAmount
+                  ? venue?.basePrice -
+                    (venue?.basePrice * venue?.discountAmount) / 100
+                  : 0
+                : venue?.basePrice}
+            </span>
           </Button>
+
           <Button
             className="px-4 py-2 rounded text-base mt-2"
             onClick={() => setGift(!gift)}
           >
-            {/* <FiGift className="h-5 w-5" /> */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={24}
+              height={24}
+              viewBox="0 0 24 24"
+            >
+              <g
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+              >
+                <path d="M12 21v-9m0-5H7.95c-2.77 0-2.94-4 0-4C11.1 3 12 7 12 7m0 0h4.05c2.896 0 2.896-4 0-4C12.9 3 12 7 12 7"></path>
+                <path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7m17 0V9a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3z"></path>
+              </g>
+            </svg>{" "}
           </Button>
         </div>
         <div className="flex justify-end items-center text-orange-500 text-sm mt-1">
@@ -94,7 +133,7 @@ const ProductCard = ({ venue }) => {
               <span
                 key={i}
                 className={`text-lg ${
-                  i < venue?.rating ? "text-yellow-400" : "text-gray-400"
+                  i < venue?.star ? "text-yellow-400" : "text-gray-400"
                 }`}
               >
                 ★
