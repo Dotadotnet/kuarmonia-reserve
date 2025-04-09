@@ -9,7 +9,6 @@ const remove = require("../utils/remove.util");
 const token = require("../utils/token.util");
 const VerificationCode = require("../models/VerificationCode");
 const { sendSms } = require("../utils/smsService");
-const admin = require("../config/firebaseAdmin");
 const  Session = require("../models/session.model");
 
 exports.signUpWithPhone = async (req, res) => {
@@ -132,58 +131,47 @@ exports.verifyPhone = async (req, res) => {
 };
 exports.signUpWithGoogle = async (req, res) => {
   try {
-    const { idToken } = req.body;
     const sessionUser = await Session.findOne({ sessionId: req.sessionID });
 
-    if (!idToken) {
-      return res.status(400).json({
-        acknowledgement: false,
-        message: "توکن ارسال نشده است",
-        description: "ورود از طریق گوگل نیاز به توکن دارد.",
-        isSuccess: false
-      });
-    }
+
 
     // تأیید توکن با Firebase
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    const { uid, email, name, picture } = decodedToken;
+    // const { uid, email, name, picture } = decodedToken;
 
-    let user = await User.findOne({ googleId: uid });
+    // let user = await User.findOne({ googleId: uid });
 
-    if (!user) {
-      user = new User({
-        googleId: uid,
-        email,
-        name,
-        "avatar.url": picture,
-        emailVerified: true,
-        userLevel: "verified"
-      });
+    // if (!user) {
+    //   user = new User({
+    //     googleId: uid,
+    //     email,
+    //     name,
+    //     "avatar.url": picture,
+    //     emailVerified: true,
+    //     userLevel: "verified"
+    //   });
 
-      if (sessionUser && sessionUser.cart && Array.isArray(sessionUser.cart) && sessionUser.cart.length > 0) {
-        if (!user.cart) {
-          user.cart = [];
-        }
+    //   if (sessionUser && sessionUser.cart && Array.isArray(sessionUser.cart) && sessionUser.cart.length > 0) {
+    //     if (!user.cart) {
+    //       user.cart = [];
+    //     }
 
-        sessionUser.cart.forEach((item) => {
-          if (!user.cart.some((userItem) => userItem.productId === item.productId)) {
-            user.cart.push(item);
-          }
-        });
-      }
+    //     sessionUser.cart.forEach((item) => {
+    //       if (!user.cart.some((userItem) => userItem.productId === item.productId)) {
+    //         user.cart.push(item);
+    //       }
+    //     });
+    //   }
 
-      await user.save();
-    }
+    //   await user.save();
+    // }
 
-    const accessToken = token(user);
+    // const accessToken = token(user);
 
     res.status(200).json({
       acknowledgement: true,
       message: "ورود موفق",
       description: "شما با موفقیت وارد حساب خود شدید.",
       isSuccess: true,
-      accessToken,
-      user
     });
   } catch (error) {
     console.error(error);
