@@ -29,6 +29,8 @@ import Type from "@/components/icons/Type";
 import Ship from "@/components/icons/Ship";
 import Vendor from "@/components/icons/Vendor";
 import Social from "@/components/icons/Social";
+import VenueEvent from "@/components/icons/VenueEvent";
+import Venue from "@/components/icons/Venue";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   const location = useLocation();
@@ -112,7 +114,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "مراسم",
       icon: Celebration,
       subItems: [
-        { title: "مراسمات", icon: Apartment, path: "/venues" },
+        { title: "مراسمات", icon: VenueEvent, path: "/venueEvents" },
+        { title: "محل مراسم", icon: Venue, path: "/venues" },
         { title: "نوع مراسم", icon: Type, path: "/venue-ceremony-types" },
         { title: "نوع محل مراسم", icon: Ship, path: "/venue-types" },
         { title: "خدمات", icon: VenueService, path: "/venue-services" },

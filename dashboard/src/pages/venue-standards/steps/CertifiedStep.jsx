@@ -89,7 +89,7 @@ const CertifiedStep = ({ register, errors }) => {
 
         <StatusSwitch
           label={"آیا این استاندارد بین المللی  است؟"}
-          id="isInternational"
+          id="isInternational"  
           register={register}
           defaultChecked={false}
         />

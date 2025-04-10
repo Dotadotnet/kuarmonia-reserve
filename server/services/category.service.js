@@ -1,4 +1,3 @@
-
 const Category = require("../models/category.model");
 const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
@@ -10,10 +9,14 @@ exports.addCategory = async (req, res) => {
 
     let thumbnail = null;
 
-    if (req.uploadedFiles && req.uploadedFiles["thumbnail"] && req.uploadedFiles["thumbnail"].length) {
+    if (
+      req.uploadedFiles &&
+      req.uploadedFiles["thumbnail"] &&
+      req.uploadedFiles["thumbnail"].length
+    ) {
       thumbnail = {
         url: req.uploadedFiles["thumbnail"][0].url,
-        public_id: req.uploadedFiles["thumbnail"][0].key,
+        public_id: req.uploadedFiles["thumbnail"][0].key
       };
     }
 
@@ -22,21 +25,21 @@ exports.addCategory = async (req, res) => {
       description: body.description,
       thumbnail: thumbnail,
       creator: req.admin._id,
-      icon:body.icon,
+      icon: body.icon
     });
 
     const result = await category.save();
 
     await Admin.findByIdAndUpdate(result.creator, {
       $set: {
-        category: result._id,
-      },
+        category: result._id
+      }
     });
 
     res.status(201).json({
       acknowledgement: true,
       message: "Created",
-      description: "دسته بندی با موفقیت ایجاد شد",
+      description: "دسته بندی با موفقیت ایجاد شد"
     });
   } catch (error) {
     console.error("Error in addCategory:", error);
@@ -44,42 +47,42 @@ exports.addCategory = async (req, res) => {
       acknowledgement: false,
       message: "Error",
       description: "خطا در ایجاد دسته بندی",
-      error: error.message,
+      error: error.message
     });
   }
 };
 
 /* get all categories */
 exports.getCategories = async (res) => {
-  const categories = await Category.find({ isDeleted: { $ne: true } })
-  .populate({
-    path: "creator",
-    select: "name avatar", 
-  });
+  const categories = await Category.find({ isDeleted: { $ne: true } }).populate(
+    {
+      path: "creator",
+      select: "name avatar"
+    }
+  );
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
     description: "دسته بندی ها با موفقیت دریافت شدند",
-    data: categories,
+    data: categories
   });
 };
-
-
-
 
 exports.getProductCategories = async (res) => {
   const categories = await Category.find().populate({
     path: "products",
-    match: { isDeleted: false, status: "active" ,publishStatus:"approved"},
-    select: "_id",
+    match: { isDeleted: false, status: "active", publishStatus: "approved" },
+    select: "_id"
   });
-  const filteredCategories = categories.filter(category => category.products.length > 0);
+  const filteredCategories = categories.filter(
+    (category) => category.products.length > 0
+  );
 
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
     description: "دسته بندی ها با موفقیت دریافت شدند",
-    data: filteredCategories,
+    data: filteredCategories
   });
 };
 /* get a category */
@@ -89,7 +92,7 @@ exports.getCategory = async (req, res) => {
     acknowledgement: true,
     message: "Ok",
     description: "دسته بندی با موفقیت دریافت شد",
-    data: category,
+    data: category
   });
 };
 
@@ -102,7 +105,7 @@ exports.updateCategory = async (req, res) => {
 
     updatedCategory.thumbnail = {
       url: req.file.path,
-      public_id: req.file.filename,
+      public_id: req.file.filename
     };
   }
 
@@ -114,32 +117,32 @@ exports.updateCategory = async (req, res) => {
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
-    description: "Category updated successfully",
+    description: "Category updated successfully"
   });
 };
 
 /* delete category */
 exports.deleteCategory = async (req, res) => {
-
-  const category = await Category.findByIdAndUpdate(req.params.id,
+  const category = await Category.findByIdAndUpdate(
+    req.params.id,
     {
       isDeleted: true,
-      deletedAt: Date.now(),
+      deletedAt: Date.now()
     },
     { new: true }
   );
-    
+
   if (!category) {
     return res.status(404).json({
       acknowledgement: false,
       message: "دسته بندی پیدا نشد",
-      description: "دسته بندی  که می‌خواهید حذف کنید، وجود ندارد",
+      description: "دسته بندی  که می‌خواهید حذف کنید، وجود ندارد"
     });
   }
 
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
-    description: "دسته بندی با موفقیت حذف شد",
+    description: "دسته بندی با موفقیت حذف شد"
   });
 };
