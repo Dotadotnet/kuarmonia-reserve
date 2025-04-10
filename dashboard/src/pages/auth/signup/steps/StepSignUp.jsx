@@ -30,7 +30,6 @@ const StepSignUp = () => {
       }
   
       if (data) {
-        console.log(data)
         if (data.isSuccess) {
         toast.success(data?.description, { id: "signup" });
         window.open("/signin", "_self");
@@ -66,7 +65,6 @@ const StepSignUp = () => {
         formData.append("password", data.password);
         formData.append("phone", data.phone);
     
-        console.log('formData signup', formData);
         handleSignup(formData);
     };
     
