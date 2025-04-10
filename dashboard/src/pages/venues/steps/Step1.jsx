@@ -4,6 +4,9 @@ import NavigationButton from "@/components/shared/button/NavigationButton";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
 import ReactStars from "react-rating-stars-component";
 import { useGetVenueTypesQuery } from "@/services/venueType/venueTypeApi";
+import {
+  useGetCeremonyTypesQuery,
+} from "@/services/ceremonyType/ceremonyTypeApi";
 import MultiSelect from "@/components/shared/dropDown/MultiSelect";
 import { Controller } from "react-hook-form";
 
@@ -21,6 +24,11 @@ const Step1 = ({
     data: fetchVenueTypesData,
     error: fetchVenueTypesError
   } = useGetVenueTypesQuery();
+  const {
+    isLoading: fetchingCeremonyTypes,
+    data: fetchCeremonyTypesData,
+    error: fetchCeremonyTypesError
+  } = useGetCeremonyTypesQuery();
   const venueTypes = useMemo(
     () =>
       fetchVenueTypesData?.data?.map((venueType) => ({
@@ -31,6 +39,17 @@ const Step1 = ({
         icon: venueType.icon,
       })),
     [fetchVenueTypesData]
+  );
+  const ceremonyTypes = useMemo(
+    () =>
+      fetchCeremonyTypesData?.data?.map((ceremonyType) => ({
+        id: ceremonyType._id,
+        value: ceremonyType.title,
+        label: ceremonyType.title,
+        description: ceremonyType.description,
+        icon: ceremonyType.icon,
+      })),
+    [fetchCeremonyTypesData]
   );
   const [star, setstar] = useState(0);
   const handlestarChange = (rate) => {
@@ -118,6 +137,26 @@ const Step1 = ({
             render={({ field: { onChange, value } }) => (
               <MultiSelect
                 items={venueTypes}
+                selectedItems={value || []}
+                handleSelect={onChange}
+                placeholder="چند مورد انتخاب کنید"
+                className={"w-full h-12"}
+                returnType="id"
+              />
+            )}
+          />
+        </label>
+      </div>
+      <div className="flex flex-col flex-1">
+        <label htmlFor="ceremonyTypes" className="flex flex-col gap-y-2 ">
+          نوع  مراسم
+          <Controller
+            control={control}
+            name="ceremonyTypes"
+            rules={{ required: "انتخاب نوع  مراسم الزامی است" }}
+            render={({ field: { onChange, value } }) => (
+              <MultiSelect
+                items={ceremonyTypes}
                 selectedItems={value || []}
                 handleSelect={onChange}
                 placeholder="چند مورد انتخاب کنید"

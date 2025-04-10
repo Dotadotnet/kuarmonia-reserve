@@ -61,10 +61,12 @@ const MultiSelect = ({
                 className="bg-blue-100  text-blue-700 px-2 py-1 rounded-md flex items-center gap-1 "
               >
                 {icon && <span className="mr-1">{icon}</span>}
-                <span
-                  className="w-4 h-4"
-                  dangerouslySetInnerHTML={{ __html: item.icon }}
-                />
+                {item.icon && (
+                  <span
+                    className="w-4 h-4"
+                    dangerouslySetInnerHTML={{ __html: item.icon }}
+                  />
+                )}
                 {item.value}
 
                 <span
@@ -111,15 +113,16 @@ const MultiSelect = ({
                 onClick={() => handleItemSelect(item)}
                 className={`px-4 py-2 rounded-md cursor-pointer ${
                   selectedItems.some((selected) => selected.id === item.id)
-                    ? "bg-blue-100 text-blue-700  flex gap-x-4 "
+                    ? "bg-blue-100 text-blue-700  flex gap-x-1 "
                     : "bg-gray-100 hover:bg-blue-100 dark:bg-gray-700 dark:hover:bg-gray-900  flex gap-x-4 "
                 }`}
               >
-                <span
-                  className="w-4 h-4"
-                  dangerouslySetInnerHTML={{ __html: item.icon }}
-                />
-
+                {item.icon && (
+                  <span
+                    className="w-4 h-4"
+                    dangerouslySetInnerHTML={{ __html: item.icon }}
+                  />
+                )}
                 <span>{item.value}</span>
                 {item.description && (
                   <Tooltip position="right" bg="dark" size="sm">

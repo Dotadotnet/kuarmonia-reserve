@@ -177,6 +177,7 @@ const Step9 = ({
                   </div>
                 ))}
                 <button
+                type="button"
                   onClick={() => handleAddItem(index)}
                   className="cursor-pointer w-6 h-6 flex justify-center items-center p-0.5 border rounded bg-green-500 text-white"
                 >

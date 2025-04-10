@@ -60,20 +60,21 @@ const StepAddVenue = ({
   const onSubmit = async (data) => {
     alert()
     const formData = new FormData();
+    const extractIds = arr => JSON.stringify(arr.map(item => item._id));
 
     formData.append("name", data.title);
     formData.append("summary", data.title);
     formData.append("star", data.star);
     formData.append("thumbnail", thumbnail);
-    for (let i = 0; i < gallery.length; i++) {
+    for (let i = 0; i < gallery?.length; i++) {
       formData.append("gallery", gallery[i]);
     }
-    formData.append("tags",JSON.stringify( data.tags));
+    formData.append("tags", extractIds(data.tags));
     formData.append("category", data.category);
     formData.append("about", data.about);
     formData.append("basePrice", data.basePrice);
     formData.append("isReception", data.isReception);
-    formData.append("currency",JSON.stringify( data.currency));
+    formData.append("currency",data.currency.id);
     formData.append(
       "campaign",
       JSON.stringify({
@@ -88,12 +89,14 @@ const StepAddVenue = ({
         maxCapacity: data.maxCapacity
       })
     );
-    formData.append("amenities", JSON.stringify(data.amenities));
-    formData.append("services", JSON.stringify(data.services));
-    formData.append("settings", JSON.stringify(data.settings));
-    formData.append("ceremonyTypes", JSON.stringify(data.CeremonyTypes));
-    formData.append("awards", JSON.stringify(data.selectedAwards));
-    formData.append("standards", JSON.stringify(data.selectedStandards));    
+
+    formData.append("amenities", extractIds(data.amenities));
+    formData.append("services", extractIds(data.services));
+    formData.append("settings", extractIds(data.settings));
+    formData.append("ceremonyTypes", extractIds(data.CeremonyTypes));
+    formData.append("awards", extractIds(data.selectedAwards));
+    formData.append("standards", extractIds(data.selectedStandards));
+        
     formData.append("ourEventSpaces",JSON.stringify( ourEventSpaces));
     formData.append("venuePackages",JSON.stringify( venuePackages));
     formData.append("features",JSON.stringify( features));
