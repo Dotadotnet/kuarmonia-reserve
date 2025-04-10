@@ -90,11 +90,11 @@ const DeleteUser = ({ id }) => {
                     width={100}
                     className="h-[100px] w-[100px] rounded object-cover"
                   />
-                  <h1 className="text-2xl">{user.name}</h1>
+                  <h1 className="text-2xl">{user?.name}</h1>
                 </div>
                 <div className="flex flex-col gap-y-1">
-                  <p className="text-xs">{user.email}</p>
-                  <p className="text-xs">{user.phone}</p>
+                  <p className="text-xs">{user?.email}</p>
+                  <p className="text-xs">{user?.phone}</p>
                   <p className="flex flex-row gap-x-1">
                     <span className="bg-purple-100/50 text-purple-900 border border-purple-900 px-1.5 !text-xs rounded-primary uppercase">
                     {user?.role === "superAdmin"
