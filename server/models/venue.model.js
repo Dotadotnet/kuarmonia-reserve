@@ -193,6 +193,19 @@ const venueSchema = new mongoose.Schema(
       min: [1, "حداقل تعداد ستاره ۱ است"],
       max: [5, "حداکثر تعداد ستاره ۵ است"]
     },
+    socialLinks: [
+      {
+        link: {
+          type: String,
+          required: [true, "آدرس شبکه اجتماعی الزامی است"]
+        },
+        network: {
+          type: ObjectId,
+          ref: "SocialLink",
+          required: [true, "نوع شبکه اجتماعی الزامی است"]
+        }
+      }
+    ],
     reviews: [{ type: ObjectId, ref: "Review" }],
     canonicalUrl: {
       type: String,

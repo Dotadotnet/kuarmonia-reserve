@@ -54,7 +54,6 @@ const selected = items.find((item) => item.value === value);
   const handleMouseLeave = () => {
     setTooltipContent("");
   };
-
   return (
     <div className="relative w-full" ref={dropdownRef}>
       <button
@@ -64,7 +63,8 @@ const selected = items.find((item) => item.value === value);
           isReadOnly ? " opacity-50" : ""
         }`}
         disabled={isReadOnly}
-      >
+      > 
+      {/* ببین  اینجا باید اون ولیو هایکه سلکت کردی رو  اینجا بزاری ببین کدومهاس که سکلت میکنی */}
         <span className="ml-2 dark:text-gray-100 flex justify-center text-center">
           {iconOnly && selectedItem?.icon ? selectedItem.icon : selectedItem?.value || ""}
         </span>

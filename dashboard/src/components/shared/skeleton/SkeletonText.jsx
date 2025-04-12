@@ -1,8 +1,10 @@
 import React from "react";
 
-const SkeletonText = ({ lines = 5 }) => {
+const SkeletonText = ({ lines = 5, className }) => {
   return (
-    <div className="flex flex-col gap-y-2 bg-gray-300 lg:px-4 lg:py-2 px-2 py-1 w-full rounded">
+    <div
+      className={`flex flex-col gap-y-2 ${className}  bg-gray-300 lg:px-4 lg:py-2 px-2 py-1 w-full rounded`}
+    >
       {Array.from({ length: lines }).map((_, index) => (
         <div
           key={index}
