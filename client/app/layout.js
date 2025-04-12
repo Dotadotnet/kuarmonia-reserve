@@ -56,7 +56,7 @@ export const metadata = {
       type: "font/woff2",
       crossOrigin: "anonymous"
     },
-    {     
+    {
       rel: "canonical",
       href: "https://kuarmonia.com"
     }
@@ -69,10 +69,13 @@ export default function RootLayout({ children }) {
       <body dir="rtl" >
         <Providers>
           <Session>
-              <Auth>{children}</Auth>
+            <Auth>
+              {children}
+            </Auth>
           </Session>
           <Toaster />
         </Providers>
+
       </body>
     </html>
   );
