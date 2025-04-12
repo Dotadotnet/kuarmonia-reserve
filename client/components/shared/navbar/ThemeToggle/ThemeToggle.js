@@ -1,11 +1,35 @@
 "use client"
 
-import React from "react";
-import { useThemeProvider } from "@/utils/ThemeContext";
+import React, { useEffect, useState } from "react";
+
+
 
 export default function ThemeToggle() {
-  const { currentTheme, changeCurrentTheme } = useThemeProvider();
 
+  const [theme, setTheme] = useState('dark');
+    
+  const changeCurrentTheme = (newTheme) => {
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
+  useEffect(() => {
+    const persistedTheme = localStorage.getItem('theme');
+    document.documentElement.classList.add('[&_*]:!transition-none');
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.style.colorScheme = 'light';
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.style.colorScheme = 'dark';
+    }
+
+    const transitionTimeout = setTimeout(() => {
+      document.documentElement.classList.remove('[&_*]:!transition-none');
+    }, 1);
+    
+    return () => clearTimeout(transitionTimeout);
+  }, [theme]);
   return (
     <div className="flex justify-center">
       <input
@@ -13,9 +37,9 @@ export default function ThemeToggle() {
         name="light-switch"
         id="light-switch"
         className="light-switch sr-only"
-        checked={currentTheme === "light"}
+        checked={theme === "light"}
         onChange={() =>
-          changeCurrentTheme(currentTheme === "light" ? "dark" : "light")
+          changeCurrentTheme(theme === "light" ? "dark" : "light")
         }
       />
       <label
@@ -41,7 +65,7 @@ export default function ThemeToggle() {
             {" "}
             <title>sun</title>{" "}
             <g
-              id="Page-1"
+              id="Page-1"    
               stroke="none"
               strokeWidth="1"
               fill="none"

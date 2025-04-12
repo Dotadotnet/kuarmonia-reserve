@@ -1,32 +1,47 @@
-import ReactPlayer from 'react-player';
 import Image from 'next/image';
-import Head from 'next/head';
 import { AiOutlineLike, AiOutlineDislike } from 'react-icons/ai';
 import CommentsSection from "@/components/shared/comment/CommentsSection"
 import Main from "@/layouts/Main";
+import Video from '@/components/shared/video_player/video player';
 
-const MediaDetailPage = ({ media, comments }) => {
-  console.log(media)
+export async function generateMetadata(
+  { params, searchParams },
+  parent
+) {
+  
+  // read route params
+  const { id } = await params
+
+  // fetch data
+
+  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/media/get-by-id/' + id);
+  const res_decoded = await res.json();
+  const data = res_decoded.data;
+
+  // optionally access and extend (rather than replace) parent metadata
+
+  return {
+    title: data.title,
+    openGraph: {
+      images: [data.thumbnail.url],
+    },
+  }
+}
+
+
+const MediaDetailPage = async ({ params }) => {
+  const { id, slug } = params;
+  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/media/get-by-id/' + id);
+  const res_decoded = await res.json();
+  const media = res_decoded.data;
+  
   return (
-    <>
-      <main>
-        <Head>
-          <title>{media?.title}</title>
-        </Head>
-
         <Main>
           <div className="flex w-full justify-center pt-28 flex-row h-[calc(100%-56px)] bg-white dark:bg-gray-900">
             <div className="w-full mx-auto px-4 gap-2 flex flex-col lg:flex-row-reverse ">
               <div className="flex flex-col lg:w-[calc(100%-350px)] xl:w-[calc(100%-400px)] lg:py-6 overflow-y-auto">
                 <div className="rounded-lg w-full h-full lg:overflow-hidden">
-                  <ReactPlayer
-                    url={media?.media?.url}
-                    controls
-                    width="100%"
-                    height="100%"
-                    style={{ backgroundColor: "#000" }}
-                    playing={true}
-                  />
+                <Video src={media.media.url} />
                 </div>
                 <div className="text-black dark:text-white text-sm md:text-xl m-4 ">
                   {media?.title}
@@ -37,7 +52,7 @@ const MediaDetailPage = ({ media, comments }) => {
                     <div className="flex items-start ">
                       <div className="flex h-11 w-11 rounded-full overflow-hidden">
                         <Image
-                          src={media?.creator?.avatar?.url}
+                          src={media?.creator?.avatar?.url ? media.creator.avatar.url : '/image/image-not-found.png'}
                           alt="avatar"
                           width={50}
                           height={50}
@@ -79,55 +94,16 @@ const MediaDetailPage = ({ media, comments }) => {
                 <div className="text-black dark:text-white m-2 bg-gray-100 dark:bg-gray-800 text-sm md:text-base my-4 p-4 rounded-lg ">
                   {media?.description}
                 </div>
-                <CommentsSection
-                  comments={comments}
-                  onSubmit={() => { /* handle comment submission */ }}
-                />
+                {/* <CommentsSection
+                  comments={media.comments}
+                  onSubmit={() => { }}
+                />  */}
               </div>
             </div>
           </div>
         </Main>
-      </main>
-    </>
   );
 };
-export async function getServerSideProps({ params }) {
-  const { id } = params;
-  const api = `${process.env.NEXT_PUBLIC_BASE_URL}/api/media/${id}`;
 
-  try {
-    const response = await fetch(api);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch media: ${response.statusText}`);
-    }
-
-    const res = await response.json();
-    const media = res.data;
-
-    // اگر بخواهید کامنت‌ها را هم از API دیگری بارگذاری کنید
-    // const commentsResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/comments?mediaId=${id}`);
-    
-    // if (!commentsResponse.ok) {
-    //   throw new Error(`Failed to fetch comments: ${commentsResponse.statusText}`);
-    // }
-
-    // const commentsData = await commentsResponse.json();
-    // const comments = commentsData.data;
-
-    return {
-      props: {
-        media,
-      },
-    };
-  } catch (error) {
-    console.error("Error fetching media data:", error);
-    return {
-      props: {
-        media: null,
-      },
-    };
-  }
-}
 
 export default MediaDetailPage;

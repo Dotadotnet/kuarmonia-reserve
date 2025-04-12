@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import FooterTop from "./footerTop/FooterTop";
 import Container from "../container/Container";

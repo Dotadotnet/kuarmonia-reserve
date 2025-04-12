@@ -33,7 +33,7 @@ const Posts = ({ posts }) => {
           ))
           : posts.data.map((post) => (
           <PostCard
-          key={post.id}
+          key={post._id}
           id={post.id}
           title={post.title}
           slug={post.slug}

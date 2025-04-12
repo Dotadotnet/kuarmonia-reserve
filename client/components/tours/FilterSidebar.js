@@ -1,5 +1,4 @@
-
-
+'use client'
 import migrationMethods from "@/data/migrationMethods";
 import useGetCountries from "@/hooks/useGetCountries";
 import React, { useState } from "react";

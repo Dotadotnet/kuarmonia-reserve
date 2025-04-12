@@ -51,6 +51,7 @@ const Video = ({medias}) => {
                   ))
                 : medias.data.map((media) => (
                     <VideoCard
+                    key={media._id}
                     media={media}
                     />
                   ))}

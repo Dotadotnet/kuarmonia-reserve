@@ -21,7 +21,7 @@ const PostCard = ({
   const router = useRouter();
   return (
     <div
-    onClick={() => router.push(`/post/${slug}/${encodeURIComponent(id)}`)}
+    onClick={() => router.push(`/post/${slug.replace(' ','-')}`)}
     
     className="flex flex-col justify-center rtl dark:text-white w-full cursor-pointer"
     >

@@ -47,7 +47,7 @@ const CartButton = ({ property }) => {
               }
 
               return (
-                <div className="flex justify-center gap-x-2 items-center">
+                <div key={property._id} className="flex justify-center gap-x-2 items-center">
                   <span>{property.currency}</span>
                   <p
                     key={index}

@@ -1,14 +1,14 @@
 
 
 /* internal import */
-const Post = require("../models/post.model");
-const Product = require("../models/product.model");
+// const Property = require("../models/property.model");
+const Property = require("../models/property.model");
 const User = require("../models/user.model");
 const remove = require("../utils/remove.util");
 const Category = require("../models/category.model");
 
-/* add new post */
-exports.addPost = async (req, res) => {
+/* add new property */
+exports.addProperty = async (req, res) => {
   const {tags,socialLinks,...otherInformation} = req.body;
   let thumbnail = null;
   let gallery = [];
@@ -27,7 +27,7 @@ exports.addPost = async (req, res) => {
       public_id: file.key,
     }));
   }
-  const post = await Post.create({
+  const property = await property.create({
     ...otherInformation,
     creator: req.user._id,
     thumbnail,
@@ -36,8 +36,8 @@ exports.addPost = async (req, res) => {
     socialLinks:parsedSocialLinks
 
   });
-  await Category.findByIdAndUpdate(post.category, {
-    $push: { posts: post._id },
+  await Category.findByIdAndUpdate(property.category, {
+    $push: { propertys: property._id },
   });
 
 
@@ -48,31 +48,12 @@ exports.addPost = async (req, res) => {
   });
 };
 
-/* get all posts */
-exports.getPosts = async (res) => {
 
-  const posts = await Post.find()
-  .populate([
-    {
-      path: 'creator',
-      select: 'name avatar'  
-    },
-    {
-      path: 'category',
-      select: 'title'
-    }
-  ]);
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "واحد ها با موفقیت دریافت شدند",
-    data: posts,
-  });
-};
 
-/* get a post */
-exports.getPost = async (req, res) => {
-  const post = await Post.findById(req.params.id).populate([
+
+
+exports.getPropertyById = async (req, res) => {
+  const property = await Property.findOne({propertyId  : req.params.id}).populate([
     {
       path: "creator",
       select: "name avatar", // دریافت فقط name و avatar از creator
@@ -86,35 +67,78 @@ exports.getPost = async (req, res) => {
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
-    description: "Post fetched successfully",
-    data: post,
+    description: "property fetched successfully",
+    data: property,
   });
 };
 
-/* update post */
-exports.updatePost = async (req, res) => {
-  let updatedPost = req.body;
-  await Post.findByIdAndUpdate(req.params.id, updatedPost);
+
+/* get all propertys */
+exports.getPropertys = async (res) => {
+
+  const propertys = await Property.find().populate([
+    {
+      path: 'creator',
+      select: 'name avatar'  
+    },
+    {
+      path: 'category',
+      select: 'title'
+    }
+  ]);
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
-    description: "Post updated successfully",
+    description: "واحد ها با موفقیت دریافت شدند",
+    data: propertys,
   });
 };
 
-/* delete post */
-exports.deletePost = async (req, res) => {
-  const post = await Post.findByIdAndDelete(req.params.id);
-  await remove(post.logo.public_id);
+/* get a property */
+exports.getProperty = async (req, res) => {
+  const property = await Property.findById(req.params.id).populate([
+    {
+      path: "creator",
+      select: "name avatar", // دریافت فقط name و avatar از creator
+    },
+    {
+      path: "tags",
+      select: "title _id", // دریافت فقط title و _id از tags
+    },
+  ]);
+  
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "property fetched successfully",
+    data: property,
+  });
+};
 
-  await Product.updateMany({ post: req.params.id }, { $unset: { post: "" } });
-  await User.findByIdAndUpdate(post.creator, {
-    $unset: { post: "" },
+/* update property */
+exports.updateProperty = async (req, res) => {
+  let updatedproperty = req.body;
+  await Property.findByIdAndUpdate(req.params.id, updatedproperty);
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "property updated successfully",
+  });
+};
+
+/* delete property */
+exports.deleteProperty = async (req, res) => {
+  const property = await Property.findByIdAndDelete(req.params.id);
+  await remove(property.logo.public_id);
+
+  await Product.updateMany({ property: req.params.id }, { $unset: { property: "" } });
+  await User.findByIdAndUpdate(property.creator, {
+    $unset: { property: "" },
   });
 
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
-    description: "Post deleted successfully",
+    description: "property deleted successfully",
   });
 };
