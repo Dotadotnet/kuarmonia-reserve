@@ -1,8 +1,10 @@
+'use client'
 import Left from "@/components/detail/property/details/Left";
 import Right from "@/components/detail/property/details/Right";
 
+
+
 const PropertyDetail = ({ property ,isMobile }) => {
-  console.log(isMobile)
 
   return (
     

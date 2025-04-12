@@ -7,7 +7,7 @@ const VideoCard = ({
   return (
     <Link
       key={media?.id || media?.index}
-      href={`/media/${media?.id}`}
+      href={`/media/${media?.mediaId}/${media?.slug.replace(' ','-')}`}
       className="group cursor-pointer flex flex-col gap-y-4 border shadow-lg dark:border-gray-600 rounded h-fit md:h-96 break-inside-avoid bg-white dark:bg-gray-800 transition-color ease-linear delay-100 hover:border-primary dark:hover:border-blue-500 relative "
     >
       <div className="relative w-full w-50 ">
@@ -56,9 +56,9 @@ const VideoCard = ({
             </span>
             <div className="flex items-center space-x-3">
               <Image
-                alt={media?.creator?.name ||  "avatar"}
-                title={media?.creator?.name}
-                src={media?.creator?.avatar?.url}
+                alt={media?.authorId?.name ||  "avatar"}
+                title={media?.authorId?.name}
+                src={media?.authorId?.avatar?.url}
                 width={36}
                 height={36}
                 className="relative inline-block rounded-full   object-cover object-center hover:z-10"
@@ -69,7 +69,7 @@ const VideoCard = ({
                   title={media?.superAdmin?.name}
                   src={media?.avatar}
                   width={36}
-                  height={36} // ارتفاع تصویر
+                  height={36} 
                   className="relative inline-block rounded-full   object-cover object-center hover:z-10"
                 />
               )} 

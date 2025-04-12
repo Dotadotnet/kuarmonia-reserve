@@ -17,13 +17,13 @@ import Reviews from "@/components/shared/review/Reviews";
 import Main from "@/layouts/Main";
 
 export default async function Home() {
-  const res_blog = await fetch('https://kuarmonia.com/api/post?page=1&limit=8&type=client');
+  const res_blog = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/blog/get-blogs');
   const blogs = await res_blog.json();
-  const res_post = await fetch('https://kuarmonia.com/api/post?page=1&limit=8&type=client');
+  const res_post = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/post/get-posts');
   const posts = await res_post.json();
-  const res_properties = await fetch('https://kuarmonia.com/api/property?type=client');
+  const res_properties = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/property/get-propertys');
   const properties = await res_properties.json();
-  const res_media = await fetch("https://kuarmonia.com/api/media?&type=client");
+  const res_media = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/media/get-medias');
   const medias = await res_media.json();
   return (
     <>

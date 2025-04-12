@@ -3,7 +3,6 @@ import Auth from "./auth";
 import Session from "./session";
 import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
-import ThemeProvider from "@/utils/ThemeContext";
 export const metadata = {
   metadataBase: new URL("https://kuarmonia.com"), // لینک سایت
   title: "مهاجرت و گردشگری با کارمونیا – راهی به سوی آینده بهتر",
@@ -70,9 +69,7 @@ export default function RootLayout({ children }) {
       <body dir="rtl" >
         <Providers>
           <Session>
-            <ThemeProvider>
               <Auth>{children}</Auth>
-            </ThemeProvider>
           </Session>
           <Toaster />
         </Providers>

@@ -1,26 +1,35 @@
 import Main from "@/layouts/Main";
-import Head from "next/head";
-import React from "react";
-import { useRouter } from "next/router";
-import { useGetPostQuery } from "@/services/post/postApi";
 import Content from "@/components/shared/content/PostContent";
 import LeftSidebar from "./leftSidebar";  
 import RightSidebar from "./rightSidebar";
-const PostContent = () => {
-  const router = useRouter();
-  const { id } = router.query;
+export async function generateMetadata(
+  { params, searchParams },
+  parent
+) {
+  
+  // read route params
+  const { slug } = await params ;
 
-  const {
-    isLoading: fetching,
-    data: fetchData,
-    error: fetchError,
-  } = useGetPostQuery(id);
+
+  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/dynamic/get/post/slug/' +slug);
+  const res_decoded = await res.json();
+  const data = res_decoded.data;  
+  return {
+    title: data.title,
+    openGraph: {
+      images: [data.thumbnail.url],
+    },
+  }
+}
+
+const PostContent = async ({params}) => {
+  const { id, slug } = params;
+  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/dynamic/get/post/slug/' + slug);
+  const fetchData = await res.json();
+
   return (
     <main>
-      <Head>
-        <title>{fetchData?.data?.title}</title>
-      </Head>
-
+     
       <Main>
         <div className="grid grid-cols-1 dark:bg-gray-900 py-20 md:grid-cols-20 gap-4 mt-8 relative ">
         <LeftSidebar />
@@ -37,7 +46,6 @@ const PostContent = () => {
             view={0}
             disLike={0}
             comment={[]}
-            isLoading={fetching}
             selectedTags={fetchData?.data?.tags}
             author={fetchData?.data?.creator?.name}
             avatar={fetchData?.data?.creator?.avatar?.url}

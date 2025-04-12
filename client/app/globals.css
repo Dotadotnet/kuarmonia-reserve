@@ -5,32 +5,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Poppins:wght@400;600;700&display=swap");
 
 @font-face {
-  font-family:"Vazir";
-  src:url("/fonts/vazir/Vazir.eot");
-  src:url("/fonts/vazir/Vazir.eot?#iefix") format("embedded-opentype"),
-    url("/fonts/vazir/Vazir.woff2") format("woff2"),
-    url("/fonts/vazir/Vazir.woff") format("woff"),
-    url("/fonts/vazir/Vazir.ttf") format("truetype");
+  font-family:"vazir";
+  src:url("../public/fonts/vazir/Vazir.ttf");
   font-weight:normal;
   font-style:normal;
-  font-display:swap;
 }
 
 @font-face {
-  font-family:"Nozha";
-  src:url("/fonts/DigiNozha/DigiNozha2Bold.eot");
-  src:url("/fonts/DigiNozha/DigiNozha2Bold.eot?#iefix") format("embedded-opentype"),
-    url("/fonts/DigiNozha/DigiNozha2Bold.woff2") format("woff2"),
-    url("/fonts/DigiNozha/DigiNozha2Bold.woff") format("woff"),
-    url("/fonts/DigiNozha/DigiNozha2Bold.ttf") format("truetype");
+  font-family:"nozha";
+  src:url("../public/fonts/DigiNozha/DigiNozha2Bold.ttf");
   font-weight:400;
   font-style:normal;
 }
 
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
+.font-vazir{
+  font-family: 'vazir';
+}
+.font-nozha{
+  font-family: 'nozha';
+}
+
 @theme {
+  --font-nozha: "nozha"; 
+  --font-vazir: "vazir"; 
   --color-primary:#01BC1F;
   --color-neutral:#515151;
   --color-secondary:#E4FFEA;
@@ -45,7 +42,6 @@
   --gridTemplateColumns-16:repeat(16, minmax(0, 1fr));
   --gridTemplateColumns-20:repeat(20, minmax(0, 1fr));
   --gridTemplateColumns-24:repeat(24, minmax(0, 1fr));
-  --font-nozha:"nozha";
 }
  
 .dassdfadsafasdfadsfdsafdasfasdfasdfadsfdasfsadfadsddddadsfafadsfasfasdfdsadssdsad{
@@ -58,6 +54,7 @@ html {
 body {
   font-family:"Vazir", "Poppins", sans-serif !important;
   direction:rtl;
+  overflow-x: hidden;
 }
 
 .font-vazir {
@@ -105,25 +102,20 @@ input.hide-arrow[type="number"] {
   -moz-appearance:textfield;
 }
 
-/* hide whatsapp ======================================== */
 a:has(> svg.fa-whatsapp) {
   display:none;
 }
 
-/* hide whatsapp ======================================== */
 
-/* Track */
 ::-webkit-scrollbar-track {
   background-color:transparent;
 }
 
-/* Thumb */
 ::-webkit-scrollbar-thumb {
   background-color:rgb(1 188 31 / 0.8);
   border-radius:10px;
 }
 
-/* Thumb on hover */
 ::-webkit-scrollbar-thumb:hover {
   background-color:rgb(1 188 31 / 0.5);
 }

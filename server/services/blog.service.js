@@ -52,7 +52,7 @@ exports.addBlog = async (req, res) => {
 exports.getBlogs = async (res) => {
 
   const blogs = await Blog.find()
-  .select('title description publishDate createdAt thumbnail creator category') 
+  .select('*') 
   .populate([
     {
       path: 'creator',

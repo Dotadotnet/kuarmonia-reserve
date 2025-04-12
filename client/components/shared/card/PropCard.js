@@ -45,7 +45,7 @@ const PropertyCard = ({ property }) => {
   return (
     <Link
       key={property?._id}
-      href={`/property/${property?.slug}/${property?._id}`}
+      href={`/property/${property?.propertyId}/${property?.slug.replaceAll(" ","-")}`}
       className="max-w-sm w-full  z-49 "
     >
       <div className="bg-white dark:bg-gray-800  relative   shadow-xl rounded-lg overflow-hidden ">

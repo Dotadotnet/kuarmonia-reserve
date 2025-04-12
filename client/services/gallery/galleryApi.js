@@ -19,7 +19,7 @@ const galleryApi = kuarmoniaApi.injectEndpoints({
 
     GetGalleries: builder.query({
       query: ({ page = 1, limit = 7, search = "" } = {}) => ({
-        url: `/gallery/?page=${page}&limit=${limit}&search=${search}`,
+        url: `/gallery/get-galleries`,
         method: "GET",
       }),
       providesTags: ["Gallery"],
@@ -37,7 +37,7 @@ const galleryApi = kuarmoniaApi.injectEndpoints({
 
     GetClientGallery: builder.query({
       query: () => ({
-        url: `/gallery`,
+        url: `/gallery/get-galleries`,
         method: "GET",
         params: { type: "client" }, 
       }),

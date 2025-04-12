@@ -228,7 +228,7 @@ const Post = ({
       />
       <PostMedia isLoading={isLoading} thumbnailPreview={thumbnailPreview} />
       <PostContent content={content} isLoading={isLoading} selectedTags={selectedTags } />
-      <PostComments comments={comments} />
+      {/* <PostComments comments={} /> ارور داشت باید بعدا برسی شود */}
     </div>
   );
 };
