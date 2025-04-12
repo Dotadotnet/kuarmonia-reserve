@@ -30,6 +30,7 @@ import Vendor from "@/components/icons/Vendor";
 import Social from "@/components/icons/Social";
 import VenueEvent from "@/components/icons/VenueEvent";
 import Venue from "@/components/icons/Venue";
+import News from "@/components/icons/News";
 import logo from "/logo.gif";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
@@ -96,6 +97,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     { title: "واحد پول", icon: Currency, path: "/currencies" },
     { title: "پست ها ", icon: Post, path: "/posts" },
     { title: "مجله", icon: Blog, path: "/blogs" },
+    { title: "اخبار", icon: News, path: "/news" },
     { title: "گالری", icon: Gallery, path: "/galleries" },
     {
       title: "ملک",

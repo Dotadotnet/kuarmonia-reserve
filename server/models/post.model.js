@@ -5,26 +5,6 @@ const Category = require("./category.model");
 const Counter = require("./counter")
 const baseSchema = require("./baseSchema.model");
 
-const socialLinkSchema =  new mongoose.Schema({  name: {
-    type: String,
-    required: [true, "نام شبکه اجتماعی الزامی است"],
-    trim: true,
-    enum: {
-      values: ["Facebook", "Twitter", "LinkedIn", "Instagram", "Other"],
-      message: "نام شبکه اجتماعی معتبر نیست",
-    },
-  },
-  url: {
-    type: String,
-    required: [true, "لینک شبکه اجتماعی الزامی است"],
-    trim: true,
-    match: [
-      /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/,
-      "لینک شبکه اجتماعی معتبر نیست",
-    ],
-  },
-});
-
 const postSchema =  new mongoose.Schema(
   {
     postId: {
