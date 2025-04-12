@@ -25,7 +25,7 @@ const PostCard = ({
     
     className="flex flex-col justify-center rtl dark:text-white w-full cursor-pointer"
     >
-      <div className="relative transition-color ease-linear delay-100 hover:border-primary flex sm:flex-row min-h-[140px] lg:min-h-[220px] h-[130px] lg:h-[220px] rounded-primary shadow-lg w-full max-w-[650px] mx-auto p-3 border dark:border-gray-700 dark:bg-gray-800/70 bg-white/80">
+      <div className="relative transition-color ease-linear delay-100 hover:border-primary flex sm:flex-row min-h-[140px] lg:min-h-[220px] h-[130px] lg:h-[220px] rounded-primary shadow-lg w-full max-w-[650px] mx-auto p-3 border border-gray-200 dark:border-gray-700 dark:bg-gray-800/70 bg-white/80">
       <div className="w-1/3 grid place-items-center">
       {!thumbnailPreview ? (
         <SkeletonImage borderRadius="rounded-xl" />

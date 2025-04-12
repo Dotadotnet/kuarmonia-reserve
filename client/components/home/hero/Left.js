@@ -18,14 +18,14 @@ function Left() {
   return (
     <div className="col-span-1 h-full min-h-[450px] w-full flex flex-col relative px-3 ">
       <div className="absolute w-full top-1/2  flex justify-between z-50">
-        <div className="custom-prev -right-5 absolute flex justify-center items-center p-4 border-4  rounded-full cursor-pointer text-gray-700  w-8 h-8 bg-white border-white text-lg ">
+      <div className="custom-prev -right-5 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer text-gray-700 w-8 h-8 bg-white dark:bg-gray-700 border-white dark:border-gray-900 -lg text-lg">
           <span>
-            <IoIosArrowForward size={30} />
+            <IoIosArrowForward size={30} className="dark:text-gray-100" />
           </span>
         </div>
-        <div className="custom-next absolute -left-0 flex items-center cursor-pointer justify-center bg-white  p-4  rounded-full text-gray-700 w-8 h-8 border-white border-4 ">
+        <div className="custom-prev left-0 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-100 border-white  text-lg dark:bg-gray-700">
           <span>
-            <IoIosArrowBack size={30} />
+            <IoIosArrowBack size={30} className="dark:text-gray-100"  />
           </span>
         </div>
       </div>
@@ -160,7 +160,7 @@ function Left() {
           </SwiperSlide>
 
           <SwiperSlide>
-            <div className="flex flex-col pt-4 gap-y-4">
+            <div className="flex flex-col p-4 gap-y-4">
             <h2
                 className="text-5xl text-white font-nozha w-full text-right"
                 initial={{ x: -200, opacity: 0 }} 

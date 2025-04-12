@@ -94,7 +94,7 @@ const Step3 = ({
               label={" ایا این خبر عمومی است؟"}
               id="visibility"
               onChange={(e) => onChange(e.target.checked)}
-              defaultChecked={value}
+              defaultChecked={true}
             />
           )}
         />

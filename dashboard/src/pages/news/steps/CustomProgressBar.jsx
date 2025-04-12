@@ -13,7 +13,7 @@ import Feature from "@/components/icons/Feature";
 const steps = [
   {
     number: 1,
-    label: "اطلاعات پایه",
+    label: "تصویر واطلاعات",
     required: true,
     icon: <Hero  className="!h-12 w-24" />
   },

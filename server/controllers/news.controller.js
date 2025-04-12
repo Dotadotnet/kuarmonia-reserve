@@ -5,7 +5,7 @@ const newsService = require("../services/news.service");
 /* add new news */
 exports.addNews= async (req, res, next) => {
   try {
-    await newsService.addVenue(req, res);
+    await newsService.addNews(req, res);
   } catch (error) {
     next(error);
   } finally {

@@ -42,10 +42,10 @@ const StepAddNews = ({
     formData.append("summary", data.title);
     formData.append("thumbnail", thumbnail);
     formData.append("tags", extractIds(data.tags));
-    formData.append("category",data.category.id);
+    formData.append("category",extractIds(data.category));
     formData.append("content", data.content);
     formData.append("publishDate", publishDate);
-    formData.append("socialLinks", socialLinksData);
+    formData.append("socialLinks",JSON.stringify(socialLinksData));
     formData.append("visibility", data.visibility);
     formData.append("readTime", data.readTime.value);
     const sourceObject = {
@@ -57,7 +57,7 @@ const StepAddNews = ({
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-    // await addNews(formData);
+     await addNews(formData);
   };
 
   const navigate = useNavigate();
@@ -67,15 +67,17 @@ const StepAddNews = ({
       toast.loading("در حال افزودن ...", { id: "addNews" });
     }
 
-    if (data?.success) {
-      toast.success(data?.message, { id: "addNews" });
-      navigate("./");
+    if (data?.acknowledgement) {
+      toast.success(data?.description, { id: "addNews" });
+      navigate("/dashboard/news", { replace: true });
+      setCompletedSteps({});
+      
     }
-    if (data && !data?.success) {
-      toast.error(data?.message, { id: "addNews" });
+    if (data?.acknowledgement) {
+      toast.error(data?.description, { id: "addNews" });
     }
     if (error?.data) {
-      toast.error(error?.data?.message, { id: "addNews" });
+      toast.error(error?.data?.description, { id: "addNews" });
     }
   }, [isLoading, data, error]);
 
@@ -85,19 +87,45 @@ const StepAddNews = ({
       case 1:
         valid = await trigger("thumbnail");
         if (!valid) {
-          toast.error("لطفاً تصویر جایزه را وارد کنید");
+          toast.error("لطفاً تصویر اخبار را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = true;
-        break;
-      case 2:
         valid = await trigger("title");
         if (!valid) {
-          toast.error("لطفاً عنوان جایزه را وارد کنید");
+          toast.error("لطفاً عنوان اخبار را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
+        valid = await trigger("summary");
+        if (!valid) {
+          toast.error("لطفاً خلاصه اخبار را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }        
+       
+        break;
+      case 2:
+        valid = await trigger("tags");
+        if (!valid) {
+          toast.error("لطفاً تگهای اخبار را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        valid = await trigger("category");
+        if (!valid) {
+          toast.error("لطفاً دسته بندی اخبار را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }  
+
+        valid = await trigger("content");
+        if (!valid) {
+          toast.error("لطفاً  محتوای اخبار را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }  
+        valid = true;
 
       case 3:
         valid = await trigger("issuingOrganization");

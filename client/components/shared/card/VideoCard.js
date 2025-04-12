@@ -8,9 +8,9 @@ const VideoCard = ({
     <Link
       key={media?.id || media?.index}
       href={`/media/${media?.mediaId}/${media?.slug.replace(' ','-')}`}
-      className="group cursor-pointer flex flex-col gap-y-4 border shadow-lg dark:border-gray-600 rounded h-fit md:h-96 break-inside-avoid bg-white dark:bg-gray-800 transition-color ease-linear delay-100 hover:border-primary dark:hover:border-blue-500 relative "
+      className="group cursor-pointer flex flex-col gap-y-4  border border-secondary shadow-lg dark:border-gray-600 rounded h-fit md:h-96 break-inside-avoid bg-white dark:bg-gray-800 transition-color ease-linear delay-100 hover:border-primary dark:hover:border-blue-500 relative "
     >
-      <div className="relative w-full w-50 ">
+      <div className="relative w-full  ">
         <Image
           src={media?.thumbnail?.url}
           alt={media?.title}

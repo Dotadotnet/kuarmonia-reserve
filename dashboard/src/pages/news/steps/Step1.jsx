@@ -24,7 +24,9 @@ const Step1 = ({
             setThumbnail={setThumbnail}
             title={"لطفا یک تصویر انتخاب کنید"}
             maxFiles={1}
-            register={register("thumbnail")}
+            register={register("thumbnail", {
+              required: "آپلود تصویر عنوان الزامی است"
+            })}
           />
         </label>
         {errors?.thumbnail && (
@@ -68,7 +70,7 @@ const Step1 = ({
           {...register("summary", {
             required: "وارد کردن خلاصه الزامی است",
             minLength: {
-              value: 50,
+              value: 30,
               message: "خلاصه باید حداقل ۵۰ کاراکتر باشد"
             },
             maxLength: {

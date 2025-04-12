@@ -34,9 +34,11 @@
   --color-light:#edf2f9;
   --color-dark:#152e4d;
   --color-darker:#12263f;
-  --radius-DEFAULT:10px;
-  --radius-primary:1.5rem;
-  --radius-secondary:9999px;
+  --radius: 10px;
+  --radius-primary: 1.5rem;
+  --radius-secondary: 9999px;
+  --padding-primary:1rem;
+  --padding-secondary:1.5rem;
   --spacing-116:28rem;
   --spacing-128:32rem;
   --gridTemplateColumns-16:repeat(16, minmax(0, 1fr));
@@ -44,9 +46,7 @@
   --gridTemplateColumns-24:repeat(24, minmax(0, 1fr));
 }
  
-.dassdfadsafasdfadsfdsafdasfasdfasdfadsfdasfsadfadsddddadsfafadsfasfasdfdsadssdsad{
-  color: red;
-}
+
 html {
   scroll-behavior:smooth;  
 }

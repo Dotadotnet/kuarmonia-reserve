@@ -106,7 +106,7 @@ const MultiSelect = ({
             className="w-full px-4 py-2 border-b dark:border-gray-700 focus:outline-none dark:bg-gray-800 "
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <ul className="max-h-40 overflow-y-auto mt-2 flex flex-col gap-1">
+          <ul className="max-h-40 overflow-y-auto pl-2 mt-2 flex flex-col gap-1">
             {filteredItems.map((item) => (
               <li
                 key={item.id}

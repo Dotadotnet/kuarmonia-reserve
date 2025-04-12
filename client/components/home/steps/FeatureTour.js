@@ -19,7 +19,7 @@ const FeatureTour = () => {
 
   return (
     <>
-      <section className="group flex lg:flex-row flex-col gap-4 border border-secondary p-4 rounded relative hover:border-primary transition-colors delay-100 dark:hover:border-blue-500 dark:text-blue-500">
+      <section className="group flex lg:flex-row flex-col gap-4 border border-secondary dark:border-gray-600 p-4 rounded relative hover:border-primary transition-colors delay-100 dark:hover:border-blue-500 dark:text-blue-500">
         <div className="flex flex-col gap-y-2">
           <Image
             src="/assets/static/migration-to-canada.png" // آدرس تصویر جدید

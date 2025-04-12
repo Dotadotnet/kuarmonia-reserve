@@ -52,7 +52,7 @@ const KeyServices = () => {
         <Link key={step.id} href={step.href} passHref>
           <div
             id={step.id}
-            className="relative flex flex-col transition-color ease-linear delay-100 cursor-pointer dark:bg-gray-800/70 dark:border-gray-900 dark:text-gray-100 shadow-lg bg-white/80 border w-[150px] lg:w-[170px] p-4 rounded-primary hover:border-primary dark:hover:border-blue-500 items-center max-w-xs mx-auto"
+            className="relative flex flex-col hover:border-primary  transition-color ease-linear delay-100 cursor-pointer dark:bg-gray-800/70 dark:border-gray-900 dark:text-gray-100 shadow-lg bg-white/80 border-gray-200 w-[150px] lg:w-[170px] p-4 rounded-primary dark:hover:border-blue-500 items-center max-w-xs mx-auto"
           >
             <div className="max-w-[100px] mx-auto">
               <span>{step.icon}</span>

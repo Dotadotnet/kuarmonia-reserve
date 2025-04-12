@@ -29,9 +29,9 @@ const LargeMenu = () => {
 
   return (
     <nav className=" col-span-9 justify-center rounded-primary hidden md:flex w-full">
-      <div className="bg-neutral rounded-primary hidden md:flex">
+      <div className=" rounded-primary hidden md:flex">
         <div className="flex flex-row justify-center gap-x-4 overflow-x-auto">
-          <div className="flex flex-row justify-center gap-x-4 border p-1 rounded-secondary bg-white dark:bg-gray-800 overflow-x-auto scrollbar-hide">
+          <div className="flex flex-row justify-center gap-x-4  p-1 rounded-secondary bg-white border border-gray-200 dark:border-gray-600  dark:bg-gray-800 overflow-x-auto scrollbar-hide">
             {menuItems.map((menuItem) => (
               <Link key={menuItem.id} href={menuItem.href}>
                 <button

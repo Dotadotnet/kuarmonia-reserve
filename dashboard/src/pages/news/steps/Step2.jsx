@@ -24,8 +24,6 @@ const Step2 = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-
-
   const {
     isLoading: fetchingTags,
     data: fetchTagsData,
@@ -42,7 +40,7 @@ const Step2 = ({
         id: category._id,
         value: category.title,
         label: category.title,
-        about: category.about
+        icon: category.icon
       })) || [],
     [fetchCategoriesData]
   );
@@ -139,72 +137,91 @@ const Step2 = ({
           <span className="text-red-500 text-sm">{errors.tags.message}</span>
         )}
       </div>
-      <div className="flex flex-col flex-1">
-        <label htmlFor="category" className="flex flex-col gap-y-2">
-          دسته بندی{" "}
-          <Controller
-            control={control}
-            name="category"
-            render={({ field: { onChange, value } }) => (
-              <Dropdown
-                onChange={onChange}
-                items={categories}
-                sendId={true}
-                errors={errors.categories}
-                className={"w-full h-12"}
-              />
-            )}
-          />
-        </label>
-      </div>
-        <label
-          htmlFor="content"
-          className="flex flex-col gap-y-4 w-full h-[200px]"
-        >
-          * محتوا
-          <Controller
-            name="content"
-            control={control}
-            rules={{ required: "محتوا الزامی است" }}
-            render={({ field }) => (
-              <>
-                <textarea
-                  {...field}
-                  value={stripHtmlTags(editorData)}
-                  placeholder="برای ویرایش کلیک کنید..."
-                  readOnly
-                  rows={24}
-                  onClick={() => setIsOpen(true)}
-                  className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 text-justify dark:text-white "
-                />
-
-                {errors.content && (
-                  <span className="text-red-500 text-sm">
-                    {errors.content.message}
-                  </span>
+      <div className="flex flex-col gap-y-2 w-full  ">
+        <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
+          <div className="flex flex-col flex-1">
+            <label htmlFor="category" className="flex flex-col gap-y-2 ">
+              دسته بندی
+              <Controller
+                control={control}
+                name="category"
+                rules={{ required: "انتخاب دسته بندی الزامی است" }}
+                render={({ field: { onChange, value } }) => (
+                  <MultiSelect
+                    items={categories}
+                    selectedItems={value || []}
+                    handleSelect={onChange}
+                    placeholder="چند مورد انتخاب کنید"
+                    className={"w-full h-12"}
+                    returnType="id"
+                  />
                 )}
-                <ModalPortal>
-                  <Modal
+              />
+            </label>
+          </div>
+          <div className="mt-7 flex justify-start">
+            <button
+              type="button"
+              className="p-2 bg-green-400 dark:bg-blue-600 text-white rounded hover:bg-green-600 dark:hover:bg-blue-400 transition-colors"
+              aria-label="افزودن دسته بندی جدید"
+            >
+              <Plus className="w-8 h-8" />
+            </button>
+          </div>
+        </div>
+        {errors.tags && (
+          <span className="text-red-500 text-sm">{errors.tags.message}</span>
+        )}
+      </div>
+
+      <label
+        htmlFor="content"
+        className="flex flex-col gap-y-4 w-full h-[200px]"
+      >
+        * محتوا
+        <Controller
+          name="content"
+          control={control}
+          rules={{ required: "محتوا الزامی است" }}
+          render={({ field }) => (
+            <>
+              <textarea
+                {...field}
+                value={stripHtmlTags(editorData)}
+                placeholder="برای ویرایش کلیک کنید..."
+                readOnly
+                rows={24}
+                onClick={() => setIsOpen(true)}
+                className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 text-justify dark:text-white "
+              />
+
+              {errors.content && (
+                <span className="text-red-500 text-sm">
+                  {errors.content.message}
+                </span>
+              )}
+              <ModalPortal>
+                <Modal
                   isOpen={isOpen}
                   onOpen={() => setIsOpen(true)}
                   onClose={() => setIsOpen(false)}
-                    className=" md:!w-2/3 !w-full h-fit !p-1 !mx-0 !rounded-none"
-                  >
-                    <div className="text-right mt-4">
-                      <Editor
-                        value={editorData}
-                        onChange={(value) => {
-                          setEditorData(value);
-                          field.onChange(value);
-                        }}
-                      />
-                    </div>
-                  </Modal>
-                </ModalPortal>
-              </>
-            )}
-          />
-        </label>
+                  className=" md:!w-2/3 !w-full h-fit !p-1 !mx-0 !rounded-none"
+                >
+                  <div className="text-right mt-4">
+                    <Editor
+                      value={editorData}
+                      onChange={(value) => {
+                        setEditorData(value);
+                        field.onChange(value);
+                      }}
+                    />
+                  </div>
+                </Modal>
+              </ModalPortal>
+            </>
+          )}
+        />
+      </label>
 
       <div className="flex justify-between mt-12">
         <NavigationButton direction="next" onClick={nextStep} />

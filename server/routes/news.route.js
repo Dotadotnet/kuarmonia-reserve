@@ -21,6 +21,9 @@ router.post(
   "/add-news",
   verify,
   authorize("admin", "superAdmin"),
+  upload('blog').fields([
+    { name: "thumbnail", maxCount: 1 },
+  ]),
   newsController.addNews
 );
 

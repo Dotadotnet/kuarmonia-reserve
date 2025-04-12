@@ -48,7 +48,7 @@ const PropertyCard = ({ property }) => {
       href={`/property/${property?.propertyId}/${property?.slug.replaceAll(" ","-")}`}
       className="max-w-sm w-full  z-49 "
     >
-      <div className="bg-white dark:bg-gray-800  relative   shadow-xl rounded-lg overflow-hidden ">
+      <div className="bg-white dark:bg-gray-800  relative   shadow-xl rounded overflow-hidden ">
         <div className="w-full absolute overflow-hidden h-full">
           <span
             className={`absolute top-2 left-0 w-32 translate-y-4 -translate-x-8 -rotate-45 text-center text-sm z-50 

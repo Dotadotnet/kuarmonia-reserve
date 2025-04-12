@@ -59,12 +59,7 @@ const newsSchema = new mongoose.Schema(
       url: { type: String, required: true },
       public_id: { type: String, default: "N/A" },
     },
-    gallery: [
-      {
-        url: { type: String, default: "https://placehold.co/296x200.png" },
-        public_id: { type: String, default: "N/A" },
-      },
-    ],
+
     metaTitle: {
       type: String,
       maxLength: [60, "متا تایتل نمی‌تواند بیشتر از ۶۰ کاراکتر باشد"],
@@ -89,11 +84,12 @@ const newsSchema = new mongoose.Schema(
         ref: "Tag",
       },
     ],
-    category: {
-      type: ObjectId,
-      ref: "Category",
-      required: true,
-    },
+    categories: [
+      {
+        type: ObjectId,
+        ref: "Category",
+      },
+    ],
     creator: {
       type: ObjectId,
       ref: "Admin",
@@ -107,6 +103,10 @@ const newsSchema = new mongoose.Schema(
     isFeatured: {
       type: Boolean,
       default: false,
+    },
+    shortUrl: {
+      type: String,
+      unique: true,
     },
     visibility: {
       type: String,
@@ -162,7 +162,18 @@ const newsSchema = new mongoose.Schema(
 );
 
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
+const BASE62_ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+function encodeBase62(num) {
+  if (num === 0) return BASE62_ALPHABET[0];
+  
+  let encoded = '';
+  while (num > 0) {
+    encoded = BASE62_ALPHABET[num % 62] + encoded;
+    num = Math.floor(num / 62);
+  }
+  return encoded;
+}
 newsSchema.pre("save", async function (next) {
   try {
     // تنظیم newsId
@@ -173,13 +184,18 @@ newsSchema.pre("save", async function (next) {
     );
     this.newsId = counter.seq;
 
+    // تولید shortUrl بر اساس newsId
+    const base62Code = encodeBase62(this.newsId);
+    // فرض کنید آدرس اصلی سایت در defaultDomain تعریف شده باشد:
+    this.shortUrl = `${defaultDomain}/s/${base62Code}`;
+
     // تنظیم canonicalUrl
     if (!this.canonicalUrl) {
       const slugPart = this.slug ? this.slug : encodeURIComponent(this.title);
       this.canonicalUrl = `${defaultDomain}/news/${slugPart}`;
     }
 
-    // تنظیم metaTitle و metaDescription
+    // تنظیم metaTitle و metaDescription (همانطور که قبلاً انجام می‌دهید)
     if (
       this.isModified("title") ||
       this.isModified("category") ||
@@ -205,6 +221,7 @@ newsSchema.pre("save", async function (next) {
     next(err);
   }
 });
+
 
 const News = mongoose.model("News", newsSchema);
 module.exports = News;
