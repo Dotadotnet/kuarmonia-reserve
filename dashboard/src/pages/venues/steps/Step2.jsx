@@ -7,6 +7,7 @@ import { Controller } from "react-hook-form";
 import Plus from "@/components/icons/Plus";
 import Tag from "@/components/icons/Tag";
 import { useGetCategoriesQuery } from "@/services/category/categoryApi";
+
 import toast from "react-hot-toast";
 import Dropdown from "@/components/shared/dropDown/Dropdown";
 
@@ -96,9 +97,7 @@ const Step2 = ({
           setGallery={setGallery}
           setGalleryPreview={setGalleryPreview}
           maxFiles={36}
-          register={register("gallery", {
-            required: "آپلود حداقل یک تصویر الزامی است"
-          })}
+          register={register}
           title="آپلود تصاویر گالری"
         />
       </div>
@@ -140,11 +139,11 @@ const Step2 = ({
         )}
       </div>
       <div className="flex flex-col flex-1">
-        <label htmlFor="categories" className="flex flex-col gap-y-2">
+        <label htmlFor="category" className="flex flex-col gap-y-2">
           دسته بندی{" "}
           <Controller
             control={control}
-            name="categories"
+            name="category"
             render={({ field: { onChange, value } }) => (
               <Dropdown
                 value={value}

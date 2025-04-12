@@ -21,7 +21,10 @@ router.post(
   "/add-venue",
   verify,
   authorize("admin", "superAdmin"),
-  upload('venue').single("thumbnail"),
+  upload('post').fields([
+    { name: "thumbnail", maxCount: 1 },
+    { name: "gallery", maxCount: 10 },
+  ]),
   venueController.addVenue
 );
 

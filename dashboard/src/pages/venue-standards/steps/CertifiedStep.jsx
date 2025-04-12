@@ -1,5 +1,5 @@
 // components/signup/steps/PasswordStep.jsx
-"use client";
+
 import React from "react";
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
 
@@ -89,7 +89,7 @@ const CertifiedStep = ({ register, errors }) => {
 
         <StatusSwitch
           label={"آیا این استاندارد بین المللی  است؟"}
-          id="isInternational"
+          id="isInternational"  
           register={register}
           defaultChecked={false}
         />

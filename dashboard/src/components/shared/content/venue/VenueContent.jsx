@@ -8,6 +8,8 @@ import VenueAmenity from "./VenueAmenity";
 import VenueService from "./VenueService";
 import VenueSettting from "./VenueSetting";
 import VenueAwards from "./VenueAwards";
+import VenueSpace from "./VenueSpace";
+import VenuePackages from "./VenuePackages";
 function VenueContent({ venue }) {
   return (
     <main className="px-2 mt-2 flex flex-col gap-y-4 h-[650px] overflow-y-auto dark:bg-gray-900 bg-white scrollbar-hide">
@@ -30,9 +32,10 @@ function VenueContent({ venue }) {
           <hr className="border-gray-300" />
           <VenueAwards venue={venue} />
           <hr className="border-gray-300" />
-          <div className="flex justify-between">
-            <div className="contact"></div>
-          </div>
+          <VenueSpace venue={venue} />
+          <hr className="border-gray-300" />
+          <VenuePackages venue={venue} />
+          <hr className="border-gray-300" />
         </div>
       </section>
     </main>

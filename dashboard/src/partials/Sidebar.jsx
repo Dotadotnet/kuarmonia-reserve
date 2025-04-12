@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
@@ -27,6 +26,11 @@ import VenueService from "@/components/icons/VenueService";
 import Amentity from "@/components/icons/Amentity";
 import Type from "@/components/icons/Type";
 import Ship from "@/components/icons/Ship";
+import Vendor from "@/components/icons/Vendor";
+import Social from "@/components/icons/Social";
+import VenueEvent from "@/components/icons/VenueEvent";
+import Venue from "@/components/icons/Venue";
+import logo from "/logo.gif";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   const location = useLocation();
@@ -87,6 +91,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     },
     { title: "کاربران", icon: User, path: "/users" },
     { title: " دسته بندی", icon: Category, path: "/categories" },
+    { title: "َشبکه های اجتماعی", icon: Social, path: "/socialLinks" },
     { title: "تگها", icon: Tag, path: "/tags" },
     { title: "واحد پول", icon: Currency, path: "/currencies" },
     { title: "پست ها ", icon: Post, path: "/posts" },
@@ -109,14 +114,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       title: "مراسم",
       icon: Celebration,
       subItems: [
-        { title: "مراسمات", icon: Apartment, path: "/venues" },
+        { title: "مراسمات", icon: VenueEvent, path: "/venueEvents" },
+        { title: "محل مراسم", icon: Venue, path: "/venues" },
         { title: "نوع مراسم", icon: Type, path: "/venue-ceremony-types" },
         { title: "نوع محل مراسم", icon: Ship, path: "/venue-types" },
         { title: "خدمات", icon: VenueService, path: "/venue-services" },
         { title: "امکانات", icon: Amentity, path: "/venue-amenities" },
         { title: "تنظیمات", icon: Setting, path: "/venue-settings" },
         { title: "استاندارد", icon: Standard, path: "/venue-standards" },
-        { title: "جوایز", icon: Medal, path: "/venue-awards" }
+        { title: "جوایز", icon: Medal, path: "/venue-awards" },
+        { title: "همکاران", icon: Vendor, path: "/venue-vendors" }
       ]
     }
   ];
@@ -140,8 +147,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         }`}
       >
         {/* Sidebar header */}
-        <div className="flex justify-between mb-10 pr-3 sm:px-2">
+        <div className="flex md:justify-center justify-between mb-10 pr-3 sm:px-2">
           {/* Close button */}
+          <NavLink end to="/" className=" flex justify-center">
+            <img
+              src={logo}
+              alt="logo"
+              width={141}
+              height={40}
+              className="max-w-full cursor-pointer"
+            />{" "}
+          </NavLink>
           <button
             ref={trigger}
             className="lg:hidden text-gray-500 hover:text-gray-400"
@@ -159,16 +175,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
             </svg>
           </button>
           {/* Logo */}
-          <NavLink end to="/" className="block">
-            <svg
-              className="fill-violet-500"
-              xmlns="http://www.w3.org/2000/svg"
-              width={32}
-              height={32}
-            >
-              <path d="M31.956 14.8C31.372 6.92 25.08.628 17.2.044V5.76a9.04 9.04 0 0 0 9.04 9.04h5.716ZM14.8 26.24v5.716C6.92 31.372.63 25.08.044 17.2H5.76a9.04 9.04 0 0 1 9.04 9.04Zm11.44-9.04h5.716c-.584 7.88-6.876 14.172-14.756 14.756V26.24a9.04 9.04 0 0 1 9.04-9.04ZM.044 14.8C.63 6.92 6.92.628 14.8.044V5.76a9.04 9.04 0 0 1-9.04 9.04H.044Z" />
-            </svg>
-          </NavLink>
+         
         </div>
 
         {/* Links */}

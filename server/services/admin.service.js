@@ -10,69 +10,95 @@ const token = require("../utils/token.util");
 
 /* sign up an admin */
 exports.signUp = async (req, res) => {
-  const { body, file } = req;
-  const { name, email, password, phone, avatarUrl } = body;
+  try {
+    const { body } = req;
+    const { name, email, password, phone, avatarUrl } = body;
 
-  if (!name || !email || !password || !phone) {
-    return res.status(400).json({
+    console.log(body);
+
+    // اعتبارسنجی اولیه
+    if (!name || !email || !password || !phone) {
+      return res.status(400).json({
+        acknowledgement: false,
+        message: "درخواست نادرست",
+        description: "همه فیلدها الزامی است",
+        isSuccess: false,
+      });
+    }
+
+    // بررسی وجود کاربر تکراری
+    const existingAdmin = await Admin.findOne({
+      $or: [{ email }, { phone }],
+    });
+
+    if (existingAdmin) {
+      return res.status(409).json({
+        acknowledgement: false,
+        message: "کاربر تکراری",
+        description:
+          "کاربری با این ایمیل یا شماره تلفن قبلاً ثبت‌نام کرده است. لطفاً به صفحه ورود بروید.",
+        redirectToLogin: true,
+        isSuccess: false,
+      });
+    }
+
+    // پردازش آواتار
+    let avatar = {
+      url: avatarUrl || null,
+      public_id: null,
+    };
+
+    if (
+      req.uploadedFiles &&
+      req.uploadedFiles["avatar"] &&
+      req.uploadedFiles["avatar"].length > 0
+    ) {
+      avatar = {
+        url: req.uploadedFiles["avatar"][0].url,
+        public_id: req.uploadedFiles["avatar"][0].key,
+      };
+    }
+
+    // تنظیم نقش و وضعیت
+    const adminCount = await Admin.countDocuments();
+    const role = adminCount === 0 ? "superAdmin" : "operator";
+    const status = adminCount === 0 ? "active" : "inactive";
+
+    // ایجاد کاربر جدید
+    const admin = new Admin({
+      name,
+      email,
+      password,
+      phone,
+      role,
+      status,
+      avatar,
+    });
+
+    await admin.save();
+
+    return res.status(201).json({
+      acknowledgement: true,
+      message: "تبریک!",
+      description: "ثبت‌نام شما با موفقیت انجام شد.",
+      isSuccess: true,
+      data: {
+        id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        role: admin.role,
+        status: admin.status,
+      },
+    });
+  } catch (error) {
+    console.error("signUp error:", error);
+    return res.status(500).json({
       acknowledgement: false,
-      message: "درخواست نادرست",
-      description: "همه فیلدها الزامی است",
-      isSuccess: false
+      message: "خطای داخلی سرور",
+      description: error.message,
+      isSuccess: false,
     });
   }
-
-  const existingAdmin = await Admin.findOne({
-    $or: [{ email: email }, { phone: phone }]
-  });
-  if (existingAdmin) {
-    return {
-      success: false,
-      message:
-        "کاربری با این ایمیل یا شماره تلفن قبلاً ثبت‌نام کرده است. لطفاً به صفحه ورود بروید.",
-      redirectToLogin: true
-    };
-  }
-
-  if (
-    req.uploadedFiles &&
-    req.uploadedFiles["avatar"] &&
-    req.uploadedFiles["avatar"].length > 0
-  ) {
-    avatar = {
-      url: req.uploadedFiles["avatar"][0].url,
-      public_id: req.uploadedFiles["avatar"][0].key
-    };
-  } else {
-    avatar = {
-      url: avatarUrl,
-      public_id: null
-    };
-  }
-  const adminCount = await Admin.countDocuments();
-  const role = adminCount === 0 ? "superAdmin" : "buyer";
-  const status = adminCount === 0 ? "active" : "inactive";
-
-  const admin = new Admin({
-    name: body.name,
-    email: body.email,
-    password: body.password,
-    phone: body.phone,
-    role: role,
-    status: status,
-    avatar
-  });
-
-  await admin.save();
-
-  res.status(201).json({
-    acknowledgement: true,
-    message: "تبریک ",
-    description: "ثبت نام شما با موفقیت انجام شد",
-    isSuccess: true
-  });
-
-  return admin;
 };
 
 /* sign in an admin */
@@ -152,9 +178,7 @@ exports.forgotPassword = async (req, res) => {
 
 /* login persistance */
 exports.persistLogin = async (req, res) => {
-  const admin = await Admin.findById(req.admin._id)
-  .select('-password -phone')
-  
+  const admin = await Admin.findById(req.admin._id).select("-password -phone");
 
   if (!admin) {
     res.status(404).json({
@@ -206,7 +230,7 @@ exports.updateAdmin = async (req, res) => {
     return res.status(403).json({
       acknowledgement: false,
       message: "Forbidden",
-      description: "کاربر مدیر کل قابل ویرایش نیست",
+      description: "کاربر مدیر کل قابل ویرایش نیست"
     });
   }
 
@@ -222,7 +246,7 @@ exports.updateAdmin = async (req, res) => {
     // تنظیم تصویر جدید
     avatar = {
       url: req.uploadedFiles["avatar"][0].url,
-      public_id: req.uploadedFiles["avatar"][0].key,
+      public_id: req.uploadedFiles["avatar"][0].key
     };
   } else if (!req.body.avatarUrl) {
     // اگر تصویر جدید نیست، حذف تصویر قبلی
@@ -233,7 +257,7 @@ exports.updateAdmin = async (req, res) => {
     // در صورت عدم ارسال آدرس جدید برای تصویر، مقدار پیش‌فرض
     avatar = {
       url: null,
-      public_id: null,
+      public_id: null
     };
   }
 
@@ -243,22 +267,21 @@ exports.updateAdmin = async (req, res) => {
     {
       $set: {
         ...admin,
-        avatar, // اطمینان از ارسال تصویر جدید
-      },
+        avatar // اطمینان از ارسال تصویر جدید
+      }
     },
     {
       runValidators: true,
-      new: true, // اطمینان از اینکه داده‌های به‌روزرسانی‌شده برگردند
+      new: true // اطمینان از اینکه داده‌های به‌روزرسانی‌شده برگردند
     }
   );
 
   res.status(200).json({
     acknowledgement: true,
     message: "OK",
-    description: `اطلاعات ${updatedAdmin.name} با موفقیت تغییر کرد`,
+    description: `اطلاعات ${updatedAdmin.name} با موفقیت تغییر کرد`
   });
 };
-
 
 /* update admin information */
 exports.updateAdminInfo = async (req, res) => {
@@ -270,7 +293,7 @@ exports.updateAdminInfo = async (req, res) => {
     return res.status(403).json({
       acknowledgement: false,
       message: "دسترسی ممنوع",
-      description: "کاربر مدیر کل قابل ویرایش نیست",
+      description: "کاربر مدیر کل قابل ویرایش نیست"
     });
   }
 
@@ -289,7 +312,7 @@ exports.updateAdminInfo = async (req, res) => {
     // تنظیم تصویر جدید
     avatar = {
       url: req.uploadedFiles["avatar"][0].url,
-      public_id: req.uploadedFiles["avatar"][0].key,
+      public_id: req.uploadedFiles["avatar"][0].key
     };
   } else if (req.body.avatarUrl) {
     // اگر تصویر جدید نیست، حذف تصویر قبلی
@@ -300,17 +323,17 @@ exports.updateAdminInfo = async (req, res) => {
     // در صورت عدم ارسال آدرس جدید برای تصویر، مقدار پیش‌فرض
     avatar = {
       url: null,
-      public_id: null,
+      public_id: null
     };
   }
 
   // به‌روزرسانی اطلاعات کاربر همراه با آواتار جدید
   const updatedAdmin = await Admin.findByIdAndUpdate(
     existingAdmin._id,
-    { $set: { ...admin, avatar } },  
+    { $set: { ...admin, avatar } },
     {
-      runValidators: true, 
-      new: true  
+      runValidators: true,
+      new: true
     }
   );
 
@@ -321,14 +344,13 @@ exports.updateAdminInfo = async (req, res) => {
   });
 };
 
-
 /* delete admin information */
 exports.deleteAdmin = async (req, res) => {
   const admin = await Admin.findByIdAndUpdate(
     req.params.id,
     {
       isDeleted: true,
-      deletedAt: Date.now(),
+      deletedAt: Date.now()
     },
     { new: true }
   );
@@ -336,17 +358,17 @@ exports.deleteAdmin = async (req, res) => {
   if (!admin) {
     return res.status(404).json({
       acknowledgement: false,
-      message: "کاربر یافت نشد",
+      message: "کاربر یافت نشد"
     });
   }
   if (admin.role === "superAdmin") {
     return res.status(403).json({
       acknowledgement: false,
-      "message": "ممنوع",
-      description: "کاربر مدیر کل قابل حذف نیست",
+      message: "ممنوع",
+      description: "کاربر مدیر کل قابل حذف نیست"
     });
   }
-  
+
   // Soft delete admin cart
   if (admin.cart.length > 0) {
     await Cart.updateMany(
@@ -383,7 +405,7 @@ exports.deleteAdmin = async (req, res) => {
   if (admin.category) {
     await Category.findByIdAndUpdate(admin.category, {
       isDeleted: true,
-      deletedAt: Date.now(),
+      deletedAt: Date.now()
     });
 
     // Soft delete products of the category

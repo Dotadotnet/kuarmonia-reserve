@@ -1,4 +1,4 @@
-"use client";
+
 import Button from "@/components/shared/button/Button";
 import { useGetCurrencyQuery, useUpdateCurrencyMutation } from "@/services/currency/currencyApi";
 import { toast } from "react-hot-toast";

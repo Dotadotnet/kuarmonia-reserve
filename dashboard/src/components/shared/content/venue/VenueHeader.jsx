@@ -49,13 +49,13 @@ const VenueHeader = ({ venue }) => {
       )}{" "}
       <div className="flex  text-lg">
         <div className="flex  flex-wrap gap-x-8 gap-y-2">
-          <div className="rating flex gap-x-1 items-center justify-center">
+          <div className="star flex gap-x-1 items-center justify-center">
             <div className="flex space-x-1 text-orange-500 text-sm mt-1">
               {[...Array(5)].map((_, i) => (
                 <span
                   key={i}
                   className={`text-2xl ${
-                    i < venue?.rating ? "text-yellow-400" : "text-gray-400"
+                    i < venue?.star ? "text-yellow-400" : "text-gray-400"
                   }`}
                 >
                   ★

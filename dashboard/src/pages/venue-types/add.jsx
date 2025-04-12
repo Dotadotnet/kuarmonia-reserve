@@ -1,4 +1,3 @@
-"use client";
 import { useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
 import { useAddVenueTypeMutation } from "@/services/venueType/venueTypeApi";

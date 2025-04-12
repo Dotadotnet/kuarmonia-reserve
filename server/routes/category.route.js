@@ -21,6 +21,7 @@ router.post(
   "/add-category",
   verify,
   authorize("superAdmin","admin"),
+  upload("category").single("thumbnail"),
   categoryController.addCategory
 );
 

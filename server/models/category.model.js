@@ -19,6 +19,20 @@ const categorySchema = new mongoose.Schema(
       maxLength: [100, "عنوان شما باید حداکثر ۱۰۰ کاراکتر باشد"]
     },
 
+    icon: {
+      type: String,
+      required: false
+    },
+    thumbnail: {
+      url: {
+        type: String,
+        default: "https://placehold.co/300x300.png"
+      },
+      public_id: {
+        type: String,
+        default: "N/A"
+      }
+    },
     description: {
       type: String,
       required: [true, "لطفاً توضیحات دسته‌بندی را وارد کنید"],
