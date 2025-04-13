@@ -10,7 +10,7 @@ const Screen = () => {
         height={300}
         width={300}
         priority // Add the priority prop
-      />
+      />   
     </section>
   );
 };

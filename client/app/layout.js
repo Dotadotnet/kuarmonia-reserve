@@ -68,14 +68,13 @@ export default function RootLayout({ children }) {
     <html lang="fa">
       <body dir="rtl" >
         <Providers>
-          <Session>
-            <Auth>
-              {children}
-            </Auth>
-          </Session>
+            <Session>
+              <Auth>
+                {children}
+              </Auth>
+            </Session>
           <Toaster />
         </Providers>
-
       </body>
     </html>
   );
