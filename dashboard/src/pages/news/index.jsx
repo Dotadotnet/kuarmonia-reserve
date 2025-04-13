@@ -15,7 +15,6 @@ import Pagination from "@/components/shared/pagination/Pagination";
 import Search from "@/components/shared/search";
 import AddButton from "@/components/shared/button/AddButton";
 import ControlPanel from "../ControlPanel";
-
 const ListNews = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
@@ -142,7 +141,7 @@ const ListNews = () => {
                     className="edit-button "
                     onClick={() => openEditModal(news)}
                   >
-                    <FiEdit3 className="w-5 h-5" />
+                    <Edit className="w-5 h-5" />
                   </span>
                   <DeleteModal
                     message="آیا از حذف نوع ملک اطمینان دارید؟"

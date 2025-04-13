@@ -17,7 +17,7 @@ const newsApi = kuarmoniaApi.injectEndpoints({
       ],
     }),
 
-    getNewss: builder.query({
+    getNews: builder.query({
       query: () => ({
         url: `/news/get-news`,
         method: "GET",

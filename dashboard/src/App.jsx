@@ -34,8 +34,8 @@ import AddVenueAward from "./pages/venue-awards/add";
 import CeremonyType  from "./pages/ceremony-types";
 import VenueVendor  from "./pages/venue-vendors";
 import AddVenueVendor from "./pages/venue-vendors/add";
-import AddNews from "./pages/news";
-import News from "./pages/news/add";
+import News from "./pages/news";
+import AddNews from "./pages/news/add";
 
 function App() {
   const location = useLocation();
