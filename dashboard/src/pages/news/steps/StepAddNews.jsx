@@ -69,7 +69,7 @@ const StepAddNews = ({
 
     if (data?.acknowledgement) {
       toast.success(data?.description, { id: "addNews" });
-      navigate("/dashboard/news", { replace: true });
+      navigate("/news", { replace: true });
       setCompletedSteps({});
       
     }

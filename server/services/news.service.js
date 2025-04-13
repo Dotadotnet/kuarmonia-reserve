@@ -54,7 +54,7 @@ exports.addNews = async (req, res) => {
 };
 
 /* 📌 دریافت همه اخبار */
-exports.getNews = async ( res) => {
+exports.getAllNews = async ( res) => {
   try {
     const news = await News.find().populate("creator");
     res.status(200).json({

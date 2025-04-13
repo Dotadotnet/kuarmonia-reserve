@@ -1,10 +1,15 @@
+/**
+ * This configuration was generated using the CKEditor 5 Builder. You can modify it anytime using this link:
+ * https://ckeditor.com/ckeditor-5/builder/#installation/NoNgNARATAdALDADBSIQE4CMm3qgDijgFZEQBmdEExM8+xYgdkRynMThQgFMA7FIjDBMYIUNESAupADGAQx6NmEKUA==
+ */
+
 import { useState, useEffect, useRef, useMemo } from "react";
 import { CKEditor, useCKEditorCloud } from "@ckeditor/ckeditor5-react";
 
 import "./Editor.css";
 
 const LICENSE_KEY =
-  "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzU5NTE5OTksImp0aSI6ImMzNTdhNDVjLTYwODQtNDM5MS04NjQ0LTEyOTY1NjVjMGM2MCIsImxpY2Vuc2VkSG9zdHMiOlsiMTI3LjAuMC4xIiwibG9jYWxob3N0IiwiMTkyLjE2OC4qLioiLCIxMC4qLiouKiIsIjE3Mi4qLiouKiIsIioudGVzdCIsIioubG9jYWxob3N0IiwiKi5sb2NhbCJdLCJ1c2FnZUVuZHBvaW50IjoiaHR0cHM6Ly9wcm94eS1ldmVudC5ja2VkaXRvci5jb20iLCJkaXN0cmlidXRpb25DaGFubmVsIjpbImNsb3VkIiwiZHJ1cGFsIl0sImxpY2Vuc2VUeXBlIjoiZGV2ZWxvcG1lbnQiLCJmZWF0dXJlcyI6WyJEUlVQIiwiQk9YIl0sInZjIjoiYmIyN2VjOTQifQ.V2yHs1RI60lLTksGJlcrKVch5hktPsmAqIwScQPGfbp90dO0z4AmRkzbXbOW_zrwT-veTm-6I5JBTJ0BNrBSzg";
+  "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzYxMjQ3OTksImp0aSI6IjNiMzFlYTIwLWRjY2MtNGNmNi05NjE5LTE2MjFhM2Q0YWFjNSIsImxpY2Vuc2VkSG9zdHMiOlsiZGFzaGJvYXJkLmt1YXJtb25pYS5jb20iXSwidXNhZ2VFbmRwb2ludCI6Imh0dHBzOi8vcHJveHktZXZlbnQuY2tlZGl0b3IuY29tIiwiZGlzdHJpYnV0aW9uQ2hhbm5lbCI6WyJjbG91ZCIsImRydXBhbCJdLCJmZWF0dXJlcyI6WyJEUlVQIiwiQk9YIl0sInZjIjoiMzZlMDMyNWEifQ.Z9Gzl4iIQSphIDMT8cGaddJYwbZGJMNGprFrxWNB0FlRzbj1hQeM2YEGcKa43iL9Z6-dHVDVNpFycf3QE7ARHg";
 
 export default function Editor({ value, onChange }) {
   const editorContainerRef = useRef(null);
@@ -25,56 +30,22 @@ export default function Editor({ value, onChange }) {
 
     const {
       ClassicEditor,
-      Autoformat,
-      AutoImage,
       Autosave,
-      Base64UploadAdapter,
       BlockQuote,
       Bold,
-      Emoji,
       Essentials,
-      FontColor,
-      FontSize,
-      Fullscreen,
       Heading,
-      ImageBlock,
-      ImageCaption,
-      ImageInline,
-      ImageInsert,
-      ImageInsertViaUrl,
-      ImageResize,
-      ImageStyle,
-      ImageTextAlternative,
-      ImageToolbar,
-      ImageUpload,
       Indent,
       IndentBlock,
       Italic,
       Link,
-      LinkImage,
-      List,
-      ListProperties,
-      MediaEmbed,
-      Mention,
       Paragraph,
-      PasteFromOffice,
-      SourceEditing,
-      SpecialCharacters,
-      SpecialCharactersArrows,
-      SpecialCharactersCurrency,
-      SpecialCharactersEssentials,
-      SpecialCharactersLatin,
-      SpecialCharactersMathematical,
-      SpecialCharactersText,
-      Strikethrough,
       Table,
       TableCaption,
       TableCellProperties,
       TableColumnResize,
       TableProperties,
       TableToolbar,
-      TextTransformation,
-      TodoList,
       Underline
     } = cloud.CKEditor;
 
@@ -83,102 +54,40 @@ export default function Editor({ value, onChange }) {
       editorConfig: {
         toolbar: {
           items: [
-            "sourceEditing",
-            "fullscreen",
-            "|",
             "heading",
-            "|",
-            "fontSize",
-            "fontColor",
             "|",
             "bold",
             "italic",
             "underline",
-            "strikethrough",
             "|",
-            "emoji",
-            "specialCharacters",
             "link",
-            "insertImage",
-            "insertImageViaUrl",
-            "mediaEmbed",
             "insertTable",
             "blockQuote",
             "|",
-            "bulletedList",
-            "numberedList",
-            "todoList",
             "outdent",
             "indent"
           ],
           shouldNotGroupWhenFull: false
         },
         plugins: [
-          Autoformat,
-          AutoImage,
           Autosave,
-          Base64UploadAdapter,
           BlockQuote,
           Bold,
-          Emoji,
           Essentials,
-          FontColor,
-          FontSize,
-          Fullscreen,
           Heading,
-          ImageBlock,
-          ImageCaption,
-          ImageInline,
-          ImageInsert,
-          ImageInsertViaUrl,
-          ImageResize,
-          ImageStyle,
-          ImageTextAlternative,
-          ImageToolbar,
-          ImageUpload,
           Indent,
           IndentBlock,
           Italic,
           Link,
-          LinkImage,
-          List,
-          ListProperties,
-          MediaEmbed,
-          Mention,
           Paragraph,
-          PasteFromOffice,
-          SourceEditing,
-          SpecialCharacters,
-          SpecialCharactersArrows,
-          SpecialCharactersCurrency,
-          SpecialCharactersEssentials,
-          SpecialCharactersLatin,
-          SpecialCharactersMathematical,
-          SpecialCharactersText,
-          Strikethrough,
           Table,
           TableCaption,
           TableCellProperties,
           TableColumnResize,
           TableProperties,
           TableToolbar,
-          TextTransformation,
-          TodoList,
           Underline
         ],
-        fontSize: {
-          options: [10, 12, 14, "default", 18, 20, 22],
-          supportAllValues: true
-        },
-        fullscreen: {
-          onEnterCallback: (container) =>
-            container.classList.add(
-              "editor-container",
-              "editor-container_classic-editor",
-              "editor-container_include-fullscreen",
-              "main-container"
-            )
-        },
         heading: {
           options: [
             {
@@ -224,19 +133,7 @@ export default function Editor({ value, onChange }) {
             }
           ]
         },
-        image: {
-          toolbar: [
-            "toggleImageCaption",
-            "imageTextAlternative",
-            "|",
-            "imageStyle:inline",
-            "imageStyle:wrapText",
-            "imageStyle:breakText",
-            "|",
-            "resizeImage"
-          ]
-        },
-        initialData: value || "",
+        initialData: "",
         licenseKey: LICENSE_KEY,
         link: {
           addTargetToExternalLinks: true,
@@ -251,25 +148,7 @@ export default function Editor({ value, onChange }) {
             }
           }
         },
-        list: {
-          properties: {
-            styles: true,
-            startIndex: true,
-            reversed: true
-          }
-        },
-        mention: {
-          feeds: [
-            {
-              marker: "@",
-              feed: []
-            }
-          ]
-        },
-        menuBar: {
-          isVisible: true
-        },
-        placeholder: "",
+        placeholder: "Type or paste your content here!",
         table: {
           contentToolbar: [
             "tableColumn",
@@ -286,20 +165,20 @@ export default function Editor({ value, onChange }) {
   return (
     <div className="main-container">
       <div
-        className="editor-container editor-container_classic-editor editor-container_include-fullscreen"
+        className="editor-container editor-container_classic-editor"
         ref={editorContainerRef}
       >
         <div className="editor-container__editor">
           <div ref={editorRef}>
             {ClassicEditor && editorConfig && (
               <CKEditor
+                editor={ClassicEditor}
+                data={value}
+                config={editorConfig}
                 onChange={(event, editor) => {
                   const data = editor.getData();
                   onChange(data);
                 }}
-                data={value}
-                editor={ClassicEditor}
-                config={editorConfig}
               />
             )}
           </div>
