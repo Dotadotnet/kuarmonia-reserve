@@ -5,7 +5,9 @@
     margin: 0 !important;
   }
 }
-
+.tor__label_e41a7cd916bb760b18836e26493f5321c{
+  display: none !important;
+}
 .main-container {
   font-family: "Lato";
   width: fit-content;

@@ -23,7 +23,7 @@ function Left() {
             <IoIosArrowForward size={30} className="dark:text-gray-100" />
           </span>
         </div>
-        <div className="custom-prev left-0 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-100 border-white  text-lg dark:bg-gray-700">
+        <div className="custom-prev left-1 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-100 border-white  text-lg dark:bg-gray-700">
           <span>
             <IoIosArrowBack size={30} className="dark:text-gray-100"  />
           </span>

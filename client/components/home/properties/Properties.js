@@ -28,13 +28,7 @@ const Properties = ({ Properties }) => {
             <article className="flex flex-col gap-y-4">
               <h1 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
                 <HighlightText>فرصت های سرمایه گذاری</HighlightText>
-                <Image
-                  src="/assets/home-page/destination/underline.svg"
-                  alt="arrow"
-                  height={7}
-                  width={275}
-                  className="mt-1.5 filter dark:invert  dark:brightness-0 dark:sepia dark:hue-rotate-180"
-                />
+               
               </h1>
               <p className="text-base">
                 بهترین گزینه‌ها برای خرید، فروش، رهن و اجاره در یک نگاه
