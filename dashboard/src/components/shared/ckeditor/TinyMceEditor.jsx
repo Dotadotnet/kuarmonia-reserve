@@ -1,31 +1,59 @@
-import React from "react";
-
+import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "ckeditor5-build-full";
-const CK = () => {
-  return (
-    <>
-      <h2>Using CKEditor 5 build in React</h2>
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-      <CKEditor
-        editor={ClassicEditor}
-        data="<p>Hello from CKEditor 5!</p>"
-        onInit={editor => {
-          // You can store the "editor" and use when it is needed.
-          console.log("Editor is ready to use!", editor);
-        }}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          console.log({ event, editor, data });
-        }}
-        onBlur={(event, editor) => {
-          console.log("Blur.", editor);
-        }}
-        onFocus={(event, editor) => {
-          console.log("Focus.", editor);
-        }}
-      />
-    </>
-  );
-};
-export default CK;
+class TinyMceEditor extends Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  onChange(event, editor) {
+    const data = editor.getData();
+    // انتقال داده به والد (مثلاً برای ذخیره در state)
+    const { onChange } = this.props;  // اینجا باید تابع onChange از props گرفته بشه
+    if (onChange) {
+      onChange(data);
+    }
+  }
+
+  static defaultConfig = {
+    toolbar: [
+      "heading",
+      "|",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "ckfinder",
+      "|",
+      "imageUpload",
+      "resizeImage",
+      "mediaEmbed",
+      "insertTable",
+      "|",
+      "undo",
+      "redo"
+    ]
+  };
+
+  render() {
+    return (
+      <div className="ckeditor-wrapper">
+        <CKEditor
+          editor={ClassicEditor}
+          config={TinyMceEditor.defaultConfig}
+          data={this.props.value} // مقدار value را از props می‌گیریم
+          onChange={this.onChange} // متد onChange را به CKEditor می‌دهیم
+          onInit={(editor) => {
+            console.log("Editor is ready to use!", editor);
+          }}
+        />
+      </div>
+    );
+  }
+}
+
+export default TinyMceEditor;
