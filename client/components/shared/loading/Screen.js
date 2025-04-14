@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const Screen = () => {
   return (
-    <section className="flex justify-center items-center h-screen w-screen bg-secondary/10">
+    <section className="flex loader-div fixed top-0 right-0 z-[2222222222222] justify-center items-center h-screen w-screen bg-black/75 backdrop-blur-xl">
       <Image
         src="/loading.png"
         alt="loading"

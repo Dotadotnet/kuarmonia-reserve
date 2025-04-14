@@ -6,7 +6,7 @@ import { useEffect } from "react";
 export default function Chat() {
     useEffect(() => {
         window.$crisp = [];
-        window.CRISP_WEBSITE_ID = "c8c2280b-ea54-4b4e-99de-1b368306e8e6";
+        window.CRISP_WEBSITE_ID = "96c59817-5fcc-48e1-a63c-6f947cf5cee9";
         (function () {
             let d = document;
             let s = d.createElement("script");
@@ -74,11 +74,13 @@ export default function Chat() {
                     }
                 }
             }
-
+            if(document.querySelector('section.loader-div')){
+                document.querySelector('section.loader-div').remove()
+            }
             let interval = setInterval(() => { 
                 function_edite();
             }, 300);
-        }, 1000)
+        }, 500)
     }, []);
 
     return (

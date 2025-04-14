@@ -7,8 +7,6 @@ import {
   useCreateSessionMutation
 } from "@/services/session/sessionApi";
 import { setSession } from "@/features/auth/authSlice";
-import Screen from "@/components/shared/loading/Screen";
-
 const Session = ({ children }) => {
   const dispatch = useDispatch();
   const [createSession] = useCreateSessionMutation();
@@ -21,11 +19,7 @@ const Session = ({ children }) => {
       createSession();
     }
   }, [dispatch, session, sessionError, createSession, isFetching]);
-   if(!isFetching){
-     return <>{children}</>;
-   }else{
-    return <><Screen /></>
-   }
+  return <>{children}</>;
 };
 
 export default Session;
