@@ -54,10 +54,10 @@ const AddGallery = ({ isOpen, onClose }) => {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      className="lg:w-1/3 md:w-1/2 w-full z-50 p-4 rounded-md overflow-y-hidden"
+      className="lg:w-1/3 md:w-1/2 w-full h-2/3 z-50 p-4 rounded-md overflow-y-hidden"
     >
       <form
-        className="text-sm w-full h-full flex flex-col gap-y-4 mb-3 p-4 overflow-y-auto"
+        className="text-sm w-full  flex flex-col h-full  gap-y-4 mb-3 p-4 overflow-y-auto"
         onSubmit={handleSubmit(handleAddGallery)}
       >
         <div className="flex gap-4 flex-col">

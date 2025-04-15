@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-
+import { useGetTeamLeaderQuery } from "@/services/teamMember/teamMemberApi";
 export default function TeamSection() {
+    const { data, isLoading, error } = useGetTeamLeaderQuery();
+  
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.2 });
 
@@ -12,7 +14,8 @@ export default function TeamSection() {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
   };
-
+  const leader = useMemo(() => data?.data || [], [data]);
+console.log(leader)
   return (
     <div>
       {/* Section 1 */}

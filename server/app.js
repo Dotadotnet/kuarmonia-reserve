@@ -9,8 +9,8 @@ const app = express();
 
 /* allowed origins */
 const allowedOrigins = [
-  process.env.NEXT_PUBLIC_CLIENT_URL, 
-  process.env.NEXT_PUBLIC_DASHBOARD_URL 
+  process.env.NEXT_PUBLIC_CLIENT_URL,
+  process.env.NEXT_PUBLIC_DASHBOARD_URL
 ];
 
 const corsOptions = {
@@ -29,9 +29,8 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     cookie: {
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
-      httpOnly: true,
-      
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      httpOnly: true
     }
   })
 );
@@ -50,6 +49,9 @@ app.use("/api/payment", require("./routes/payment.route"));
 app.use("/api/purchase", require("./routes/purchase.route"));
 app.use("/api/post", require("./routes/post.route"));
 app.use("/api/property", require("./routes/property.route"));
+app.use("/api/tradeType", require("./routes/tradeType.route"));
+app.use("/api/saleType", require("./routes/saleType.route"));
+app.use("/api/propType", require("./routes/propType.route"));
 app.use("/api/media", require("./routes/media.route"));
 app.use("/api/dynamic", require("./routes/dynamic.route"));
 app.use("/api/blog", require("./routes/blog.route"));
@@ -65,8 +67,9 @@ app.use("/api/venueVendor", require("./routes/venueVendor.route"));
 app.use("/api/venueStandard", require("./routes/VenueStandard.route"));
 app.use("/api/ceremonyType", require("./routes/ceremonyType.route"));
 app.use("/api/news", require("./routes/news.route"));
+app.use("/api/teamMember", require("./routes/teamMember.route"));
+// app.use("/api/upload", require("./routes/upload.route"));
 
 app.use(error);
-
 
 module.exports = app;

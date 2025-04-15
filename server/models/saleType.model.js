@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema.Types;
-const baseSchema = require("./baseSchema.model");
 const { Schema } = mongoose;
+const baseSchema = require("./baseSchema.model");
+const Counter = require("./counter");
 
 const saleTypeSchema = new Schema({
   title: { type: String, required: true },
@@ -9,7 +9,7 @@ const saleTypeSchema = new Schema({
     type: String,
     unique: true,
     required: false,
-    default: function() {
+    default: function () {
       return this.title.toString()
         .trim()
         .toLowerCase()
@@ -33,33 +33,32 @@ const saleTypeSchema = new Schema({
   ...baseSchema.obj,
 });
 
-saleTypeSchema.pre('save', async function(next) {
-  if (this.isNew) {
-    this.saleTypeId = await getNextSequenceValue('saleTypeId');
-  }
+saleTypeSchema.pre("save", async function (next) {
+  try {
+    const counter = await Counter.findOneAndUpdate(
+      { name: "saleTypeId" },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
 
-  if (this.isModified('title')) {
-    this.slug = this.title.toString()
-      .trim()
-      .toLowerCase()
-      .replace(/[\u200B-\u200D\uFEFF]/g, "")
-      .replace(/[\s\ـ]+/g, "-")
-      .replace(/[^\u0600-\u06FFa-z0-9\-]/g, "")
-      .replace(/-+/g, "-")
-      .replace(/^-+|-+$/g, "");
-  }
+    this.saleTypeId = counter.seq;
 
-  next();
+    if (this.isModified("title")) {
+      this.slug = this.title.toString()
+        .trim()
+        .toLowerCase()
+        .replace(/[\u200B-\u200D\uFEFF]/g, "")
+        .replace(/[\s\ـ]+/g, "-")
+        .replace(/[^\u0600-\u06FFa-z0-9\-]/g, "")
+        .replace(/-+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 const SaleType = mongoose.model("SaleType", saleTypeSchema);
 module.exports = SaleType;
-
-// async function getNextSequenceValue(sequenceName) {
-//   const sequenceDocument = await Counter.findOneAndUpdate(
-//     { model: sequenceName },
-//     { $inc: { sequence_value: 1 } },
-//     { new: true, upsert: true }
-//   );
-//   return sequenceDocument.sequence_value;
-// }

@@ -36,7 +36,6 @@ const GeoLocation = ({ location, zoom, height, setSelectedLocation }) => {
       click(e) {
         const newLatLng = { lat: e.latlng.lat, lng: e.latlng.lng };
 
-        console.log("موقعیت جدید انتخاب‌شده:", newLatLng); // لاگ در کنسول
 
         setMarkerPosition([newLatLng.lat, newLatLng.lng]);
 

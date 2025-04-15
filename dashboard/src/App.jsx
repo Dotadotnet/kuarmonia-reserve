@@ -21,6 +21,11 @@ import PostInfo from "./pages/posts/info/index";
 import BlogInfo from "./pages/blogs/info/index";
 import AddBlog from "./pages/blogs/add";
 import Galleries  from "./pages/galleries";
+import Properties  from "./pages/properties";
+import AddProperty  from "./pages/properties/add";
+import PropertyTrades  from "./pages/prop-trades";
+import PropSales  from "./pages/prop-sales";
+import PropTypes  from "./pages/prop-types";
 import Venues  from "./pages/venues";
 import AddVenue  from "./pages/venues/add";
 import VenueType  from "./pages/venue-types";
@@ -36,6 +41,9 @@ import VenueVendor  from "./pages/venue-vendors";
 import AddVenueVendor from "./pages/venue-vendors/add";
 import News from "./pages/news";
 import AddNews from "./pages/news/add";
+import Settings from "./pages/settings";
+import Aboutus from "./pages/settings/aboutus";
+import AddMember from "./pages/settings/aboutus/add";
 
 function App() {
   const location = useLocation();
@@ -66,6 +74,11 @@ function App() {
           <Route exact path="/galleries" element={<Galleries  />} />
           <Route exact path="/categories/add" element={<AddCategory />} />
           <Route path="/posts/info/:id" element={<PostInfo />} />
+          <Route exact path="/properties" element={<Properties />} />
+          <Route exact path="/properties/add" element={<AddProperty />} />
+          <Route exact path="/prop-trades" element={<PropertyTrades />} />
+          <Route exact path="/prop-sales" element={<PropSales />} />
+          <Route exact path="/prop-types" element={<PropTypes />} />
           <Route exact path="/venues" element={<Venues />} />
           <Route exact path="/venues/add" element={<AddVenue />} />
           <Route exact path="/venue-types" element={<VenueType />} />
@@ -81,6 +94,9 @@ function App() {
           <Route exact path="/venue-vendors" element={<VenueVendor />} />
           <Route exact path="/news" element={<News />} />
           <Route exact path="/news/add" element={<AddNews />} />
+          <Route exact path="/settings" element={<Settings />} />
+          <Route exact path="/settings/aboutus/" element={<Aboutus />} />
+          <Route exact path="/settings/aboutus/add" element={<AddMember />} />
         </Routes>
       </Auth>
     </Providers>

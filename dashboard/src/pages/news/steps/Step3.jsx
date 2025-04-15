@@ -78,6 +78,7 @@ const Step3 = ({
             <StatusSwitch
               label={" ایا این خبر ویژه است؟"}
               id="isFeatured"
+              register={register}
               onChange={(e) => onChange(e.target.checked)}
               defaultChecked={value}
             />
@@ -93,6 +94,7 @@ const Step3 = ({
             <StatusSwitch
               label={" ایا این خبر عمومی است؟"}
               id="visibility"
+              register={register}
               onChange={(e) => onChange(e.target.checked)}
               defaultChecked={true}
             />

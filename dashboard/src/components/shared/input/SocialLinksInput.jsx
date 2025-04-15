@@ -74,7 +74,7 @@ const SocialLinksInput = ({ socialLinksData, setSocialLinksData }) => {
             <button
               type="button"
               onClick={() => handleRemoveSocialLink(index)}
-              className="w-8 h-full bg-red-500 text-white rounded-full flex justify-center items-center"
+              className="min-w-[30px] min-h-[30px] bg-red-500 text-white rounded-full flex justify-center items-center"
             >
               ×
             </button>
@@ -85,7 +85,7 @@ const SocialLinksInput = ({ socialLinksData, setSocialLinksData }) => {
             <button
               type="button"
               onClick={handleAddSocialLink}
-              className="w-8 h-full bg-green-500 text-white rounded-full flex justify-center items-center"
+              className="min-w-[30px] min-h-[30px] bg-green-500 text-white rounded-full flex justify-center items-center"
             >
               +
             </button>

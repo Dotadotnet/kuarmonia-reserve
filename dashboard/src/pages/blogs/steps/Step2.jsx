@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import Modal from "@/components/shared/modal/Modal";
-import RTEditor from "@/components/shared/editor/RTEditor";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 

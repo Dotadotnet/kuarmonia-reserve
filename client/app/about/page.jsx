@@ -1,5 +1,4 @@
-// components/AboutUs.js
-"use client";
+
 import React from "react";
 import Main from "@/layouts/Main";
 import Head from "next/head";
