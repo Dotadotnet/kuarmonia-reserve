@@ -2,14 +2,7 @@ import React from "react";
 import Gallery from "@/components/icons/Gallery";
 import Hero from "@/components/icons/Hero";
 import Price from "@/components/icons/Price";
-import Location from "@/components/icons/Location";
-import Address from "@/components/icons/Address";
-import Option from "@/components/icons/Option";
-import Standard from "@/components/icons/Standard";
-import Space from "@/components/icons/Space";
-import Package from "@/components/icons/Package";
-import Team from "@/components/icons/Team";
-import Feature from "@/components/icons/Feature";
+
 const steps = [
   {
     number: 1,
@@ -29,54 +22,7 @@ const steps = [
     required: false,
     icon: <Price />
   },
-  {
-    number: 4,
-    label: " مکان",
-    required: true,
-    icon: <Location />
-  },
-  {
-    number: 5,
-    label: " آدرس",
-    required: true,
-    icon: <Address />
-  },
-  {
-    number: 6,
-    label: " امکانات",
-    required: true,
-    icon: <Option />
-  },
-  {
-    number: 7,
-    label: " جوایز و استاندارد",
-    required: true,
-    icon: <Standard className="!w-8 !h-8" />
-  },
-  {
-    number: 8,
-    label: "  فضاها ",
-    required: true,
-    icon: <Space/>
-  },
-  {
-    number: 9,
-    label: "بسته ها",
-    required: true,
-    icon: <Package />
-  },
-  {
-    number: 10,
-    label: "همکاران",
-    required: true,
-    icon: <Team />
-  },
-  {
-    number: 11,
-    label: "ویژگی ها",
-    required: true,
-    icon: <Feature />
-  }
+ 
 ];
 const CustomProgressBar = ({ currentStep }) => {
   return (
@@ -89,7 +35,7 @@ const CustomProgressBar = ({ currentStep }) => {
           return (
             <div
               key={step.number}
-              className="flex-shrink-0 md:w-28 w-1/4 relative flex flex-col justify-center items-center"
+              className="flex-shrink-0 md:w-[35%] w-1/4 relative flex flex-col justify-center items-center"
             >
               {/* خط اتصال */}
               {index !== steps.length - 1 && (

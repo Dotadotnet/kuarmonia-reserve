@@ -102,12 +102,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     {
       title: "ملک",
       icon: Apartment,
-      path: "/property",
       subItems: [
-        { title: "املاک", icon: Apartment, path: "/property-list" },
-        { title: "نوع معامله", icon: Switch, path: "/property-trade" },
-        { title: "نوع فروش", icon: PSale, path: "/property-sale" },
-        { title: "نوع ملک", icon: Buildings, path: "/property-type" },
+        { title: "املاک", icon: Apartment, path: "/properties" },
+        { title: "نوع معامله", icon: Switch, path: "/prop-trades" },
+        { title: "نوع فروش", icon: PSale, path: "/prop-sales" },
+        { title: "نوع ملک", icon: Buildings, path: "/prop-types" },
         { title: "استاندارها", icon: Standard, path: "/property-standard" },
         { title: "جوایز", icon: Medal, path: "/property-award" }
       ]

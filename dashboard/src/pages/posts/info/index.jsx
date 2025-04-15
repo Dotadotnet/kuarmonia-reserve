@@ -11,7 +11,6 @@ import { toast } from "react-hot-toast";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import { Controller } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import RTEditor from "@/components/shared/editor/RTEditor";
 import Modal from "@/components/shared/modal/Modal";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
 

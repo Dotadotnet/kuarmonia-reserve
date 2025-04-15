@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import Modal from "@/components/shared/modal/Modal";
 import NavigationButton from "@/components/shared/button/NavigationButton";
-import RTEditor from "@/components/shared/editor/RTEditor";
 
 const Step2 = ({  register, errors, nextStep, prevStep, control }) => {
   const [editorData, setEditorData] = useState(``);

@@ -1,6 +1,6 @@
 
 
-const { kuarmoniaApi } = require("../kuarmonia");
+import { kuarmoniaApi } from "../kuarmonia";
 
 const purchaseApi = kuarmoniaApi.injectEndpoints({
   endpoints: (build) => ({

@@ -1,59 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @media print {
-  body {
-    margin: 0 !important;
-  }
-}
-.tor__label_e41a7cd916bb760b18836e26493f5321c{
-  display: none !important;
-}
-.main-container {
-  font-family: "Lato";
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-  direction: rtl;
-}
-.ck-editor__editable {
-  direction: rtl !important;
-  text-align: right !important;
+	body {
+		margin: 0 !important;
+	}
 }
 
-.editor-container {
-  direction: rtl;
-  text-align: right;
+.main-container {
+	font-family: 'Lato';
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .ck-content {
-  font-family: "Lato";
-  line-height: 1.6;
-  word-break: break-word;
+	font-family: 'Lato';
+	line-height: 1.6;
+	word-break: break-word;
 }
 
 .editor-container_classic-editor .editor-container__editor {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* برای صفحه‌های بزرگ‌تر از 1200px */
-@media (min-width: 1200px) {
-  .editor-container_classic-editor .editor-container__editor {
-    max-width: 795px;
-  }
-}
-
-/* برای صفحه‌های بین 768px تا 1199px (تبلت) */
-@media (min-width: 768px) and (max-width: 1199px) {
-  .editor-container_classic-editor .editor-container__editor {
-    max-width: 600px;
-  }
-}
-
-/* برای موبایل‌ها (کمتر از 768px) */
-@media (max-width: 767px) {
-  .editor-container_classic-editor .editor-container__editor {
-    max-width: 350px;
-    padding: 0 10px;
-  }
+	min-width: 795px;
+	max-width: 795px;
 }

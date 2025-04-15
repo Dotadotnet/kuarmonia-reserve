@@ -8,8 +8,6 @@ import Tag from "@/components/icons/Tag";
 import { useGetCategoriesQuery } from "@/services/category/categoryApi";
 import Modal from "@/components/shared/modal/Modal";
 import toast from "react-hot-toast";
-import Dropdown from "@/components/shared/dropDown/Dropdown";
-import Editor from "@/components/shared/ckeditor/Editor";
 import TinyMceEditor from "@/components/shared/ckeditor/TinyMceEditor";
 import ModalPortal from "@/components/shared/modal/ModalPortal";
 

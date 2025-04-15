@@ -14,9 +14,9 @@ exports.addProperty = async (req, res, next) => {
 };
 
 /* get all propertys */
-exports.getPropertys = async (req, res, next) => {
+exports.getProperties = async (req, res, next) => {
   try {
-    await propertyService.getPropertys(res);
+    await propertyService.getProperties(res);
   } catch (error) {
     next(error);
   } finally {

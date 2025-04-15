@@ -29,7 +29,7 @@ router.post(
 );
 
 // get all propertys
-router.get("/get-propertys", propertyController.getPropertys);
+router.get("/get-properties", propertyController.getProperties);
 
 // get a property
 router.get("/get-property/:id", propertyController.getProperty);

@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
-const Tag = require("./tag.model");
-const PropertyType = require("./propertyType.model");
-const Category = require("./category.model");
 const Counter = require("./counter")
 const baseSchema = require("./baseSchema.model");
 const { Schema } = mongoose;
@@ -27,6 +24,19 @@ const propertySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "SaleType",
     },
+    socialLinks: [
+      {
+        link: {
+          type: String,
+          required: [true, "آدرس شبکه اجتماعی الزامی است"]
+        },
+        network: {
+          type: ObjectId,
+          ref: "SocialLink",
+          required: [true, "نوع شبکه اجتماعی الزامی است"]
+        }
+      }
+    ],
     tradeType: {
       required: [true, "لطفاً نوع معامله ملک را وارد کنید"],
       type: Schema.Types.ObjectId,
@@ -100,10 +110,9 @@ const propertySchema = new Schema(
       }
     ],
     currency: {
-      type: String,
-      enum: ["TRY", "USD", "EUR", "IRR"],
-      default: "TRY"
-    },    
+      type: ObjectId,
+      ref: "Currency",
+    },  
 
     location: { 
       type: {
@@ -305,11 +314,13 @@ propertySchema.pre("save", async function (next) {
     this.metaKeywords = keywords.slice(0, 10);
   }
 
-  // تنظیم propertyId و canonicalUrl
-  if (this.isNew) {
-    this.propertyId = await getNextSequenceValue("propertyId");
-  }
 
+  const counter = await Counter.findOneAndUpdate(
+    { name: "propertyId" },
+    { $inc: { seq: 1 } },
+    { new: true, upsert: true }
+  );
+  this.propertyId = counter.seq;
   if (!this.canonicalUrl) {
     this.canonicalUrl = `${defaultDomain}/propert/${this.slug}`;
   }

@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
+
 const Step1 = ({
   nextStep,
   errors,
