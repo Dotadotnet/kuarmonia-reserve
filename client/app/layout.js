@@ -5,6 +5,7 @@ import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
 import Screen from "@/components/shared/loading/Screen";
 import { Loading } from "./Loading";
+import ThemeProvider from "@/utils/ThemeContext";
 
 export const metadata = {
   metadataBase: new URL("https://kuarmonia.com"), // لینک سایت
@@ -70,16 +71,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fa">
       <body dir="rtl" >
-          <Screen />
+        <Screen />
         <Providers>
+          <ThemeProvider>
             <Session>
               <Auth>
                 {children}
               </Auth>
             </Session>
+          </ThemeProvider>
           <Toaster />
-        </Providers> 
-      <Loading />
+        </Providers>
+        <Loading />
       </body>
     </html>
   );

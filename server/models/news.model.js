@@ -192,7 +192,7 @@ newsSchema.pre("save", async function (next) {
     // تنظیم canonicalUrl
     if (!this.canonicalUrl) {
       const slugPart = this.slug ? this.slug : encodeURIComponent(this.title);
-      this.canonicalUrl = `${defaultDomain}/news/${slugPart}`;
+      this.canonicalUrl = `${defaultDomain}/news/${slugPart.replaceAll(" ","-")}`;
     }
 
     // تنظیم metaTitle و metaDescription (همانطور که قبلاً انجام می‌دهید)

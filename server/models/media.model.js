@@ -169,14 +169,14 @@ mediaSchema.virtual('rating').get(function() {
   return Math.round((likeRatio * 5 + Number.EPSILON) * 100) / 100; 
 });
 
-const defaultDomain = process.env.NEXT_PUBLIC_BASE_URL;
+const defaultDomain = process.env.API;
 
 mediaSchema.pre('save', async function(next) {
   if (this.isNew) {
     this.mediaId = await getNextSequenceValue('mediaId');
   }
   if (!this.canonicalUrl) {
-    this.canonicalUrl = `${defaultDomain}/media/${this.slug}/${encodeURIComponent(this._id)}`;
+    this.canonicalUrl = `${defaultDomain}/media/${this.mediaId}/${this.slug.replaceAll(" ","-")}`;
   }
   next();
 });

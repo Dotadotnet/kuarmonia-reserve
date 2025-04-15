@@ -184,7 +184,7 @@ postSchema.pre("save", async function (next) {
     // تنظیم canonicalUrl در صورت نبود مقدار
     if (!this.canonicalUrl) {
       const slugPart = this.slug ? this.slug : encodeURIComponent(this.title);
-      this.canonicalUrl = `${defaultDomain}/post/${slugPart}`;
+      this.canonicalUrl = `${defaultDomain}/post/${slugPart.replaceAll(" ","-")}`;
     }
 
     // بررسی تغییرات و تنظیم metaTitle و metaDescription

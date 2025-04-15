@@ -83,7 +83,7 @@ const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 tagSchema.pre('save', async function(next) {
   if (!this.canonicalUrl) {
-    this.canonicalUrl = `${defaultDomain}/tags/${this.slug}`;
+    this.canonicalUrl = `${defaultDomain}/tags/${this.slug.replace(" ","-")}`;
   }
   try {
     const counter = await Counter.findOneAndUpdate(
