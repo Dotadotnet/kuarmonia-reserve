@@ -74,7 +74,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Session>
             <Auth>
-              <ThemeProvider>{children}</ThemeProvider>
+              <>{children}</>
             </Auth>
           </Session>
           <Toaster />
