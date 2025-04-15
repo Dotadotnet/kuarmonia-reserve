@@ -7,8 +7,8 @@ WORKDIR /app
 # کپی فقط فایل‌های package.json و package-lock.json
 COPY package*.json ./
 
-# نصب وابستگی‌ها با npm
-RUN npm install 
+# نصب وابستگی‌ها با npm (با استفاده از legacy-peer-deps برای رفع تضاد وابستگی‌ها)
+RUN npm install --legacy-peer-deps
 
 # کپی فایل‌های پروژه
 COPY . .
