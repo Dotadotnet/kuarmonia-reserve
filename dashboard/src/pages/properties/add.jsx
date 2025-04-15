@@ -155,12 +155,7 @@ const Add = () => {
     formData.append("tags", extractIds(data.tags));
 
     formData.append("thumbnail", thumbnail);
-    for (let i = 0; i < gallery.length; i++) {
-      formData.append("gallery", gallery[i]);
-    }
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    });
+
      addProperty(formData);
   };
 
