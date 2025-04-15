@@ -87,14 +87,13 @@ const HeaderSection = () => {
     <div
       className="bg-blue-100  h-[1000px] md:h-screen dark:bg-gray-900 pt-36 bg-no-repeat bg-center relative"
       style={{
-        backgroundImage:
-          "url('assets/about/mainBanner.jpg')",
+        backgroundImage: "url('/assets/about/mainBanner.jpg')",
         backgroundAttachment: "fixed", // این ویژگی باعث می‌شود که پس‌زمینه حرکت نکند
         backgroundPosition: "center",
         backgroundSize: "cover"
       }}
     >
-      <div className="absolute h-[1000px] md:h-screen inset-0  bg-blue-500 bg-opacity-70"></div>
+<div className="absolute inset-0 h-[1000px] md:h-screen bg-[rgba(59,130,246,0.7)]"></div>
 
       <section className=" grid grid-cols-1 md:grid md:grid-cols-2  ">
         <div className="container h-fit">

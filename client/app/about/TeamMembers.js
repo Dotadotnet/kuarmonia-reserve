@@ -19,7 +19,6 @@ function TeamMembers() {
 
   const members = useMemo(() => data?.data || [], [data]);
 
-
   return (
     <section className="py-14 lg:py-24 relative mt-8 ">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -50,8 +49,8 @@ function TeamMembers() {
                 className="h-1 bg-indigo-600 rounded-full absolute top-0 right-0"
                 style={{
                   width: "60%",
-                  transform: `translateX(${position}%)`, 
-                  transition: "transform 0.5s ease" 
+                  transform: `translateX(${position}%)`,
+                  transition: "transform 0.5s ease"
                 }}
               ></div>
             </div>
@@ -88,6 +87,10 @@ function TeamMembers() {
               enabled: true
             }}
             breakpoints={{
+              0: {
+                slidesPerView: 1.2, // نصف اسلاید بعدی هم معلوم باشه
+                slidesPerGroup: 1
+              },
               769: {
                 slidesPerView: 2,
                 slidesPerGroup: 2
@@ -114,7 +117,7 @@ function TeamMembers() {
                         alt={member.fullName}
                         width={600}
                         height={600}
-                        className="rounded-2xl h-full object-cover mx-auto lg:mx-0 lg:w-full"
+                        className="rounded-2xl h-full object-cover object-top mx-auto lg:mx-0 lg:w-full"
                       />
                     </div>
                     <div className="text-center lg:text-right lg:max-w-xs flex-1">
@@ -130,7 +133,7 @@ function TeamMembers() {
                         {member.description}
                       </p>
                       <div className="flex items-center gap-4 justify-center lg:justify-start max-sm:bottom-0 relative">
-                      {member.socialLinks?.map((sosial, idx) => (
+                        {member.socialLinks?.map((sosial, idx) => (
                           <a
                             key={idx}
                             href={sosial.link}
@@ -142,11 +145,10 @@ function TeamMembers() {
                               dangerouslySetInnerHTML={{
                                 __html: sosial?.network?.icon
                               }}
-                              className="w-5 h-5"
+                              className="w-7 h-7"
                             />
                           </a>
                         ))}
-
                       </div>
                     </div>
                   </div>
