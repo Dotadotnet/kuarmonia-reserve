@@ -99,7 +99,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     { title: "مجله", icon: Blog, path: "/blogs" },
     { title: "اخبار", icon: News, path: "/news" },
     { title: "گالری", icon: Gallery, path: "/galleries" },
-    { title: "تنظیمات", icon: Setting, path: "/Settings" },
+    { title: "تنظیمات", icon: Setting, path: "/settings" },
 
     {
       title: "ملک",

@@ -42,6 +42,8 @@ import AddVenueVendor from "./pages/venue-vendors/add";
 import News from "./pages/news";
 import AddNews from "./pages/news/add";
 import Settings from "./pages/settings";
+import Aboutus from "./pages/settings/aboutus";
+import AddMember from "./pages/settings/aboutus/add";
 
 function App() {
   const location = useLocation();
@@ -93,6 +95,8 @@ function App() {
           <Route exact path="/news" element={<News />} />
           <Route exact path="/news/add" element={<AddNews />} />
           <Route exact path="/settings" element={<Settings />} />
+          <Route exact path="/settings/aboutus/" element={<Aboutus />} />
+          <Route exact path="/settings/aboutus/add" element={<AddMember />} />
         </Routes>
       </Auth>
     </Providers>

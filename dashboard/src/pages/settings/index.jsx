@@ -7,7 +7,7 @@ export default function Setting() {
   const settings = [
     { name: "تنظیمات عمومی", path: "./general" },
     { name: "اسلایدها", path: "./setting/slides" },
-    { name: "درباره ما", path: "./about-us" },
+    { name: "درباره ما", path: "./aboutus" },
     { name: "تماس با ما", path: "./contact" },
     { name: "شبکه‌های اجتماعی", path: "./social-media" },
     { name: "سوالات متداول", path: "./setting/faqs" }
