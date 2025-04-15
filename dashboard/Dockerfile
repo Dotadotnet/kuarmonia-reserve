@@ -1,28 +1,23 @@
-# انتخاب تصویر پایه
+# Base image
 FROM node:18
 
-# تنظیم دایرکتوری کاری داخل کانتینر
+# Set working directory
 WORKDIR /app
 
-# کپی فقط فایل‌های package.json و package-lock.json
-COPY package*.json ./
+# Copy package files
+COPY package.json yarn.lock ./
 
-# حذف node_modules و package-lock.json (در صورت وجود)
-RUN rm -rf node_modules package-lock.json
+# Install dependencies
+RUN yarn install --frozen-lockfile
 
-RUN rm -rf node_modules package-lock.json
-
-# نصب وابستگی‌ها با npm (با استفاده از legacy-peer-deps برای رفع تضاد وابستگی‌ها)
-RUN npm install --legacy-peer-deps
-
-# کپی فایل‌های پروژه
+# Copy the rest of the code
 COPY . .
 
-# ساخت پروژه برای تولید (در صورت نیاز)
-RUN npm run build
+# Build your app (if frontend)
+RUN yarn build
 
-# پیکربندی پورت
-EXPOSE 5173
+# Expose port
+EXPOSE 3000
 
-# اجرای پروژه (برای حالت توسعه)
-CMD ["npm", "run", "dev"]
+# Start app
+CMD ["yarn", "start"]
