@@ -7,6 +7,11 @@ WORKDIR /app
 # کپی فقط فایل‌های package.json و package-lock.json
 COPY package*.json ./
 
+# حذف node_modules و package-lock.json (در صورت وجود)
+RUN rm -rf node_modules package-lock.json
+
+RUN rm -rf node_modules package-lock.json
+
 # نصب وابستگی‌ها با npm (با استفاده از legacy-peer-deps برای رفع تضاد وابستگی‌ها)
 RUN npm install --legacy-peer-deps
 
