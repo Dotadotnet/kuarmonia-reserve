@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # نصب وابستگی‌ها با npm
-RUN npm install --legacy-peer-deps
+RUN npm install 
 
 # کپی فایل‌های پروژه
 COPY . .
