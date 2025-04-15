@@ -37,6 +37,7 @@ const StepAddTeamMember = () => {
 
     formData.append("teamMember", thumbnail);
     formData.append("fullName", data.fullName);
+    formData.append("description", data.description);
     formData.append("position", data.position);
     formData.append("department", data.department);
     formData.append("hireDate", data.hireDate);

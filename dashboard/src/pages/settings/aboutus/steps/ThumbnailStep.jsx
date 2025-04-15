@@ -1,19 +1,13 @@
-
 import React, { useState } from "react";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
 
-const ThumbnailStep = ({
-  nextStep,
-  errors,
-  register,
-  setThumbnail
-}) => {
+const ThumbnailStep = ({ nextStep, errors, register, setThumbnail }) => {
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   return (
-    <>
-      <div className="flex flex-col items-center">
+    <div className="flex flex-col gap-y-4 overflow-y-auto h-96 p-2">
+      <div className="flex flex-col items-center ">
         <div className="profile-container shine-effect rounded-full flex justify-center mb-4">
           {thumbnailPreview ? (
             <img
@@ -56,7 +50,7 @@ const ThumbnailStep = ({
             required: "وارد کردن نام و نام خانوادگی الزامی است",
             minLength: {
               value: 3,
-              message: "نام و نام خانوادگی باید حداقل ۳ حرف داشته باشد",
+              message: "نام و نام خانوادگی باید حداقل ۳ حرف داشته باشد"
             },
             maxLength: {
               value: 100,
@@ -68,13 +62,43 @@ const ThumbnailStep = ({
           className="p-2 rounded border "
         />
         {errors?.fullName && (
-          <span className="text-red-500 text-sm">{errors?.fullName.message}</span>
+          <span className="text-red-500 text-sm">
+            {errors?.fullName.message}
+          </span>
+        )}
+      </label>
+      <label htmlFor="description" className="flex flex-col gap-y-2 w-full">
+        توضیحات
+        <textarea
+          name="description"
+          id="description"
+          maxLength={160}
+          placeholder="توضیحات مجله را وارد کنید..."
+          className="p-2 rounded h-[170px]
+       border w-full form-textarea"
+          {...register("description", {
+            // اصلاح نام فیلد
+            required: "توضیحات الزامی است",
+            minLength: {
+              value: 30,
+              message: "توضیحات باید حداقل ۳۰ کاراکتر باشد"
+            },
+            maxLength: {
+              value: 225,
+              message: "توضیحات نباید بیشتر از ۲۲۵ کاراکتر باشد"
+            }
+          })}
+        />
+        {errors?.description && (
+          <span className="text-red-500 text-sm">
+            {errors?.description.message}
+          </span>
         )}
       </label>
       <div className="flex justify-start mt-12">
         <NavigationButton direction="next" onClick={nextStep} />
       </div>
-    </>
+    </div>
   );
 };
 

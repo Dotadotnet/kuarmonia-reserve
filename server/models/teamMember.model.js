@@ -20,7 +20,11 @@ const teamMemberSchema = new Schema({
       default: "N/A"
     }
   },
-
+  description: {
+    type: String,
+    maxLength: [300, "توضیحات نمی‌تواند بیشتر از ۳۰۰ کاراکتر باشد"],
+    required: [true, "توضیحات الزامی است"],
+  },
   memberId: {
     type: Number,
     unique: true
