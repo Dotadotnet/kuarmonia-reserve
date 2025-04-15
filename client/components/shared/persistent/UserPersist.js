@@ -1,5 +1,4 @@
-
-
+'use client'
 import { usePersistUserQuery } from "@/services/auth/userAuthApi";
 import React from "react";
 import { useMemo } from "react";

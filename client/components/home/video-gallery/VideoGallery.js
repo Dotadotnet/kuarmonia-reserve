@@ -1,3 +1,4 @@
+'use client'
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
 import React, { useState } from "react";

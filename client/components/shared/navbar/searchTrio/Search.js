@@ -27,7 +27,7 @@ const MySearch = ({ forToolbar }) => {
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        className="lg:w-50 md:w-50 w-screen z-50 "
+        className=" z-50 "
       >
         <div className="flex flex-col gap-y-4 h-full">
           <p className="text-2xl drop-shadow">

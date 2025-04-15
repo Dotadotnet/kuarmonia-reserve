@@ -6,7 +6,6 @@ import { useGetRentsQuery } from "@/services/rent/rentApi";
 import { toast } from "react-hot-toast";
 
 const SearchFilter = ({ setIsModalOpen }) => {
-  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading, error } = useGetRentsQuery();
   const tours = useMemo(() => data?.data || [], [data]);

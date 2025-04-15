@@ -7,15 +7,11 @@ import {
   useCreateSessionMutation
 } from "@/services/session/sessionApi";
 import { setSession } from "@/features/auth/authSlice";
-
 const Session = ({ children }) => {
   const dispatch = useDispatch();
   const [createSession] = useCreateSessionMutation();
   const { data: sessionData, error: sessionError, isFetching } = usePersistSessionQuery();
-
-  // مقدار session را فقط بعد از دریافت دیتا مقداردهی می‌کنیم
   const session = useMemo(() => sessionData?.data || null, [sessionData]);
-
   useEffect(() => {
     if (!isFetching && session) {
       dispatch(setSession(session));
@@ -23,7 +19,6 @@ const Session = ({ children }) => {
       createSession();
     }
   }, [dispatch, session, sessionError, createSession, isFetching]);
-
   return <>{children}</>;
 };
 

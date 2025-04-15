@@ -3,6 +3,9 @@ import Auth from "./auth";
 import Session from "./session";
 import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
+import Screen from "@/components/shared/loading/Screen";
+import { Loading } from "./Loading";
+
 export const metadata = {
   metadataBase: new URL("https://kuarmonia.com"), // لینک سایت
   title: "مهاجرت و گردشگری با کارمونیا – راهی به سوی آینده بهتر",
@@ -67,15 +70,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fa">
       <body dir="rtl" >
+          <Screen />
         <Providers>
-          <Session>
-            <Auth>
-              {children}
-            </Auth>
-          </Session>
+            <Session>
+              <Auth>
+                {children}
+              </Auth>
+            </Session>
           <Toaster />
-        </Providers>
-
+        </Providers> 
+      <Loading />
       </body>
     </html>
   );
