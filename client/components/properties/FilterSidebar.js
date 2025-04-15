@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import Image from "next/image";
 import { useGetTypesQuery } from "@/services/type/typeApi";
 import { useGetSaleTypesQuery } from "@/services/saleType/saleTypeApi";
-import { useGetAllTradeTypesQuery } from "@/services/tradeType/tradeTypeApi";
+import { useGetTradeTypesQuery } from "@/services/tradeType/tradeTypeApi";
 import {
   setType,
   setTradeType,
@@ -38,7 +38,7 @@ const FilterSidebar = () => {
       data: tradeTypesData,
       isLoading: isLoadingTradeTypes,
       error: errorTradeTypes
-    } = useGetAllTradeTypesQuery();
+    } = useGetTradeTypesQuery();
     const {
       data: saleTypesData,
       isLoading: isLoadingSaleTypes,
