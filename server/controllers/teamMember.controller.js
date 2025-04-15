@@ -24,6 +24,16 @@ exports.getTeamMembers = async (req, res, next) => {
   }
 };
 
+exports.getLeader = async (req, res, next) => {
+  try {
+    await teamMemberService.getLeader(res); // فراخوانی سرویس getLeader
+  } catch (error) {
+    next(error); // ارسال ارور به میانه‌رو (middleware) برای مدیریت خطا
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* get a teamMember */
 exports.getTeamMember = async (req, res, next) => {
   try {

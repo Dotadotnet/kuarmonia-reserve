@@ -28,6 +28,10 @@ router.post(
 // get all teamMembers
 router.get("/get-teamMembers", teamMemberController.getTeamMembers);
 
+// get teamLeader
+
+router.get("/get-leader", teamMemberController.getLeader);
+
 // get a teamMember
 router.get("/get-teamMember/:id", teamMemberController.getTeamMember);
 

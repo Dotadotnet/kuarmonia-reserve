@@ -44,14 +44,18 @@ exports.addTeamMember = async (req, res) => {
 /* 📌 دریافت همه عضوها */
 exports.getTeamMembers = async (res) => {
   try {
-    const venueAminities = await TeamMember.find({ isDeleted: false }).populate("creator");
-    res.status(200).json({
+    const teamMembers = await TeamMember.find({ isDeleted: false })
+    .populate("creator")
+    .populate("socialLinks.network");
+    console.log("teamMembers", teamMembers);
+        res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست عضوها با موفقیت دریافت شد",
-      data: venueAminities,
+      data: teamMembers,
     });
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
@@ -60,6 +64,35 @@ exports.getTeamMembers = async (res) => {
     });
   }
 };
+
+exports.getLeader = async (res) => {
+  try {
+    const leaders = await TeamMember.find({ 
+      isDeleted: false, 
+      position: 'رهبر' // یا 'role' اگر نام فیلد شما این باشد
+    })
+    .populate("creator")
+    .populate("socialLinks.network");
+
+    console.log("leaders", leaders);
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "لیست اعضای با پوزیشن رهبر با موفقیت دریافت شد",
+      data: leaders,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطایی در دریافت اعضای پوزیشن رهبر رخ داد",
+      error: error.message,
+    });
+  }
+};
+
 
 /* 📌 دریافت یک عضو */
 exports.getTeamMember = async (req, res) => {
