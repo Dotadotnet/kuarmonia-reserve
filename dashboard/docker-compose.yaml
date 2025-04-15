@@ -11,7 +11,7 @@ services:
     environment:
       - NODE_ENV=development
     working_dir: /app  # دایرکتوری کاری داخل کانتینر
-    command: yarn dev  # دستور اجرای سرور Vite
+    command: npm run dev  # دستور اجرای سرور Vite با npm
     networks:
       - app-network
 
