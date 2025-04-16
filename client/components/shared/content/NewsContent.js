@@ -104,7 +104,7 @@ const NewsContent = ({ news }) => {
   const { content } = news;
 
   return (
-    <div className="mx-auto max-w-screen-md space-y-12 px-4 py-10 font-serif text-lg tracking-wide text-gray-700">
+    <div className="mx-auto max-w-screen-md space-y-12 px-4 py-10  text-lg tracking-wide text-gray-700">
       {content ? (
         <div dangerouslySetInnerHTML={{ __html: content }} />
       ) : (

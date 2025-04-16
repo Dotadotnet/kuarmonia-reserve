@@ -82,14 +82,18 @@ const newsSchema = new mongoose.Schema(
       {
         type: ObjectId,
         ref: "Tag",
+        required: [true, 'لطفاً حداقل یک تگ وارد کنید'], 
       },
     ],
     categories: [
       {
         type: ObjectId,
         ref: "Category",
+        required: [true, 'لطفاً حداقل یک دسته‌بندی وارد کنید'], 
       },
     ],
+    
+    
     creator: {
       type: ObjectId,
       ref: "Admin",

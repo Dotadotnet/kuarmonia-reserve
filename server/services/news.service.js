@@ -15,12 +15,13 @@ exports.addNews = async (req, res) => {
         public_id: req.uploadedFiles["thumbnail"][0].key,
       };
     }
+    console.log(category)
     const news = new News({
       title,
       summary,
       thumbnail,
       tags: JSON.parse(tags), 
-      category:JSON.parse(category),
+      categories:JSON.parse(category),
       content,
       publishDate,
       socialLinks:JSON.parse(socialLinks),
@@ -56,7 +57,11 @@ exports.addNews = async (req, res) => {
 /* 📌 دریافت همه اخبار */
 exports.getAllNews = async ( res) => {
   try {
-    const news = await News.find().populate("creator");
+    const news = await News.find().populate([
+      {
+        path: "categories",
+        select: "title _id icon", 
+      }]);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
@@ -88,14 +93,13 @@ exports.getNews = async (req, res) => {
       },
       {
         path: "categories",
-        select: "title _id", 
+        select: "title _id icon", 
       },
       {
         path: "socialLinks.network",
         select: "title platform icon", 
       },
     ]);
-  console.log(news)
     if (!news) {
       return res.status(404).json({
         acknowledgement: false,
