@@ -21,7 +21,7 @@ function TeamMembers() {
 
   return (
     <section className="py-14 lg:py-24 relative mt-8 ">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl ">
         <div className="relative h-fit md:min-h-[400px]">
           <div className="absolute  bottom-0 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4">
             <button
@@ -92,7 +92,7 @@ function TeamMembers() {
                 slidesPerGroup: 1
               },
               769: {
-                slidesPerView: 2,
+                slidesPerView: 2.2,
                 slidesPerGroup: 2
               }
             }}
@@ -101,13 +101,15 @@ function TeamMembers() {
               prevEl: "#prev-btn",
               nextEl: "#next-btn"
             }}
+            spaceBetween={20}
             pagination={false}
             modules={[Navigation, Pagination]}
+            className="!flex !gap-2"
           >
             {members.map((member, index) => (
               <SwiperSlide
                 key={index}
-                className="flex gap-2 border mb-16 dark:border-gray-100 border-gray-400 justify-between mr-4 rounded-primary"
+                className="flex gap-2 border mb-16 dark:border-gray-100 border-gray-400 justify-between  rounded-primary"
               >
                 <div className="swiper-slide  ">
                   <div className="group w-full flex-wrap flex items-center gap-8 transition-all duration-500 p-8 lg:flex-nowrap ">
