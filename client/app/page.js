@@ -21,7 +21,7 @@ export default async function Home() {
   const blogs = await res_blog.json();
   const res_post = await fetch(process.env.API + '/post/get-posts');
   const posts = await res_post.json();
-  const res_properties = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/property/get-propertys');
+  const res_properties = await fetch(process.env.API + '/property/get-properties');
   const properties = await res_properties.json();
   const res_media = await fetch(process.env.API + '/media/get-medias');
   const medias = await res_media.json();
