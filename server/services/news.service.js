@@ -77,8 +77,25 @@ exports.getAllNews = async ( res) => {
 /* 📌 دریافت یک اخبار */
 exports.getNews = async (req, res) => {
   try {
-    const news = await News.findById(req.params.id);
-
+    const news = await News.findById(req.params.id).populate([
+      {
+        path: "creator",
+        select: "name avatar", 
+      },
+      {
+        path: "tags",
+        select: "title _id keynotes", 
+      },
+      {
+        path: "categories",
+        select: "title _id", 
+      },
+      {
+        path: "socialLinks.network",
+        select: "title platform icon", 
+      },
+    ]);
+  console.log(news)
     if (!news) {
       return res.status(404).json({
         acknowledgement: false,
@@ -86,7 +103,6 @@ exports.getNews = async (req, res) => {
         description: "اخبار مورد نظر یافت نشد",
       });
     }
-
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

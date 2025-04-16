@@ -27,7 +27,7 @@ exports.getAllNews = async (req, res, next) => {
 /* get a news */
 exports.getNews= async (req, res, next) => {
   try {
-    await newsService.getVenue(req, res);
+    await newsService.getNews(req, res);
   } catch (error) {
     next(error);
   } finally {
