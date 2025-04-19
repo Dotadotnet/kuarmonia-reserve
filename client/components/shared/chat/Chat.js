@@ -75,8 +75,9 @@ export default function Chat() {
                 }
             }
             if(document.querySelector('section.loader-div')){
-                document.querySelector('section.loader-div').remove()
+                document.querySelector('section.loader-div').remove()                
             }
+
             let interval = setInterval(() => { 
                 function_edite();
             }, 300);

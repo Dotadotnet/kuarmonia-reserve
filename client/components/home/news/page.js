@@ -1,11 +1,12 @@
-import React from "react";
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
 import NewsCard from "@/components/shared/card/NewsCard";
 import NewsCardSkeleton from "@/components/shared/skeleton/NewsCardSkeleton"; // اضافه کردن Skeleton
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
+
 import { Swiper, SwiperSlide } from "swiper/react";
+
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
