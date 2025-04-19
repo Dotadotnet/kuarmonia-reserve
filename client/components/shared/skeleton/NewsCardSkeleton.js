@@ -17,7 +17,7 @@ const NewsCardSkeleton = ({index}) => {
           />
         </div>
         <div className="flex flex-row lg:justify-center gap-x-2">
-            <div key={index} className="relative group">
+            <div className="relative group">
               <span className="p-2 w-10 h-10 border border-secondary rounded-primary flex items-center justify-center">
                 <SkeletonText lines={3} />
               </span>
@@ -30,9 +30,9 @@ const NewsCardSkeleton = ({index}) => {
           <SkeletonText lines={1} />
         </h3>
         <div className="flex flex-col gap-y-1">
-          <p className="text-sm pb-0">
+          <div className="text-sm pb-0">
             <SkeletonText lines={4} />
-          </p>
+          </div>
         </div>
         <SkeletonText lines={1} />
         <div className="flex flex-row flex-wrap justify-between"></div>

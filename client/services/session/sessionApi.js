@@ -1,4 +1,4 @@
-const { kuarmoniaApi } = require("../kuarmonia");
+import { kuarmoniaApi } from "../kuarmonia";
 
 const sessionApi = kuarmoniaApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,7 +19,6 @@ const sessionApi = kuarmoniaApi.injectEndpoints({
       query: () => ({
         url: "/session/me",
         method: "GET",
-      
         credentials: "include"
       }),
 

@@ -80,7 +80,7 @@ tagSchema.pre("save", async function (next) {
     this.slug = await generateSlug(this.title);
   }
   if (!this.canonicalUrl) {
-    this.canonicalUrl = `${defaultDomain}/tags/${this.slug}`;
+    this.canonicalUrl = `${defaultDomain}/tags/${this.slug.replace(" ","-")}`;
   }
   try {
     const counter = await Counter.findOneAndUpdate(

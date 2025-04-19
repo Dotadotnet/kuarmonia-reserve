@@ -14,7 +14,7 @@ export async function generateMetadata(
 
   // fetch data
 
-  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/media/get-by-id/' + id);
+  const res = await fetch(process.env.API + '/media/get-by-id/' + id);
   const res_decoded = await res.json();
   const data = res_decoded.data;
 
@@ -31,7 +31,7 @@ export async function generateMetadata(
 
 const MediaDetailPage = async ({ params }) => {
   const { id, slug } = params;
-  const res = await fetch(process.env.NEXT_PUBLIC_BASE_URL + '/media/get-by-id/' + id);
+  const res = await fetch(process.env.API + '/media/get-by-id/' + id);
   const res_decoded = await res.json();
   const media = res_decoded.data;
   

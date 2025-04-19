@@ -51,9 +51,7 @@ exports.addBlog = async (req, res) => {
 /* get all blogs */
 exports.getBlogs = async (res) => {
 
-  const blogs = await Blog.find()
-  .select('*') 
-  .populate([
+  const blogs = await Blog.find().populate([
     {
       path: 'creator',
       select: 'name avatar'  

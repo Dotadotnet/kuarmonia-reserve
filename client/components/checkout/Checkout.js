@@ -220,7 +220,7 @@ function CheckoutForm() {
       .confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/tours/${
+          return_url: `${process.env.API}/tours/${
             rent._id
           }?tour_title=${rent.title
             .replace(/[^\w\s]|[\s]+/g, "-")

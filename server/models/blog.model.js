@@ -170,7 +170,7 @@ blogSchema.pre("save", async function (next) {
     // تنظیم canonicalUrl در صورت نبود مقدار
     if (!this.canonicalUrl) {
       const slugPart = this.slug ? this.slug : encodeURIComponent(this.title);
-      this.canonicalUrl = `${defaultDomain}/blog/${slugPart}`;
+      this.canonicalUrl = `${defaultDomain}/blog/${slugPart.replaceAll(" ","-")}`;
     }
 
     // بررسی تغییرات و تنظیم metaTitle و metaDescription

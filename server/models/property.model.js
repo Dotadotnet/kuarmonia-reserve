@@ -289,7 +289,7 @@ const propertySchema = new Schema(
   },
   { timestamps: true }
 );
-const defaultDomain = process.env.NEXT_PUBLIC_BASE_URL;
+const defaultDomain = process.env.API;
 
 propertySchema.pre("save", async function (next) {
   // تنظیمات Meta
@@ -322,7 +322,7 @@ propertySchema.pre("save", async function (next) {
   );
   this.propertyId = counter.seq;
   if (!this.canonicalUrl) {
-    this.canonicalUrl = `${defaultDomain}/propert/${this.slug}`;
+    this.canonicalUrl = `${defaultDomain}/propert/${this.propertyId}/${this.slug.replaceAll(" ","-")}`;
   }
 
   next();

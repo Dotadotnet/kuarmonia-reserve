@@ -1,5 +1,4 @@
-'use client'; // این دستور باید در ابتدای فایل قرار بگیرد
-
+"use client"
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext({
@@ -8,8 +7,7 @@ const ThemeContext = createContext({
 });
 
 export default function ThemeProvider({children}) {  
-  const persistedTheme = localStorage.getItem('theme');
-  const [theme, setTheme] = useState(persistedTheme || 'light');
+  const [theme, setTheme] = useState('dark');
 
   const changeCurrentTheme = (newTheme) => {
     setTheme(newTheme);
@@ -17,6 +15,7 @@ export default function ThemeProvider({children}) {
   };
 
   useEffect(() => {
+    setTheme(localStorage.getItem('theme'));
     document.documentElement.classList.add('[&_*]:!transition-none');
     if (theme === 'light') {
       document.documentElement.classList.remove('dark');
@@ -28,7 +27,7 @@ export default function ThemeProvider({children}) {
 
     const transitionTimeout = setTimeout(() => {
       document.documentElement.classList.remove('[&_*]:!transition-none');
-    }, 1);
+    }, [theme]);
     
     return () => clearTimeout(transitionTimeout);
   }, [theme]);

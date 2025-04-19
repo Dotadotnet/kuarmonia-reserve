@@ -4,7 +4,7 @@ const ToggleThemeButton = () => {
   // حالت اولیه را بر اساس localStorage تنظیم کنید
   const [isDark, setIsDark] = useState(() => {
     const savedTheme = localStorage.getItem('isDark');
-    return savedTheme !== null ? savedTheme === 'true' : false; 
+    return savedTheme !== null ? savedTheme === true : false; 
   });
 
   const toggleTheme = () => {
@@ -16,7 +16,7 @@ const ToggleThemeButton = () => {
     });
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     if (isDark) {
       document.body.classList.add('dark');
     } else {
