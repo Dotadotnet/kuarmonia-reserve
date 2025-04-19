@@ -34,7 +34,7 @@ const NewsCard = ({ news }) => {
         )}
         <div className="flex flex-row lg:justify-center gap-x-2">
           {news?.categories?.map((item) => (
-            <Tooltip position={"bottom"} key={item.id} text={item.title} txtColor="text-white">
+            <Tooltip position={"bottom"} key={item._id} text={item.title} txtColor="text-white">
               <div  className="relative group">
                 <span  className="custom-button  p-2  ease-linear delay-100 transition-colors w-10 h-10 dark:border-blue-800 border-secondary border rounded-primary flex items-center justify-center ">
                   <span

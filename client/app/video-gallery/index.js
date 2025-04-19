@@ -3,7 +3,7 @@ import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
 import React, { useState } from "react";
 import Image from "next/image";
-import VideoCard from "@/components/shared/card/VideoCard"; 
+import VideoCard from "@/components/shared/card/MediaCard"; 
 import Pagination from "@/components/shared/pagination/Pagination";
 import SkeletonCard from "@/components/shared/card/SkeletonCard";
 

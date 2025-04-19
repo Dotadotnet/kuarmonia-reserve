@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useMemo } from "react";
-import SkeletonPropCard from "@/components/shared/card/SkeletonPropCard";
+import SkeletonPropCard from "@/components/shared/card/PropCardSkeleton";
 import { useGetFilteredRentsMutation } from "@/services/rent/rentApi";
 import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";

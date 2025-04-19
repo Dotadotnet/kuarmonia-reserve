@@ -13,7 +13,7 @@ const propertyApi = kuarmoniaApi.injectEndpoints({
 
     getProperties: builder.query({
       query: ({ page = 1, limit = 7, search = "", adminId }) => ({
-        url: `/property/?page=${page}&limit=${limit}&search=${search}&adminId=${adminId}`,
+        url: `/property/properties`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
