@@ -4,7 +4,6 @@ import Session from "./session";
 import Providers from "./providers";
 import { Toaster } from "react-hot-toast";
 import Screen from "@/components/shared/loading/Screen";
-import { Loading } from "./Loading";
 import ThemeProvider from "@/utils/ThemeContext";
 
 export const metadata = {
@@ -82,7 +81,6 @@ export default function RootLayout({ children }) {
           </ThemeProvider>
           <Toaster />
         </Providers>
-        <Loading />
       </body>
     </html>
   );

@@ -1,43 +1,24 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
-import NewsCardSkeleton from "@/components/shared/skeleton/NewsCardSkeleton";
 import NewsCard from "@/components/shared/card/NewsCard";
+import NewsCardSkeleton from "@/components/shared/skeleton/NewsCardSkeleton"; // اضافه کردن Skeleton
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
-
-// Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-const News = () => {
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const api = `${process.env.NEXT_PUBLIC_BASE_URL}/news/get-news`;
-        const response = await fetch(api, {
-          cache: "no-store",
-          next: { tags: ["news"] },
-        });
-        const res = await response.json();
-        setNews(res.data || []);
-      } catch (error) {
-        console.error("خطا در دریافت اخبار:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchNews();
-  }, []);
+const News = async () => {
+  const api = `${process.env.NEXT_PUBLIC_BASE_URL}/news/get-news`;
+  const response = await fetch(api, {
+    cache: "no-store",
+    next: { tags: ["news"] }
+  });
+  const res = await response.json();
+  const news = res.data;
 
   return (
     <section id="flights" className="py-12 dark:bg-gray-900">
@@ -59,32 +40,31 @@ const News = () => {
             </div>
           </div>
 
-          {loading ? (
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
-              {Array.from({ length: 4 }, (_, index) => (
-                <NewsCardSkeleton key={index}/>
-              ))}
-            </div>
-          ) : (
-            <Swiper
-              modules={[ Pagination, Autoplay]}
-              spaceBetween={20}
-              slidesPerView={1}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 4000 }}
-              breakpoints={{
-                0: { slidesPerView: 1.2 },
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-              }}
-            >
-              {news.slice(0, 8).map((newsItem) => (
-                <SwiperSlide key={newsItem._id || newsItem.id}>
-                  <NewsCard news={newsItem} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          )}
+          <Swiper
+            modules={[Pagination, Autoplay]}
+            spaceBetween={20}
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+            autoplay={{ delay: 4000 }}
+            breakpoints={{
+              0: { slidesPerView: 1.2 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 }
+            }}
+          >
+            {/* اگر خبری وجود نداشته باشد، Skeleton‌ها را نمایش بده */}
+            {news && news.length === 0
+              ? Array.from({ length: 4 }).map((_, index) => (
+                  <SwiperSlide key={index}>
+                    <NewsCardSkeleton />
+                  </SwiperSlide>
+                ))
+              : news.slice(0, 8).map((newsItem) => (
+                  <SwiperSlide key={newsItem._id || newsItem.id}>
+                    <NewsCard news={newsItem} />
+                  </SwiperSlide>
+                ))}
+          </Swiper>
         </section>
       </Container>
     </section>
