@@ -17,14 +17,14 @@ const postApi = kuarmoniaApi.injectEndpoints({
     }),
 
     // get all posts
-    getPosts: builder.query({
-      query: () => ({
-        url: "/post/get-posts",
-        method: "GET",
-      }),
+    // getPosts: builder.query({
+    //   query: () => ({
+    //     url: "/post/get-posts",
+    //     method: "GET",
+    //   }),
 
-      providesTags: ["Post"],
-    }),
+    //   providesTags: ["Post"],
+    // }),
 
     // update post
     updatePost: builder.mutation({

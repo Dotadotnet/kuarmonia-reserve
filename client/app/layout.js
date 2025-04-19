@@ -72,13 +72,11 @@ export default function RootLayout({ children }) {
       <body dir="rtl" >
         <Screen />
         <Providers>
-          <ThemeProvider>
             <Session>
               <Auth>
                 {children}
               </Auth>
             </Session>
-          </ThemeProvider>
           <Toaster />
         </Providers>
       </body>

@@ -1,9 +1,9 @@
 import React from "react";
 
-const SkeletonPropCard = () => {
+const PropCardSkeleton = () => {
   return (
     <div className="max-w-sm w-full lg:w-full z-50">
-      <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg overflow-hidden">
+      <div className=" rounded-lg overflow-hidden">
         {/* تصویر اسکلتون */}
         <div className="bg-gray-300 dark:bg-gray-700 animate-pulse w-full h-56"></div>
         
@@ -30,4 +30,4 @@ const SkeletonPropCard = () => {
   );
 };
 
-export default SkeletonPropCard;
+export default PropCardSkeleton;

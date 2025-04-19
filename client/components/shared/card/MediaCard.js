@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-const VideoCard = ({
+const MediaCard = ({
   media
 }) => {
   return (
@@ -81,4 +81,4 @@ const VideoCard = ({
   );
 };
 
-export default VideoCard;
+export default MediaCard;

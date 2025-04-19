@@ -2,21 +2,17 @@ import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import React from "react";
 
-const NewsCardSkeleton = ({index}) => {
+const NewsCardSkeleton = () => {
   return (
-    <div className="group bg-white dark:bg-gray-800 flex lg:flex-row flex-col gap-4   p-4 rounded relative transition-colors delay-100 dark:hover:border-blue-500 dark:text-blue-500">
+    <div className="group  flex lg:flex-row flex-col gap-4   p-4 rounded relative transition-colors delay-100 dark:hover:border-blue-500 dark:text-blue-500">
       <div className="flex flex-col gap-y-2">
-        <div className="md:w-[150px] w-[450px] h-[450px] md:h-[150px]">
+        <div className="w-full h-[200px] md:w-[150px] md:h-[150px]">
           <SkeletonImage
-            width={500}
-            height={500}
-            showSize={true}
-            txtSize="text-3xl"
+            showSize={false}
             borderRadius="rounded-xl"
-            className="z-0 w-full h-full"
+            className="w-full h-full"
           />
         </div>
-       
       </div>
 
       <article className="flex flex-col gap-y-2.5 dark:text-white w-full">
