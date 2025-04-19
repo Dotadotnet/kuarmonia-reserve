@@ -39,7 +39,7 @@ const StepAddNews = ({
     const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
 
     formData.append("title", data.title);
-    formData.append("summary", data.title);
+    formData.append("summary", data.summary);
     formData.append("thumbnail", thumbnail);
     formData.append("tags", extractIds(data.tags));
     formData.append("category",extractIds(data.category));
