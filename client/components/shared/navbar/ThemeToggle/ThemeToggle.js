@@ -1,20 +1,21 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 
-
-
 export default function ThemeToggle() {
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme") || "dark";
+    }
+    return "dark";
+  });
 
-  const [theme, setTheme] = useState('dark');
-    
   const changeCurrentTheme = (newTheme) => {
     setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   useEffect(() => {
-    const persistedTheme = localStorage.getItem('theme');
     document.documentElement.classList.add('[&_*]:!transition-none');
     if (theme === 'light') {
       document.documentElement.classList.remove('dark');
@@ -24,12 +25,13 @@ export default function ThemeToggle() {
       document.documentElement.style.colorScheme = 'dark';
     }
 
-    const transitionTimeout = setTimeout(() => {
+    const timeout = setTimeout(() => {
       document.documentElement.classList.remove('[&_*]:!transition-none');
     }, 1);
-    
-    return () => clearTimeout(transitionTimeout);
+
+    return () => clearTimeout(timeout);
   }, [theme]);
+
   return (
     <div className="flex justify-center">
       <input
@@ -38,9 +40,7 @@ export default function ThemeToggle() {
         id="light-switch"
         className="light-switch sr-only"
         checked={theme === "light"}
-        onChange={() =>
-          changeCurrentTheme(theme === "light" ? "dark" : "light")
-        }
+        onChange={() => changeCurrentTheme(theme === "light" ? "dark" : "light")}
       />
       <label
         className="p-2 cursor-pointer rounded-secondary  dark:bg-slate-800 bg-slate-100  hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"

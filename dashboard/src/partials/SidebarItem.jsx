@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import Arrow from "@/components/icons/Arrow";
 
-const SidebarItem = ({ item }) => {
+const SidebarItem = ({ item ,sidebarExpanded}) => {
   const { pathname } = useLocation();
   const isActive = pathname === item.path || item.subItems?.some(sub => pathname === sub.path);
   
@@ -13,7 +13,7 @@ const SidebarItem = ({ item }) => {
   };
 
   return (
-    <li className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 ${isActive ? "bg-violet-500/[0.12]" : ""}`}>
+    <li className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 ${isActive ? "bg-violet-500/[0.12]" : ""} ${isOpen ?'bg-violet-500/[0.12]':''}`}>
       <div 
         onClick={item.subItems ? handleToggle : undefined} 
         className={`flex justify-between items-center cursor-pointer`}
@@ -35,13 +35,13 @@ const SidebarItem = ({ item }) => {
 
       {/* زیرمنو */}
       {item.subItems && (
-        <ul className={`mt-4 transition-all duration-200 ${isOpen ? "block" : "hidden"}`}>
+        <ul className={`mt-4 transition-all  duration-200 ${isOpen ? "block" : "hidden"}`}>
           {item.subItems.map((subItem) => (
             <li key={subItem.path} className="mb-3   last:mb-0">
               <NavLink 
                 end 
                 to={subItem.path} 
-                className={({ isActive }) => `flex items-center gap-x-2 transition duration-150 truncate ${isActive ? "text-violet-500 " : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"}`}
+                className={({ isActive }) => `flex items-center ${!sidebarExpanded ? '':'mr-3' } gap-x-2 transition duration-150 truncate  ${isActive ? "text-violet-500 " : "text-gray-500/90  dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "}`}
               >
                 {subItem.icon && <subItem.icon className={`shrink-0 fill-current text-gray-400 dark:text-gray-500`} />}
                 <span className="text-sm font-medium">{subItem.title}</span>

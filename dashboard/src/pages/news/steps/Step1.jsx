@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
 
@@ -8,10 +8,11 @@ const Step1 = ({
   register,
   setThumbnail,
   setThumbnailPreview,
-  setValue,
-  control,
   publishDate
 }) => {
+
+
+
   return (
     <>
       <div className="flex flex-col items-center">
@@ -36,6 +37,7 @@ const Step1 = ({
           </span>
         )}
       </div>
+
       <label htmlFor="title" className="flex flex-col gap-y-1">
         <span className="text-sm">* عنوان </span>
         <input
@@ -50,17 +52,19 @@ const Step1 = ({
             },
             maxLength: {
               value: 100,
-              message: "عنوان  نباید بیشتر از ۱۰۰ حرف باشد"
+              message: "عنوان نباید بیشتر از ۱۰۰ حرف باشد"
             }
           })}
           placeholder="عنوان"
           maxLength="100"
-          className="p-2 rounded border "
+          className="p-2 rounded border"
         />
         {errors?.title && (
           <span className="text-red-500 text-sm">{errors.title.message}</span>
         )}
+       
       </label>
+
       <label htmlFor="summary" className="w-full flex flex-col gap-y-1">
         <span className="text-sm">خلاصه*</span>
         <input
@@ -72,7 +76,7 @@ const Step1 = ({
             required: "وارد کردن خلاصه الزامی است",
             minLength: {
               value: 30,
-              message: "خلاصه باید حداقل ۵۰ کاراکتر باشد"
+              message: "خلاصه باید حداقل ۳۰ کاراکتر باشد"
             },
             maxLength: {
               value: 500,
@@ -85,14 +89,17 @@ const Step1 = ({
           <span className="text-red-500 text-sm">{errors.summary.message}</span>
         )}
       </label>
+
       <label htmlFor="publishDate" className="flex flex-col gap-y-2 w-full">
-        تاریخ انتشار
+        تاریخ و زمان انتشار
         <input
-          type="date"
+          type="datetime-local"
           name="publishDate"
           id="publishDate"
           className="rounded p-2 border w-full border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          {...register("publishDate", { required: "تاریخ انتشار الزامی است" })}
+          {...register("publishDate", {
+            required: "تاریخ و زمان انتشار الزامی است"
+          })}
           defaultValue={publishDate}
         />
         {errors?.publishDate && (
@@ -101,8 +108,8 @@ const Step1 = ({
           </span>
         )}
       </label>
-      
-      <div className="flex justify-start 2">
+
+      <div className="flex justify-start">
         <NavigationButton direction="next" onClick={nextStep} />
       </div>
     </>

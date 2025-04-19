@@ -1,7 +1,7 @@
 import Minus from "@/components/icons/Minus";
 import Plus from "@/components/icons/Plus";
 import Button from "@/components/shared/button/Button";
- import MultiSelect from "@/components/shared/dropDown/MultiSelect";
+import MultiSelect from "@/components/shared/dropDown/MultiSelect";
 import { useGetTagQuery, useUpdateTagMutation } from "@/services/tag/tagApi";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
@@ -14,29 +14,33 @@ import StatusSwitch from "@/components/shared/button/StatusSwitch";
 
 const UpdateTag = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [keynotes, setKeynotes] = useState([""]);
-  const dispatch = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
   const {
     isLoading: fetching,
     data: fetchData,
-    error: fetchError,
+    error: fetchError
   } = useGetTagQuery(id, { skip: !isOpen });
+  const [keynotes, setKeynotes] = useState(fetchData?.data?.keynotes ||[""]);
+  
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+  
+  
   const [
     updateTag,
-    { isLoading: isUpdateing, data: updateData, error: updateError },
+    { isLoading: isUpdateing, data: updateData, error: updateError }
   ] = useUpdateTagMutation();
-
+  
   useEffect(() => {
+    if (fetchData?.data?.keynotes) {
+      setKeynotes(fetchData.data.keynotes);
+    }
     if (isUpdateing) {
       toast.loading("در حال به‌روزرسانی ...", {
-        id: "fetchTag",
+        id: "fetchTag"
       });
     }
     console.log(fetchData);
@@ -57,8 +61,6 @@ const UpdateTag = ({ id }) => {
       toast.error(updateError?.data?.message, { id: "updateTag" });
     }
   }, [fetching, fetchData, fetchError, isUpdateing, updateData, updateError]);
-
-
 
   const handleUpdateUser = (data) => {
     const formData = new FormData();
@@ -81,28 +83,28 @@ const UpdateTag = ({ id }) => {
       id: 1,
       value: "index",
       label: "Index",
-      description: "اجازه می‌دهد موتورهای جستجو صفحه را ایندکس کنند",
+      description: "اجازه می‌دهد موتورهای جستجو صفحه را ایندکس کنند"
     },
     {
       id: 2,
       value: "noindex",
       label: "Noindex",
-      description: "از ایندکس کردن صفحه توسط موتورهای جستجو جلوگیری می‌کند",
+      description: "از ایندکس کردن صفحه توسط موتورهای جستجو جلوگیری می‌کند"
     },
     {
       id: 3,
       value: "follow",
       label: "Follow",
       description:
-        "اجازه می‌دهد موتورهای جستجو لینک‌های موجود در صفحه را دنبال کنند",
+        "اجازه می‌دهد موتورهای جستجو لینک‌های موجود در صفحه را دنبال کنند"
     },
     {
       id: 4,
       value: "nofollow",
       label: "Nofollow",
       description:
-        "از دنبال کردن لینک‌های موجود در صفحه توسط موتورهای جستجو جلوگیری می‌کند",
-    },
+        "از دنبال کردن لینک‌های موجود در صفحه توسط موتورهای جستجو جلوگیری می‌کند"
+    }
   ];
 
   const handleOptionsChange = (newSelectedOptions) => {
@@ -124,7 +126,6 @@ const UpdateTag = ({ id }) => {
     updatedKeynotes[index] = value;
     setKeynotes(updatedKeynotes);
   };
-
   return (
     <>
       <span
@@ -143,7 +144,7 @@ const UpdateTag = ({ id }) => {
           isOpen={isOpen}
           action=""
           onClose={() => setIsOpen(false)}
-          className="lg:w-1/3 md:w-1/2 w-full z-50 p-4 rounded-md overflow-y-hidden"
+          className="lg:w-1/3 md:w-1/2 w-full z-50 p-4 rounded-md overflow-y-hidden text-right "
         >
           <form
             action=""
@@ -164,17 +165,17 @@ const UpdateTag = ({ id }) => {
                       required: "عنوان الزامی است!",
                       minLength: {
                         value: 3,
-                        message: "عنوان باید حداقل ۳ کاراکتر باشد!",
+                        message: "عنوان باید حداقل ۳ کاراکتر باشد!"
                       },
                       maxLength: {
                         value: 100,
-                        message: "عنوان نمی‌تواند بیش از ۱۰۰ کاراکتر باشد!",
+                        message: "عنوان نمی‌تواند بیش از ۱۰۰ کاراکتر باشد!"
                       },
                       pattern: {
                         value: /^[آ-یA-Za-z0-9\s]+$/,
                         message:
-                          "عنوان فقط باید شامل حروف فارسی، انگلیسی و عدد باشد!",
-                      },
+                          "عنوان فقط باید شامل حروف فارسی، انگلیسی و عدد باشد!"
+                      }
                     })}
                   />
                   {errors.title && (
@@ -199,12 +200,12 @@ const UpdateTag = ({ id }) => {
                       required: "توضیحات الزامی است!",
                       minLength: {
                         value: 10,
-                        message: "توضیحات باید حداقل ۱۰ کاراکتر باشد!",
+                        message: "توضیحات باید حداقل ۱۰ کاراکتر باشد!"
                       },
                       maxLength: {
                         value: 500,
-                        message: "توضیحات نمی‌تواند بیش از ۵۰۰ کاراکتر باشد!",
-                      },
+                        message: "توضیحات نمی‌تواند بیش از ۵۰۰ کاراکتر باشد!"
+                      }
                     })}
                   />
                   {errors.description && (
@@ -231,7 +232,7 @@ const UpdateTag = ({ id }) => {
                     </button>
                   </p>
 
-                  {keynotes.map((keynote, index) => (
+                  { keynotes.map((keynote, index) => (
                     <p
                       key={index}
                       className="flex flex-row gap-x-2 items-center"
@@ -261,21 +262,25 @@ const UpdateTag = ({ id }) => {
                 </label>
               </div>
               {/* انتخاب ربات‌ها */}
+              
               ربات‌ها*
-               <MultiSelect
+              <MultiSelect
                 items={robotOptions}
-                selectedItems={selectedOptions}
+                selectedItems={fetchData?.data?.robots|| selectedOptions}
                 handleSelect={handleOptionsChange}
                 className="w-full"
                 name="robots"
                 icon={<Robot size={24} />}
-              /> *
+              />{" "}
+              *
               <div className="flex flex-col gap-y-2 w-full ">
                 <StatusSwitch
                   label="وضعیت"
                   id="status"
                   register={register}
-                  defaultChecked={fetchData?.data?.status === "active" ? true : false} 
+                  defaultChecked={
+                    fetchData?.data?.status === "active" ? true : false
+                  }
                 />
               </div>
               <Button type="submit" className="py-2 mt-4 mb-4 bg-black">

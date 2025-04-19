@@ -242,11 +242,20 @@ const NewsComments = ({ news }) => {
     </section>
   );
 };
-
+const TickerTape = () => {
+  return (
+    <div className="bg-primary text-white py-1 overflow-hidden whitespace-nowrap relative">
+      <div className="inline-block animate-ticker pl-full">
+        🔴 BREAKING: Fusion Energy Record Set | 🌍 Climate Summit Scheduled for June | 📈 Markets Respond to Energy Breakthrough | 🔬 Scientists Announce Quantum Computing Milestone | 🚀 Mars Mission Set for 2026 Launch
+      </div>
+    </div>
+  );
+};
 const News = ({ news }) => {
   return (
     <main className="h-[650px] mt-18 overflow-y-auto dark:bg-gray-900 bg-white scrollbar-hide">
       <article>
+<TickerTape />
         <div className="flex flex-col md:flex-row items-center gap-4 max-w-screen-xl mx-auto px-4 pt-4">
           {/* تصویر سمت راست در دسکتاپ، بالای صفحه در موبایل */}
           <div className="md:w-1/2 w-full order-1 md:order-2">

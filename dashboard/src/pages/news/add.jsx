@@ -31,8 +31,7 @@ function AddNews() {
     control
   } = methods;
 
-  const publishDate =
-    watch("publishDate") || new Date().toISOString().split("T")[0];
+  const publishDate = new Date().toISOString().slice(0, 16);
   const news = {
     thumbnail: thumbnailPreview,
     title: watch("title"),

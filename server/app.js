@@ -67,6 +67,8 @@ app.use("/api/venueVendor", require("./routes/venueVendor.route"));
 app.use("/api/venueStandard", require("./routes/VenueStandard.route"));
 app.use("/api/ceremonyType", require("./routes/ceremonyType.route"));
 app.use("/api/news", require("./routes/news.route"));
+app.use("/api/newsType", require("./routes/newsType.route"));
+app.use("/api/newsCountry", require("./routes/newsCountry.route"));
 app.use("/api/teamMember", require("./routes/teamMember.route"));
 // app.use("/api/upload", require("./routes/upload.route"));
 

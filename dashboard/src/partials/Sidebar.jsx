@@ -31,6 +31,7 @@ import Social from "@/components/icons/Social";
 import VenueEvent from "@/components/icons/VenueEvent";
 import Venue from "@/components/icons/Venue";
 import News from "@/components/icons/News";
+import Country from "@/components/icons/Country";
 import logo from "/logo.gif";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
@@ -97,10 +98,17 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     { title: "واحد پول", icon: Currency, path: "/currencies" },
     { title: "پست ها ", icon: Post, path: "/posts" },
     { title: "مجله", icon: Blog, path: "/blogs" },
-    { title: "اخبار", icon: News, path: "/news" },
     { title: "گالری", icon: Gallery, path: "/galleries" },
     { title: "تنظیمات", icon: Setting, path: "/settings" },
-
+    {
+      title: "اخبار",
+      icon: News,
+      subItems: [
+        { title: "لیست اخبار", icon: News, path: "/news" },
+        { title: "کشور خبر", icon: Country, path: "/news-countries" },
+        { title: "نوع خبر", icon: PSale, path: "/news-types" },
+      ]
+    },
     {
       title: "ملک",
       icon: Apartment,
@@ -178,7 +186,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
             </svg>
           </button>
           {/* Logo */}
-         
         </div>
 
         {/* Links */}
@@ -198,7 +205,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
             </h3>
             <ul className="mt-3">
               {sidebarItems.map((item, index) => (
-                <SidebarItem key={index} item={item} />
+                <SidebarItem key={index} item={item} sidebarExpanded={sidebarExpanded} />
               ))}
             </ul>{" "}
           </div>

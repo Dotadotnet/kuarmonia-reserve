@@ -36,7 +36,9 @@ export const kuarmoniaApi = createApi({
     "TradeType",
     "SaleType",
     "PropType",
-    "TeamMember"
+    "TeamMember",
+    "NewsCountry",
+    "NewsType"
   ],
   endpoints: () => ({})
 });

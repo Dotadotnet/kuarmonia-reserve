@@ -122,7 +122,9 @@ const AddSocialLink = () => {
               <div className="w-full flex justify-center">
                 {svgIcon && (
                   <div className="border rounded p-4 mt-2 flex justify-center items-center w-20 h-20">
-                    <div dangerouslySetInnerHTML={{ __html: svgIcon }} />
+                    <div dangerouslySetInnerHTML={{ __html: svgIcon }}
+                    
+                    />
                   </div>
                 )}
               </div>

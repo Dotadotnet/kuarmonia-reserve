@@ -36,7 +36,6 @@ router.patch(
   "/update-socialLink/:id",
   verify,
   authorize("superAdmin","admin"),
-  upload('socialLink').single("thumbnail"),
   socialLinkController.updateSocialLink
 );
 

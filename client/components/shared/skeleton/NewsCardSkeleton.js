@@ -2,7 +2,7 @@ import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import React from "react";
 
-const NewsCardSkeleton = () => {
+const NewsCardSkeleton = ({index}) => {
   return (
     <div className="group bg-white dark:bg-gray-800 flex lg:flex-row flex-col gap-4 border border-secondary dark:border-gray-500 p-4 rounded relative hover:border-primary transition-colors delay-100 dark:hover:border-blue-500 dark:text-blue-500">
       <div className="flex flex-col gap-y-2">

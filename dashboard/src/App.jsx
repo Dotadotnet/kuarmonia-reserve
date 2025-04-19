@@ -41,6 +41,8 @@ import VenueVendor  from "./pages/venue-vendors";
 import AddVenueVendor from "./pages/venue-vendors/add";
 import News from "./pages/news";
 import AddNews from "./pages/news/add";
+import NewsCountry from "./pages/news-countries";
+import NewsType from "./pages/news-types";
 import Settings from "./pages/settings";
 import Aboutus from "./pages/settings/aboutus";
 import AddMember from "./pages/settings/aboutus/add";
@@ -94,6 +96,8 @@ function App() {
           <Route exact path="/venue-vendors" element={<VenueVendor />} />
           <Route exact path="/news" element={<News />} />
           <Route exact path="/news/add" element={<AddNews />} />
+          <Route exact path="/news-countries" element={<NewsCountry />} />
+          <Route exact path="/news-types" element={<NewsType />} />
           <Route exact path="/settings" element={<Settings />} />
           <Route exact path="/settings/aboutus/" element={<Aboutus />} />
           <Route exact path="/settings/aboutus/add" element={<AddMember />} />

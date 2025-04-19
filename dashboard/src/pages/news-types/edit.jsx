@@ -1,71 +1,71 @@
-// UpdateSocialLink.jsx
+// UpdateNewsType.jsx
 import { useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
 import {
-  useUpdateSocialLinkMutation,
-  useGetSocialLinkQuery
-} from "@/services/socialLink/socialLinkApi";
+  useUpdateNewsTypeMutation,
+  useGetNewsTypeQuery
+} from "@/services/newsType/newsTypeApi";
 import React, { useEffect, useState, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
 import Edit from "@/components/icons/Edit";
 
-const UpdateSocialLink = ({ id }) => {
+const UpdateNewsType = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isLoading, data, error } = useGetSocialLinkQuery(id, {
-    skip: !isOpen
-  });
-  const socialLink = useMemo(() => data?.data || {}, [data]);
+  const { isLoading, data, error } = useGetNewsTypeQuery(id, { skip: !isOpen });
+  const newsType = useMemo(() => data?.data || {}, [data]);
 
   const { register, handleSubmit, reset, watch } = useForm();
   const [
-    updateSocialLink,
+    updateNewsType,
     { isLoading: isUpdateing, data: updateData, error: updateError }
-  ] = useUpdateSocialLinkMutation();
+  ] = useUpdateNewsTypeMutation();
 
   useEffect(() => {
     if (data?.data) {
       const { title, description, icon } = data.data;
       reset({ title, description, icon });
     }
+
     if (isLoading) {
-      toast.loading("در حال دریافت  ...", { id: "socialLink-loading" });
+      toast.loading("در حال دریافت  ...", { id: "newsType-loading" });
     }
     if (data) {
-      toast.success(data?.description, { id: "socialLink-loading" });
+      toast.success(data?.description, { id: "newsType-loading" });
     }
     if (error?.data) {
-      toast.error(error?.data?.description, { id: "socialLink-loading" });
+      toast.error(error?.data?.description, { id: "newsType-loading" });
     }
 
     if (isUpdateing) {
-      toast.loading("در حال پردازش...", { id: "socialLink" });
+      toast.loading("در حال پردازش...", { id: "newsType" });
     }
-    if (updateData) {
-      toast.success(updateData?.description, { id: "socialLink" });
+    console.log(updateData)
+    if (updateData &&updateData.acknowledgement) {
+      toast.success(updateData?.description, { id: "newsType" });
       reset();
       setIsOpen(false);
     }
-    if (updateData && !updateData) {
-      toast.error(updateData?.description, { id: "socialLink" });
+
+    if (updateData && !updateData?.acknowledgement) {
+      toast.error(updateData?.description, { id: "newsType" });
     }
     if (updateError?.data) {
-      toast.error(updateError?.data?.description, { id: "socialLink" });
+      toast.error(updateError?.data?.description, { id: "newsType" });
     }
-  }, [isLoading, error, isUpdateing, updateError, updateData, data]);
+  }, [isLoading, error, isUpdateing, updateError,updateData,data, reset]);
 
   const onSubmit = async (data) => {
     const requestData = {
-      id: socialLink._id,
+      id: newsType._id,
       title: data.title,
       description: data.description,
-      icon: data.svgIcon
+      icon:data.icon
     };
 
-    updateSocialLink(requestData);
+    updateNewsType(requestData);
   };
-  const svgIcon = watch("svgIcon") || socialLink.icon;
-
+  const icon = watch("icon") || newsType.icon;
   return (
     <>
       <span
@@ -91,9 +91,9 @@ const UpdateSocialLink = ({ id }) => {
                   type="text"
                   name="title"
                   id="title"
-                  defaultValue={socialLink?.title}
+                  defaultValue={newsType?.title}
                   maxLength={50}
-                  placeholder="عنوان دسته‌بندی را تایپ کنید..."
+                  placeholder="عنوان نوع خبر را تایپ کنید..."
                   className="rounded"
                   autoFocus
                   {...register("title", { required: true })}
@@ -102,34 +102,36 @@ const UpdateSocialLink = ({ id }) => {
               <label htmlFor="description" className="flex flex-col gap-y-2">
                 توضیحات
                 <textarea
-                  name="description"
                   id="description"
-                  defaultValue={socialLink?.description}
                   maxLength={200}
-                  placeholder="توضیحات دسته‌بندی را تایپ کنید..."
+                  defaultValue={newsType?.description}
+                  placeholder="توضیحات نوع خبر را تایپ کنید..."
                   className="rounded h-32"
                   {...register("description")}
                 />
               </label>
-              <label htmlFor="svgIcon" className="flex flex-col gap-y-2">
+
+              {/* فیلد کد SVG */}
+              <label htmlFor="icon" className="flex flex-col gap-y-2">
                 کد SVG آیکون
                 <textarea
-                  id="svgIcon"
-                  defaultValue={socialLink.icon}
+                  id="icon"
+                  defaultValue={newsType?.icon}
                   placeholder="<svg>...</svg>"
                   className="rounded h-32 font-mono text-xs"
-                  {...register("svgIcon")}
+                  {...register("icon")}
                 />
               </label>
-              <div className="w-full flex justify-center">
-                {svgIcon && (
-                  <div className="border rounded p-4 mt-2 flex justify-center items-center w-20 h-20">
-                    <div dangerouslySetInnerHTML={{ __html: svgIcon }} />
-                  </div>
-                )}
-              </div>
+
+              {/* نمایش پیش‌نمایش SVG */}
+              {icon && (
+                <div className="border rounded  p-4 mt-2 flex justify-center items-center">
+                  <div dangerouslySetInnerHTML={{ __html: icon }} />
+                </div>
+              )}
+
               <Button type="submit" className="py-2 mt-4">
-                ویرایش{" "}
+                ایجاد کردن{" "}
               </Button>
             </div>
           </form>
@@ -139,4 +141,4 @@ const UpdateSocialLink = ({ id }) => {
   );
 };
 
-export default UpdateSocialLink;
+export default UpdateNewsType;

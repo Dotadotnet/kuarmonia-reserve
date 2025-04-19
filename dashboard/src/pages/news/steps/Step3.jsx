@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useMemo } from "react";
 import SocialLinksInput from "@/components/shared/input/SocialLinksInput";
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
 import { Controller } from "react-hook-form";
 import Dropdown from "@/components/shared/dropDown/Dropdown";
+import { useGetNewsCountriesQuery } from "@/services/newsCountry/newsCountryApi";
+import Plus from "@/components/icons/Plus";
 
 const Step3 = ({
   register,
@@ -20,10 +22,63 @@ const Step3 = ({
       description: `زمان تخمینی خواندن: ${label}`
     };
   });
+  const {
+    isLoading: fetchingNewsCountries,
+    data: fetchNewsCountriesData,
+    error: fetchNewsCountriesError
+  } = useGetNewsCountriesQuery();
 
+  const newsCountries = useMemo(
+    () =>
+      fetchNewsCountriesData?.data?.map((newsCountry) => ({
+        id: newsCountry._id,
+        value: newsCountry.title,
+        label: newsCountry.title,
+        icon: newsCountry.icon
+      })) || [],
+    [fetchNewsCountriesData]
+  );
   return (
     <>
-      <label htmlFor="name" className="flex flex-col gap-y-1 mb-4">
+      <div className="flex flex-col gap-y-2 w-full  ">
+        <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
+          <div className="flex flex-col flex-1">
+            <label htmlFor="newsCountry" className="flex flex-col gap-y-2 ">
+             کشور خبر
+              <Controller
+                control={control}
+                name="newsCountry"
+                rules={{ required: "انتخاب کشور خبر الزامی است" }}
+                render={({ field: { onChange, value } }) => (
+                  <Dropdown
+                    items={newsCountries}
+                    selectedItems={value || []}
+                    handleSelect={onChange}
+                    placeholder="یک مورد انتخاب کنید"
+                    className={"w-full h-12"}
+                    returnType="id"
+                  />
+                )}
+              />
+            </label>
+          </div>
+          <div className="mt-7 flex justify-start">
+            <button
+              type="button"
+              className="p-2 bg-green-400 dark:bg-blue-600 text-white rounded hover:bg-green-600 dark:hover:bg-blue-400 transition-colors"
+              aria-label="افزودن دسته بندی جدید"
+            >
+              <Plus className="w-8 h-8" />
+            </button>
+          </div>
+        </div>
+        {errors.mainCategory && (
+          <span className="text-red-500 text-sm">
+            {errors.mainCategory.message}
+          </span>
+        )}
+      </div>
+      <label htmlFor="name" className="flex flex-col gap-y-1">
         <span className="text-sm">* منبع خبر</span>
         <input
           type="text"
@@ -57,7 +112,8 @@ const Step3 = ({
           id="link"
           {...register("link", {
             pattern: {
-              value: /^(https?:\/\/)([\w.-]+)(:[0-9]+)?(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/,
+              value:
+                /^(https?:\/\/)([\w.-]+)(:[0-9]+)?(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/,
 
               message: "فرمت لینک معتبر نیست"
             }

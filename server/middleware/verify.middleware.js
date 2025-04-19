@@ -14,7 +14,7 @@ async function verify(req, res, next) {
       return res.status(401).json({
         acknowledgement: false,
         message: "Unauthorized",
-        description: "توکنی برای نگه‌داری کاربر موجود برای مدت طولانی یافت نشد",
+        description: "توکن یافت نشد",
       });
     }
 

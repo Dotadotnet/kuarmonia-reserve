@@ -1,7 +1,7 @@
 import NewsContent from "@/components/shared/content/NewsContent";
 import Main from "@/layouts/Main";
 import Sidebar from "./Sidebar"; 
-
+import './Style.css'
 const NewsPost = async ({ params }) => {
   const { id } = params;
   const api = `${process.env.NEXT_PUBLIC_BASE_URL}/news/get-news/${id}`;

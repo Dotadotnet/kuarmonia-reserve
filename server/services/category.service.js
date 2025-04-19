@@ -1,11 +1,40 @@
 const Category = require("../models/category.model");
 const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
-
+const { translate } = require("google-translate-api-x");
+const Translation = require("../models/translation.model");
 /* add new category */
 exports.addCategory = async (req, res) => {
   try {
-    const { body } = req;
+    const { title, description, ...body } = req.body;
+
+    let translatedTitle = "";
+    let translatedDescription = "";
+    let translatedTitleTr = "";
+    let translatedDescriptionTr = "";
+
+    // ترجمه عنوان و توضیحات به زبان‌های دیگر
+    try {
+      const resultTitleEn = await translate(title, { to: "en", client: "gtx" });
+      translatedTitle = resultTitleEn.text;
+
+      const resultDescriptionEn = await translate(description, { to: "en", client: "gtx" });
+      translatedDescription = resultDescriptionEn.text;
+
+      const resultTitleTr = await translate(title, { to: "tr", client: "gtx" });
+      translatedTitleTr = resultTitleTr.text;
+
+      const resultDescriptionTr = await translate(description, { to: "tr", client: "gtx" });
+      translatedDescriptionTr = resultDescriptionTr.text;
+    } catch (err) {
+      console.error("خطا در ترجمه:", err);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Error",
+        description: "خطایی در فرآیند ترجمه رخ داد",
+        error: err.message
+      });
+    }
 
     let thumbnail = null;
 
@@ -21,14 +50,38 @@ exports.addCategory = async (req, res) => {
     }
 
     const category = new Category({
-      title: body.title,
-      description: body.description,
-      thumbnail: thumbnail,
+      title,
+      description,
+      thumbnail,
       creator: req.admin._id,
       icon: body.icon
     });
 
     const result = await category.save();
+
+    // ذخیره ترجمه‌ها برای عنوان و توضیحات
+    const translationData = [
+      {
+        language: "en",
+        refModel: "Category",
+        refId: result._id,
+        fields: {
+          title: translatedTitle,
+          description: translatedDescription
+        }
+      },
+      {
+        language: "tr",
+        refModel: "Category",
+        refId: result._id,
+        fields: {
+          title: translatedTitleTr,
+          description: translatedDescriptionTr
+        }
+      }
+    ];
+
+    await Translation.insertMany(translationData);
 
     await Admin.findByIdAndUpdate(result.creator, {
       $set: {
@@ -39,7 +92,8 @@ exports.addCategory = async (req, res) => {
     res.status(201).json({
       acknowledgement: true,
       message: "Created",
-      description: "دسته بندی با موفقیت ایجاد شد"
+      description: "دسته بندی با موفقیت ایجاد شد",
+      data: result
     });
   } catch (error) {
     console.error("Error in addCategory:", error);

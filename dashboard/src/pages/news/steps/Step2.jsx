@@ -6,10 +6,12 @@ import { Controller } from "react-hook-form";
 import Plus from "@/components/icons/Plus";
 import Tag from "@/components/icons/Tag";
 import { useGetCategoriesQuery } from "@/services/category/categoryApi";
+import { useGetNewsTypesQuery } from "@/services/newsType/newsTypeApi";
 import Modal from "@/components/shared/modal/Modal";
 import toast from "react-hot-toast";
 import TinyMceEditor from "@/components/shared/ckeditor/TinyMceEditor";
 import ModalPortal from "@/components/shared/modal/ModalPortal";
+import Dropdown from "@/components/shared/dropDown/Dropdown";
 
 const Step2 = ({
   register,
@@ -29,6 +31,11 @@ const Step2 = ({
     error: fetchTagsError
   } = useGetTagsQuery();
   const {
+    isLoading: fetchingNewsTypes,
+    data: fetchNewsTypesData,
+    error: fetchNewsTypesError
+  } = useGetNewsTypesQuery();
+  const {
     isLoading: fetchingCategories,
     data: fetchCategoriesData,
     error: fetchCategoriesError
@@ -42,6 +49,16 @@ const Step2 = ({
         icon: category.icon
       })) || [],
     [fetchCategoriesData]
+  );
+  const newsTypes = useMemo(
+    () =>
+      fetchNewsTypesData?.data?.map((newsType) => ({
+        id: newsType._id,
+        value: newsType.title,
+        label: newsType.title,
+        icon: newsType.icon
+      })) || [],
+    [fetchNewsTypesData]
   );
   const tags = useMemo(
     () =>
@@ -139,6 +156,44 @@ const Step2 = ({
       <div className="flex flex-col gap-y-2 w-full  ">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
           <div className="flex flex-col flex-1">
+   
+            <label htmlFor="newsType" className="flex flex-col gap-y-2 ">
+        نوع خبر
+              <Controller
+                control={control}
+                name="newsType"
+                rules={{ required: "انتخاب نوع خبر الزامی است" }}
+                render={({ field: { onChange, value } }) => (
+                  <Dropdown
+                    items={newsTypes}
+                    selectedItems={value || []}
+                    handleSelect={onChange}
+                    placeholder="یک مورد انتخاب کنید"
+                    className={"w-full h-12"}
+                    returnType="id"
+                  />
+                )}
+              />
+            </label>
+          </div>
+          <div className="mt-7 flex justify-start">
+            <button
+              type="button"
+              className="p-2 bg-green-400 dark:bg-blue-600 text-white rounded hover:bg-green-600 dark:hover:bg-blue-400 transition-colors"
+              aria-label="افزودن دسته بندی جدید"
+            >
+              <Plus className="w-8 h-8" />
+            </button>
+          </div>
+        </div>
+        {errors.mainCategory && (
+          <span className="text-red-500 text-sm">{errors.mainCategory.message}</span>
+        )}
+      </div>
+      <div className="flex flex-col gap-y-2 w-full  ">
+        <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
+          <div className="flex flex-col flex-1">
+   
             <label htmlFor="category" className="flex flex-col gap-y-2 ">
               دسته بندی
               <Controller
@@ -168,11 +223,10 @@ const Step2 = ({
             </button>
           </div>
         </div>
-        {errors.tags && (
-          <span className="text-red-500 text-sm">{errors.tags.message}</span>
+        {errors.category && (
+          <span className="text-red-500 text-sm">{errors.category.message}</span>
         )}
       </div>
-
       <label
         htmlFor="content"
         className="flex flex-col gap-y-4 w-full h-[200px]"
