@@ -15,17 +15,25 @@ exports.addCategory = async (req, res) => {
 
     // ترجمه عنوان و توضیحات به زبان‌های دیگر
     try {
+      console.log("در حال ترجمه عنوان به انگلیسی...");
       const resultTitleEn = await translate(title, { to: "en", client: "gtx" });
       translatedTitle = resultTitleEn.text;
+      console.log("ترجمه انگلیسی عنوان:", translatedTitle);
 
+      console.log("در حال ترجمه توضیحات به انگلیسی...");
       const resultDescriptionEn = await translate(description, { to: "en", client: "gtx" });
       translatedDescription = resultDescriptionEn.text;
+      console.log("ترجمه انگلیسی توضیحات:", translatedDescription);
 
+      console.log("در حال ترجمه عنوان به ترکی...");
       const resultTitleTr = await translate(title, { to: "tr", client: "gtx" });
       translatedTitleTr = resultTitleTr.text;
+      console.log("ترجمه ترکی عنوان:", translatedTitleTr);
 
+      console.log("در حال ترجمه توضیحات به ترکی...");
       const resultDescriptionTr = await translate(description, { to: "tr", client: "gtx" });
       translatedDescriptionTr = resultDescriptionTr.text;
+      console.log("ترجمه ترکی توضیحات:", translatedDescriptionTr);
     } catch (err) {
       console.error("خطا در ترجمه:", err);
       return res.status(500).json({
@@ -58,6 +66,7 @@ exports.addCategory = async (req, res) => {
     });
 
     const result = await category.save();
+    console.log("دسته‌بندی با موفقیت ذخیره شد:", result);
 
     // ذخیره ترجمه‌ها برای عنوان و توضیحات
     const translationData = [
@@ -81,7 +90,23 @@ exports.addCategory = async (req, res) => {
       }
     ];
 
-    await Translation.insertMany(translationData);
+    try {
+      const translations = await Translation.insertMany(translationData);
+      console.log("ترجمه‌ها با موفقیت ذخیره شدند:", translations);
+    } catch (translationError) {
+      console.error("خطا در ذخیره ترجمه‌ها:", translationError);
+
+      // حذف دسته‌بندی که قبلاً ذخیره شده
+      await Category.findByIdAndDelete(result._id);
+      console.log("دسته‌بندی به دلیل خطا در ترجمه حذف شد.");
+
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. دسته‌بندی حذف شد.",
+        error: translationError.message
+      });
+    }
 
     await Admin.findByIdAndUpdate(result.creator, {
       $set: {

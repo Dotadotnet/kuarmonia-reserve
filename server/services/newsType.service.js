@@ -56,7 +56,7 @@ exports.addNewsType = async (req, res) => {
     const translationData = [
       {
         language: "en",
-        refModel: "News",
+        refModel: "NewsType",
         refId: result._id,
         fields: {
           title: translatedTitle,
@@ -66,7 +66,7 @@ exports.addNewsType = async (req, res) => {
       },
       {
         language: "tr",
-        refModel: "News",
+        refModel: "NewsType",
         refId: result._id,
         fields: {
           title: translatedTitleTr,

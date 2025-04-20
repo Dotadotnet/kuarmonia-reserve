@@ -47,7 +47,7 @@ const NewsCard = ({ news }) => {
           {news?.title || <SkeletonText lines={1} />}
         </h3>
         <div className="flex flex-col gap-y-1">
-          <p className="text-sm pb-0">
+          <p className="text-sm pb-0  line-clamp-4 text-justify">
             {news?.summary || <SkeletonText lines={4} />}
           </p>
           <p className="text-sm pb-0 flex gap-x-0.5 items-baseline"></p>

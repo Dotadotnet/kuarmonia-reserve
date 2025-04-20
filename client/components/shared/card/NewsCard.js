@@ -49,11 +49,11 @@ const NewsCard = ({ news }) => {
       </div>
 
       <article className="flex flex-col gap-y-2.5 dark:text-white w-full">
-        <h3 className="text-base line-clamp-1 md:text-sx  ">
+        <h3 className="text-base line-clamp-2 md:text-sx text-justify ">
           {news?.title || <SkeletonText lines={1} />}
         </h3>
         <div className="flex flex-col gap-y-1">
-          <p className="text-sm pb-0">
+          <p className="text-sm pb-0 line-clamp-4 text-justify">
             {news?.summary || <SkeletonText lines={4} />}
           </p>
           <p className="text-sm pb-0 flex gap-x-0.5 items-baseline"></p>
