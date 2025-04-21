@@ -18,6 +18,7 @@ class TinyMceEditor extends Component {
   }
 
   static defaultConfig = {
+    language: "fa", // ← این خط را اضافه کن
     toolbar: [
       "heading",
       "|",
@@ -38,6 +39,7 @@ class TinyMceEditor extends Component {
       "redo"
     ]
   };
+  
 
   render() {
     return (

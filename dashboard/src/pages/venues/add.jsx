@@ -38,7 +38,6 @@ function AddVenue() {
       isPriceIncluded: true
     }
   ]);
-  console.log(ourEventSpaces)
   const [venuePackages, setVenuePackages] = useState([
     {
       type: "rental",

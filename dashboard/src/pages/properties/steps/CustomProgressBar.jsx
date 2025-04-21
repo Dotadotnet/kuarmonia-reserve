@@ -62,14 +62,30 @@ const steps = [
   
   {
     number: 7,
-    label: 'آدرس',
+    label: 'فضاها',
     required: false,
     icon: (
-      <Address />
+      <Space />
     ),
   },
   {
     number: 8,
+    label: 'آدرس',
+    required: false,
+    icon: (
+      <Location />
+    ),
+  },
+  {
+    number: 9,
+    label: 'آدرس',
+    required: false,
+    icon: (
+      <Location />
+    ),
+  },
+  {
+    number: 10,
     label: 'انتشار',
     required: false,
     // icon: (
@@ -89,7 +105,7 @@ const CustomProgressBar = ({ currentStep }) => {
         return (
           <div
             key={step.number}
-            className="flex-shrink-0 md:w-[12%] w-1/4 relative flex flex-col justify-center items-center"
+            className="flex-shrink-0 md:w-[10%] w-1/4 relative flex flex-col justify-center items-center"
           >
             {/* خط اتصال */}
             {index !== steps.length - 1 && (

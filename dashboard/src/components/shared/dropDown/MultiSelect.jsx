@@ -45,7 +45,6 @@ const MultiSelect = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
   return (
     <div className="relative" ref={dropdownRef}>
       <button
@@ -67,7 +66,7 @@ const MultiSelect = ({
                     dangerouslySetInnerHTML={{ __html: item.icon }}
                   />
                 )}
-                {item.value}
+                {item.title ||item.value}
 
                 <span
                   className="text-red-500"
@@ -123,7 +122,7 @@ const MultiSelect = ({
                     dangerouslySetInnerHTML={{ __html: item.icon }}
                   />
                 )}
-                <span>{item.value}</span>
+                <span>{item.title||item.value}</span>
                 {item.description && (
                   <Tooltip position="right" bg="dark" size="sm">
                     {item.description}

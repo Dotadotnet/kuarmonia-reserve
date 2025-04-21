@@ -14,7 +14,7 @@ const categoryApi = kuarmoniaApi.injectEndpoints({
         body: category,
       }),
 
-      invalidatesTags: ["Category", "User"],
+      invalidatesTags: ["Category", "Admin"],
     }),
 
     // get all categories
@@ -38,7 +38,7 @@ const categoryApi = kuarmoniaApi.injectEndpoints({
         body,
       }),
 
-      invalidatesTags: ["Category", "User"],
+      invalidatesTags: ["Category", "Admin"],
     }),
 
     // get a category
@@ -61,7 +61,7 @@ const categoryApi = kuarmoniaApi.injectEndpoints({
         },
       }),
 
-      invalidatesTags: ["Category", "User"],
+      invalidatesTags: ["Category", "Admin"],
     }),
   }),
 });

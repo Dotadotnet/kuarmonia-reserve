@@ -20,7 +20,7 @@ const AddType = () => {
     const requestData = {
       title: data.title,
       description: data.description,
-      amenities: amenities
+      amenities:JSON.stringify(amenities)
     };
     addType(requestData);
   };

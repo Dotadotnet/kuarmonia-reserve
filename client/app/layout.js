@@ -69,14 +69,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fa">
-      <body dir="rtl" >
+      <body dir="rtl">
         <Screen />
         <Providers>
-            <Session>
-              <Auth>
-                {children}
-              </Auth>
-            </Session>
+          <Session>
+            <Auth>{children}</Auth>
+          </Session>
           <Toaster />
         </Providers>
       </body>

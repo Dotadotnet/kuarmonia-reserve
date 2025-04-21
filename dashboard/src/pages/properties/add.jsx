@@ -11,13 +11,15 @@ import Step4 from "./steps/Step4";
 import Step5 from "./steps/Step5";
 import Step6 from "./steps/Step6";
 import Step7 from "./steps/Step7";
+import Step8 from "./steps/Step8";
+import Step9 from "./steps/Step9";
+import Step10 from "./steps/Step10";
 
 import SendButton from "@/components/shared/button/SendButton";
 import { useAddPropertyMutation } from "@/services/property/propertyApi";
 import { toast } from "react-hot-toast";
 import ToggleThemeButton from "@/components/ThemeToggle";
 import PropertyDetail from "@/components/shared/content/property/PropertyContent";
-import Step8 from "./steps/Step8";
 import Prev from "@/components/icons/Prev";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -27,8 +29,6 @@ import "swiper/css/pagination";
 import { useNavigate } from "react-router-dom";
 
 const Add = () => {
-
-
   const methods = useForm({
     mode: "all",
     defaultValues: {
@@ -48,6 +48,8 @@ const Add = () => {
   });
   const admin = useSelector((state) => state?.auth);
   const [currentStep, setCurrentStep] = useState(1);
+  const [editorData, setEditorData] = useState("");
+
   const [galleryPreview, setGalleryPreview] = useState([]);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [gallery, setGallery] = useState([]);
@@ -62,7 +64,16 @@ const Add = () => {
   const [socialLinksData, setSocialLinksData] = useState([
     { network: null, link: "" }
   ]);
-  const totalSteps = 8;
+  const [ourEventSpaces, setOurEventSpaces] = useState([
+    {
+      name: "",
+      intro: "",
+      description: "",
+      squareFootage: "",
+      spacesGallery: []
+    }
+  ]);
+  const totalSteps = 10;
   const {
     watch,
     trigger,
@@ -83,11 +94,11 @@ const Add = () => {
     if (isAdding) {
       toast.loading("در حال افزودن...", { id: "add-property" });
     }
+    console.log("addData", addData);
     if (addData?.acknowledgement) {
       toast.success(addData?.description, { id: "add-property" });
       reset();
       navigate("/properties");
-
     }
     if (addData && !addData?.acknowledgement) {
       toast.error(addData?.description, { id: "add-property" });
@@ -111,7 +122,7 @@ const Add = () => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("summary", data.summary);
-    formData.append("description", data.description);
+    formData.append("description", editorData);
     formData.append("createDate", data.createDate);
     formData.append("square", data.square);
     formData.append("bathrooms", data.bathrooms);
@@ -122,14 +133,23 @@ const Add = () => {
     formData.append("type", data.propertyType?.id);
     formData.append("saleType", data.saleType._id);
     formData.append("isFeatured", data.isFeatured);
-    formData.append("country", selectedCountry);
-    formData.append("state", selectedState);
-    formData.append("city", selectedCity);
     formData.append("citizenshipStatus", citizenshipStatus);
-    formData.append("socialLinks",JSON.stringify(socialLinksData));
+    formData.append("socialLinks", JSON.stringify(socialLinksData));
     formData.append("features", JSON.stringify(features));
     formData.append("location", JSON.stringify(selectedLocation));
-
+    formData.append(
+      "address",
+      JSON.stringify({
+        country: selectedCountry,
+        state: selectedState,
+        city: selectedCity,
+        street: data.street,
+        plateNumber: data.plateNumber,
+        postalCode: data.postalCode,
+        phone: data.phone,
+        email: data.email
+      })
+    );
     const variants = [
       {
         type: "deposit",
@@ -155,8 +175,32 @@ const Add = () => {
     formData.append("tags", extractIds(data.tags));
 
     formData.append("thumbnail", thumbnail);
+    console.log(ourEventSpaces)
+    ourEventSpaces.forEach((space, index) => {
+      formData.append(`ourEventSpaces[${index}][name]`, space.name);
+      formData.append(`ourEventSpaces[${index}][intro]`, space.intro);
+      formData.append(
+        `ourEventSpaces[${index}][description]`,
+        space.description
+      );
+      formData.append(
+        `ourEventSpaces[${index}][squareFootage]`,
+        space.squareFootage
+      );
 
-     addProperty(formData);
+      Object.keys(space.spacesGallery).forEach((key) => {
+        const file = space.spacesGallery[key];
+        formData.append(`ourEventSpaces[${index}][spacesGallery][${key}]`, file);
+      });
+    });
+    for (let i = 0; i < gallery?.length; i++) {
+      formData.append("gallery", gallery[i]);
+    }
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
+
+    addProperty(formData);
   };
 
   const handleNext = async () => {
@@ -186,6 +230,12 @@ const Add = () => {
       case 8:
         stepValid = await trigger([]);
         break;
+      case 9:
+        stepValid = await trigger([]);
+        break;
+      case 10:
+        stepValid = await trigger([]);
+        break;
       default:
         stepValid = false;
     }
@@ -203,6 +253,11 @@ const Add = () => {
   const handleBack = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
+  const htmlToText = (html) => {
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    return doc.body.textContent || doc.body.innerText || "";
+  };
+  console.log(selectedLocation);
   const property = {
     title: watch("title"),
     tradeType: watch("tradeType"),
@@ -219,7 +274,7 @@ const Add = () => {
     author: defaultValues?.name,
     avatar: defaultValues?.avatar?.url,
     gallery: galleryPreview,
-    description: watch("description"),
+    description: htmlToText(editorData),
     amenities: watch("amenities"),
     features: watch("features"),
     location: selectedLocation,
@@ -288,7 +343,13 @@ const Add = () => {
                   />
                 )}
                 {currentStep === 2 && (
-                  <Step2 register={register} errors={errors} />
+                  <Step2
+                    editorData={editorData}
+                    setEditorData={setEditorData}
+                    control={control}
+                    register={register}
+                    errors={errors}
+                  />
                 )}
                 {currentStep === 3 && (
                   <Step3
@@ -332,18 +393,38 @@ const Add = () => {
                 )}
                 {currentStep === 7 && (
                   <Step7
+                    register={register}
                     errors={errors}
+                    control={control}
+                    ourEventSpaces={ourEventSpaces}
+                    setOurEventSpaces={setOurEventSpaces}
+                  />
+                )}
+                {currentStep === 8 && (
+                  <Step8
+                    register={register}
+                    errors={errors}
+                    watch={watch}
                     control={control}
                     setSelectedCountry={setSelectedCountry}
                     setSelectedState={setSelectedState}
                     setSelectedCity={setSelectedCity}
+                    selectedCountry={selectedCountry}
                     selectedState={selectedState}
                     selectedCity={selectedCity}
                     setSelectedLocation={setSelectedLocation}
                   />
                 )}
-                {currentStep === 8 && (
-                  <Step8
+                {currentStep === 9 && (
+                  <Step9
+                    register={register}
+                    errors={errors}
+                    watch={watch}
+                    control={control}
+                  />
+                )}
+                {currentStep === 10 && (
+                  <Step10
                     register={register}
                     errors={errors}
                     control={control}

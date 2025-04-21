@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
-const Counter = require("./counter")
+const Counter = require("./counter");
+const Category = require("./category.model");
 const baseSchema = require("./baseSchema.model");
 const { Schema } = mongoose;
-
+const {
+  generateSlug,
+  generateSeoFields,
+  encodeBase62 
+} = require("../utils/translationUtils");
 
 const propertySchema = new Schema(
   {
@@ -19,10 +24,14 @@ const propertySchema = new Schema(
       trim: true,
       maxLength: [50, "عنوان نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"]
     },
+    slug: {
+      type: String,
+      unique: true
+    },
     saleType: {
       required: [true, "لطفاً نوع فروش ملک را وارد کنید"],
       type: Schema.Types.ObjectId,
-      ref: "SaleType",
+      ref: "SaleType"
     },
     socialLinks: [
       {
@@ -40,28 +49,14 @@ const propertySchema = new Schema(
     tradeType: {
       required: [true, "لطفاً نوع معامله ملک را وارد کنید"],
       type: Schema.Types.ObjectId,
-      ref: "TradeType",   
-     },
+      ref: "TradeType"
+    },
     type: {
       required: [true, "لطفاً نوع  ملک را وارد کنید"],
       type: Schema.Types.ObjectId,
-      ref: "PropertyType",
+      ref: "PropertyType"
     },
-    slug: {
-      type: String,
-      unique: true,
-      default: function () {
-        return this.title
-          .toString()
-          .trim()
-          .toLowerCase()
-          .replace(/[\u200B-\u200D\uFEFF]/g, "")
-          .replace(/[\s\ـ]+/g, "-")
-          .replace(/[^\u0600-\u06FFa-z0-9\-]/g, "")
-          .replace(/-+/g, "-")
-          .replace(/^-+|-+$/g, "");
-      }
-    },
+  
     summary: {
       type: String,
       maxLength: [160, "توضیحات نمی‌تواند بیشتر از ۱۶۰ کاراکتر باشد"]
@@ -71,24 +66,25 @@ const propertySchema = new Schema(
       required: [true, "لطفاً توضیحات ملک را وارد کنید"],
       trim: true
     },
-    country: {
-      type: String,
-      required: [true, "لطفاً کشور را وارد کنید"],
-      trim: true
-    },
-    state: {
-      type: String,
-      required: [true, "لطفاً استان را وارد کنید"],
-      trim: true
-    },
-    city: {
-      type: String,
-      required: [true, "لطفاً شهر را وارد کنید"],
-      trim: true
-    },
+    address: [{ type: ObjectId, ref: "Address" }],
+    ourEventSpaces: [
+      {
+        name: { type: String },
+        intro: { type: String },
+        description: { type: String },
+        squareFootage: { type: String },
+        spaces: [
+          {
+            public_id: { type: String, required: true },
+            alt: String,
+            caption: String
+          }
+        ]
+      }
+    ],
     citizenshipStatus: {
       type: String,
-      enum: ["goldenVisa", "residency", "citizenship"],
+      enum: ["goldenVisa", "residency", "citizenship"]
     },
     variants: [
       {
@@ -111,10 +107,22 @@ const propertySchema = new Schema(
     ],
     currency: {
       type: ObjectId,
-      ref: "Currency",
-    },  
-
-    location: { 
+      ref: "Currency"
+    },
+    amenities: [
+      {
+        title: {
+          type: String,
+          required: [true, " امکانات الزامی است"],
+          maxLength: [100, " امکانات نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
+        },
+        hasAmenity: {
+          type: Boolean,
+          default: false
+        }
+      }
+    ],
+    location: {
       type: {
         lat: { type: Number, required: true },
         lng: { type: Number, required: true }
@@ -134,25 +142,22 @@ const propertySchema = new Schema(
       default: 0
     },
 
-    amenities: {
-      type: [String],
-      default: [] 
-    },    
+
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      required: [true, "دسته‌بندی پست الزامی است"],
+      required: [true, "دسته‌بندی پست الزامی است"]
     },
     thumbnail: {
       url: {
         type: String,
         required: [true, "لطفاً لینک تصویر بندانگشتی را وارد کنید"],
-        default: "https://placehold.co/296x200.png",
+        default: "https://placehold.co/296x200.png"
       },
       public_id: {
         type: String,
-        default: "N/A",
-      },
+        default: "N/A"
+      }
     },
     gallery: [
       {
@@ -163,7 +168,7 @@ const propertySchema = new Schema(
         public_id: {
           type: String,
           default: "N/A"
-        },
+        }
       }
     ],
     createDate: {
@@ -171,9 +176,9 @@ const propertySchema = new Schema(
     },
     ownerId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User"
     },
-  
+
     updatedDate: {
       type: Date,
       default: Date.now
@@ -182,7 +187,7 @@ const propertySchema = new Schema(
       type: Boolean,
       default: false
     },
-    
+
     tags: [
       {
         type: Schema.Types.ObjectId,
@@ -190,7 +195,7 @@ const propertySchema = new Schema(
         required: [true, "تگ ملک الزامی است"]
       }
     ],
-  
+
     metaTitle: {
       type: String,
       maxLength: [60, "متا تایتل نمی‌تواند بیشتر از ۶۰ کاراکتر باشد"],
@@ -253,19 +258,7 @@ const propertySchema = new Schema(
         ref: "Review"
       }
     ],
-    amenities: [
-      {
-        title: {
-          type: String,
-          required: [true, " امکانات الزامی است"],
-          maxLength: [100, " امکانات نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
-        },
-        hasAmenity: {
-          type: Boolean,
-          default: false, 
-        }
-      }
-    ],
+
     features: [
       {
         title: {
@@ -292,44 +285,43 @@ const propertySchema = new Schema(
 const defaultDomain = process.env.API;
 
 propertySchema.pre("save", async function (next) {
-  // تنظیمات Meta
-  if (!this.metaTitle) {
-    this.metaTitle =
-      this.title.length > 60 ? this.title.substring(0, 60) : this.title;
+  if (this.isModified("title")) {
+    this.slug = await generateSlug(this.title);
   }
 
-  if (!this.metaDescription) {
-    this.metaDescription =
-      this.summary?.length > 160
-        ? this.summary.substring(0, 160)
-        : this.summary;
+  if (!this.metaTitle || !this.metaDescription) {
+    const category = await Category.findById(this.type);
+    const seo = generateSeoFields({
+      title: this.title,
+      summary: this.summary,
+      categoryTitle: category?.title || "عمومی"
+    });
+
+    if (!this.metaTitle) this.metaTitle = seo.metaTitle;
+    if (!this.metaDescription) this.metaDescription = seo.metaDescription;
   }
 
-  if (!this.metaKeywords || this.metaKeywords.length === 0) {
-    const keywords = [];
-    if (this.tags?.length > 0) {
-      this.tags.forEach((tag) => keywords.push(tag.name || tag)); // توجه به اینکه تگ‌ها ممکن است آبجکت باشند
-    }
-    keywords.push(this.type);
-    this.metaKeywords = keywords.slice(0, 10);
+  if (!this.propertyId) {
+    const counter = await Counter.findOneAndUpdate(
+      { name: "propertyId" },
+      { $inc: { seq: 1 } },
+      { new: true, upsert: true }
+    );
+    this.propertyId = counter.seq;
+
+    const base62Code = encodeBase62(this.propertyId);
+    this.shortUrl = `${defaultDomain}/s/${base62Code}`;
   }
 
-
-  const counter = await Counter.findOneAndUpdate(
-    { name: "propertyId" },
-    { $inc: { seq: 1 } },
-    { new: true, upsert: true }
-  );
-  this.propertyId = counter.seq;
   if (!this.canonicalUrl) {
-    this.canonicalUrl = `${defaultDomain}/propert/${this.propertyId}/${this.slug.replaceAll(" ","-")}`;
+    this.canonicalUrl = `${defaultDomain}/news/${this.slug}`;
   }
+
+
 
   next();
 });
 
 const Property = mongoose.model("Property", propertySchema);
 
-module.exports = Property; 
-
-
+module.exports = Property;

@@ -8,26 +8,26 @@ import MultiSelect from "@/components/shared/dropDown/MultiSelect";
 import AddButton from "@/components/shared/button/AddButton";
 
 const priceFieldsOptions = [
-  { id: "1", title: "deposit", value: "deposit", label: "ودیعه (رهن)" },
+  { id: "1", title: "ودیعه (رهن)", value: "deposit", label: "ودیعه (رهن)" },
   {
     id: "2",
-    title: "monthlyRent",
+    title: "اجاره ماهانه",
     value: "monthlyRent",
     label: "اجاره ماهانه"
   },
   {
     id: "3",
-    title: "propertyValue",
+    title: "ارزش ملک",
     value: "propertyValue",
     label: "ارزش ملک"
   },
   {
     id: "4",
-    title: "installmentAmount",
+    title: "مبلغ قسط",
     value: "installmentAmount",
     label: "مبلغ قسط"
   },
-  { id: "5", title: "totalPrice", value: "totalPrice", label: "قیمت کل" }
+  { id: "5", title: "قیمت کل", value: "totalPrice", label: "قیمت کل" }
 ];
 
 const AddTradeType = () => {
@@ -73,7 +73,7 @@ const AddTradeType = () => {
         <Modal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          className="lg:w-1/3 md:w-1/2 w-full h-fit z-50"
+          className="lg:w-1/3 md:w-1/2 w-full h-fit z-50 "
         >
           <form
             className="text-sm w-full h-full flex flex-col gap-y-4"

@@ -31,25 +31,7 @@ const propertyApi = kuarmoniaApi.injectEndpoints({
       }),
     }),
 
-    getSaleTypes: builder.query({
-      query: () => ({
-        url: "/property?type=sale",
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }),
-    }),
 
-    getTradeTypes: builder.query({
-      query: () => ({
-        url: "/property?type=trade",
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }),
-    }),
 
     getProperty: builder.query({
       query: (id) => ({
@@ -100,6 +82,5 @@ export const {
   useGetPropertyQuery,
   useUpdatePropertyMutation,
   useGetSaleTypesQuery, 
-  useGetTradeTypesQuery, 
-  useGetPropertyTypesQuery,
+
 } = propertyApi;
