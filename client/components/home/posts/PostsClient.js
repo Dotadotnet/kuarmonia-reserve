@@ -13,14 +13,14 @@ import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 const PostsClient = ({ posts }) => {
   return (
     <div className="relative h-full">
-      <div className="custom-prev right-5 -top-5  absolute flex justify-center items-center p-4 border-2 rounded-full cursor-pointer  bg-primary  w-8 h-8 b border-white  text-lg dark:bg-blue-500">
+      <div className="custom-prev right-5 -top-1  absolute flex justify-center items-center !p-4 border-2 rounded-full cursor-pointer  custom-button w-6 h-6 b border-white  text-lg ">
         <span>
-          <IoIosArrowForward size={30} className="dark:text-gray-100" />
+          <IoIosArrowForward size={20}  />
         </span>
       </div>
-      <div className="custom-prev left-5 -top-5  absolute flex justify-center items-center p-4 border-2 rounded-full cursor-pointer  bg-primary  w-8 h-8 b border-white  text-lg dark:bg-blue-500">
+      <div className="custom-next left-5 -top-1  absolute flex justify-center items-center !p-4 border-2 rounded-full cursor-pointer  custom-button   w-6 h-6 b border-white  text-lg ">
         <span>
-          <IoIosArrowBack size={30} className="dark:text-gray-100" />
+          <IoIosArrowBack size={20}   />
         </span>
       </div>
       <Swiper
@@ -37,7 +37,7 @@ const PostsClient = ({ posts }) => {
           768: { slidesPerView: 2 },
           1024: { slidesPerView: 2.2 }
         }}
-        className="my-1.5"
+        className="my-1.5  !mt-12"
       >
         {posts && posts.length === 0
           ? Array.from({ length: 6 }).map((_, index) => (

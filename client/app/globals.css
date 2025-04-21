@@ -502,8 +502,7 @@ focus {
   100% { transform: translateX(-100%); }
 }
 .swiper-wrapper{
-  margin-bottom: 20px !important;
-  margin-top: 40px !important;
+  margin-bottom: 30px !important;
 
 }
 

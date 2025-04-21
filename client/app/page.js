@@ -23,17 +23,16 @@ export default async function Home() {
       <Main>
         <Hero />
         <News />
+        <Advantage />
         <Properties />
         <Medias  />
-        <Advantage />
         <Posts/>
         <Blogs  />
-        <Gallery />
-        <Reviews />
         <Steps />
         <PopularDestination />
-        <NewsLetter />
+        <Gallery />
         <FAQ />
+        <NewsLetter />
       </Main>
     </>
   );

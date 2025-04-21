@@ -8,6 +8,7 @@ import {
 } from "@/services/gallery/galleryApi";
 import Image from "next/image";
 import Container from "@/components/shared/container/Container";
+import Link from "next/link";
 
 const Gallery = () => {
   const { data, isLoading, error } = useGetFirstGalleryQuery();
@@ -32,71 +33,20 @@ const Gallery = () => {
     }
   }, [isLoading, [tab]]);
 
-
-
-  const renderSkeleton = () => {
-    return (
-      <section className="w-full h-full flex flex-col gap-y-12  dark:bg-gray-900">
-        <div className="flex flex-col gap-y-12">
-          <article className="flex flex-col gap-y-4">
-            <p className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-              <HighlightText>گالری</HighlightText> تصاویر
-              <Image
-                src="/assets/home-page/destination/underline.svg"
-                alt="arrow"
-                height={7}
-                width={275}
-                className="mt-1.5"
-              />
-            </p>
-            <p className="text-base">
-              با مرور گالری تصاویر، شما با کیفیت خدمات و راهکارهای ما آشنا
-              می‌شوید و می‌توانید ببینید که چگونه ما به مشتریان خود ارزش افزوده
-              می‌دهیم.
-            </p>
-          </article>
-        </div>
-
-        <div className="border border-primary/30  rounded-2xl bg-secondary/30  lg:p-12 md:p-6 p-3 animate-pulse">
-          <div className="grid grid-cols-12 items-center gap-4 h-[720px] overflow-hidden">
-            {Array.from({ length: 9 }).map((_, index) => (
-              <div
-                key={index}
-                className={`lg:col-span-3 md:col-span-6 col-span-12 border w-full bg-gray-300 drop-shadow rounded ${
-                  index % 2 === 0 ? "row-span-2 h-[364px]" : "h-[159px]"
-                }`}
-              ></div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  };
-
-
   return (
     <section id="deals" className="h-full py-12 dark:bg-gray-900">
       <Container>
         <section className="w-full h-full flex flex-col gap-y-12">
-          <div className="flex flex-col gap-y-12">
-            <article className="flex flex-col gap-y-4">
-              <p className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText>گالری</HighlightText> تصاویر
-                <Image
-                  src="/assets/home-page/destination/underline.svg"
-                  alt="arrow"
-                  height={7}
-                  width={275}
-                  className="mt-1.5 filter dark:invert  dark:brightness-0 dark:sepia dark:hue-rotate-180"
-                  />
-              </p>
-              <p className="text-base">
-                با مرور گالری تصاویر، شما با کیفیت خدمات و راهکارهای ما آشنا
-                می‌شوید و می‌توانید ببینید که چگونه ما به مشتریان خود ارزش
-                افزوده می‌دهیم.
-              </p>
+          <div className="flex flex-row justify-between items-center">
+            <article className="flex flex-col gap-y-4 items-start">
+              <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
+                <HighlightText title={"گالری کارمونیا "} />
+              </h2>
+              <p className="text-base">تصاویری از فعالیت ها و مراسمات</p>
             </article>
+            
           </div>
+          
 
           <div className="border border-primary/30 dark:border-blue-500 rounded-2xl bg-secondary/30  lg:p-12 md:p-6 p-3 dark:text-gray-100 dark:bg-[#0a2d4d]">
             <div className="flex flex-col gap-y-8">

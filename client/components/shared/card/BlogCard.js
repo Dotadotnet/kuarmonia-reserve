@@ -117,14 +117,14 @@ const BlogCard = ({
               >
                 <MdLuggage className="h-6 w-6" />
               </span>
-              <span
+              {/* <span
                 data-tooltip-target="language"
                 aria-label="زبان و ارتباطات"
                 title="زبان و ارتباطات"
                 className="custom-button !p-3"
               >
                 <MdOutlineLanguage className="h-6 w-6" />
-              </span>
+              </span> */}
             </div>
 
             {/* تاریخ و عکس */}
