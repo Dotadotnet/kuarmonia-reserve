@@ -29,7 +29,6 @@ const News = async () => {
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
                 <HighlightText title={"جدیدترین اخبار "} />
               </h2>
-              <p className="text-base">اخبار روز و فرصت های مهاجرت</p>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
@@ -40,6 +39,7 @@ const News = async () => {
               </Link>
             </div>
           </div>
+          <p className="text-base">اخبار روز و فرصت های مهاجرت</p>
 
           <NewsSlider news={news} />
         </div>

@@ -23,13 +23,11 @@ const BlogsServer = async () => {
     >
       <Container>
         <div className="w-full h-full flex flex-col gap-y-4">
-          
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4 items-start">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
                 <HighlightText title={"مجلات و مقالات"} />
               </h2>
-              <p className="text-base"> نگاهی کوتاه به موضوعات مهاجرت، ازدواج  </p>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
@@ -40,6 +38,7 @@ const BlogsServer = async () => {
               </Link>
             </div>
           </div>
+          <p className="text-base"> نگاهی کوتاه به موضوعات مهاجرت، ازدواج </p>
           <BlogsClient blogs={blogs} />
         </div>
       </Container>

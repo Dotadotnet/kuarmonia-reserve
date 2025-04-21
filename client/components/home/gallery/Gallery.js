@@ -95,7 +95,7 @@ const Gallery = () => {
                       : Array.from({ length: 9 }).map((_, index) => (
                           <div
                             key={index}
-                            className={`lg:col-span-3 md:col-span-6 col-span-12 border w-full bg-gray-300 drop-shadow rounded animate-pulse ${
+                            className={`lg:col-span-3 md:col-span-6 col-span-12 border w-full border-gray-100 bg-gray-300 drop-shadow rounded animate-pulse ${
                               index % 2 === 0
                                 ? "row-span-2 h-[364px]"
                                 : "h-[159px]"

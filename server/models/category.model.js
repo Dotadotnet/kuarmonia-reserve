@@ -66,6 +66,7 @@ const categorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const defaultDomain = process.env.API;
 
 categorySchema.pre("save", async function (next) {
   if (!this.isNew || this.categoryId) {

@@ -30,9 +30,6 @@ const PropertiesServer = async () => {
               <h2 className="lg:text-5xl md:text-4xl text-4xl whitespace-normal">
                 <HighlightText title={"فرصت های سرمایه گذاری"} />
               </h2>
-              <p className="text-base">
-                بهترین ها برای خرید ملک و سرمایه گذاری
-              </p>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
@@ -43,6 +40,7 @@ const PropertiesServer = async () => {
               </Link>
             </div>
           </div>
+          <p className="text-base">بهترین ها برای خرید ملک و سرمایه گذاری</p>
           <PropertiesClient properties={properties} />
         </section>
       </Container>

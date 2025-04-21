@@ -23,14 +23,11 @@ const PostsServer = async () => {
     >
       <Container>
         <section className="w-full h-full flex flex-col gap-y-4">
-        <div className="flex flex-row justify-between items-center">
-          <article className="flex items-start flex-col gap-y-4">
-          <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
+          <div className="flex flex-row justify-between items-center">
+            <article className="flex items-start flex-col gap-y-4">
+              <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
                 <HighlightText title={"از ما بخوانید"} />
               </h2>
-              <p className="text-base">
-              جدیدترین تغییرات قوانین مهاجرت در کشورهای مختلف
-              </p>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
@@ -41,6 +38,9 @@ const PostsServer = async () => {
               </Link>
             </div>
           </div>
+          <p className="text-base">
+            جدیدترین تغییرات قوانین مهاجرت در کشورهای مختلف
+          </p>
           <PostsClient posts={posts} />
         </section>
       </Container>
