@@ -22,7 +22,7 @@ const PropertiesServer = async () => {
       }}
     >
       <Container>
-        <section className="w-full h-full flex flex-col gap-y-12">
+        <section className="w-full h-full flex flex-col gap-y-2">
           <div className="flex flex-col gap-y-12">
             <article className="flex flex-col gap-y-4">
               <h1 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">

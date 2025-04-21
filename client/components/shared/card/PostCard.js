@@ -61,11 +61,11 @@ const PostCard = ({ post = {}, superAdmin = {}, isLoading = false }) => {
             )}
           </div>
 
-          <h3 className="text-gray-800 line-clamp-1 dark:text-gray-100 m-0 text-sm md:text-lg">
+          <h3 className="text-gray-800 line-clamp-1 dark:text-gray-100 m-0 text-sm md:text-lg text-right">
             {isLoading ? <SkeletonText lines={1} /> : title}
           </h3>
 
-          <p className="text-xs line-clamp-3 lg:line-clamp-4 lg:text-sm text-justify text-gray-500">
+          <p className="text-xs line-clamp-3 lg:line-clamp-4 lg:text-sm  text-gray-500 text-right">
             {isLoading ? <SkeletonText lines={3} /> : description}
           </p>
 

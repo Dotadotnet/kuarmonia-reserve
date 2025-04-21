@@ -23,7 +23,7 @@ const MediasClient = ({ medias }) => {
       }}
     >
       <Container>
-        <section className="w-full h-full flex flex-col gap-y-12">
+        <section className="w-full h-full flex flex-col gap-y-2">
           <div className="flex flex-col gap-y-12">
             <article className="flex flex-col gap-y-4">
               <p className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
@@ -46,7 +46,7 @@ const MediasClient = ({ medias }) => {
             breakpoints={{
               0: { slidesPerView: 1.2 },
               768: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 }
+              1024: { slidesPerView: 4 }
             }}
           >
             {medias && medias.length === 0
