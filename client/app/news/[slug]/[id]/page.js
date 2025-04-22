@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar";
 import './Style.css'
 const NewsPost = async ({ params }) => {
   const { id } = params;
-  const api = `${process.env.NEXT_PUBLIC_BASE_URL}/news/get-news/${id}`;
+  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news/${id}`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["news", `news/${id}`] }
