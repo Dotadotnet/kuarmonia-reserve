@@ -8,8 +8,8 @@ import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
 import Pagination from "@/components/shared/pagination/Pagination";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
 import Search from "@/components/shared/search";
-import AddButton from "@/components/shared/button/AddButton";
 import ControlPanel from "../../ControlPanel";
+import Edit from "@/components/icons/Edit";
 
 const ListFaq = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,7 +87,7 @@ const ListFaq = () => {
               <div className="col-span-10 lg:col-span-3 text-center flex items-center">
                 <StatusIndicator isActive={faq.status === "active"} />
                 <div className="py-2 flex justify-center items-center gap-x-2 text-right">
-                  <Image
+                  <img
                     src={faq?.creator?.avatar.url}
                     alt={``}
                     height={100}
@@ -129,7 +129,7 @@ const ListFaq = () => {
                     className="edit-button "
                     onClick={() => openEditModal(faq)}
                   >
-                    <FiEdit3 className="w-5 h-5" />
+                    <Edit className="w-5 h-5" />
                   </span>
                   <DeleteModal
                     message="آیا از حذف این سوال اطمینان دارید؟"
