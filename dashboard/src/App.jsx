@@ -50,6 +50,8 @@ import NewsType from "./pages/news-types";
 import Settings from "./pages/settings";
 import Aboutus from "./pages/settings/aboutus";
 import AddMember from "./pages/settings/aboutus/add";
+import Faqs from "./pages/settings/faqs";
+import AddFaqs from "./pages/settings/faqs/add";
 
 function App() {
   const location = useLocation();
@@ -121,6 +123,8 @@ function App() {
           <Route exact path="/settings" element={<Settings />} />
           <Route exact path="/settings/aboutus/" element={<Aboutus />} />
           <Route exact path="/settings/aboutus/add" element={<AddMember />} />
+          <Route exact path="/settings/faqs/" element={<Faqs />} />
+          <Route exact path="/settings/faqs/add" element={<AddFaqs />} />
         </Routes>
       </Auth>
     </Providers>

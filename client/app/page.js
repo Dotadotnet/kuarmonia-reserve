@@ -13,6 +13,7 @@ import Steps from "@/components/home/steps/Steps";
 import Medias from "@/components/home/medias/Medias";
 import Reviews from "@/components/shared/review/Reviews";
 import Main from "@/layouts/Main";
+import Testimonials from "@/components/home/testimonials/TestimonialsClient";
 
 export default async function Home() {
 
@@ -31,8 +32,10 @@ export default async function Home() {
         <Steps />
         <PopularDestination />
         <Gallery />
+        <Testimonials />
         <FAQ />
         <NewsLetter />
+        
       </Main>
     </>
   );

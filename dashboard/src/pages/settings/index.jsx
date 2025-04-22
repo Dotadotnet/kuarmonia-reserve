@@ -10,7 +10,7 @@ export default function Setting() {
     { name: "درباره ما", path: "./aboutus" },
     { name: "تماس با ما", path: "./contact" },
     { name: "شبکه‌های اجتماعی", path: "./social-media" },
-    { name: "سوالات متداول", path: "./setting/faqs" }
+    { name: "سوالات متداول", path: "./faqs" }
   ];
 
   return (

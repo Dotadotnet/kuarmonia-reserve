@@ -7,9 +7,8 @@ import { CgClose } from "react-icons/cg";
 const MobileMenu = ({ isOpen, setIsOpen }) => {
 
   return (
-    <div className="relative">
       <motion.div
-        className="flex md:hidden w-full p-0 items-center justify-between"
+        className="flex md:hidden w-full relative p-0 items-center justify-between"
         initial={{ opacity: 0, x: 200 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 200 }}
@@ -33,7 +32,6 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
           </div>
       
       </motion.div>
-    </div>
   );
 };
 

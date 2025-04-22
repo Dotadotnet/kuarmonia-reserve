@@ -33,11 +33,9 @@ const faqApi = kuarmoniaApi.injectEndpoints({
 
     getFaqs: builder.query({
       query: () => ({
-        url: "/faq/",
+        url: "/faqs/get-faqs",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+       
       }),
 
       providesTags: ["Faqs"],

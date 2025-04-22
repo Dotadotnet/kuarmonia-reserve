@@ -5,7 +5,6 @@ import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 const PostsServer = async () => {
   const api = `${process.env.API}/post/get-posts`;
-  console.log("API URL:", process.env.API); // Log the API URL for debugging
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["posts"] }
