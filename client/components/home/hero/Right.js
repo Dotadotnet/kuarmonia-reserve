@@ -49,14 +49,14 @@ function Right() {
               }}
             >
               <Image
-                src="/assets/home-page/banner/model1.png"
+                src="/assets/home-page/banner/model1.webp"
                 alt="model"
                 height={872}
                 width={500}
                 className="lg:w-[400px] hidden md:block lg:ml-0 md:ml-auto"
               />
               <Image
-                src="/assets/home-page/banner/model2.png"
+                src="/assets/home-page/banner/model2.webp"
                 alt="model"
                 height={872}
                 width={500}

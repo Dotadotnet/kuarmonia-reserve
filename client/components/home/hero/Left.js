@@ -88,7 +88,7 @@ function Left() {
                 }}
               >
                 <Image
-                  src="/assets/home-page/banner/building1.png"
+                  src="/assets/home-page/banner/building1.webp"
                   height={872}
                   width={500}
                   alt="سرمایه گذاری"
@@ -108,7 +108,7 @@ function Left() {
                 }}
               >
                 <Image
-                  src="/assets/home-page/banner/marriage1.png"
+                  src="/assets/home-page/banner/marriage1.webp"
                   height={500}
                   width={500}
                   alt="ازدواج بین المللی"
@@ -149,7 +149,7 @@ function Left() {
                 }}
               >
                 <Image
-                  src="/assets/home-page/banner/marriage2.png"
+                  src="/assets/home-page/banner/marriage2.webp"
                   height={872}
                   width={500}
                   alt="ازدواج بین االمللی"
@@ -191,7 +191,7 @@ function Left() {
                 }}
               >
                 <Image
-                  src="/assets/home-page/banner/tourism.png"
+                  src="/assets/home-page/banner/tourism.webp"
                   height={872}
                   width={500}
                   alt="'گردشگری و تفریحی"
