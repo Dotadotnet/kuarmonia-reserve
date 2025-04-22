@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-import "Style.css"
+import "./Style.css"
 export default function Testimonials({ testimonials }) {
   return (
     <Swiper
