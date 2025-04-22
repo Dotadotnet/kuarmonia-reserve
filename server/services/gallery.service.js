@@ -3,13 +3,31 @@ const Gallery = require("../models/gallery.model");
 const Product = require("../models/product.model");
 const User = require("../models/user.model");
 const remove = require("../utils/remove.util");
-const Category = require("../models/category.model");
+const Translation = require("../models/translation.model");
+const translateFields = require("../utils/translateFields");
 
 /* add new gallery */
 exports.addGallery = async (req, res) => {
-  const { tags, socialLinks, ...otherInformation } = req.body;
+  const { title, description } = req.body;
   let thumbnail = null;
   let gallery = [];
+
+  let translations;
+  try {
+    translations = await translateFields({ title, description }, [
+      "title",
+      "description"
+    ]);
+  } catch (err) {
+    console.error("خطا در ترجمه:", err.message);
+    return res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در ترجمه",
+      error: err.message
+    });
+  }
+
   if (req.uploadedFiles["thumbnail"].length) {
     thumbnail = {
       url: req.uploadedFiles["thumbnail"][0].url,
@@ -23,13 +41,33 @@ exports.addGallery = async (req, res) => {
       public_id: file.key
     }));
   }
-  const galleries = await Gallery.create({
-    ...otherInformation,
+  const result = await Gallery.create({
     creator: req.admin._id,
     thumbnail,
+    title,
+    description,
     gallery
   });
 
+  const translationDocs = Object.entries(translations).map(
+    ([lang, { fields }]) => ({
+      language: lang,
+      refModel: "Gallery",
+      refId: result._id,
+      fields
+    })
+  );
+  try {
+    await Translation.insertMany(translationDocs);
+  } catch (translationError) {
+    await Gallery.findByIdAndDelete(result._id);
+    return res.status(500).json({
+      acknowledgement: false,
+      message: "Translation Save Error",
+      description: "خطا در ذخیره ترجمه‌ها. گالری حذف شد.",
+      error: translationError.message
+    });
+  }
   res.status(201).json({
     acknowledgement: true,
     message: "Created",
