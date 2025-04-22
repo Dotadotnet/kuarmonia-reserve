@@ -13,7 +13,7 @@ import Steps from "@/components/home/steps/Steps";
 import Medias from "@/components/home/medias/Medias";
 import Reviews from "@/components/shared/review/Reviews";
 import Main from "@/layouts/Main";
-import Testimonials from "@/components/home/testimonials/TestimonialsClient";
+import Testimonials from "@/components/home/testimonials/Testimonials";
 
 export default async function Home() {
 
