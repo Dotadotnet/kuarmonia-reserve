@@ -29,7 +29,7 @@ const NewsCard = ({ news }) => {
             alt="feature tour"
             width={256}
             height={144}
-            className="object-cover h-full w-full md:w-[250px] md:h-[150px] rounded"
+            className="object-cover h-full w-full md:w-[250px] md:h-[250px] rounded"
           />
         )}
         <div className="flex flex-row lg:justify-center gap-x-2">
