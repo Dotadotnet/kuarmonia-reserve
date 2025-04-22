@@ -4,7 +4,7 @@ import HighlightText from "@/components/shared/highlightText/HighlightText";
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 const MediasServer = async () => {
-  const api = `${process.env.API}/media/get-medias`;
+  const api = `${process.env.NEXT_PUBLIC_API}/media/get-medias`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["medias"] }

@@ -4,7 +4,7 @@ import HighlightText from "@/components/shared/highlightText/HighlightText";
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 const PostsServer = async () => {
-  const api = `${process.env.API}/post/get-posts`;
+  const api = `${process.env.NEXT_PUBLIC_API}/post/get-posts`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["posts"] }

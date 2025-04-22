@@ -5,7 +5,7 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
 
 const PropertiesServer = async () => {
-  const api = `${process.env.API}/property/get-properties`;
+  const api = `${process.env.NEXT_PUBLIC_API}/property/get-properties`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["properties"] }

@@ -5,7 +5,7 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import NewsSlider from "./NewsSlider";
 
 const News = async () => {
-  const api = `${process.env.API}/news/get-news`;
+  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["news"] }

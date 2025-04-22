@@ -4,7 +4,7 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
 const BlogsServer = async () => {
-  const api = `${process.env.API}/blog/get-blogs`;
+  const api = `${process.env.NEXT_PUBLIC_API}/blog/get-blogs`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["blogs"] }
