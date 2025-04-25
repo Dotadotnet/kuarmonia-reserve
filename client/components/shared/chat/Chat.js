@@ -4,7 +4,11 @@ import { useEffect } from "react";
 
 
 export default function Chat() {
+      
     useEffect(() => {
+        window.CRISP_RUNTIME_CONFIG = {
+            locale : "fr"
+          };     
         window.$crisp = [];
         window.CRISP_WEBSITE_ID = "96c59817-5fcc-48e1-a63c-6f947cf5cee9";
         (function () {
@@ -77,7 +81,7 @@ export default function Chat() {
             if(document.querySelector('section.loader-div')){
                 document.querySelector('section.loader-div').remove()                
             }
-
+            
             let interval = setInterval(() => { 
                 function_edite();
             }, 300);

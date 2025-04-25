@@ -4,13 +4,14 @@ import Image from "next/image";
 
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-function Right() {
-    const router = useRouter();
+import { useTranslations } from 'next-intl';
 
-    return (
+function Right() {
+  const t = useTranslations('HomePage')
+  return (
         <div className="col-span-2 h-full flex flex-col  ">
         {" "}
-        <div
+        <div 
           className="w-full  md:mt-5 h-full rounded-primary relative flex flex-col gap-y-8 lg:px-2 lg:py-10 md:pt-4 pb-0"
           style={{
             backgroundImage:
@@ -22,7 +23,7 @@ function Right() {
           }}
         >
           <motion.div
-            className="lg:absolute bottom-0 right-0 order-2 lg:w-[500px] lg:ml-0 md:ml-auto"
+            className="lg:absolute bottom-0 rtl:right-0 ltr:left-0 order-2 lg:w-[500px] lg:ml-0 md:ml-auto"
             initial={{ x: 200, opacity: 0 }} 
             animate={{
               opacity: 1,
@@ -37,7 +38,7 @@ function Right() {
             }}
           >
             <motion.div
-              className="lg:absolute bottom-0 right-0 order-2 lg:w-[500px] lg:ml-0 md:ml-auto"
+              className="lg:absolute bottom-0 rtl:right-0 ltr:left-0 order-2 lg:w-[500px] lg:mr-0 md:ml-auto"
               animate={{
                 y: ["0px", "20px", "0px"]
               }}
@@ -53,7 +54,7 @@ function Right() {
                 alt="model"
                 height={872}
                 width={500}
-                className="lg:w-[400px] hidden md:block lg:ml-0 md:ml-auto"
+                className="lg:w-[400px] ltr:-scale-x-100 hidden md:block lg:ml-0 md:ml-auto"
               />
               <Image
                 src="/assets/home-page/banner/model2.png"
@@ -74,10 +75,10 @@ function Right() {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.3 }} 
               >
-                کارمونیا
+                {t('0')}
                 <br />{" "}
-                <span className="md:text-5xl text-black">
-                  مهاجرت و سرمایه‌گذاری
+                <span className="md:text-5xl [word-spacing:0.6rem] text-black">
+                {t('1')}
                 </span>
                 <br />
               </motion.h1>

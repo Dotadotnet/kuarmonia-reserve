@@ -3,6 +3,7 @@ import Logo from "@/components/shared/logo/Logo";
 import ThemeToggle from "@/components/shared/navbar/ThemeToggle/ThemeToggle";
 import GoogleLogin from "../user/GoogleLogin";
 import PhoneLogin from "../user/phoneLogin/PhoneLogin";
+import LanguageSwitcher from "@/components/shared/navbar/languageSwitch/page";
 const signin = () => {
   return (
     <section
@@ -11,7 +12,7 @@ const signin = () => {
       <div className="wave"></div>
       <div className="wave wave2"></div>
       <div className="wave wave3"></div>
-      <div className="max-w-md w-full dark:bg-gray-800 p-5 sm:p-8 bg-white flex flex-col gap-y-4 rounded-primary shadow-lg z-10">
+      <div className="max-w-md w-full  dark:bg-slate-800 p-5 sm:p-8 bg-white flex flex-col gap-y-4 rounded-primary shadow-lg z-10">
         <div className="flex flex-row items-center gap-x-2">
           <hr className="w-full" />
           <div className="flex justify-center w-full">
@@ -31,6 +32,9 @@ const signin = () => {
         </div>{" "}
         <div className="flex justify-center">
           <ThemeToggle />
+          <span className="mr-2">
+          <LanguageSwitcher />
+          </span>
         </div>
       </div>
     </section>

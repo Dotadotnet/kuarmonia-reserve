@@ -1,10 +1,15 @@
-import "./globals.css";
-import Auth from "./auth";
-import Session from "./session";
-import Providers from "./providers";
+import "../globals.css";
+import Auth from "../auth";
+import Session from "../session";
+import Providers from "../providers";
 import { Toaster } from "react-hot-toast";
 import Screen from "@/components/shared/loading/Screen";
 import ThemeProvider from "@/utils/ThemeContext";
+import language from "../language";
+import { NextIntlClientProvider, hasLocale } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { routing } from '@/i18n/routing';
+
 
 export const metadata = {
   metadataBase: new URL("https://kuarmonia.com"), // لینک سایت
@@ -66,20 +71,29 @@ export const metadata = {
   ]
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children, params }) {
+  // let lang_str = params.lang ? params.lang : 'fa';
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+  const class_language = new language(locale);
+  const lang = class_language.getInfo()
   return (
-    <html lang="fa">
-      <body dir="rtl" >
-        <Screen />
-        <Providers>
-            <Session>
-              <Auth>
+    <NextIntlClientProvider>
+      <Providers>
+        <Session>
+          <Auth>
+            <html lang={lang.lang}>
+              <body dir={lang.dir} >
                 {children}
-              </Auth>
-            </Session>
-          <Toaster />
-        </Providers>
-      </body>
-    </html>
+              </body>
+            </html>
+            <Toaster />
+            <Screen />
+          </Auth>
+        </Session>
+      </Providers>
+    </NextIntlClientProvider>
   );
 }

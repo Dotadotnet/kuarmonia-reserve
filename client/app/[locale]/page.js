@@ -16,8 +16,6 @@ import Main from "@/layouts/Main";
 
 export default async function Home() {
 
-
-
   return (
     <>
       <Main>

@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from "react";
 
 const OutsideClick = ({ children, onOutsideClick, className }) => {
   const wrapperRef = useRef(null);
-
+   
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -17,6 +17,8 @@ const OutsideClick = ({ children, onOutsideClick, className }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    
+
   }, [onOutsideClick]);
 
   return (
