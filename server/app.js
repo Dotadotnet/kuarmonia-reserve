@@ -52,6 +52,8 @@ app.use("/api/property", require("./routes/property.route"));
 app.use("/api/tradeType", require("./routes/tradeType.route"));
 app.use("/api/saleType", require("./routes/saleType.route"));
 app.use("/api/propType", require("./routes/propType.route"));
+app.use("/api/propAward", require("./routes/propAward.route"));
+app.use("/api/propStandard", require("./routes/propStandard.route"));
 app.use("/api/media", require("./routes/media.route"));
 app.use("/api/dynamic", require("./routes/dynamic.route"));
 app.use("/api/blog", require("./routes/blog.route"));
@@ -70,6 +72,7 @@ app.use("/api/news", require("./routes/news.route"));
 app.use("/api/newsType", require("./routes/newsType.route"));
 app.use("/api/newsCountry", require("./routes/newsCountry.route"));
 app.use("/api/teamMember", require("./routes/teamMember.route"));
+app.use("/api/faqs", require("./routes/faqs.route"));
 // app.use("/api/upload", require("./routes/upload.route"));
 
 app.use(error);

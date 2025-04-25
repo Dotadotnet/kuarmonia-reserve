@@ -23,7 +23,7 @@ router.post(
   authorize("superAdmin", "admin"),
   upload('gallery').fields([
     { name: "thumbnail", maxCount: 1 },
-    { name: "gallery", maxCount: 10 },
+    { name: "gallery", maxCount: 20 },
   ]),
   galleryController.addGallery
 );

@@ -1,7 +1,7 @@
+"use client";
 import React from 'react'
 import { AiTwotoneFire } from "react-icons/ai";
 import Image from "next/image";
-
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useTranslations } from 'next-intl';
@@ -83,42 +83,48 @@ function Right() {
                 <br />
               </motion.h1>
 
-              <motion.h1
-                className="md:text-3xl font-nozha text-4xl w-full text-right"
-                initial={{ x: -200, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.4 }}
-              >
-                برای <span className="text-white">آینده‌ای روشن</span> و{" "}
-                <span className="text-white">سرمایه‌گذاری موفق</span>
-              </motion.h1>
+            {/* عنوان توضیحی */}
+            <motion.h2
+              className="md:text-3xl font-nozha text-4xl w-full text-right"
+              initial={{ x: -200, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.4 }}
+            >
+              برای <span className="text-white">آینده‌ای روشن</span> و{" "}
+              <span className="text-white">سرمایه‌گذاری موفق</span>
+            </motion.h2>
 
-              <motion.p
-                className="flex flex-row gap-x-0.5 items-center text-right justify-start md:text-md text-black"
-                initial={{ x: -200, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.6 }}
-              >
-                در کارمونیا، راه‌های جدیدی برای مهاجرت و ساخت آینده‌ای درخشان در
-                اختیار شما قرار می‌دهیم
-                <AiTwotoneFire className="text-[#ffa384] w-12 h-12 drop-shadow" />
-              </motion.p>
+            {/* پاراگراف توضیحی */}
+            <motion.p
+              className="flex flex-row gap-x-0.5 items-center text-right justify-start md:text-md text-black"
+              initial={{ x: -200, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.6 }}
+            >
+              در کارمونیا، راه‌های نوینی برای مهاجرت، دریافت اقامت، و ساخت آینده‌ای درخشان در
+              کشورهایی مثل کانادا، ترکیه، و اروپا ارائه می‌دهیم.
+              <AiTwotoneFire
+                className="text-[#ffa384] w-12 h-12 drop-shadow"
+                aria-hidden="true"
+              />
+            </motion.p>
 
-              {/* Animated Button */}
-              <motion.button
-                className="px-8 py-4 border border-black justify-start rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow w-fit mt-4"
-                onClick={() => router.push("/tours")}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 100, damping: 15 }}
-              >
-                شروع سفر موفقیت‌آمیز شما
-              </motion.button>
-            </div>
+            {/* دکمه CTA */}
+            <motion.button
+              className="px-8 py-4 border border-black justify-start rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow w-fit mt-4"
+              onClick={() => router.push("/tours")}
+              aria-label="مشاهده تورهای مهاجرت و سرمایه‌گذاری"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 100, damping: 15 }}
+            >
+              شروع سفر موفقیت‌آمیز شما
+            </motion.button>
           </div>
         </div>
       </div>
-    )
+    </div>
+  );
 }
 
-export default Right
+export default Right;

@@ -8,7 +8,7 @@ export async function generateMetadata(
   parent
 ) {
     const { slug } = await params ;
-  const res = await fetch(process.env.API + '/dynamic/get/blog/slug/' +slug);
+  const res = await fetch(process.env.NEXT_PUBLIC_API + '/dynamic/get/blog/slug/' +slug);
   const res_decoded = await res.json();
   const data = res_decoded.data;  
   return {
@@ -21,7 +21,7 @@ export async function generateMetadata(
 
 const BlogContent = async ({ params }) => {
   const { slug } = params;
-  const res = await fetch(process.env.API + '/dynamic/get/blog/slug/' + slug);
+  const res = await fetch(process.env.NEXT_PUBLIC_API + '/dynamic/get/blog/slug/' + slug);
   const fetchData = await res.json();
 
 

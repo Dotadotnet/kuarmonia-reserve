@@ -10,7 +10,7 @@ export async function generateMetadata( { params, searchParams }, parent) {
 
   // fetch data
 
-  const res = await fetch(process.env.API + '/property/get-by-id/' + id);
+  const res = await fetch(process.env.NEXT_PUBLIC_API + '/property/get-by-id/' + id);
   const res_decoded = await res.json();
   const data = res_decoded.data;
 
@@ -26,7 +26,7 @@ export async function generateMetadata( { params, searchParams }, parent) {
 
 const Property = async ({ params }) => {
   const { id, slug } = params;
-  const res = await fetch(process.env.API + '/property/get-by-id/' + id);
+  const res = await fetch(process.env.NEXT_PUBLIC_API + '/property/get-by-id/' + id);
   const res_decoded = await res.json();
   const data = res_decoded.data;
 

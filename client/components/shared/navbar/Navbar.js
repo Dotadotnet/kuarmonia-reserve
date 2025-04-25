@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <>
-      {isMobile ? <MobileNav isOpen={isOpen} setIsOpen={setIsOpen} /> : ''}
+      {isMobile && <MobileNav isOpen={isOpen} setIsOpen={setIsOpen} />}
       <header>
         <Container>
           <ProgressBar />

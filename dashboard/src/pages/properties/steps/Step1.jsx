@@ -81,12 +81,12 @@ const Step1 = ({ register, errors, control }) => {
     () =>
       saleTypesData?.data?.map((item) => ({
         ...item,
-        label: item.title,
-        value: item._id
+        id: item._id,
+        title:item.title,
+        value: item.title
       })) || [],
     [saleTypesData]
   );
-
   const currencies = useMemo(
     () =>
       fetchCurrenciesData?.data?.map((currency) => ({
@@ -205,7 +205,6 @@ const Step1 = ({ register, errors, control }) => {
             <Dropdown
               items={saleTypes}
               placeholder="نوع فروش ملک"
-              value={value?._id}
               onChange={onChange}
               className="w-full"
               height="py-3"

@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useMemo } from "react";
 
-import { useGetFaqsQuery, useRemoveFaqMutation } from "@/services/faq/faqApi";
+import { useGetFaqsQuery, useDeleteFaqMutation } from "@/services/faq/faqApi";
 import AddFaq from "./add";
 import { toast } from "react-hot-toast";
 import StatusIndicator from "@/components/shared/tools/StatusIndicator";
 import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
-import { FiEdit3 } from "react-icons/fi";
 import Pagination from "@/components/shared/pagination/Pagination";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
 import Search from "@/components/shared/search";
+import ControlPanel from "../../ControlPanel";
+import Edit from "@/components/icons/Edit";
 
 const ListFaq = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +23,7 @@ const ListFaq = () => {
     search: searchTerm
   });
   const [removeFaq, { isLoading: isRemoving, error: removeError }] =
-    useRemoveFaqMutation();
+  useDeleteFaqMutation();
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
   const faqs = useMemo(() => data?.data || [], [data]);
 
@@ -58,7 +59,7 @@ const ListFaq = () => {
 
   return (
     <>
-      <Panel>
+      <ControlPanel>
         <AddFaq />
         <Search searchTerm={searchTerm} />
         {/* نمایش داده‌های تگ‌ها */}
@@ -86,7 +87,7 @@ const ListFaq = () => {
               <div className="col-span-10 lg:col-span-3 text-center flex items-center">
                 <StatusIndicator isActive={faq.status === "active"} />
                 <div className="py-2 flex justify-center items-center gap-x-2 text-right">
-                  <Image
+                  <img
                     src={faq?.creator?.avatar.url}
                     alt={``}
                     height={100}
@@ -128,7 +129,7 @@ const ListFaq = () => {
                     className="edit-button "
                     onClick={() => openEditModal(faq)}
                   >
-                    <FiEdit3 className="w-5 h-5" />
+                    <Edit className="w-5 h-5" />
                   </span>
                   <DeleteModal
                     message="آیا از حذف این سوال اطمینان دارید؟"
@@ -146,7 +147,7 @@ const ListFaq = () => {
           totalPages={totalPages}
           onPageChange={(page) => setCurrentPage(page)}
         />
-      </Panel>
+      </ControlPanel>
     </>
   );
 };

@@ -12,7 +12,6 @@ import {
 const PropertyCard = ({ property }) => {
   let updatedFinalPrice = property?.finalPrice;
   let updatedFinalPriceLabel = property?.finalPriceLabel;
-console.log(property)
   if (property?.tradeType && property?.variants) {
     const deposit = property?.variants?.find(
       (variant) => variant?.type === "deposit"

@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import TinyMceEditor from "@/components/shared/ckeditor/TinyMceEditor";
+import ModalPortal from "@/components/shared/modal/ModalPortal";
+import Modal from "@/components/shared/modal/Modal";
+import { Controller } from "react-hook-form";
 
-const Step2 = ({
+const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
+    const [isOpen, setIsOpen] = useState(false);
   
-  register,
-  errors,
-}) => {
-
-
+  const stripHtmlTags = (html) => {
+    const tempElement = document.createElement("div");
+    tempElement.innerHTML = html;
+    return tempElement.textContent || tempElement.innerText || "";
+  };
 
   return (
     <div className="w-full max-h-128 flex flex-col gap-y-2">
@@ -61,41 +66,61 @@ const Step2 = ({
           <span className="text-red-500 text-sm">{errors.summary.message}</span>
         )}
       </label>
-      <label htmlFor="description" className="flex flex-col gap-y-1 w-full">
-        <span className="text-sm">توضیحات   ملک را وارد کنید</span>
-        <textarea
-          type="text"
-          name="description"
-          id="description"
-          {...register("description", {
-            required: "وارد کردن توضیحات الزامی است",
-            minLength: {
-              value: 3,
-              message: "توضیحات باید حداقل ۳ حرف داشته باشد"
-            },
-            maxLength: {
-              value: 460,
-              message: "توضیحات نباید بیشتر از ۴۶۰ حرف باشد"
-            }
-          })}
-          placeholder="توضیحات ملک"
-          maxLength="460"
-          className="p-2 rounded border w-full"
+      <label
+        htmlFor="content"
+        className="flex flex-col gap-y-4 w-full h-[150px]"
+      >
+        * محتوا
+        <Controller
+          name="content"
+          control={control}
+          rules={{ required: "محتوا الزامی است" }}
+          render={({ field }) => (
+            <>
+              <textarea
+                {...field}
+                value={stripHtmlTags(editorData)}
+                placeholder="برای ویرایش کلیک کنید..."
+                readOnly
+                rows={8}
+                onClick={() => setIsOpen(true)}
+                className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 text-justify dark:text-white "
+              />
 
+              {errors.content && (
+                <span className="text-red-500 text-sm">
+                  {errors.content.message}
+                </span>
+              )}
+              <ModalPortal>
+                <Modal
+                  isOpen={isOpen}
+                  onOpen={() => setIsOpen(true)}
+                  onClose={() => setIsOpen(false)}
+                  className=" md:!w-2/3 !w-full h-fit !p-1 !mx-0 !rounded-none"
+                >
+                  <TinyMceEditor
+                    value={editorData}
+                    onChange={(value) => {
+                      setEditorData(value);
+                      field.onChange(value);
+                    }}
+                  />
+                </Modal>
+              </ModalPortal>
+            </>
+          )}
         />
-        {errors.description && (
-          <span className="text-red-500 text-sm">{errors.description.message}</span>
-        )}
       </label>
       <label htmlFor="createDate" className="flex flex-col gap-y-2 w-full">
-        تاریخ ساخت
+       عمر ساختمان
         <input
           type="text"
           name="createDate"
           id="createDate"
           className="rounded p-2 border w-full border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           {...register("createDate", {
-            required: "تاریخ ساخت الزامی است",
+            required: "عمر ساخت الزامی است",
             pattern: {
               value: /^\d{1,2}$/, // فقط سال 4 رقمی را قبول می‌کند
               message: "لطفاً سال را به درستی وارد کنید"
@@ -109,7 +134,7 @@ const Step2 = ({
         )}
       </label>
       <label htmlFor="square" className="flex flex-col gap-y-2 w-full">
-      مساحت
+        مساحت
         <input
           type="text"
           name="square"
@@ -118,20 +143,15 @@ const Step2 = ({
           {...register("square", {
             required: "مساحت ساخت الزامی است",
             pattern: {
-              value: /^\d{1,3}$/, 
+              value: /^\d{1,3}$/,
               message: "لطفاً مساحت را به درستی وارد کنید"
             }
           })}
         />
         {errors.square && (
-          <span className="text-red-500 text-sm">
-            {errors.square.message}
-          </span>
+          <span className="text-red-500 text-sm">{errors.square.message}</span>
         )}
       </label>
-    
-
-    
     </div>
   );
 };

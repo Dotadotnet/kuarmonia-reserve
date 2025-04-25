@@ -1,27 +1,27 @@
 // AddFaq.jsx
 import { Controller, useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
-import { useAddFaqMutation, useUpdateFaqMutation } from "@/services/faq/faqApi";
+import { useAddFaqMutation } from "@/services/faq/faqApi";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
-import { useSelector } from "react-redux";
 import AddButton from "@/components/shared/button/AddButton";
-import { FaPlus } from "react-icons/fa";
-import MultiSelectDropdown from "@/components/shared/multiSelectDropdown/MultiSelectDropdown";
-import { useGetCategoriesForDropDownMenuQuery } from "@/services/category/categoryApi";
-import { useGetTagsForDropDownMenuQuery } from "@/services/tag/tagApi";
-import { TagIcon } from "@/utils/SaveIcon";
-import SearchableDropdown from "@/components/shared/dropdownmenu/SearchableDropdown";
+import { useGetCategoriesQuery } from "@/services/category/categoryApi";
+import { useGetTagsQuery } from "@/services/tag/tagApi";
+import Plus from "@/components/icons/Plus";
+import Tag from "@/components/icons/Tag";
+import MultiSelect from "@/components/shared/dropDown/MultiSelect";
+import Dropdown from "@/components/shared/dropDown/Dropdown";
+
 const AddFaq = ({}) => {
   const { register, handleSubmit, reset, control,formState: { errors }  } = useForm();
   const [addFaq, { isLoading: isAdding, data: addData, error: addError }] =
     useAddFaqMutation();
   const [isOpen, setIsOpen] = useState(false);
   const { data: categoriesData, refetch: refetchCategories } =
-    useGetCategoriesForDropDownMenuQuery();
+  useGetCategoriesQuery();
   const { data: tagsData, refetch: refetchTags } =
-    useGetTagsForDropDownMenuQuery();
+  useGetTagsQuery();
   const categories = useMemo(
     () => categoriesData?.data || [],
     [categoriesData]
@@ -44,23 +44,25 @@ const AddFaq = ({}) => {
       toast.loading("در حال ارسال ...", { id: "faq-loading" });
     }
 
-    if (addData && !isAdding) {
-      toast.dismiss("faq-loading");
+    if (addData && addData?.acknowledgement ) {
+      toast.success(addData?.description,{id:"faq-loading"})
       reset();
       setIsOpen(false);
     }
 
     if (addError?.data) {
-      toast.error(addError?.data?.message, { id: "faq-loading" });
+      toast.error(addError?.data?.description, { id: "faq-loading" });
     }
   }, [addData, addError, isAdding]);
 
   const handleAddFaq = (data) => {
+    const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
+
     const requestData = {
       question: data.question,
       answer: data.answer,
-      category: data.category,  
-      tags: data.tags, 
+      category: data.category.id,  
+      tags: extractIds(data.tags), 
     };
     addFaq(requestData);  
   };
@@ -73,7 +75,7 @@ const AddFaq = ({}) => {
         <Modal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          className="lg:w-1/3 md:w-1/2 w-full z-50"
+          className="lg:w-1/3 md:w-1/2 w-full z-50 h-fit"
         >
           <form
             className="text-sm w-full h-full flex flex-col gap-y-4"
@@ -119,11 +121,11 @@ const AddFaq = ({}) => {
                       name="tags"
                       rules={{ required: "انتخاب تگ الزامی است" }}
                       render={({ field: { onChange, value } }) => (
-                        <MultiSelectDropdown
+                        <MultiSelect
                           items={tagsOptions}
                           selectedItems={value || []}
                           handleSelect={onChange}
-                          icon={<TagIcon />}
+                          icon={<Tag />}
                           placeholder="چند مورد انتخاب کنید"
                           className={"w-full h-12"}
                           returnType="id"
@@ -138,7 +140,7 @@ const AddFaq = ({}) => {
                     className="p-4 bg-green-400 dark:bg-blue-600 text-white rounded hover:bg-green-600 dark:hover:bg-blue-400 transition-colors"
                     aria-label="افزودن تگ جدید"
                   >
-                    <FaPlus />
+                    <Plus />
                   </button>
                 </div>
               </div>
@@ -160,10 +162,9 @@ const AddFaq = ({}) => {
                       name="category"
                       rules={{ required: "انتخاب دسته‌بندی الزامی است" }}
                       render={({ field: { onChange, value } }) => (
-                        <SearchableDropdown
+                        <Dropdown
                           items={categoryOptions}
                           handleSelect={onChange}
-                          value={value}
                           sendId={true}
                           errors={errors.category}
                           className={"w-full h-12"}
@@ -178,7 +179,7 @@ const AddFaq = ({}) => {
                     className="p-4 bg-green-400 dark:bg-blue-600 text-white rounded hover:bg-green-600 dark:hover:bg-blue-400 transition-colors"
                     aria-label="افزودن دسته‌بندی جدید"
                   >
-                    <FaPlus />
+                    <Plus />
                   </button>
                 </div>
               </div>

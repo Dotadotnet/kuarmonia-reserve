@@ -54,7 +54,7 @@ const UpdateCategory = ({ id }) => {
       title: data.title,
       description: data.description
     };
-
+console.log(requestData);
     updateCategory(requestData);
   };
   return (

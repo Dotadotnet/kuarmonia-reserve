@@ -1,25 +1,100 @@
 const PropType = require("../models/propertyType.model");
-const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
+const Translation = require("../models/translation.model");
+const { translate } = require("google-translate-api-x");
 
 /* add new propType */
 exports.addPropType = async (req, res) => {
   try {
-    const { body } = req;
+    const { title, description, amenities } = req.body;
+    const parsedAmenities = JSON.parse(amenities);
+    console.log("Parsed Amenities:", parsedAmenities);
+    let translatedTitleEn = "";
+    let translatedDescriptionEn = "";
+    let translatedAmenitiesEn = [];
+
+    let translatedTitleTr = "";
+    let translatedDescriptionTr = "";
+    let translatedAmenitiesTr = [];
+
+
+    try {
+      console.log("Translating to English...");
+      translatedTitleEn = (
+        await translate(title, { to: "en", client: "gtx" })
+      ).text;
+      translatedDescriptionEn = (
+        await translate(description, { to: "en", client: "gtx" })
+      ).text;
+      translatedAmenitiesEn = await Promise.all(
+        parsedAmenities.map((k) =>
+          translate(k, { to: "en", client: "gtx" }).then((res) => res.text)
+        )
+      );
+
+      console.log("Translating to Turkish...");
+      translatedTitleTr = (
+        await translate(title, { to: "tr", client: "gtx" })
+      ).text;
+      translatedDescriptionTr = (
+        await translate(description, { to: "tr", client: "gtx" })
+      ).text;
+      translatedAmenitiesTr = await Promise.all(
+        parsedAmenities.map((k) =>
+          translate(k, { to: "tr", client: "gtx" }).then((res) => res.text)
+        )
+      );
+    
+    } catch (err) {
+      console.error("خطا در ترجمه:", err.message);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Error",
+        description: "خطا در ترجمه",
+        error: err.message
+      });
+    }
     const propType = new PropType({
-      title: body.title,
-      description: body.description,
-      amenities: body.amenities,
-      creator: req.admin._id,
+      title: title,
+      description: description,
+      amenities: parsedAmenities,
+      creator: req.admin._id
     });
 
     const result = await propType.save();
-
-    await Admin.findByIdAndUpdate(result.creator, {
-      $set: {
-        propType: result._id
+    const translationData = [
+      {
+        language: "en",
+        refModel: "PropertyType",
+        refId: result._id,
+        fields: {
+          title: translatedTitleEn,
+          description: translatedDescriptionEn,
+          amenities: translatedAmenitiesEn
+        }
+      },
+      {
+        language: "tr",
+        refModel: "PropertyType",
+        refId: result._id,
+        fields: {
+          title: translatedTitleTr,
+          description: translatedDescriptionTr,
+          amenities: translatedAmenitiesTr
+        }
       }
-    });
+    ];
+    try {
+      await Translation.insertMany(translationData);
+    } catch (translationError) {
+      await PropType.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. نوع ملک حذف شد.",
+        error: translationError.message
+      });
+    }
 
     res.status(201).json({
       acknowledgement: true,
@@ -39,12 +114,10 @@ exports.addPropType = async (req, res) => {
 
 /* get all propTypes */
 exports.getPropTypes = async (res) => {
-  const propTypes = await PropType.find({ isDeleted: { $ne: true } }).populate(
-    {
-      path: "creator",
-      select: "name avatar"
-    }
-  );
+  const propTypes = await PropType.find({ isDeleted: { $ne: true } }).populate({
+    path: "creator",
+    select: "name avatar"
+  });
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
@@ -94,7 +167,7 @@ exports.updatePropType = async (req, res) => {
     };
   }
 
-  updatedPropType.keynotes = JSON.parse(req.body.keynotes);
+  updatedPropType.amenities = JSON.parse(req.body.amenities);
   updatedPropType.tags = JSON.parse(req.body.tags);
 
   await PropType.findByIdAndUpdate(req.params.id, updatedPropType);

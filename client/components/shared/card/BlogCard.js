@@ -30,7 +30,7 @@ const BlogCard = ({
     <a href={'/blog/' + slug?.replaceAll(" ","-")}>
       <div
         key={id || index}
-        className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white dark:bg-gray-800  border-gray-200 dark:border-gray-700 bg-clip-border text-gray-700 shadow-lg h-[550px] hover:border-primary cursor-pointer dark:hover:border-blue-500"
+        className="relative flex w-full scale-90 max-w-[26rem] flex-col rounded-xl bg-white dark:bg-gray-800  border-gray-200 dark:border-gray-700 bg-clip-border text-gray-700 shadow-lg h-[550px] hover:border-primary cursor-pointer dark:hover:border-blue-500"
       >
         <div className="relative mx-4 mt-4 h-60 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
           {!thumbnailPreview && (
@@ -117,14 +117,14 @@ const BlogCard = ({
               >
                 <MdLuggage className="h-6 w-6" />
               </span>
-              <span
+              {/* <span
                 data-tooltip-target="language"
                 aria-label="زبان و ارتباطات"
                 title="زبان و ارتباطات"
                 className="custom-button !p-3"
               >
                 <MdOutlineLanguage className="h-6 w-6" />
-              </span>
+              </span> */}
             </div>
 
             {/* تاریخ و عکس */}

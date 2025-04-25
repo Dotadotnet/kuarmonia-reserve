@@ -1,61 +1,37 @@
 const Category = require("../models/category.model");
 const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
-const { translate } = require("google-translate-api-x");
 const Translation = require("../models/translation.model");
+const translateFields = require("../utils/translateFields");
+
 /* add new category */
 exports.addCategory = async (req, res) => {
   try {
     const { title, description, ...body } = req.body;
 
-    let translatedTitle = "";
-    let translatedDescription = "";
-    let translatedTitleTr = "";
-    let translatedDescriptionTr = "";
-
-    // ترجمه عنوان و توضیحات به زبان‌های دیگر
+    // مرحله ترجمه
+    let translations;
     try {
-      console.log("در حال ترجمه عنوان به انگلیسی...");
-      const resultTitleEn = await translate(title, { to: "en", client: "gtx" });
-      translatedTitle = resultTitleEn.text;
-      console.log("ترجمه انگلیسی عنوان:", translatedTitle);
-
-      console.log("در حال ترجمه توضیحات به انگلیسی...");
-      const resultDescriptionEn = await translate(description, { to: "en", client: "gtx" });
-      translatedDescription = resultDescriptionEn.text;
-      console.log("ترجمه انگلیسی توضیحات:", translatedDescription);
-
-      console.log("در حال ترجمه عنوان به ترکی...");
-      const resultTitleTr = await translate(title, { to: "tr", client: "gtx" });
-      translatedTitleTr = resultTitleTr.text;
-      console.log("ترجمه ترکی عنوان:", translatedTitleTr);
-
-      console.log("در حال ترجمه توضیحات به ترکی...");
-      const resultDescriptionTr = await translate(description, { to: "tr", client: "gtx" });
-      translatedDescriptionTr = resultDescriptionTr.text;
-      console.log("ترجمه ترکی توضیحات:", translatedDescriptionTr);
+      translations = await translateFields({ title, description }, [
+        "title",
+        "description"
+      ]);
     } catch (err) {
-      console.error("خطا در ترجمه:", err);
+      console.error("خطا در ترجمه:", err.message);
       return res.status(500).json({
         acknowledgement: false,
         message: "Error",
-        description: "خطایی در فرآیند ترجمه رخ داد",
+        description: "خطا در ترجمه",
         error: err.message
       });
     }
 
-    let thumbnail = null;
-
-    if (
-      req.uploadedFiles &&
-      req.uploadedFiles["thumbnail"] &&
-      req.uploadedFiles["thumbnail"].length
-    ) {
-      thumbnail = {
-        url: req.uploadedFiles["thumbnail"][0].url,
-        public_id: req.uploadedFiles["thumbnail"][0].key
-      };
-    }
+    const thumbnail = req.uploadedFiles?.thumbnail?.[0]
+      ? {
+          url: req.uploadedFiles.thumbnail[0].url,
+          public_id: req.uploadedFiles.thumbnail[0].key
+        }
+      : null;
 
     const category = new Category({
       title,
@@ -66,40 +42,20 @@ exports.addCategory = async (req, res) => {
     });
 
     const result = await category.save();
-    console.log("دسته‌بندی با موفقیت ذخیره شد:", result);
 
-    // ذخیره ترجمه‌ها برای عنوان و توضیحات
-    const translationData = [
-      {
-        language: "en",
+    const translationDocs = Object.entries(translations).map(
+      ([lang, { fields }]) => ({
+        language: lang,
         refModel: "Category",
         refId: result._id,
-        fields: {
-          title: translatedTitle,
-          description: translatedDescription
-        }
-      },
-      {
-        language: "tr",
-        refModel: "Category",
-        refId: result._id,
-        fields: {
-          title: translatedTitleTr,
-          description: translatedDescriptionTr
-        }
-      }
-    ];
+        fields
+      })
+    );
 
     try {
-      const translations = await Translation.insertMany(translationData);
-      console.log("ترجمه‌ها با موفقیت ذخیره شدند:", translations);
+      await Translation.insertMany(translationDocs);
     } catch (translationError) {
-      console.error("خطا در ذخیره ترجمه‌ها:", translationError);
-
-      // حذف دسته‌بندی که قبلاً ذخیره شده
       await Category.findByIdAndDelete(result._id);
-      console.log("دسته‌بندی به دلیل خطا در ترجمه حذف شد.");
-
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
@@ -109,9 +65,7 @@ exports.addCategory = async (req, res) => {
     }
 
     await Admin.findByIdAndUpdate(result.creator, {
-      $set: {
-        category: result._id
-      }
+      $set: { category: result._id }
     });
 
     res.status(201).json({
@@ -177,29 +131,73 @@ exports.getCategory = async (req, res) => {
 
 /* update category */
 exports.updateCategory = async (req, res) => {
-  const category = await Category.findById(req.params.id);
-  let updatedCategory = req.body;
-  if (!req.body.thumbnail && req.file) {
-    await remove(category.thumbnail.public_id);
+  try {
+    const category = await Category.findById(req.params.id);
 
-    updatedCategory.thumbnail = {
-      url: req.file.path,
-      public_id: req.file.filename
-    };
+    if (!category) {
+      return res.status(404).json({
+        acknowledgement: false,
+        message: "Not Found",
+        description: "دسته‌بندی پیدا نشد"
+      });
+    }
+
+    let updatedCategory = req.body;
+    // حذف تصویر قبلی در صورت آپلود جدید
+    if (!req.body.thumbnail && req.file) {
+      if (category.thumbnail?.public_id) {
+        await remove(category.thumbnail.public_id);
+      }
+
+      updatedCategory.thumbnail = {
+        url: req.file.path,
+        public_id: req.file.filename
+      };
+    }
+
+    const translatableFields = ["title", "description"];
+
+    const changedFields = translatableFields.filter(
+      (field) =>
+        updatedCategory[field] && updatedCategory[field] !== category[field]
+    );
+
+    if (changedFields.length > 0) {
+      const translations = await translateFields(
+        updatedCategory,
+        changedFields
+      );
+
+      for (const [language, { fields }] of Object.entries(translations)) {
+        await Translation.findOneAndUpdate(
+          {
+            language,
+            refModel: "Category",
+            refId: category._id
+          },
+          { fields },
+          { upsert: true, new: true }
+        );
+      }
+    }
+    console.log("Updated Category:", updatedCategory);
+    await Category.findByIdAndUpdate(req.params.id, updatedCategory);
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "دسته‌بندی با موفقیت ویرایش شد"
+    });
+  } catch (error) {
+    console.error("Error in updateCategory:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در بروزرسانی دسته‌بندی",
+      error: error.message
+    });
   }
-
-  updatedCategory.keynotes = JSON.parse(req.body.keynotes);
-  updatedCategory.tags = JSON.parse(req.body.tags);
-
-  await Category.findByIdAndUpdate(req.params.id, updatedCategory);
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "Category updated successfully"
-  });
 };
-
 /* delete category */
 exports.deleteCategory = async (req, res) => {
   const category = await Category.findByIdAndUpdate(

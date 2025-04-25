@@ -1,42 +1,91 @@
 /* internal imports */
 const TeamMember = require("../models/teamMember.model");
+const Translation = require("../models/translation.model");
+const translateFields = require("../utils/translateFields");
 
 /* 📌 اضافه کردن عضو جدید */
 exports.addTeamMember = async (req, res) => {
   try {
-    const {socialLinks, ...otherInfo } = req.body;
+    const {
+      socialLinks,
+      fullName,
+      description,
+      department,
+      position,
+      nationality,
+      activeCountry,
+      ...otherInfo
+    } = req.body;
+    let translations;
+    try {
+      translations = await translateFields(
+        { fullName, description, department, position, nationality,activeCountry },
+        ["fullName", "description", "department", "position", "nationality","activeCountry"]
+      );
+      console.log("translations", translations);
+    } catch (err) {
+      console.error("خطا در ترجمه:", err.message);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Error",
+        description: "خطا در ترجمه",
+        error: err.message
+      });
+    }
+
     let avatar = null;
-    console.log("req.uploadedFiles", req.uploadedFiles["teamMember"]);
     if (req.uploadedFiles["teamMember"]?.length) {
       avatar = {
         url: req.uploadedFiles["teamMember"][0].url,
         public_id: req.uploadedFiles["teamMember"][0].key
       };
     }
-    console.log("Avatar:", avatar);
+    console.log("avatar", avatar);
     const teamMember = new TeamMember({
       ...otherInfo,
       avatar,
-      socialLinks:JSON.parse(socialLinks),
-      creator: req.admin._id,
+      fullName,
+      description,
+      department,
+      position,
+      nationality,
+      activeCountry,
+      socialLinks: JSON.parse(socialLinks),
+      creator: req.admin._id
     });
     const result = await teamMember.save();
-
-
-
+    const translationDocs = Object.entries(translations).map(
+      ([lang, { fields }]) => ({
+        language: lang,
+        refModel: "TeamMember",
+        refId: result._id,
+        fields
+      })
+    );
+    try {
+      await Translation.insertMany(translationDocs);
+    } catch (translationError) {
+      await TeamMember.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. عضو تیم حذف شد.",
+        error: translationError.message
+      });
+    }
     res.status(201).json({
       acknowledgement: true,
       message: "Created",
       description: "عضو با موفقیت ایجاد شد",
-      data: result,
+      data: result
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در ثبت  رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
@@ -45,34 +94,34 @@ exports.addTeamMember = async (req, res) => {
 exports.getTeamMembers = async (res) => {
   try {
     const teamMembers = await TeamMember.find({ isDeleted: false })
-    .populate("creator")
-    .populate("socialLinks.network");
+      .populate("creator")
+      .populate("socialLinks.network");
     console.log("teamMembers", teamMembers);
-        res.status(200).json({
+    res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست عضوها با موفقیت دریافت شد",
-      data: teamMembers,
+      data: teamMembers
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در دریافت عضوها رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
 
 exports.getLeader = async (res) => {
   try {
-    const leaders = await TeamMember.find({ 
-      isDeleted: false, 
-      position: 'رهبر' // یا 'role' اگر نام فیلد شما این باشد
+    const leaders = await TeamMember.find({
+      isDeleted: false,
+      position: "رهبر" // یا 'role' اگر نام فیلد شما این باشد
     })
-    .populate("creator")
-    .populate("socialLinks.network");
+      .populate("creator")
+      .populate("socialLinks.network");
 
     console.log("leaders", leaders);
 
@@ -80,7 +129,7 @@ exports.getLeader = async (res) => {
       acknowledgement: true,
       message: "Ok",
       description: "لیست اعضای با پوزیشن رهبر با موفقیت دریافت شد",
-      data: leaders,
+      data: leaders
     });
   } catch (error) {
     console.log(error);
@@ -88,11 +137,10 @@ exports.getLeader = async (res) => {
       acknowledgement: false,
       message: "Error",
       description: "خطایی در دریافت اعضای پوزیشن رهبر رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
-
 
 /* 📌 دریافت یک عضو */
 exports.getTeamMember = async (req, res) => {
@@ -103,7 +151,7 @@ exports.getTeamMember = async (req, res) => {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
-        description: "عضو مورد نظر یافت نشد",
+        description: "عضو مورد نظر یافت نشد"
       });
     }
 
@@ -111,14 +159,14 @@ exports.getTeamMember = async (req, res) => {
       acknowledgement: true,
       message: "Ok",
       description: "عضو با موفقیت دریافت شد",
-      data: teamMember,
+      data: teamMember
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در دریافت عضو رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
@@ -130,15 +178,19 @@ exports.updateTeamMember = async (req, res) => {
     console.log("Updated TeamMember:", updatedTeamMember);
     console.log("TeamMember ID:", req.params.id);
 
-    const result = await TeamMember.findByIdAndUpdate(req.params.id, updatedTeamMember, {
-      new: true,
-    });
+    const result = await TeamMember.findByIdAndUpdate(
+      req.params.id,
+      updatedTeamMember,
+      {
+        new: true
+      }
+    );
 
     if (!result) {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
-        description: "عضو مورد نظر برای بروزرسانی یافت نشد",
+        description: "عضو مورد نظر برای بروزرسانی یافت نشد"
       });
     }
 
@@ -146,14 +198,14 @@ exports.updateTeamMember = async (req, res) => {
       acknowledgement: true,
       message: "Ok",
       description: "عضو با موفقیت بروزرسانی شد",
-      data: result,
+      data: result
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در بروزرسانی عضو رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
@@ -165,28 +217,27 @@ exports.deleteTeamMember = async (req, res) => {
       req.params.id,
       { isDeleted: true },
       { new: true }
-  );
-  
+    );
+
     if (!teamMember) {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
-        description: "عضو مورد نظر برای حذف یافت نشد",
+        description: "عضو مورد نظر برای حذف یافت نشد"
       });
     }
-
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
-      description: "عضو با موفقیت حذف شد",
+      description: "عضو با موفقیت حذف شد"
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در حذف عضو رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };

@@ -13,7 +13,7 @@ const propertyApi = kuarmoniaApi.injectEndpoints({
         },
         body
       }),
-      invalidatesTags: ["Property", "Category", "User"]
+      invalidatesTags: ["Property", "Category", "Admin"]
     }),
 
     // get all properties
@@ -36,7 +36,7 @@ const propertyApi = kuarmoniaApi.injectEndpoints({
         },
         body
       }),
-      invalidatesTags: ["Property", "Category", "User"]
+      invalidatesTags: ["Property", "Category", "Admin"]
     }),
 
     // get a single property
@@ -57,7 +57,7 @@ const propertyApi = kuarmoniaApi.injectEndpoints({
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         }
       }),
-      invalidatesTags: ["Property", "Category", "User"]
+      invalidatesTags: ["Property", "Category", "Admin"]
     }),
 
    

@@ -117,8 +117,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "نوع معامله", icon: Switch, path: "/prop-trades" },
         { title: "نوع فروش", icon: PSale, path: "/prop-sales" },
         { title: "نوع ملک", icon: Buildings, path: "/prop-types" },
-        { title: "استاندارها", icon: Standard, path: "/property-standard" },
-        { title: "جوایز", icon: Medal, path: "/property-award" }
+        { title: "استاندارها", icon: Standard, path: "/prop-standards" },
+        { title: "جوایز", icon: Medal, path: "/prop-awards" }
       ]
     },
     {

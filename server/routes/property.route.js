@@ -28,6 +28,7 @@ router.post(
   propertyController.addProperty
 );
 
+
 // get all propertys
 router.get("/get-properties", propertyController.getProperties);
 

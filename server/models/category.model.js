@@ -1,9 +1,12 @@
 /* واردات خارجی */
 const mongoose = require("mongoose");
-const validator = require("validator");
 const { ObjectId } = mongoose.Schema.Types;
 const Counter = require("./counter");
 const baseSchema = require("./baseSchema.model");
+const {
+  generateSlug,
+ } = require("../utils/translationUtils");
+
 /* ایجاد اسکیمای دسته‌بندی */
 const categorySchema = new mongoose.Schema(
   {
@@ -18,7 +21,10 @@ const categorySchema = new mongoose.Schema(
       unique: [true, "دسته‌بندی مشابه از قبل وجود دارد"],
       maxLength: [100, "عنوان شما باید حداکثر ۱۰۰ کاراکتر باشد"]
     },
-
+    slug: {
+      type: String,
+      unique: true
+    },
     icon: {
       type: String,
       required: false
@@ -39,7 +45,17 @@ const categorySchema = new mongoose.Schema(
       trim: true,
       maxLength: [500, "توضیحات شما باید حداکثر ۵۰۰ کاراکتر باشد"]
     },
-
+    canonicalUrl: {
+      type: String,
+      required: false,
+      trim: true,
+      validate: {
+        validator: function (v) {
+          return /^(https?:\/\/[^\s$.?#].[^\s]*)$/.test(v);
+        },
+        message: "URL معتبر نیست"
+      }
+    },
     creator: {
       type: ObjectId,
       ref: "Admin"
@@ -50,12 +66,18 @@ const categorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const defaultDomain = process.env.API;
 
 categorySchema.pre("save", async function (next) {
   if (!this.isNew || this.categoryId) {
     return next();
   }
-
+  if (this.isModified("title")) {
+    this.slug = await generateSlug(this.title);
+  }
+  if (!this.canonicalUrl) {
+    this.canonicalUrl = `${defaultDomain}/tags/${this.slug}`;
+  }
   try {
     const counter = await Counter.findOneAndUpdate(
       { name: "categoryId" },

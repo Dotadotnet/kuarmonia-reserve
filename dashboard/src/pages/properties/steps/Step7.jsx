@@ -1,135 +1,148 @@
-import React, { useState, useEffect } from "react";
-import GeoLocation from "@/components/detail/GeoLocation";
+import React from "react";
+import Plus from "@/components/icons/Plus";
+import Minus from "@/components/icons/Minus";
+import { Controller } from "react-hook-form";
+import GalleryUpload from "@/components/shared/gallery/GalleryUpload";
 
 const Step7 = ({
-
-  setSelectedCountry,
-  setSelectedState,
-  setSelectedCity,
-  selectedCountry,
-  selectedState,
-  selectedCity,
-  setSelectedLocation
+  errors,
+  register,
+  ourEventSpaces,
+  setOurEventSpaces,
+  control
 }) => {
+  function handleAddEventSpace() {
+    setOurEventSpaces([
+      ...ourEventSpaces,
+      {
+        name: "",
+        intro: "",
+        description: "",
+        squareFootage: "",
+        spacesGallery: [],
+     
+      }
+    ]);
+  }
 
-  const [countries, setCountries] = useState([]);
-   const [states, setStates] = useState([]);
-   const [cities, setCities] = useState([]);
-   const [mapCountry, setMapCountry] = useState("Bangladesh");
- 
-   useEffect(() => {
-     fetch("/data/countries.json")
-       .then((res) => res.json())
-       .then((data) => setCountries(data))
-       .catch((err) => console.error("Error loading countries JSON:", err));
-   }, []);
- 
-   const handleCountryChange = (e) => {
-     const countryId = parseInt(e.target.value);
-     const country = countries.find((c) => c.id === countryId);
- 
-     setSelectedCountry(country ? country.name : ""); // ذخیره نام کشور
-     setSelectedState("");
-     setSelectedCity("");
-     setCities([]);
- 
-     fetch("/data/states.json")
-       .then((res) => res.json())
-       .then((data) => {
-         const filteredStates = data.filter((s) => s.country_id === countryId);
-         setStates(filteredStates);
-       })
-       .catch((err) => console.error("Error loading states JSON:", err));
- 
-     if (country) {
-       setMapCountry(country.name); // ارسال نام کشور به نقشه
-     }
-   };
- 
-   const handleStateChange = (e) => {
-     const stateId = parseInt(e.target.value);
-     const state = states.find((s) => s.id === stateId);
- 
-     setSelectedState(state ? state.name : ""); // ذخیره نام استان
-     setSelectedCity("");
- 
-     fetch("/data/cities.json")
-       .then((res) => res.json())
-       .then((data) => {
-         const filteredCities = data.filter((c) => c.state_id === stateId);
-         setCities(filteredCities);
-       })
-       .catch((err) => console.error("Error loading cities JSON:", err));
-   };
- 
-   const handleCityChange = (e) => {
-     const cityId = parseInt(e.target.value);
-     const city = cities.find((c) => c.id === cityId);
- 
-     setSelectedCity(city ? city.name : ""); // ذخیره نام شهر
-   };
+  const handleRemoveEventSpace = (index) => {
+    const updatedEventSpaces = [...ourEventSpaces];
+    updatedEventSpaces.splice(index, 1);
+    setOurEventSpaces(updatedEventSpaces);
+  };
 
+  const handleChange = (index, field, value) => {
+    const updatedEventSpaces = [...ourEventSpaces];
+    updatedEventSpaces[index][field] = value;
+    setOurEventSpaces(updatedEventSpaces);
+  };
+  const handleSetGallery = (index, files) => {
+    const updatedEventSpaces = [...ourEventSpaces];
+    updatedEventSpaces[index].spacesGallery = files;
+    setOurEventSpaces(updatedEventSpaces);
+  };
+  
+  const handleSetGalleryPreview = (index, previews) => {
+    const updatedEventSpaces = [...ourEventSpaces];
+    updatedEventSpaces[index].galleryPreview = previews;
+    setOurEventSpaces(updatedEventSpaces);
+  };
   return (
-    <div className="flex flex-col gap-y-4 w-full">
-      {/* کشور */}
-      <div className="flex flex-col gap-y-1">
-             {/* کشور */}
-             <select
-               className="w-full"
-               onChange={handleCountryChange}
-               value={countries.find((c) => c.name === selectedCountry)?.id || ""}
-             >
-               <option value="">کشور را انتخاب کنید</option>
-               {countries.map((c) => (
-                 <option key={c.id} value={c.id}>
-                   {c.name}
-                 </option>
-               ))}
-             </select>
-     
-             {states.length > 0 && (
-               <select
-                 className="w-full"
-                 onChange={handleStateChange}
-                 value={states.find((s) => s.name === selectedState)?.id || ""}
-               >
-                 <option value="">استان را انتخاب کنید</option>
-                 {states.map((s) => (
-                   <option key={s.id} value={s.id}>
-                     {s.name}
-                   </option>
-                 ))}
-               </select>
-             )}
-     
-             {cities.length > 0 && (
-               <select
-                 className="w-full"
-                 onChange={handleCityChange}
-                 value={cities.find((c) => c.name === selectedCity)?.id || ""}
-               >
-                 <option value="">شهر را انتخاب کنید</option>
-                 {cities.map((c) => (
-                   <option key={c.id} value={c.id}>
-                     {c.name}
-                   </option>
-                 ))}
-               </select>
-             )}
-      
-           </div>
-     
-     
-           <GeoLocation
-             location={mapCountry}
-             setSelectedLocation={setSelectedLocation}
-             zoom={10}
-             height="200px"
-           />
-     
+    <>
+      <div className="w-full flex flex-col gap-y-4 p-2 border rounded ">
+        <div className="overflow-y-auto max-h-96 p-2">
+          {ourEventSpaces.map((eventSpace, index) => (
+            <label key={index} className="flex flex-col gap-y-1">
+              <span className="text-sm flex flex-row justify-between items-center">
+                اطلاعات فضای رویداد را وارد کنید
+                <span className="flex flex-row gap-x-1">
+                  {index > 0 && (
+                    <span
+                      className="cursor-pointer p-0.5 border rounded bg-red-500 w-6 h-6 text-white flex justify-center items-center"
+                      onClick={() => handleRemoveEventSpace(index)}
+                    >
+                      <Minus />
+                    </span>
+                  )}
+                  {index === ourEventSpaces.length - 1 && (
+                    <span
+                      className="cursor-pointer w-6 h-6 flex justify-center items-center p-0.5 border rounded bg-green-500 text-white"
+                      onClick={handleAddEventSpace}
+                    >
+                      <Plus />
+                    </span>
+                  )}
+                </span>
+              </span>
+              <div className="flex flex-col gap-y-2.5">
+                <input
+                  type="text"
+                  placeholder="نام فضا"
+                  value={eventSpace.name}
+                  onChange={(e) => handleChange(index, "name", e.target.value)}
+                  className="p-2 rounded border"
+                />
+                {errors?.ourEventSpaces?.[index]?.name && (
+                  <span className="text-red-500 text-sm">
+                    {errors.ourEventSpaces[index].name.message}
+                  </span>
+                )}
+                <input
+                  type="text"
+                  placeholder="معرفی فضا"
+                  value={eventSpace.intro}
+                  onChange={(e) => handleChange(index, "intro", e.target.value)}
+                  className="p-2 rounded border"
+                />
+                {errors?.ourEventSpaces?.[index]?.intro && (
+                  <span className="text-red-500 text-sm">
+                    {errors.ourEventSpaces[index].intro.message}
+                  </span>
+                )}
+                <textarea
+                  placeholder="توضیحات"
+                  value={eventSpace.description}
+                  rows={5}
+                  onChange={(e) =>
+                    handleChange(index, "description", e.target.value)
+                  }
+                  className="p-2 rounded border"
+                />
+                {errors?.ourEventSpaces?.[index]?.description && (
+                  <span className="text-red-500 text-sm">
+                    {errors.ourEventSpaces[index].description.message}
+                  </span>
+                )}
 
+                <input
+                  type="number"
+                  placeholder="متراژ (فوت مربع)"
+                  value={eventSpace.squareFootage}
+                  onChange={(e) =>
+                    handleChange(index, "squareFootage", e.target.value)
+                  }
+                  className="p-2 rounded border"
+                />
+                {errors?.ourEventSpaces?.[index]?.squareFootage && (
+                  <span className="text-red-500 text-sm">
+                    {errors.ourEventSpaces[index].squareFootage.message}
+                  </span>
+                )}
 
-    </div>
+                <GalleryUpload
+                  setGallery={(files) => handleSetGallery(index, files)}
+                  setGalleryPreview={(previews) => handleSetGalleryPreview(index, previews)}
+                  maxFiles={5}
+                  register={register}
+                  title="آپلود تصاویر فضای رویداد"
+                  iconSize={6}
+                />
+              </div>
+            </label>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

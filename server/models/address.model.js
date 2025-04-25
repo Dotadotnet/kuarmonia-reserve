@@ -14,35 +14,42 @@ const addressSchema = new mongoose.Schema(
     },
     state: {
       type: String,
-      required: [true, "لطفا استان را وارد کنید"],
       trim: true
     },
     city: {
       type: String,
-      required: [true, "لطفا شهر را وارد کنید"],
       trim: true
     },
     street: {
       type: String,
-      required: [true, "لطفا خیابان را وارد کنید"],
       trim: true
     },
     plateNumber: {
       type: String,
-      required: [true, "لطفا پلاک را وارد کنید"],
       trim: true
     },
-    phone: {
-      type: String,
-      required: [true, "لطفا شماره تماس خود را وارد کنید"],
-      validate: {
-        validator: (value) => /^09\d{9}$/.test(value),
-        message:
-          "شماره تماس {VALUE} معتبر نیست. شماره باید 11 رقم باشد و با 09 شروع شود"
-      },
-      unique: true
+    amenities: [
+      {
+        title: {
+          type: String,
+          required: [true, " امکانات الزامی است"],
+          maxLength: [100, " امکانات نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
+        },
+        hasAmenity: {
+          type: Boolean,
+          default: false
+        }
+      }
+    ],
+    phone: { 
+      type: String, 
+      required: [true, 'لطفا شماره تماس خود را وارد کنید'],
+      match: [/^\+?[1-9]\d{1,14}$/, 'شماره تماس باید فرمت بین‌المللی داشته باشد']
     },
-
+    email: { 
+      type: String, 
+      match: [/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/, 'ایمیل وارد شده معتبر نیست']
+    },
     floor: {
       type: String,
       default: "همکف",
@@ -54,11 +61,7 @@ const addressSchema = new mongoose.Schema(
     },
     postalCode: {
       type: String,
-      required: [true, "لطفا کد پستی را وارد کنید"],
-      validate: {
-        validator: (value) => /^\d{10}$/.test(value),
-        message: "کد پستی باید ۱۰ رقم باشد"
-      }
+     
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,

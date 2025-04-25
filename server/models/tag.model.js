@@ -73,14 +73,14 @@ const tagSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
+const defaultDomain = process.env.API;
 
 tagSchema.pre("save", async function (next) {
   if (this.isModified("title")) {
     this.slug = await generateSlug(this.title);
   }
   if (!this.canonicalUrl) {
-    this.canonicalUrl = `${defaultDomain}/tags/${this.slug.replace(" ","-")}`;
+    this.canonicalUrl = `${defaultDomain}/tags/${this.slug}`;
   }
   try {
     const counter = await Counter.findOneAndUpdate(

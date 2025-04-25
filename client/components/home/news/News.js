@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
 import Link from "next/link";
@@ -6,23 +5,30 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import NewsSlider from "./NewsSlider";
 
 const News = async () => {
-  const api = `${process.env.API}/news/get-news`;
+  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
   const response = await fetch(api, {
     cache: "no-store",
-    next: { tags: ["news"] },
+    next: { tags: ["news"] }
   });
   const res = await response.json();
   const news = res.data;
 
   return (
-    <section id="flights" className="py-12 dark:bg-gray-900">
+    <section
+      id="flights"
+      className="pt-12 dark:bg-gray-900"
+      style={{
+        backgroundImage: "url(/assets/home-page/blogs-and-travel-guide/bg.svg)",
+        backgroundPosition: "125% 80%"
+      }}
+    >
       <Container>
-        <section className="w-full h-full flex flex-col gap-y-12">
+        <div className="w-full h-full flex flex-col gap-y-6">
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4">
-              <p className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText>جدید ترین</HighlightText> اخبار
-              </p>
+              <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
+                <HighlightText title={"جدیدترین اخبار "} />
+              </h2>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
@@ -33,9 +39,10 @@ const News = async () => {
               </Link>
             </div>
           </div>
+          <p className="text-base">اخبار روز و فرصت های مهاجرت</p>
 
           <NewsSlider news={news} />
-        </section>
+        </div>
       </Container>
     </section>
   );

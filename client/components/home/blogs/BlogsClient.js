@@ -17,7 +17,7 @@ const BlogsClient = ({ blogs }) => {
       spaceBetween={24}
       autoplay={{ delay: 4500 }}
       breakpoints={{
-        0: { slidesPerView: 1.2 },
+        0: { slidesPerView: 1.1 },
         768: { slidesPerView: 2 },
         1024: { slidesPerView: 3 }
       }}

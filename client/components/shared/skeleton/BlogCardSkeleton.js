@@ -4,7 +4,7 @@ import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 
 const BlogCardSkeleton = () => {
   return (
-    <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl  0 dark:border-gray-700  h-[550px] animate-pulse">
+    <div className="relative scale-90 flex w-full max-w-[26rem] flex-col rounded-xl  0 dark:border-gray-700  h-[550px] animate-pulse">
       {/* تصویر اصلی */}
       <div className="relative mx-4 mt-4 h-60 overflow-hidden rounded-xl">
         <SkeletonImage

@@ -8,7 +8,8 @@ import { useGetFaqsQuery } from "@/services/faq/faqApi";
 
 const FAQ = () => {
     const { data, isLoading, error, refetch } = useGetFaqsQuery({});
-  
+  console.log(data)
+  console.log(error)
     const faqs = useMemo(() => data?.data || [], [data]);
   const [expandedIndex, setExpandedIndex] = useState(null);
 
@@ -18,24 +19,15 @@ const FAQ = () => {
   };
 
   return (
-    <section className="h-full py-12">
-      <Container>
-        <div className="w-full h-full flex flex-col gap-y-12">
-          <article className="flex flex-col gap-y-4">
-            <h1 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-              <HighlightText>سوالات متداول شما</HighlightText> درباره مهاجرت
-              <Image
-                src="/assets/home-page/destination/underline.svg"
-                alt="arrow"
-                height={7}
-                width={275}
-                className="mt-1.5"
-              />
-            </h1>
+    <Container>
+        <div className="w-full h-full flex flex-col gap-y-12 dark:bg-gray-900">
+          <article className="flex flex-col gap-y-4 items-start">
+            <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
+              <HighlightText title={"سوالات متداول شما"} />
+          
+            </h2>
             <p className="text-base">
-              سوالات متداول در مورد فرآیند مهاجرت و اخذ ویزا
-              اگر نتوانستید پاسخ سوال خود را پیدا کنید، می‌توانید از طریق
-              فرم تماس با ما سوال خود را مطرح کنید.
+              سوالات متداول در مورد فرآیند های ما 
             </p>
           </article>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
@@ -51,7 +43,6 @@ const FAQ = () => {
           </div>
         </div>
       </Container>
-    </section>
   );
 };
 
