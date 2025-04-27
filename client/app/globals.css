@@ -51,29 +51,32 @@ html {
   scroll-behavior:smooth;  
 }
 
-body[dir=rtl] {
+html[dir=rtl] {
   font-family:"Vazir", "Poppins", sans-serif !important;
   direction:rtl;
   overflow-x: hidden;
 }
 
-body[dir=ltr] {
+html[dir=ltr] {
   font-family: sans-serif !important;
   direction:ltr;
   overflow-x: hidden;
 }
 
-body[dir=rtl] {
-  text-align: right;
+html[dir=rtl] * {
+  @apply text-right;
   direction: rtl;
 }
 
-body[dir=ltr] * {
-  text-align: left; 
-  direction: ltr;
+
+html[dir=ltr] * {
+  @apply text-left;
+  direction: ltr; 
 }
 
-
+.text-center{
+  text-align: center !important;
+}
 
 .font-vazir {
   font-family:"Vazir";

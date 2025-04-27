@@ -1,6 +1,7 @@
 import PostsClient from "./PostsClient";
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 const PostsServer = async () => {
@@ -11,6 +12,7 @@ const PostsServer = async () => {
   });
   const res = await response.json();
   const posts = res.data;
+  const t = await getTranslations("HomePage")
   return (
     <section
       id="posts"
@@ -25,7 +27,7 @@ const PostsServer = async () => {
           <div className="flex flex-row justify-between items-center">
             <article className="flex items-start flex-col gap-y-4">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText title={"از ما بخوانید"} />
+                <HighlightText title={t("72")} />
               </h2>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
@@ -33,12 +35,12 @@ const PostsServer = async () => {
                 href="/medias"
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >
-                بیشتر ببینید <BiRightArrowAlt />
+                {t("19")} <BiRightArrowAlt />
               </Link>
             </div>
           </div>
           <p className="text-base">
-            جدیدترین تغییرات قوانین مهاجرت در کشورهای مختلف
+          {t("74")}
           </p>
           <PostsClient posts={posts} />
         </section>

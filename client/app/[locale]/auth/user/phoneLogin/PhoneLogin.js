@@ -7,18 +7,19 @@ import AddName from "./AddName";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useSignUpPhoneMutation } from "@/services/auth/authApi";
+import { useTranslations } from "next-intl";
 
 export default function PhoneLogin() {
   const { register, handleSubmit } = useForm();
   const [signin, { data, isLoading, error }] = useSignUpPhoneMutation();
-
+   const t = useTranslations("Auth")
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [step, setStep] = useState(1);
 
   useEffect(() => {
     if (isLoading) {
-      toast.loading("در حال تایید ...", { id: "signup" });
+      toast.loading(t("10"), { id: "signup" });
     }
 
     if (data?.success) {

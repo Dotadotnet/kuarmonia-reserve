@@ -3,6 +3,7 @@ import HighlightText from "@/components/shared/highlightText/HighlightText";
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 import NewsSlider from "./NewsSlider";
+import { getTranslations } from "next-intl/server";
 
 const News = async () => {
   const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
@@ -12,6 +13,7 @@ const News = async () => {
   });
   const res = await response.json();
   const news = res.data;
+  const t = await getTranslations("HomePage");
 
   return (
     <section
@@ -27,7 +29,7 @@ const News = async () => {
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText title={"جدیدترین اخبار "} />
+                <HighlightText title={t("17")} />
               </h2>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
@@ -35,11 +37,11 @@ const News = async () => {
                 href="/news"
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >
-                بیشتر ببینید <BiRightArrowAlt />
+                {t("19")} <BiRightArrowAlt />
               </Link>
             </div>
           </div>
-          <p className="text-base">اخبار روز و فرصت های مهاجرت</p>
+          <p className="text-base">{t("18")}</p>
 
           <NewsSlider news={news} />
         </div>

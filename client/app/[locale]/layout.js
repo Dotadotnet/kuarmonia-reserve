@@ -84,8 +84,8 @@ export default async function RootLayout({ children, params }) {
       <Providers>
         <Session>
           <Auth>
-            <html lang={lang.lang}>
-              <body dir={lang.dir} >
+            <html lang={lang.lang} dir={lang.dir}>
+              <body>
                 {children}
               </body>
             </html>

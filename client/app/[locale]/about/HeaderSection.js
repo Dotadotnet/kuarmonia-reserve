@@ -12,8 +12,10 @@ import {
   Pagination,
   Autoplay
 } from "swiper/modules";
+import { useTranslations } from "next-intl";
 
 const HeaderSection = () => {
+  const t = useTranslations("About");
   const TypingAnimation = ({ texts, speed = 9000, pause = 12000 }) => {
     const [displayedText, setDisplayedText] = useState("");
     const [index, setIndex] = useState(0);
@@ -58,27 +60,24 @@ const HeaderSection = () => {
 
   const sliders = [
     {
-      title: "ازدواج بین المللی",
-      description:
-        "ارائه مشاوره و راهنمایی جهت انجام مراحل قانونی ازدواج بین‌المللی"
+      title: t("2"),
+      description: t("3")
     },
     {
-      title: "مهاجرت",
-      description:
-        "برنامه‌ریزی، تهیه مدارک و مشاوره برای مهاجرت به کشورهای مختلف"
+      title: t("4"),
+      description: t("5")
     },
     {
-      title: "سرمایه گذاری",
-      description:
-        "کمک به انتخاب فرصت‌های سرمایه‌گذاری امن و مناسب در کشورهای مقصد"
+      title: t("6"),
+      description: t("7")
     },
     {
-      title: "اخذ ویزا",
-      description: "راهنمایی و خدمات اخذ انواع ویزا متناسب با نیاز شما"
+      title: t("8"),
+      description: t("9")
     },
     {
-      title: "پی گیری امور وکالتی",
-      description: "پیگیری امور وکالتی و قانونی مرتبط با مهاجرت و سرمایه‌گذاری"
+      title: t("10"),
+      description: t("11")
     }
   ];
 
@@ -93,7 +92,7 @@ const HeaderSection = () => {
         backgroundSize: "cover"
       }}
     >
-<div className="absolute inset-0 h-[1000px] md:h-screen bg-[rgba(59,130,246,0.7)]"></div>
+      <div className="absolute inset-0 h-[1000px] md:h-screen bg-[rgba(59,130,246,0.7)]"></div>
 
       <section className=" grid grid-cols-1 md:grid md:grid-cols-2  ">
         <div className="container h-fit">
@@ -130,7 +129,7 @@ const HeaderSection = () => {
                 <div className="headline pera-content  text-center">
                   <div className="flex flex-col gap-2 justify-center">
                     <h1 className="text-3xl rounded-sm  bg-cyan-300 text-white w-fit py-2 text-right px-6  bg-opacity-70	 ">
-                      کارمونیا
+                      {t("1")}
                     </h1>
 
                     <h1 className=" text-4xl md:text-6xl rounded-sm bg-cyan-300 text-white  md:w-[550px] py-4 text-right px-2 font-bold bg-opacity-70	w-[350px] ">
@@ -148,7 +147,7 @@ const HeaderSection = () => {
         <div className="h-screen flex-1 ">
           <motion.div
             className="gt-banner-men absolute z-10"
-            initial={{ opacity: 0,x: 0  }}
+            initial={{ opacity: 0, x: 0 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{
               delay: 0.5,
@@ -217,7 +216,7 @@ const HeaderSection = () => {
             }}
             className=" absolute  translate-y-96  left-0"
           >
-           <Image
+            <Image
               src="/assets/about/plane1.png"
               width={800}
               height={800}
@@ -227,27 +226,27 @@ const HeaderSection = () => {
           </motion.div>
           <div className="parent" style={{ position: "relative", overflow: "hidden" }}>
 
-          <motion.div
-            className=" fixed  z-0 top-24"
-            initial={{ opacity: 1, x: 300 }}
-            animate={{
-              opacity: 1,
-              x: [-200, -800, -200]
-            }}
-            transition={{
-              delay: 2,
-              duration: 30,
-              type: "tween",
-              repeat: Infinity,
-              repeatType: "loop",
-              ease: "easeInOut"
-            }}
-          >
-            <img
-              src="https://tragod.com/wp-content/uploads/2024/04/cloud2.webp"
-              alt="Banner"
-            />
-          </motion.div>
+            <motion.div
+              className=" fixed  z-0 top-24"
+              initial={{ opacity: 1, x: 300 }}
+              animate={{
+                opacity: 1,
+                x: [-200, -800, -200]
+              }}
+              transition={{
+                delay: 2,
+                duration: 30,
+                type: "tween",
+                repeat: Infinity,
+                repeatType: "loop",
+                ease: "easeInOut"
+              }}
+            >
+              <img
+                src="/image/cloud.png"
+                alt="Banner"
+              />
+            </motion.div>
           </div>
 
           <div className="absolute ">

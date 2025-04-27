@@ -3,9 +3,10 @@ import Button from "@/components/shared/button/Button";
 import Container from "@/components/shared/container/Container";
 import React, { useState } from "react";
 import { BiHotel } from "react-icons/bi";
-import Image from 'next/image'
-
+import Image from 'next/image';
+import { useTranslations } from "next-intl";
 const NewsLetter = () => {
+  const t = useTranslations("HomePage")
   const [showAdditionalContent, setShowAdditionalContent] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -33,32 +34,32 @@ const NewsLetter = () => {
 
               {showAdditionalContent && (
                 <div className="bg-white flex flex-col gap-y-3 border p-4 rounded absolute top-1/3 left-1/4 mt-5">
-                <article className="flex flex-row gap-x-2">
-                  <Image
-                    src="/assets/static/News Letter.jpg"
-                    alt="thumbnail"
-                    height={300}
-                    width={300}
-                    className="rounded-[5px] object-cover h-[35px] w-[35px] border border-primary"
-                  />
-                  <div className="flex flex-col gap-y-1">
-                    <h2 className="text-base line-clamp-1">مهاجرت و سرمایه‌گذاری</h2>
-                    <p className="flex flex-row gap-x-0.5 items-center text-xs line-clamp-1">
-                      <BiHotel className="w-4 h-4 text-primary" /> کانادا و ترکیه
-                    </p>
-                  </div>
-                </article>
-                <p className="text-xs flex flex-row justify-between items-center whitespace-nowrap">
-                  <span className="flex flex-row gap-x-0.5 items-baseline">
-                    شروع از 
-                    <span className="text-sm text-primary dark:bg-blue-500">شنبه</span>
-                  </span>
-                  <span className="min-w-[1rem]" />
-                  <span className="border px-3 py-0.5 rounded-secondary">
-فقط 5 روز تا پایان فرصت                  </span>
-                </p>
-              </div>
-              
+                  <article className="flex flex-row gap-x-2">
+                    <Image
+                      src="/assets/static/News Letter.jpg"
+                      alt="thumbnail"
+                      height={300}
+                      width={300}
+                      className="rounded-[5px] object-cover h-[35px] w-[35px] border border-primary"
+                    />
+                    <div className="flex flex-col gap-y-1">
+                      <h2 className="text-base line-clamp-1">مهاجرت و سرمایه‌گذاری</h2>
+                      <p className="flex flex-row gap-x-0.5 items-center text-xs line-clamp-1">
+                        <BiHotel className="w-4 h-4 text-primary" /> کانادا و ترکیه
+                      </p>
+                    </div>
+                  </article>
+                  <p className="text-xs flex flex-row justify-between items-center whitespace-nowrap">
+                    <span className="flex flex-row gap-x-0.5 items-baseline">
+                      شروع از
+                      <span className="text-sm text-primary dark:bg-blue-500">شنبه</span>
+                    </span>
+                    <span className="min-w-[1rem]" />
+                    <span className="border px-3 py-0.5 rounded-secondary">
+                      فقط 5 روز تا پایان فرصت                  </span>
+                  </p>
+                </div>
+
               )}
             </div>
           </div>
@@ -78,12 +79,12 @@ const NewsLetter = () => {
               className="h-[50px] w-[50px] object-contain absolute lg:top-4 md:top-1 lg:left-[9.4rem] md:-left-[0.6rem] -left-[0.4rem]"
             />
             <article className="flex flex-col gap-y-4 h-full">
-            <h2 className="lg:text-4xl md:text-2xl text-xl z-50">
-  آینده‌ای روشن در انتظار شماست، به دنیای جدیدی قدم بگذارید
-</h2>
-<p className="text-sm">
-  با خدمات حرفه‌ای ما در زمینه مهاجرت و ویزا، به آسانی و با اطمینان مسیر خود را برای شروع زندگی جدید در یک کشور دیگر پیدا کنید. ما همراه شما خواهیم بود تا بهترین فرصت‌ها و راهکارها را برای یک شروع موفق فراهم کنیم.
-</p>
+              <h2 className="lg:text-4xl md:text-2xl text-xl z-50">
+                {t("65")}
+              </h2>
+              <p className="text-sm">
+                {t("66")}
+              </p>
 
 
               <label
@@ -91,8 +92,8 @@ const NewsLetter = () => {
                 className="mt-auto flex flex-row gap-x-2 z-50"
               >
                 {visible ? (
-            <span className="text-primary drop-shadow">شما با موفقیت 
-            به مجموعه ما پیوستید!</span>
+                  <span className="text-primary drop-shadow">شما با موفقیت
+                    به مجموعه ما پیوستید!</span>
 
                 ) : (
                   <>
@@ -101,14 +102,14 @@ const NewsLetter = () => {
                       name="newsletter"
                       id="newsletter"
                       disabled={visible}
-                      placeholder="ایمیل خود را وارد کنید"
+                      placeholder={t("87")}
                       className="w-full rounded border-1 border-primary text-sm z-50"
                     />
                     <Button
                       className="px-4 py-1 text-xs"
                       onClick={() => setVisible(true)}
                     >
-                       عضویت
+                      {t("88")}
                     </Button>
                   </>
                 )}

@@ -5,12 +5,12 @@ import HighlightText from "../shared/highlightText/HighlightText";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import Image from 'next/image'
 import { useGetFaqsQuery } from "@/services/faq/faqApi";
+import { useTranslations } from "next-intl";
 
 const FAQ = () => {
-    const { data, isLoading, error, refetch } = useGetFaqsQuery({});
-  console.log(data)
-  console.log(error)
-    const faqs = useMemo(() => data?.data || [], [data]);
+  const t = useTranslations("HomePage")
+  const { data, isLoading, error, refetch } = useGetFaqsQuery({});
+  const faqs = useMemo(() => data?.data || [], [data]);
   const [expandedIndex, setExpandedIndex] = useState(null);
 
 
@@ -20,29 +20,29 @@ const FAQ = () => {
 
   return (
     <Container>
-        <div className="w-full h-full flex flex-col gap-y-12 dark:bg-gray-900">
-          <article className="flex flex-col gap-y-4 items-start">
-            <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-              <HighlightText title={"سوالات متداول شما"} />
-          
-            </h2>
-            <p className="text-base">
-              سوالات متداول در مورد فرآیند های ما 
-            </p>
-          </article>
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-            {faqs.map((faq, index) => (
-              <Card
-                faq={faq}
-                key={index}
-                index={index}
-                isExpanded={expandedIndex === index}
-                onToggleCollapse={() => handleToggleCollapse(index)}
-              />
-            ))}
-          </div>
+      <div className="w-full h-full flex flex-col gap-y-12 dark:bg-gray-900">
+        <article className="flex flex-col gap-y-4 items-start">
+          <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
+            <HighlightText title={t("85")} />
+
+          </h2>
+          <p className="text-base">
+            {t("86")}
+          </p>
+        </article>
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+          {faqs.map((faq, index) => (
+            <Card
+              faq={faq}
+              key={index}
+              index={index}
+              isExpanded={expandedIndex === index}
+              onToggleCollapse={() => handleToggleCollapse(index)}
+            />
+          ))}
         </div>
-      </Container>
+      </div>
+    </Container>
   );
 };
 

@@ -4,14 +4,15 @@ import Navbar from "@/components/shared/navbar/Navbar";
 import RouteLoadingIndicator from "@/components/shared/RouteLoadingIndicator";
 
 const Main = ({ children }) => {
+
   return (
-    <div>
+    <>
       {children}
       <RouteLoadingIndicator />
-      <Chat />
+      <Chat  />
       <Navbar />
       <Footer />
-    </div>
+    </>
   );
 };
 

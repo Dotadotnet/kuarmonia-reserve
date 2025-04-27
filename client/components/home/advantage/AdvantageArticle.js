@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const AdvantageArticle = () => {
+  const t = useTranslations("HomePage");
   const items = [
     {
       _id: 1,
@@ -14,9 +16,8 @@ const AdvantageArticle = () => {
           className="border flex justify-center items-center border-primary dark:border-none shadow-lg rounded-full"
         />
       ),
-      title: "تجربه و تخصص",
-      description:
-        "تیم  ما از مشاوران و وکلای با تجربه تشکیل شده است که با قوانین و روندهای مهاجرت و اخذ ویزا به خوبی آشنا هستند. تجربه و تخصص ما به شما کمک می‌کند تا مراحل پیچیده این فرآیند را با اطمینان و آرامش طی کنید."
+      title: t("27"),
+      description: t("28")
     },
     {
       _id: 2,
@@ -29,9 +30,8 @@ const AdvantageArticle = () => {
           className="border flex justify-center items-center border-primary dark:border-none shadow-lg rounded-full"
         />
       ),
-      title: "پشتیبانی شخصی‌سازی شده",
-      description:
-        "خدمات ما کاملاً متناسب با نیازهای خاص شما طراحی شده است. ما به هر مشتری توجه فردی داریم و مشاوره‌های شخصی‌سازی شده‌ای ارائه می‌دهیم که به شما کمک می‌کند بهترین تصمیمات را بگیرید."
+      title: t("29"),
+      description: t("30")
     },
     {
       _id: 3,
@@ -44,9 +44,8 @@ const AdvantageArticle = () => {
           className="border flex justify-center items-center border-primary dark:border-none shadow-lg rounded-full"
         />
       ),
-      title: "رویکرد سریع و کارآمد",
-      description:
-        "ما از روش‌های به‌روز و کارآمد استفاده می‌کنیم تا فرآیندهای مهاجرت را به سرعت و با دقت پیش ببریم، به‌طوری‌که شما بتوانید سریع‌تر به هدف‌های خود برسید.."
+      title: t("31"),
+      description: t("32")
     },
     {
       _id: 4,
@@ -59,15 +58,14 @@ const AdvantageArticle = () => {
           className="border flex justify-center items-center border-primary dark:border-none shadow-lg rounded-full"
         />
       ),
-      title: "پشتیبانی از ابتدای تا انتهای فرآیند",
-      description:
-        "از مرحله ارزیابی اولیه تا پیگیری نهایی، ما در کنار شما خواهیم بود. تیم ما در هر مرحله از فرآیند به شما کمک می‌کند و از هرگونه چالش و مشکل پیشگیری می‌کند."
+      title: t("33"),
+      description:t("34")
     }
   ];
 
   return (
     <article className="flex flex-col gap-y-8">
- 
+
       <div className="flex flex-col gap-y-4">
         {items.map(({ _id, icon, title, description }) => (
           <div

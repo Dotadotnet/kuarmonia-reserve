@@ -5,7 +5,9 @@ import { EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "./Style.css"
+import { useTranslations } from "next-intl";
 export default function Testimonials({ testimonials }) {
+  const t = useTranslations("HomePage")
   return (
     <Swiper
       loop={true}
@@ -15,10 +17,10 @@ export default function Testimonials({ testimonials }) {
       centeredSlides
       slidesPerView="auto"
       spaceBetween={80}
-      modules={[EffectCoverflow, Autoplay]} 
+      modules={[EffectCoverflow, Autoplay]}
       autoplay={{
-        delay: 6000, 
-        disableOnInteraction: false, 
+        delay: 6000,
+        disableOnInteraction: false,
       }}
       coverflowEffect={{
         rotate: 0,
@@ -48,9 +50,11 @@ export default function Testimonials({ testimonials }) {
           <p className="text-center text-base my-4 text-gray-700 dark:text-gray-300">
             {item.text}
           </p>
-          <button className="bg-[#9176FF] text-white px-4 py-2 rounded-md mt-2 uppercase font-semibold">
-            مشاهده بیشتر
-          </button>
+          <div className="flex justify-center items-center">
+            <button className="bg-[#9176FF] text-white px-4 py-2 rounded-md mt-2 uppercase font-semibold">
+              {t("100")}
+            </button>
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>

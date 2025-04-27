@@ -1,27 +1,28 @@
 // pages/_app.js
 "use client";
 import { useEffect } from "react";
+import { Crisp } from "crisp-sdk-web";
 
-
+import { useLocale, useTranslations } from "next-intl";
+ 
 export default function Chat() {
-      
+    const lang = useLocale();
+    const t = useTranslations("CrispChat")
+
     useEffect(() => {
-        window.CRISP_RUNTIME_CONFIG = {
-            locale : "fr"
-          };     
-        window.$crisp = [];
-        window.CRISP_WEBSITE_ID = "96c59817-5fcc-48e1-a63c-6f947cf5cee9";
-        (function () {
-            let d = document;
-            let s = d.createElement("script");
-            s.src = "https://client.crisp.chat/l.js";
-            s.async = 1;
-            d.getElementsByTagName("head")[0].appendChild(s);
-        })();
+        Crisp.configure("96c59817-5fcc-48e1-a63c-6f947cf5cee9",{
+            locale: lang
+          });
+
+
+
         setTimeout(() => {
             let chat_button = document.querySelector("span.cc-157aw");
             let function_edite = () => {
-
+                let default_massage = document.querySelector('span.cc-10y2t span.cc-dvx9d');
+                if(default_massage){
+                    default_massage.innerHTML = t("0");
+                }
                 let alerts = document.querySelectorAll('div.cc-1no03 a[role~=alert]');
                 let links = document.querySelectorAll('div.cc-1no03 a[rel~=nofollow]');
                 let input_email = document.querySelector('div.cc-1no03 input[name~=message_field_identity-email]');

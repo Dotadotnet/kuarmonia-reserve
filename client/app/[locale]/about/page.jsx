@@ -15,25 +15,19 @@ import NewsLetter from "@/components/home/news-letter/NewsLetter";
 
 function AboutUs() {
   return (
-    <main>
-      <Head>
-        <title></title>
-      </Head>
-
-      <Main>
-        <HeaderSection />
-        <Container
-          className={"max-w-full bg-blue-100 relative dark:bg-gray-900"}
-        >
-          <Introduction />
-          <TeamSection />
-          <CompanyResults />
-          <UserTestimonials />
-          <TeamSlider />
-          <NewsLetter />
-        </Container>
-      </Main>
-    </main>
+    <Main>
+      <HeaderSection />
+      <Container
+        className={"max-w-full bg-blue-100 relative dark:bg-gray-900"}
+      >
+        <Introduction />
+        <TeamSection />
+        <CompanyResults />
+        <UserTestimonials />
+        <TeamSlider />
+        <NewsLetter />
+      </Container>
+    </Main>
   );
 }
 

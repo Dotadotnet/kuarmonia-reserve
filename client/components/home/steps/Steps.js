@@ -3,8 +3,10 @@ import HighlightText from "@/components/shared/highlightText/HighlightText";
 import React from "react";
 import BreakdownArticle from "./BreakdownArticle";
 import FeatureTour from "./FeatureTour";
+import { useTranslations } from "next-intl";
 
 const Steps = () => {
+  const t = useTranslations("HomePage");
   return (
     <section className="py-4 dark:bg-gray-900">
       <Container>
@@ -12,10 +14,10 @@ const Steps = () => {
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col items-start gap-y-4">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText title={"مراحل مهاجرت با کارمونیا"} />
+                <HighlightText title={t("77")} />
               </h2>
               <p className="text-base">
-                رویای مهاجرت شما تنها در ۳ مرحله است!
+                {t("78")}
               </p>
             </article>
           </div>

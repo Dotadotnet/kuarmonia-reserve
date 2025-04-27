@@ -5,10 +5,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useGetTeamMebersQuery } from "@/services/teamMember/teamMemberApi";
 function TeamMembers() {
+  const t = useTranslations("About")
   const [position, setPosition] = useState(0); // موقعیت خط (درصدی)
-
   const handleSlideChange = (swiper) => {
     const currentIndex = swiper.activeIndex; // اندیس اسلاید فعلی
     const totalSlides = -swiper.slides.length; // تعداد کل اسلایدها
@@ -16,9 +17,7 @@ function TeamMembers() {
     setPosition(newPosition); // به‌روزرسانی موقعیت
   };
   const { data, isLoading, error } = useGetTeamMebersQuery();
-
   const members = useMemo(() => data?.data || [], [data]);
-
   return (
     <section className="py-14 lg:py-24 relative mt-8 ">
       <div className="mx-auto max-w-7xl ">

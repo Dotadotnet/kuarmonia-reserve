@@ -6,27 +6,28 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Image from "next/image";
-
+import { useTranslations } from "next-intl";
 export default function KarmoniaTestimonials() {
+  const t = useTranslations("About")
   const [activeTestimonial, setActiveTestimonial] = useState("");
   const testimonials = [
     {
       id: 1,
       name: "Client 1",
       image: "/assets/about/client1.png",
-      text: "از زمانی که با شرکت کارمونیا همکاری کردم، توانستم مراحل مهاجرت به کانادا از طریق ازدواج را با خیال راحت طی کنم. مشاوران حرفه‌ای و دلسوز این تیم کمک کردند تا تمامی مراحل به سرعت و بدون مشکل پیش برود."
+      text: t("28")
     },
     {
       id: 2,
       name: "Client 2",
       image: "/assets/about/client3.png",
-      text: "من و همسرم به دنبال مهاجرت به ترکیه از طریق ازدواج بودیم. با راهنمایی‌های دقیق و پشتیبانی بی‌وقفه تیم کارمونیا , فرآیند مهاجرت برای ما بسیار ساده و سریع شد."
+      text: t("29")
     },
     {
       id: 3,
       name: "Client 3",
       image: "/assets/about/client2.png",
-      text: "من تجربه مهاجرت موفق به کانادا از طریق برنامه‌های سرمایه‌گذاری را با کمک تیم کارمونیا با تجربه داشته‌ام. تیم کارمونیا حرفه‌ای و راهکارهای منطقی و واقع‌گرایانه‌ای که به من ارائه دادند، باعث شد که این مسیر را با موفقیت طی کنم."
+      text: t("30") 
     }
   ];
 
@@ -43,7 +44,7 @@ export default function KarmoniaTestimonials() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
         <div className="mb-16 rounded-full">
           <h2 className="text-4xl font-manrope font-bold text-gray-900 text-center">
-            نظرات مشتریان موفق ما در زمینه مهاجرت
+            {t("27")}
           </h2>
         </div>
 

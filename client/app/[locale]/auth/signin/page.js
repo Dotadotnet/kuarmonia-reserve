@@ -4,7 +4,9 @@ import ThemeToggle from "@/components/shared/navbar/ThemeToggle/ThemeToggle";
 import GoogleLogin from "../user/GoogleLogin";
 import PhoneLogin from "../user/phoneLogin/PhoneLogin";
 import LanguageSwitcher from "@/components/shared/navbar/languageSwitch/page";
+import { useTranslations } from "next-intl";
 const signin = () => {
+  const t = useTranslations("Auth")
   return (
     <section
       className={`relative bg-[#dce9f5] dark:bg-[#1a202c] h-screen w-screen overflow-hidden text-black dark:text-gray-300 min-h-screen flex justify-center items-center p-4`}
@@ -25,7 +27,7 @@ const signin = () => {
 
           <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
             <p className="text-center text-textColor text-sm font-semibold mx-4 mb-0">
-              یا
+               {t("1")}
             </p>
           </div>
           <PhoneLogin />

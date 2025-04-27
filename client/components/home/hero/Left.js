@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef, useState } from "react";
 import { useSwiper, Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -8,21 +9,22 @@ import "swiper/css/navigation";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import language from "@/app/language";
 
 function Left() {
   const swiper = useSwiper();
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
+  const t = useTranslations("HomePage");
   const onAutoplayTimeLeft = (s, time, progress) => {
     progressCircle.current.style.setProperty("--progress", 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
   var prev = null;
   var next = null;
-  const t = useLocale();
-  const class_lang = new language(t);
+  const lang = useLocale();
+  const class_lang = new language(lang);
   if (class_lang.getInfo().dir == "ltr") {
      prev = "custom-next";
      next = "custom-prev";
@@ -77,15 +79,15 @@ function Left() {
           <SwiperSlide>
             <div className="flex flex-col gap-y-4 justify-center items-center p-4 text-right  md:text-center">
               <motion.h2
-                className="md:text-5xl text-white font-nozha text-6xl w-full text-right"
+                className="md:text-5xl [word-spacing:0.4rem] text-white font-nozha text-6xl w-full text-right"
                 initial={{ x: -200, opacity: 0 }} // Initial state: Slide from left
                 animate={{ x: 0, opacity: 1 }} // End state: Position in place
                 transition={{ duration: 0.3 }} // Duration of slide-in effect
               >
-                فرصت طلائی
+                {t("5")}
                 <br />{" "}
-                <span className="text-4xl text-black">
-                  خرید ملک در ترکیه
+                <span className="text-4xl [word-spacing:0.4rem] text-black">
+                {t("6")}
                 </span>
                 <br />
               </motion.h2>
@@ -138,15 +140,15 @@ function Left() {
           <SwiperSlide>
             <div className="flex flex-col gap-y-4 p-4">
               <h2
-                className="text-5xl text-white font-nozha w-full text-right"
+                className="text-5xl [word-spacing:0.4rem] text-white font-nozha w-full text-right"
                 initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                ازدواج بین‌المللی
+                {t("11")}
                 <br />{" "}
-                <span className="text-4xl text-black">
-                  اقامت قانونی در کشور مقصد!
+                <span className="text-4xl [word-spacing:0.4rem] text-black">
+                  {t("12")}
                 </span>
                 <br />
               </h2>
@@ -179,15 +181,15 @@ function Left() {
           <SwiperSlide>
             <div className="flex flex-col p-4 gap-y-4">
               <h2
-                className="text-5xl text-white font-nozha w-full text-right"
+                className="text-5xl [word-spacing:0.4rem] text-white font-nozha w-full text-right"
                 initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                خدمات  گردشگری
+                {t("9")}
                 <br />{" "}
-                <span className="text-4xl text-black">
-                  تجربه سفری خاص و بی‌نظیر در کشورهای مقصد!
+                <span className="text-4xl [word-spacing:0.4rem] text-black">
+                  {t("10")}
                 </span>
                 <br />
               </h2>

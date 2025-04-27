@@ -3,19 +3,19 @@ import React, { useMemo } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useTranslations } from "next-intl";
 import { useGetTeamLeaderQuery } from "@/services/teamMember/teamMemberApi";
 export default function TeamSection() {
-    const { data, isLoading, error } = useGetTeamLeaderQuery();
-  
+  const t = useTranslations("About")
+  const { data, isLoading, error } = useGetTeamLeaderQuery();
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.2 });
-
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
   };
   const leader = useMemo(() => data?.data || [], [data]);
-console.log(leader)
+  console.log(leader)
   return (
     <div>
       {/* Section 1 */}
@@ -39,15 +39,11 @@ console.log(leader)
             </div>
             <div className="lg:pr-[100px] flex items-center text">
               <div className="data w-full">
-                <h2 className="font-manrope font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-9 max-lg:text-center relative">
-                  رهبر تیم
+                <h2 className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-9 max-lg:text-center relative">
+                {t("16")}
                 </h2>
-                <p className="md:text-xl text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
-                  شرکت کارمونیا با هدایت مرجان قره گیزلی، متخصص در زمینه مهاجرت و
-                  سرمایه‌گذاری، به ارائه خدمات حرفه‌ای در این حوزه‌ها پرداخته
-                  است. مرجان قره گیزلی با چندین سال تجربه در این زمینه‌ها، به
-                  تیم کارمونیا کمک می‌کند تا راهکارهای مناسب برای مهاجرت و
-                  سرمایه‌گذاری در کشورهای ترکیه و کانادا ارائه دهند.
+                <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
+                {t("17")}
                 </p>
               </div>
             </div>
@@ -65,24 +61,17 @@ console.log(leader)
             animate={inView2 ? "visible" : "hidden"}
             variants={fadeInUp}
           >
-             <div className="lg:pl-24 flex mt-4 items-center">
+            <div className="lg:pl-24 flex mt-4 items-center">
               <div className="data w-full">
-                <h2 className="font-manrope font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-4 md:mb-8 max-lg:text-center relative">
-                  تیم ما
-                </h2>
-                <p className="md:text-xl text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
-                  تیم کارمونیا متشکل از افراد با تخصص‌های مختلف در زمینه‌های
-                  مهاجرت و سرمایه‌گذاری است. هر عضو تیم با تلاش و تعهد بالا به
-                  ارائه بهترین خدمات به مشتریان می‌پردازد. ما در کارمونیا به
-                  توانمندی و تخصص‌های هر فرد احترام می‌گذاریم و تلاش می‌کنیم تا
-                  راهکارهایی حرفه‌ای، قابل اعتماد و موثر برای مهاجرت و
-                  سرمایه‌گذاری ارائه دهیم. از مشاوران حقوقی گرفته تا متخصصین
-                  مالی، تمامی اعضای تیم در کنار هم هستند تا تجربیات مفیدی برای
-                  متقاضیان فراهم کنند.
+                <h2 className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-4 md:mb-8 max-lg:text-center relative">
+                {t("18")}
+                                </h2>
+                <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
+                {t("19")}
                 </p>
               </div>
             </div>
-             <div className="img-box">
+            <div className="img-box">
               <Image
                 alt="مدیر شرکت کارمونیا"
                 width={600}
@@ -91,8 +80,8 @@ console.log(leader)
                 className="max-lg:mx-auto rounded-primary object-cover"
               />
             </div>
-           
-           
+
+
           </motion.div>
         </div>
       </section>

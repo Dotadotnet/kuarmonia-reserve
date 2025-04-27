@@ -4,11 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { useVerifyMutation } from "@/services/auth/userAuthApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import { useTranslations } from "next-intl";
 
-function Verify({ otp, setOtp, phone, handleSubmit, signin,setStep }) {
+function Verify({ otp, setOtp, phone, handleSubmit, signin, setStep }) {
   const [verify, { isLoading, error, data }] = useVerifyMutation();
   const router = useRouter();
-
+  const t = useTranslations("Auth");
   const inputRefs = useRef([]);
   const handleChange = (index, value) => {
     if (!/^[0-9]?$/.test(value)) return;
@@ -38,7 +39,7 @@ function Verify({ otp, setOtp, phone, handleSubmit, signin,setStep }) {
     const code = otp.join("");
 
     if (code.length !== 4) {
-      toast.error("لطفاً کد ۴ رقمی را وارد کنید");
+      toast.error(t("11"));
       return;
     }
 
@@ -46,16 +47,16 @@ function Verify({ otp, setOtp, phone, handleSubmit, signin,setStep }) {
   };
   useEffect(() => {
     if (isLoading) {
-      toast.loading("در حال ورود...", { id: "signup" });
+      toast.loading(t("12"), { id: "signup" });
     }
 
     if (data?.success) {
       toast.success(data?.message, { id: "signup" });
-      if(data.isSignUp){
+      if (data.isSignUp) {
         setStep(3)
-      }else{
+      } else {
         setTimeout(() => {
-          window.location.href='/' 
+          window.location.href = '/'
         }, 1500);
       }
     }
@@ -75,7 +76,7 @@ function Verify({ otp, setOtp, phone, handleSubmit, signin,setStep }) {
         <div className="w-full text-center ">
           <Alert
             type="green"
-            message={`کد تأیید ۴ رقمی ارسال شده به شماره ${phone} را وارد کنید.`}
+            message={t("13", { phone: phone })}
           />
 
           <div className="flex flex-row-reverse items-center justify-center gap-3">
@@ -100,18 +101,18 @@ function Verify({ otp, setOtp, phone, handleSubmit, signin,setStep }) {
               type="submit"
               className="cursor-pointer flex items-center justify-center px-7 py-3 bg-gradient-to-br from-orange-400 to-orange-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-orange-600 hover:shadow-lg focus:bg-orange-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out w-full mt-3"
             >
-              تأیید حساب
+              {t("14")}
             </button>
           </div>
 
           <div className="text-sm text-slate-500 mt-4">
-            کد را دریافت نکردید؟
+            {t("15")}
             <button
               type="button"
               className="font-medium text-indigo-500 hover:text-indigo-600 ml-1"
               onClick={() => signin({ phone: phone })}
             >
-              ارسال مجدد
+              {t("16")}
             </button>
           </div>
         </div>

@@ -1,26 +1,24 @@
 "use client";
 import React from "react";
 import { useInView } from "react-intersection-observer";
-
+import { useTranslations } from "next-intl";
 export default function CompanyResults() {
+    const t = useTranslations("About")
     const cardsData = [
         {
             percentage: "240%",
-            title: "رشد شرکت در زمینه مهاجرت",
-            description:
-                "رشد چشمگیر شرکت در ارائه خدمات مهاجرتی و تسهیل فرآیندهای قانونی برای مشتریان.",
+            title: t("21"),
+            description: t("22") ,
         },
         {
             percentage: "175+",
-            title: "اعضای تیم مهاجرت و سرمایه‌گذاری",
-            description:
-                "تیمی متخصص و با تجربه که در زمینه مشاوره سرمایه‌گذاری و مهاجرت بین‌المللی فعالیت می‌کند.",
+            title: t("23"),
+            description:t("24"),
         },
         {
             percentage: "625+",
-            title: "پروژه‌های مهاجرت و سرمایه‌گذاری تکمیل‌شده",
-            description:
-                "بیش از 625 پروژه در زمینه مهاجرت و سرمایه‌گذاری با موفقیت به پایان رسیده است.",
+            title: t("25"),
+            description:t("26"),
         },
     ];
 
@@ -29,7 +27,7 @@ export default function CompanyResults() {
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <h2 className="text-4xl text-center text-gray-700 font-extrabold mb-14 dark:text-gray-100">
-                    نتیجه تلاش‌های ما
+                    {t("20")}
                 </h2>
                 <div className="flex flex-col gap-5 xl:gap-8 lg:flex-row lg:justify-between">
                     {cardsData.map((card, index) => (
@@ -50,9 +48,8 @@ function Card({ card, delay }) {
     return (
         <div
             ref={ref}
-            className={`w-full max-lg:max-w-2xl  mx-auto lg:mx-0 lg:w-1/3 bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-xl transform transition-all duration-700 ease-in-out ${
-                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
+            className={`w-full max-lg:max-w-2xl  mx-auto lg:mx-0 lg:w-1/3 bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-xl transform transition-all duration-700 ease-in-out ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+                }`}
             style={{ transitionDelay: `${delay}s` }}
         >
             <div className="flex gap-5 items-start">

@@ -5,6 +5,7 @@ import Telegram from "./Telegram";
 import WhatsApp from "./WhatsApp";
 import Image from "next/image";
 import { FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 50 },
@@ -12,6 +13,7 @@ const fadeIn = {
 };
 
 const ContactForm = () => {
+  const t = useTranslations("ContactUs")
   return (
     <section
       className="py-24 mt-12 rtl"
@@ -103,12 +105,12 @@ const ContactForm = () => {
   viewport={{ once: false, amount: 0.5 }}
 >
   <h2 className="text-indigo-600 font-manrope text-4xl font-semibold leading-10 mb-11">
-    ✉️ برای ما پیام بفرستید
+    {t("1")}
   </h2>
   <motion.input
     type="text"
-    placeholder="👤 نام"
-    className="w-full h-12 border p-4 mb-4"
+    placeholder={t("2")}
+    className="w-full h-12 rounded-2xl border p-4 mb-4"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
@@ -116,8 +118,8 @@ const ContactForm = () => {
   />
   <motion.input
     type="text"
-    placeholder="📧 ایمیل"
-    className="w-full h-12 border p-4 mb-4"
+    placeholder={t("3")}
+    className="w-full h-12 border rounded-2xl p-4 mb-4"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
@@ -125,29 +127,29 @@ const ContactForm = () => {
   />
   <motion.input
     type="text"
-    placeholder="📞 تلفن"
-    className="w-full h-12 border p-4 mb-4"
+    placeholder={t("4")}
+    className="w-full h-12 border rounded-2xl p-4 mb-4"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
     viewport={{ once: false, amount: 0.5 }}
   />
   <motion.textarea
-    placeholder="📜 پیام شما"
-    className="w-full h-24 border p-4 mb-4"
+    placeholder={t("5")}
+    className="w-full rounded-2xl h-24 border p-4 mb-4"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
     viewport={{ once: false, amount: 0.5 }}
   />
   <motion.button
-    className="w-full h-12 bg-indigo-600 text-white"
+    className="w-full h-12 rounded-2xl text-center bg-indigo-600 text-white"
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
     viewport={{ once: false, amount: 0.5 }}
   >
-    ارسال
+    {t("6")}
   </motion.button>
 </motion.div>
 
