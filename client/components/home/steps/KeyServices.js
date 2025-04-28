@@ -10,7 +10,7 @@ const KeyServices = () => {
       id: 1,
       title: t("11"),
       icon: <Marriege aria-label="آیکون ازدواج بین المللی" />,
-      href: "/services/marriege",
+      href: "/",
     },
     {
       id: 2,
