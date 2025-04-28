@@ -8,14 +8,7 @@ export default class language {
       img: "/countries/IR.png",
       emoji: "🇮🇷"
     },
-    {
-      name: "العربی",
-      lang: "ar",
-      loc: "PS",
-      dir: "rtl",
-      img: "/countries/PS.png",
-      emoji: "🇵🇸"
-    },
+   
     {
       name: "English",
       lang: "en",
@@ -31,7 +24,15 @@ export default class language {
       dir: "ltr",
       img: "/countries/TR.png",
       emoji: "🇹🇷"
-    }
+    },
+    {
+        name: "العربی",
+        lang: "ar",
+        loc: "PS",
+        dir: "rtl",
+        img: "/countries/PS.png",
+        emoji: "🇵🇸"
+      },
   ];
   def = "fa";
   selected = null;
