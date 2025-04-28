@@ -27,7 +27,7 @@ const LanguageSwitcher = () => {
     <div className="relative">
       <button
   onClick={() => setIsOpen(!isOpen)}
-  className="p-2 px-6 md:px-2 rounded-secondary flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors w-10 h-10"
+  className="p-2 px-8 md:px-2 rounded-secondary flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors w-10 h-10"
 >
 <span className="block md:hidden">{lang_now.name}</span>
 
