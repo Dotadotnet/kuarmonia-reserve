@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 const baseSchema = require("./baseSchema.model");
-const Counter = require("./counter")
+const Counter = require("./counter");
 
 const gallerySchema = new mongoose.Schema(
   {
@@ -10,56 +10,66 @@ const gallerySchema = new mongoose.Schema(
       type: String,
       required: [true, "عنوان گالری الزامی است"],
       trim: true,
-      maxLength: [70, "عنوان گالری نباید بیشتر از 70 کاراکتر باشد"],
+      maxLength: [70, "عنوان گالری نباید بیشتر از 70 کاراکتر باشد"]
     },
     description: {
       type: String,
       trim: true,
-      maxLength: [300, "توضیحات تگ نباید بیشتر از 300 کاراکتر باشد"],
+      maxLength: [300, "توضیحات تگ نباید بیشتر از 300 کاراکتر باشد"]
     },
-
-       creator: {
+      translations: [
+              {
+                translationId: {
+                  type: mongoose.Schema.Types.ObjectId,
+                  ref: "Translation",
+                  required: true
+                },
+                language: {
+                  type: String,
+                  enum: ["en", "tr", "ar"], // هر زبانی که ساپورت می‌کنی
+                  required: true
+                }
+              }
+            ],  
+    creator: {
       type: ObjectId,
       ref: "Admin",
-      required: [true, "شناسه نویسنده الزامی است"],
+      required: [true, "شناسه نویسنده الزامی است"]
     },
     thumbnail: {
       url: {
         type: String,
         required: [true, "لطفاً لینک تصویر بندانگشتی را وارد کنید"],
-        default: "https://placehold.co/296x200.png",
+        default: "https://placehold.co/296x200.png"
       },
       public_id: {
         type: String,
-        default: "N/A",
-      },
+        default: "N/A"
+      }
     },
     gallery: {
       type: [
         {
           url: {
             type: String,
-            default: "https://placehold.co/296x200.png",
-        
+            default: "https://placehold.co/296x200.png"
           },
           public_id: {
             type: String,
-            default: "N/A",
-          },
-        },
-      ],
-    },    
-       galleryId: {
-      type: Number,
+            default: "N/A"
+          }
+        }
+      ]
+    },
+    galleryId: {
+      type: Number
     },
     ...baseSchema.obj
   },
   { timestamps: true }
 );
 
-
-gallerySchema.pre('save', async function(next) {
-  
+gallerySchema.pre("save", async function (next) {
   try {
     const counter = await Counter.findOneAndUpdate(
       { name: "galleryId" },
@@ -77,4 +87,3 @@ gallerySchema.pre('save', async function(next) {
 const Gallery = mongoose.model("Gallery", gallerySchema);
 
 module.exports = Gallery;
-

@@ -2,11 +2,14 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 const Tag = require("./tag.model");
-const PropertyType = require("./propertyType.model");
 const Category = require("./category.model");
-const Counter = require("./counter")
 const baseSchema = require("./baseSchema.model");
 const { Schema } = mongoose;
+const {
+  generateSlug,
+  generateSeoFields,
+  encodeBase62 
+} = require("../utils/translationUtils");
 
 
 const mediaSchema = new Schema(
@@ -26,23 +29,19 @@ const mediaSchema = new Schema(
       type: String,
       unique: true,
       required: false,
-      default: function () {
-        return this.title
-          .toString()
-          .trim()
-          .toLowerCase()
-          .replace(/[\u200B-\u200D\uFEFF]/g, "")
-          .replace(/[\s\ـ]+/g, "-")
-          .replace(/[^\u0600-\u06FFa-z0-9\-]/g, "")
-          .replace(/-+/g, "-")
-          .replace(/^-+|-+$/g, "");
-      },
+      
     },
     description: {
       type: String,
       maxLength: [300, "توضیحات نمی‌تواند بیشتر از ۳۰۰ کاراکتر باشد"],
       required: [true, "توضیحات الزامی است"],
     },
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
     tags: [
       {
         type: Schema.Types.ObjectId,

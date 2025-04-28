@@ -105,7 +105,8 @@ const Add = () => {
     }
 
     if (addError?.data) {
-      toast.error(addError?.data?.description, { id: "add-property" });
+
+      toast.error(addError?.data.error, { id: "add-property" });
     }
   }, [isAdding, addData, addError]);
 
@@ -124,9 +125,10 @@ const Add = () => {
     formData.append("summary", data.summary);
     formData.append("description", editorData);
     formData.append("createDate", data.createDate);
-    formData.append("square", data.square);
-    formData.append("bathrooms", data.bathrooms);
-    formData.append("bedrooms", data.bedrooms);
+    formData.append("createDate", data.createDate);
+    console.log("data.totalFloors",data.totalFloors)
+    formData.append("unit", JSON.stringify(data.unit));
+    formData.append("building", JSON.stringify(data.building));
     formData.append("category", data.category.id);
     formData.append("currency", data.currency.id);
     formData.append("tradeType", data.tradeType?.id);
@@ -175,7 +177,7 @@ const Add = () => {
     formData.append("tags", extractIds(data.tags));
 
     formData.append("thumbnail", thumbnail);
-    console.log(ourEventSpaces)
+    console.log(ourEventSpaces);
     ourEventSpaces.forEach((space, index) => {
       formData.append(`ourEventSpaces[${index}][name]`, space.name);
       formData.append(`ourEventSpaces[${index}][intro]`, space.intro);
@@ -190,7 +192,10 @@ const Add = () => {
 
       Object.keys(space.spacesGallery).forEach((key) => {
         const file = space.spacesGallery[key];
-        formData.append(`ourEventSpaces[${index}][spacesGallery][${key}]`, file);
+        formData.append(
+          `ourEventSpaces[${index}][spacesGallery][${key}]`,
+          file
+        );
       });
     });
     for (let i = 0; i < gallery?.length; i++) {

@@ -1,4 +1,4 @@
-import FAQ from "@/components/detail/FAQ";
+import FAQ from "@/components/home/faqs/FAQWrapper";
 import Advantage from "@/components/home/advantage/Advantage";
 import News from "@/components/home/news/News";
 import Blogs from "@/components/home/blogs/Blogs";
@@ -16,26 +16,16 @@ import Main from "@/layouts/Main";
 import Testimonials from "@/components/home/testimonials/Testimonials";
 
 export default async function Home() {
-
-
-
   return (
     <>
       <Main>
         <Hero />
         <News />
-        <Advantage />
         <Properties />
-        <Medias  />
-        <Posts/>
-        <Blogs  />
-        <Steps />
-        <PopularDestination />
         <Gallery />
         <Testimonials />
         <FAQ />
         <NewsLetter />
-        
       </Main>
     </>
   );

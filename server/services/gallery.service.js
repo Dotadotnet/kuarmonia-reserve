@@ -8,71 +8,80 @@ const translateFields = require("../utils/translateFields");
 
 /* add new gallery */
 exports.addGallery = async (req, res) => {
-  const { title, description } = req.body;
-  let thumbnail = null;
-  let gallery = [];
-
-  let translations;
   try {
-    translations = await translateFields({ title, description }, [
-      "title",
-      "description"
-    ]);
-  } catch (err) {
-    console.error("خطا در ترجمه:", err.message);
-    return res.status(500).json({
+    const { title, description } = req.body;
+    let thumbnail = null;
+    let gallery = [];
+
+    if (req.uploadedFiles["thumbnail"].length) {
+      thumbnail = {
+        url: req.uploadedFiles["thumbnail"][0].url,
+        public_id: req.uploadedFiles["thumbnail"][0].key
+      };
+    }
+
+    if (
+      req.uploadedFiles["gallery"] &&
+      req.uploadedFiles["gallery"].length > 0
+    ) {
+      gallery = req.uploadedFiles["gallery"].map((file) => ({
+        url: file.url,
+        public_id: file.key
+      }));
+    }
+    const result = await Gallery.create({
+      creator: req.admin._id,
+      thumbnail,
+      title,
+      description,
+      gallery
+    });
+
+    try {
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "Gallery",
+          refId: result._id,
+          fields
+        })
+      );
+      const insertedTranslations = await Translation.insertMany(
+        translationDocs
+      );
+
+      const translationInfos = insertedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await Gallery.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+
+      return res.status(201).json({
+        acknowledgement: true,
+        message: "Created",
+        description: "گالری با موفقیت ایجاد و ترجمه شد.",
+        data: result
+      });
+    } catch (translationError) {
+      await Gallery.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. گالری حذف شد.",
+        error: translationError.message
+      });
+    }
+  } catch (error) {
+    console.error("Error in addGallery:", error);
+    res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطا در ترجمه",
-      error: err.message
+      description: error.message,
+      error: error.message
     });
   }
-
-  if (req.uploadedFiles["thumbnail"].length) {
-    thumbnail = {
-      url: req.uploadedFiles["thumbnail"][0].url,
-      public_id: req.uploadedFiles["thumbnail"][0].key
-    };
-  }
-
-  if (req.uploadedFiles["gallery"] && req.uploadedFiles["gallery"].length > 0) {
-    gallery = req.uploadedFiles["gallery"].map((file) => ({
-      url: file.url,
-      public_id: file.key
-    }));
-  }
-  const result = await Gallery.create({
-    creator: req.admin._id,
-    thumbnail,
-    title,
-    description,
-    gallery
-  });
-
-  const translationDocs = Object.entries(translations).map(
-    ([lang, { fields }]) => ({
-      language: lang,
-      refModel: "Gallery",
-      refId: result._id,
-      fields
-    })
-  );
-  try {
-    await Translation.insertMany(translationDocs);
-  } catch (translationError) {
-    await Gallery.findByIdAndDelete(result._id);
-    return res.status(500).json({
-      acknowledgement: false,
-      message: "Translation Save Error",
-      description: "خطا در ذخیره ترجمه‌ها. گالری حذف شد.",
-      error: translationError.message
-    });
-  }
-  res.status(201).json({
-    acknowledgement: true,
-    message: "Created",
-    description: "گالری  با موفقیت ایجاد شد"
-  });
 };
 
 /* get all gallerys */

@@ -3,11 +3,10 @@
 const Property = require("../models/property.model");
 const User = require("../models/user.model");
 const remove = require("../utils/remove.util");
-const Category = require("../models/category.model");
 const Address = require("../models/address.model");
-const { translate } = require("google-translate-api-x");
 const Translation = require("../models/translation.model");
-/* add new property */
+const translateFields = require("../utils/translateFields");
+
 exports.addProperty = async (req, res) => {
   try {
     const {
@@ -21,6 +20,8 @@ exports.addProperty = async (req, res) => {
       location,
       variants,
       address,
+      unit,
+      building,
       ...otherInformation
     } = req.body;
     let thumbnail = null;
@@ -31,67 +32,11 @@ exports.addProperty = async (req, res) => {
     const parsedFeatures = JSON.parse(features);
     const parsedSocialLinks = JSON.parse(socialLinks);
     const parsedAmenities = JSON.parse(amenities);
-    console.log("parsedTags", parsedAmenities);
     const parsedLocation = JSON.parse(location);
     const parsedVariants = JSON.parse(variants);
+    const parsedUnit = JSON.parse(unit);
+    const parsedBuilding = JSON.parse(building);
 
-    let translatedTitle = "";
-    let translatedSummary = "";
-    let translatedDescription = "";
-    let translatedTitleTr = "";
-    let translatedSummaryTr = "";
-    let translatedDescriptionTr = "";
-    try {
-      console.log("Translating title to English...");
-      const resultTitleEn = await translate(title, { to: "en", client: "gtx" });
-      translatedTitle = resultTitleEn.text;
-      console.log("Translated Title (EN):", translatedTitle);
-
-      console.log("Translating summary to English...");
-      const resultSummaryEn = await translate(summary, {
-        to: "en",
-        client: "gtx"
-      });
-      translatedSummary = resultSummaryEn.text;
-      console.log("Translated Summary (EN):", translatedSummary);
-
-      console.log("Translating description to English...");
-      const resultDescriptionEn = await translate(description, {
-        to: "en",
-        client: "gtx"
-      });
-      translatedDescription = resultDescriptionEn.text;
-      console.log("Translated Description (EN):", translatedDescription);
-
-      console.log("Translating title to Turkish...");
-      const resultTitleTr = await translate(title, { to: "tr", client: "gtx" });
-      translatedTitleTr = resultTitleTr.text;
-      console.log("Translated Title (TR):", translatedTitleTr);
-
-      console.log("Translating summary to Turkish...");
-      const resultSummaryTr = await translate(summary, {
-        to: "tr",
-        client: "gtx"
-      });
-      translatedSummaryTr = resultSummaryTr.text;
-      console.log("Translated Summary (TR):", translatedSummaryTr);
-
-      console.log("Translating description to Turkish...");
-      const resultDescriptionTr = await translate(description, {
-        to: "tr",
-        client: "gtx"
-      });
-      translatedDescriptionTr = resultDescriptionTr.text;
-      console.log("Translated Description (TR):", translatedDescriptionTr);
-    } catch (err) {
-      console.error("خطا در ترجمه:", err);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطایی در فرآیند ترجمه رخ داد",
-        error: err.message
-      });
-    }
     if (req.uploadedFiles["thumbnail"]?.length) {
       thumbnail = {
         url: req.uploadedFiles["thumbnail"][0].url,
@@ -105,7 +50,6 @@ exports.addProperty = async (req, res) => {
         public_id: file.key
       }));
     }
-    console.log("address", parseAddress);
     const addressProp = await Address.create({
       country: parseAddress.country,
       state: parseAddress.state,
@@ -113,10 +57,24 @@ exports.addProperty = async (req, res) => {
       street: parseAddress.street,
       plateNumber: parseAddress.plateNumber,
       phone: parseAddress.phone,
-      email: parseAddress.email, // Optional, depending on your schema
+      email: parseAddress.email,
       postalCode: parseAddress.postalCode
     });
-    const property = await Property.create({
+    const unitNum = {
+      square: Number(parsedUnit.square),
+      bathrooms: Number(parsedUnit.bathrooms),
+      bedrooms: Number(parsedUnit.bedrooms),
+      floor: Number(parsedUnit.floor)
+    };
+
+    const buildingNum = {
+      totalFloors: Number(parsedBuilding.totalFloors),
+      totalUnits: Number(parsedBuilding.totalUnits),
+      bedrooms: parsedBuilding.bedrooms.map((item) => Number(item)),
+      square: parsedBuilding.square.map((item) => Number(item))
+    };
+
+    const result = await Property.create({
       ...otherInformation,
       creator: req.admin._id,
       thumbnail,
@@ -125,6 +83,8 @@ exports.addProperty = async (req, res) => {
       title,
       description,
       summary,
+      unit: unitNum,
+      building: buildingNum,
       socialLinks: parsedSocialLinks,
       features: parsedFeatures,
       amenities: parsedAmenities,
@@ -132,58 +92,54 @@ exports.addProperty = async (req, res) => {
       variants: parsedVariants,
       address: addressProp._id
     });
-    const { metaTitle, metaDescription } = property;
-
-    const [translatedMetaTitleEn, translatedMetaDescriptionEn] =
-      await Promise.all([
-        translate(metaTitle, { to: "en", client: "gtx" }),
-        translate(metaDescription, { to: "en", client: "gtx" })
-      ]);
-
-    const [translatedMetaTitleTr, translatedMetaDescriptionTr] =
-      await Promise.all([
-        translate(metaTitle, { to: "tr", client: "gtx" }),
-        translate(metaDescription, { to: "tr", client: "gtx" })
-      ]);
-    const translationData = [
-      {
-        language: "en",
-        refModel: "Property",
-        refId: property._id,
-        fields: {
-          title: translatedTitle,
-          summary: translatedSummary,
-          description: translatedDescription,
-          metaTitle: translatedMetaTitleEn.text,
-          metaDescription: translatedMetaDescriptionEn.text
-        }
-      },
-      {
-        language: "tr",
-        refModel: "Property",
-        refId: property._id,
-        fields: {
-          title: translatedTitleTr,
-          summary: translatedSummaryTr,
-          description: translatedDescriptionTr,
-          metaTitle: translatedMetaTitleTr.text,
-          metaDescription: translatedMetaDescriptionTr.text
-        }
-      }
-    ];
+    const { metaTitle, metaDescription } = result;
 
     try {
-      await Translation.insertMany(translationData);
+      const translations = await translateFields(
+        {
+          title,
+          summary,
+          description,
+          metaTitle,
+          metaDescription,
+          parsedFeatures
+        },
+        {
+          stringFields: [
+            "title",
+            "summary",
+            "description",
+            "metaTitle",
+            "metaDescription"
+          ],
+          arrayObjectFields: ["parsedFeatures"]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "Property",
+          refId: result._id,
+          fields
+        })
+      );
+      const savedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await Property.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
     } catch (translationError) {
-      await Property.findByIdAndDelete(property._id);
+      await Property.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. ملک حذف شد.",
+        description: "خطا در ذخیره ترجمه‌ها. پست بلاگ حذف شد.",
         error: translationError.message
       });
     }
-
     res.status(201).json({
       acknowledgement: true,
       message: "Created",
@@ -193,7 +149,7 @@ exports.addProperty = async (req, res) => {
     console.error("❌ Error in addProperty:", error);
     res.status(500).json({
       acknowledgement: false,
-      message: "ایجاد ملک با خطا مواجه شد",
+      message: error.message,
       error: error?.message || "خطای ناشناخته"
     });
   }

@@ -1,105 +1,79 @@
 /* internal import */
 const Tag = require("../models/tag.model");
-const Admin = require("../models/admin.model");
 const Translation = require("../models/translation.model");
 const { translate } = require("google-translate-api-x");
 const { generateSlug } = require("../utils/translationUtils");
+const translateFields = require("../utils/translateFields");
+
 exports.addTag = async (req, res) => {
   try {
-    const { body } = req;
+    const { title, description, keynotes, robots } = req.body;
 
-    const parsedKeynotes = JSON.parse(body.keynotes);
-    const parsedRobots = JSON.parse(body.robots);
+    const parsedKeynotes = JSON.parse(keynotes);
+    const parsedRobots = JSON.parse(robots);
 
-    let translatedTitleEn = "";
-    let translatedDescriptionEn = "";
-    let translatedKeynotesEn = [];
-
-    let translatedTitleTr = "";
-    let translatedDescriptionTr = "";
-    let translatedKeynotesTr = [];
-
-    try {
-      console.log("Translating to English...");
-      translatedTitleEn = (
-        await translate(body.title, { to: "en", client: "gtx" })
-      ).text;
-      translatedDescriptionEn = (
-        await translate(body.description, { to: "en", client: "gtx" })
-      ).text;
-      translatedKeynotesEn = await Promise.all(
-        parsedKeynotes.map((k) =>
-          translate(k, { to: "en", client: "gtx" }).then((res) => res.text)
-        )
-      );
-
-      console.log("Translating to Turkish...");
-      translatedTitleTr = (
-        await translate(body.title, { to: "tr", client: "gtx" })
-      ).text;
-      translatedDescriptionTr = (
-        await translate(body.description, { to: "tr", client: "gtx" })
-      ).text;
-      translatedKeynotesTr = await Promise.all(
-        parsedKeynotes.map((k) =>
-          translate(k, { to: "tr", client: "gtx" }).then((res) => res.text)
-        )
-      );
-    } catch (err) {
-      console.error("خطا در ترجمه تگ:", err);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطایی در ترجمه تگ رخ داد",
-        error: err.message
-      });
-    }
-
-    // ✅ مرحله سوم: ساخت تگ
     const robotsArray = parsedRobots.map((value, index) => ({
       id: index + 1,
       value
     }));
 
     const tag = new Tag({
-      title: body.title,
-      description: body.description,
+      title: title,
+      description: description,
       keynotes: parsedKeynotes,
       creator: req.admin._id,
       robots: robotsArray
     });
 
     const result = await tag.save();
+    const { metaTitle, metaDescription } = result;
 
-    // ✅ مرحله چهارم: ثبت ترجمه‌ها
-    const translationData = [
-      {
-        language: "en",
-        refModel: "Tag",
-        refId: result._id,
-        fields: {
-          title: translatedTitleEn,
-          description: translatedDescriptionEn,
-          keynotes: translatedKeynotesEn
+    try {
+      const translations = await translateFields(
+        {
+          title,
+          description,
+          metaTitle,
+          metaDescription,
+          parsedKeynotes
+        },
+        {
+          stringFields: [
+            "title",
+            "summary",
+            "content",
+            "metaTitle",
+            "metaDescription"
+          ],
+          arrayStringFields: ["parsedKeynotes"]
         }
-      },
-      {
-        language: "tr",
-        refModel: "Tag",
-        refId: result._id,
-        fields: {
-          title: translatedTitleTr,
-          description: translatedDescriptionTr,
-          keynotes: translatedKeynotesTr
-        }
-      }
-    ];
-
-    await Translation.insertMany(translationData);
-
-    await Admin.findByIdAndUpdate(result.creator, {
-      $set: { tag: result._id }
-    });
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "Tag",
+          refId: result._id,
+          fields
+        })
+      );
+      const savedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await Tag.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+    } catch (translationError) {
+      console.log(translationError.message)
+      await Tag.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. پست بلاگ حذف شد.",
+        error: translationError.message
+      });
+    }
 
     res.status(201).json({
       acknowledgement: true,
@@ -149,8 +123,8 @@ exports.updateTag = async (req, res) => {
   try {
     let updatedTag = req.body;
 
-    const parsedKeynotes = JSON.parse(req.body.keynotes);
-    const parsedRobots = JSON.parse(req.body.robots);
+    const parsedKeynotes = JSON.parse(req.keynotes);
+    const parsedRobots = JSON.parse(req.robots);
 
     const robotsArray = parsedRobots.map((value, index) => ({
       id: index + 1,

@@ -6,21 +6,26 @@ import { useAddTypeMutation } from "@/services/type/typeApi";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
-import AminitiesInput from "@/components/shared/tools/AminitiesInput";
+import ArrayInput from "@/components/shared/tools/ArrayInput";
 import AddButton from "@/components/shared/button/AddButton";
 
 const AddType = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm();
   const [isOpen, setIsOpen] = useState(false);
+  const [amenities, setAmenities] = useState([""]);
 
   const [addType, { isLoading: isAdding, data: addData, error: addError }] =
     useAddTypeMutation();
-  const [amenities, setAmenities] = useState([""]);
   const handleAddType = (data) => {
     const requestData = {
       title: data.title,
       description: data.description,
-      amenities:JSON.stringify(amenities)
+      amenities: JSON.stringify(amenities)
     };
     addType(requestData);
   };
@@ -39,7 +44,7 @@ const AddType = () => {
       toast.error(addData?.description, { id: "type" });
     }
     if (addError?.data) {
-      toast.error(addError?.message, { id: "type" });
+      toast.error(addError?.data.description, { id: "type" });
     }
   }, [addData, addError, isAdding, reset]);
 
@@ -86,10 +91,13 @@ const AddType = () => {
               </label>
 
               {/* امکانات ملک */}
-              <AminitiesInput
+              <ArrayInput
                 title="امکانات"
-                aminities={amenities}
-                setAminities={setAmenities}
+                values={amenities}
+                setValues={setAmenities}
+                namePrefix="amenities"
+                register={register}
+                errors={errors}
               />
 
               {/* دکمه ارسال */}

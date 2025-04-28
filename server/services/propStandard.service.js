@@ -6,22 +6,9 @@ const translateFields = require("../utils/translateFields");
 /* 📌 اضافه کردن استاندارد جدید */
 exports.addPropStandard = async (req, res) => {
   try {
-    const { title, description,country,issuingOrganization, ...otherInfo } = req.body;
-    let translations;
-    try {
-      translations = await translateFields(
-        { title, description, issuingOrganization, country },
-        ["title", "description", "country", "issuingOrganization"]
-      );
-    } catch (err) {
-      console.error("خطا در ترجمه:", err.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطا در ترجمه",
-        error: err.message
-      });
-    }
+    const { title, description, country, issuingOrganization, ...otherInfo } =
+      req.body;
+
     let thumbnail = null;
     if (req.uploadedFiles["thumbnail"]?.length) {
       thumbnail = {
@@ -40,23 +27,46 @@ exports.addPropStandard = async (req, res) => {
       creator: req.admin._id
     });
     const result = await propStandard.save();
-    const translationDocs = Object.entries(translations).map(
-      ([lang, { fields }]) => ({
-        language: lang,
-        refModel: "PropStandard",
-        refId: result._id,
-        fields
-      })
-    );
 
     try {
-      await Translation.insertMany(translationDocs);
+      const translations = await translateFields(
+        {
+          title,
+          description,
+          issuingOrganization,
+          country
+        },
+        {
+          stringFields: [
+            "title",
+            "description",
+            "issuingOrganization",
+            "country"
+          ]
+        }
+      );
+      
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "PropStandard",
+          refId: result._id,
+          fields
+        })
+      );
+      const savedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));      await PropStandard.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
     } catch (translationError) {
       await PropStandard.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها.  استاندارد حذف شد.",
+        description: "خطا در ذخیره ترجمه‌ها. پست بلاگ حذف شد.",
         error: translationError.message
       });
     }

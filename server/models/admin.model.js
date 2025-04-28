@@ -8,7 +8,7 @@ const adminSchema = new mongoose.Schema(
   {
     adminId: {
       type: Number,
-      unique: true,
+      unique: true
     },
     name: {
       type: String,
@@ -19,10 +19,10 @@ const adminSchema = new mongoose.Schema(
           }
           return true;
         },
-        message: "برای نقش مدیر یا مدیر کل، وارد کردن نام الزامی است",
+        message: "برای نقش مدیر یا مدیر کل، وارد کردن نام الزامی است"
       },
       trim: true,
-      maxLength: [100, "نام شما باید حداکثر 100 کاراکتر باشد"],
+      maxLength: [100, "نام شما باید حداکثر 100 کاراکتر باشد"]
     },
 
     email: {
@@ -34,21 +34,24 @@ const adminSchema = new mongoose.Schema(
           }
           return true;
         },
-        message: "برای نقش مدیر یا مدیر کل، وارد کردن ایمیل معتبر الزامی است",
+        message: "برای نقش مدیر یا مدیر کل، وارد کردن ایمیل معتبر الزامی است"
       },
       validate: [validator.isEmail, "لطفا یک آدرس ایمیل معتبر وارد کنید"],
-      unique: [true, "این ایمیل قبلا ثبت شده است. لطفا ایمیل جدید وارد کنید"],
+      unique: [true, "این ایمیل قبلا ثبت شده است. لطفا ایمیل جدید وارد کنید"]
     },
-
-    // رمز عبور
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
     password: {
       type: String,
       required: [true, "لطفا یک رمز عبور قوی وارد کنید"],
       minLength: [6, "رمز عبور باید حداقل 6 کاراکتر باشد"],
-      maxLength: [20, "رمز عبور باید حداکثر 20 کاراکتر باشد"],
+      maxLength: [20, "رمز عبور باید حداکثر 20 کاراکتر باشد"]
     },
 
-    // آواتار
     avatar: {
       url: {
         type: String,
@@ -60,50 +63,48 @@ const adminSchema = new mongoose.Schema(
             }
             return true;
           },
-          message: "برای نقش مدیر یا مدیر کل، وارد کردن آواتار الزامی است",
-        },
+          message: "برای نقش مدیر یا مدیر کل، وارد کردن آواتار الزامی است"
+        }
       },
       public_id: {
         type: String,
-        default: "N/A",
-      },
+        default: "N/A"
+      }
     },
 
-    // شماره تماس
     phone: {
       type: String,
       required: [true, "لطفا شماره تماس خود را وارد کنید"],
       validate: {
         validator: (value) => /^09\d{9}$/.test(value),
         message:
-          "شماره تماس {VALUE} معتبر نیست. شماره باید 11 رقم باشد و با 09 شروع شود",
+          "شماره تماس {VALUE} معتبر نیست. شماره باید 11 رقم باشد و با 09 شروع شود"
       },
-      unique: true,
+      unique: true
     },
 
     role: {
       type: String,
       enum: ["superAdmin", "admin", "operator"],
-      default: "operator",
+      default: "operator"
     },
 
     adminLevel: {
       type: String,
       enum: ["basic", "verified", "completed"],
       default: "basic",
-      require: true,
+      require: true
     },
     address: {
       type: ObjectId,
-      ref: "Address",
+      ref: "Address"
     },
 
-    ...baseSchema.obj,
+    ...baseSchema.obj
   },
   { timestamps: true }
 );
 
-/* رمزگذاری رمز عبور کاربر */
 adminSchema.methods.encryptedPassword = function (password) {
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
@@ -111,10 +112,8 @@ adminSchema.methods.encryptedPassword = function (password) {
   return hashedPassword;
 };
 
-/* میدلور برای رمزگذاری رمز عبور */
 adminSchema.pre("save", async function (next) {
   try {
-    // رمزگذاری رمز عبور در صورت تغییر
     if (!this.isModified("password")) {
       return next();
     }
@@ -131,7 +130,6 @@ adminSchema.pre("save", async function (next) {
   }
 
   try {
-    // دریافت مقدار جدید از شمارنده
     const counter = await Counter.findOneAndUpdate(
       { name: "adminId" },
       { $inc: { seq: 1 } },
@@ -145,14 +143,11 @@ adminSchema.pre("save", async function (next) {
   }
 });
 
-/* مقایسه رمز عبور در زمان ورود */
 adminSchema.methods.comparePassword = function (password, hash) {
   const isPasswordValid = bcrypt.compareSync(password, hash);
   return isPasswordValid;
 };
 
-/* ایجاد مدل کاربر */
 const Admin = mongoose.model("Admin", adminSchema);
 
-/* اکسپورت مدل کاربر */
 module.exports = Admin;

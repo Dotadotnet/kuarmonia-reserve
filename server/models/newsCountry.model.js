@@ -15,15 +15,18 @@ const newsCountrySchema = new mongoose.Schema(
       maxLength: [50, "نام کشور خبر نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"]
     },
 
-    translationOf: {
-      type: ObjectId,
-      ref: "News",
-      default: null
-    },
     translations: [
       {
-        type: ObjectId,
-        ref: "News"
+        translationId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Translation",
+          required: true
+        },
+        language: {
+          type: String,
+          enum: ["en", "tr", "ar"], 
+          required: true
+        }
       }
     ],
     slug: {
@@ -33,7 +36,7 @@ const newsCountrySchema = new mongoose.Schema(
     code: {
       type: String,
       required: [true, "شناسه کشور الزامی است"],
-      unique: true,
+      unique: true
     },
     icon: {
       type: String,

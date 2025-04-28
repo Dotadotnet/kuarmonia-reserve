@@ -1,0 +1,48 @@
+/* RTEditor.css */
+
+/* حالت تاریک برای ناحیه ویرایشگر */
+.dark .ck-editor__editable_inline {
+  background-color: #1a202c !important; /* رنگ پس‌زمینه تاریک */
+  color: #cbd5e0 !important; /* رنگ متن روشن */
+}
+
+/* حالت تاریک برای نوار ابزار */
+.dark .ck-toolbar {
+  background-color: #2d3748 !important; /* رنگ پس‌زمینه نوار ابزار */
+  border-color: #4a5568 !important; /* رنگ مرز نوار ابزار */
+}
+
+/* حالت تاریک برای دکمه‌ها */
+.dark .ck-button {
+  color: #cbd5e0 !important; /* رنگ آیکون‌ها و متن دکمه‌ها */
+}
+
+/* حالت تاریک برای انتخاب‌ها */
+.dark .ck-dropdown {
+  background-color: #2d3748 !important;
+  color: #cbd5e0 !important;
+}
+
+/* حالت تاریک برای ابزارک‌های دیگر */
+.dark .ck-panel {
+  background-color: #2d3748 !important;
+  color: #cbd5e0 !important;
+}
+
+/* حالت تاریک برای placeholder ها */
+.dark .ck-editor__editable_inline::placeholder {
+  color: #a0aec0 !important;
+}
+
+/* حالت تاریک برای انتخاب متن */
+
+.ck-content{ 
+height:100vh;
+  overflow-y: scroll; 
+  scrollbar-width: none;
+
+}
+.ck-sticky-panel__content_sticky{
+top:60px !important;
+}
+

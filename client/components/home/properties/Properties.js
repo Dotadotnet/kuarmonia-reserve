@@ -14,22 +14,25 @@ const PropertiesServer = async () => {
   const properties = res.data;
 
   return (
-    <section
-      id="properties"
-      className="bg-clip-border h-full pt-12 dark:bg-gray-900"
-      style={{
-        backgroundImage:
-          "url(/assets/home-page/properties-and-travel-guide/bg.svg)",
-        backgroundPosition: "125% 80%"
-      }}
-    >
-      <Container>
-        <section className="w-full h-full flex flex-col gap-y-2">
+    <Container>
+      <div
+        id="properties"
+        className="bg-clip-border h-full pt-12 dark:bg-gray-900"
+        style={{
+          backgroundImage:
+            "url(/assets/home-page/properties-and-travel-guide/bg.svg)",
+          backgroundPosition: "125% 80%"
+        }}
+      >
+        <div className="w-full h-full flex flex-col gap-y-2">
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4">
               <h2 className="lg:text-5xl md:text-4xl text-4xl whitespace-normal">
                 <HighlightText title={"فرصت های سرمایه گذاری"} />
               </h2>
+              <p className="text-base">
+                بهترین ها برای خرید ملک و سرمایه گذاری
+              </p>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
@@ -40,11 +43,10 @@ const PropertiesServer = async () => {
               </Link>
             </div>
           </div>
-          <p className="text-base">بهترین ها برای خرید ملک و سرمایه گذاری</p>
           <PropertiesClient properties={properties} />
-        </section>
-      </Container>
-    </section>
+        </div>
+      </div>
+    </Container>
   );
 };
 

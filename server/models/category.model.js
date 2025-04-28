@@ -3,9 +3,7 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 const Counter = require("./counter");
 const baseSchema = require("./baseSchema.model");
-const {
-  generateSlug,
- } = require("../utils/translationUtils");
+const { generateSlug } = require("../utils/translationUtils");
 
 /* ایجاد اسکیمای دسته‌بندی */
 const categorySchema = new mongoose.Schema(
@@ -21,6 +19,20 @@ const categorySchema = new mongoose.Schema(
       unique: [true, "دسته‌بندی مشابه از قبل وجود دارد"],
       maxLength: [100, "عنوان شما باید حداکثر ۱۰۰ کاراکتر باشد"]
     },
+     translations: [
+         {
+           translationId: {
+             type: mongoose.Schema.Types.ObjectId,
+             ref: "Translation",
+             required: true
+           },
+           language: {
+             type: String,
+             enum: ["en", "tr", "ar"], // هر زبانی که ساپورت می‌کنی
+             required: true
+           }
+         }
+       ],    
     slug: {
       type: String,
       unique: true

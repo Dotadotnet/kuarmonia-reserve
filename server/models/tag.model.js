@@ -20,6 +20,20 @@ const tagSchema = new mongoose.Schema(
       trim: true,
       maxLength: [160, "توضیحات تگ نباید بیشتر از 160 کاراکتر باشد"]
     },
+     translations: [
+         {
+           translationId: {
+             type: mongoose.Schema.Types.ObjectId,
+             ref: "Translation",
+             required: true
+           },
+           language: {
+             type: String,
+             enum: ["en", "tr", "ar"], 
+             required: true
+           }
+         }
+       ],    
     slug: {
       type: String,
       unique: true
@@ -30,12 +44,7 @@ const tagSchema = new mongoose.Schema(
         trim: true
       }
     ],
-    translations: [
-      {
-        type: ObjectId,
-        ref: "News"
-      }
-    ],
+  
     creator: {
       type: ObjectId,
       ref: "Admin",

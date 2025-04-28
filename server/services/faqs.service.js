@@ -7,45 +7,55 @@ const translateFields = require("../utils/translateFields");
 /* add new faq */
 exports.addFaq = async (req, res) => {
   try {
-    const { question, answer,tags, ...other } = req.body;
-console.log(req.body.tags)
-    let translations;
-    try {
-      translations = await translateFields({ question, answer }, [
-        "question",
-        "answer"
-      ]);
-    } catch (err) {
-      console.error("خطا در ترجمه:", err.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطا در ترجمه",
-        error: err.message
-      });
-    }
+    const { question, answer, tags, ...other } = req.body;
 
     const faq = new Faq({
       question,
       answer,
       tags: JSON.parse(tags),
       ...other,
-      creator: req.admin._id,
+      creator: req.admin._id
     });
 
     const result = await faq.save();
 
-    const translationDocs = Object.entries(translations).map(
-      ([lang, { fields }]) => ({
-        language: lang,
-        refModel: "Faq",
-        refId: result._id,
-        fields
-      })
-    );
-
     try {
-      await Translation.insertMany(translationDocs);
+      const translations = await translateFields(
+        {
+          question,
+          answer
+        },
+        {
+          stringFields: ["question", "answer"]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "Faq",
+          refId: result._id,
+          fields
+        })
+      );
+
+      const insertedTranslations = await Translation.insertMany(
+        translationDocs
+      );
+
+      const translationInfos = insertedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await Faq.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+
+      return res.status(201).json({
+        acknowledgement: true,
+        message: "Created",
+        description: "دسته‌بندی با موفقیت ایجاد و ترجمه شد.",
+        data: result
+      });
     } catch (translationError) {
       await Faq.findByIdAndDelete(result._id);
       return res.status(500).json({
@@ -55,17 +65,6 @@ console.log(req.body.tags)
         error: translationError.message
       });
     }
-
-    await Admin.findByIdAndUpdate(result.creator, {
-      $set: { faq: result._id }
-    });
-
-    res.status(201).json({
-      acknowledgement: true,
-      message: "Created",
-      description: "سوال متداول با موفقیت ایجاد شد",
-      data: result
-    });
   } catch (error) {
     console.error("Error in addFaq:", error);
     res.status(500).json({
@@ -78,14 +77,12 @@ console.log(req.body.tags)
 };
 
 /* get all faqses */
-exports.getFaqs = async ( res) => {
+exports.getFaqs = async (res) => {
   try {
-    const faqses = await Faq.find({ isDeleted: { $ne: true } }).populate(
-      {
-        path: "creator",
-        select: "name avatar"
-      }
-    );
+    const faqses = await Faq.find({ isDeleted: { $ne: true } }).populate({
+      path: "creator",
+      select: "name avatar"
+    });
     console.log("faqses", faqses);
 
     res.status(200).json({
@@ -105,7 +102,6 @@ exports.getFaqs = async ( res) => {
     });
   }
 };
-
 
 /* get a faq */
 exports.getFaq = async (req, res) => {

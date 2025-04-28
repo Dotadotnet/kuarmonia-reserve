@@ -13,6 +13,12 @@ const venueAwardSchema = new mongoose.Schema(
       minlength: [3, "عنوان جایزه باید حداقل ۳ کاراکتر باشد"],
       maxlength: [100, "عنوان جایزه نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
     },
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
     description: {
       type: String,
       required: [true, "لطفاً توضیحات لازم را وارد کنید"],

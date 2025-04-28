@@ -52,12 +52,12 @@ const NewsHeader = ({ news }) => {
 };
 
 const NewsMedia = ({ news }) => {
-  const { thumbnail,tags } = news;
+  const { thumbnail, tags } = news;
 
   return (
     <>
       <div
-        className="mt-6 flex flex-wrap justify-start w-full overflow-x-hidden scroll-hide gap-2"
+        className="mt-6 flex  justify-start w-full overflow-x-hidden scroll-hide gap-2"
         aria-label="Tags"
       >
         {tags?.length > 0 ? (
@@ -104,7 +104,7 @@ const NewsContent = ({ news }) => {
   const { content } = news;
 
   return (
-    <div className="mx-auto max-w-screen-md space-y-12 px-4 py-10  text-lg tracking-wide text-gray-700">
+    <div className="mx-auto max-w-screen-md space-y-12 px-4 py-10  text-lg tracking-wide text-gray-700 dark:text-gray-100">
       {content ? (
         <div dangerouslySetInnerHTML={{ __html: content }} />
       ) : (
@@ -246,7 +246,10 @@ const TickerTape = () => {
   return (
     <div className="bg-primary text-white py-1 overflow-hidden whitespace-nowrap relative">
       <div className="inline-block animate-ticker pl-full">
-        🔴 BREAKING: Fusion Energy Record Set | 🌍 Climate Summit Scheduled for June | 📈 Markets Respond to Energy Breakthrough | 🔬 Scientists Announce Quantum Computing Milestone | 🚀 Mars Mission Set for 2026 Launch
+        🔴 BREAKING: Fusion Energy Record Set | 🌍 Climate Summit Scheduled for
+        June | 📈 Markets Respond to Energy Breakthrough | 🔬 Scientists
+        Announce Quantum Computing Milestone | 🚀 Mars Mission Set for 2026
+        Launch
       </div>
     </div>
   );
@@ -255,7 +258,7 @@ const News = ({ news }) => {
   return (
     <main className="h-[650px] mt-18 overflow-y-auto dark:bg-gray-900 bg-white scrollbar-hide">
       <article>
-<TickerTape />
+        <TickerTape />
         <div className="flex flex-col md:flex-row items-center gap-4 max-w-screen-xl mx-auto px-4 pt-4">
           {/* تصویر سمت راست در دسکتاپ، بالای صفحه در موبایل */}
           <div className="md:w-1/2 w-full order-1 md:order-2">

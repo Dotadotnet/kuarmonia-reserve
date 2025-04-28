@@ -22,6 +22,12 @@ const venueStandardSchema = new mongoose.Schema(
       required: [true, "لطفاً توضیحات لازم را وارد کنید"],
       trim: true
     },
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
     issuingOrganization: {
       type: String,
       required: [true, "نام سازمان صادرکننده الزامی است"],

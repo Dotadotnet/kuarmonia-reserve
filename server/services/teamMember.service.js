@@ -19,8 +19,22 @@ exports.addTeamMember = async (req, res) => {
     let translations;
     try {
       translations = await translateFields(
-        { fullName, description, department, position, nationality,activeCountry },
-        ["fullName", "description", "department", "position", "nationality","activeCountry"]
+        {
+          fullName,
+          description,
+          department,
+          position,
+          nationality,
+          activeCountry
+        },
+        [
+          "fullName",
+          "description",
+          "department",
+          "position",
+          "nationality",
+          "activeCountry"
+        ]
       );
       console.log("translations", translations);
     } catch (err) {
@@ -40,7 +54,6 @@ exports.addTeamMember = async (req, res) => {
         public_id: req.uploadedFiles["teamMember"][0].key
       };
     }
-    console.log("avatar", avatar);
     const teamMember = new TeamMember({
       ...otherInfo,
       avatar,
@@ -54,22 +67,51 @@ exports.addTeamMember = async (req, res) => {
       creator: req.admin._id
     });
     const result = await teamMember.save();
-    const translationDocs = Object.entries(translations).map(
-      ([lang, { fields }]) => ({
-        language: lang,
-        refModel: "TeamMember",
-        refId: result._id,
-        fields
-      })
-    );
+
     try {
-      await Translation.insertMany(translationDocs);
+      const translations = await translateFields(
+        {
+          fullName,
+          description,
+          department,
+          position,
+          nationality,
+          activeCountry
+        },
+        {
+          stringFields: [
+            "fullName",
+            "description",
+            "department",
+            "position",
+            "nationality",
+            "activeCountry"
+          ]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "TeamMember",
+          refId: result._id,
+          fields
+        })
+      );
+
+      const savedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await TeamMember.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
     } catch (translationError) {
       await TeamMember.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. عضو تیم حذف شد.",
+        description: "خطا در ذخیره ترجمه‌ها. پست بلاگ حذف شد.",
         error: translationError.message
       });
     }

@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react";
 export default function ThemeToggle() {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") || "dark";
+      return localStorage.getItem("theme") || "light";
     }
-    return "dark";
+    return "light";
   });
 
   const changeCurrentTheme = (newTheme) => {

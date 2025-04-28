@@ -1,8 +1,12 @@
-import React from "react";
 
+import React, {  useEffect, useMemo } from "react";
 import GalleryUpload from "@/components/shared/gallery/GalleryUpload";
 import DisplayImages from "@/components/shared/gallery/DisplayImages";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
+import Dropdown from "@/components/shared/dropDown/Dropdown";
+import { Controller } from "react-hook-form";
+import { useGetTypesQuery } from "@/services/type/typeApi";
+import StatusSwitch from "@/components/shared/button/StatusSwitch";
 
 const Step4 = ({
   setGalleryPreview,
@@ -13,8 +17,39 @@ const Step4 = ({
   setThumbnail,
   errors,
   useState,
+  control
 }) => {
+  const { data: propertyTypesData, isLoading } = useGetTypesQuery({
+    page: 1,
+    search: "",
+    limit: 10000
+  });
+  const propTypes = useMemo(
+    () =>
+      propertyTypesData?.data?.map((item) => ({
+        id: item._id,
+        title: item.title,
+        value: item.title,
+        amenities: item.amenities
+      })) || [],
+    [propertyTypesData]
+  );
+  const propertyTypes = propertyTypesData?.data || [];
+  const [selectedProperty, setSelectedProperty] = useState(null);
+  const [availableFeatures, setAvailableFeatures] = useState([]);
 
+  useEffect(() => {
+    if (selectedProperty) {
+      const selectedType = propertyTypes.find(
+        (type) => type.title === selectedProperty
+      );
+
+      setAvailableFeatures({
+        amenities: selectedType?.amenities || [],
+        description: selectedType?.description || ""
+      });
+    }
+  }, [selectedProperty, propertyTypes]);
   return (
     <>
       <label htmlFor="thumbnail" className="flex flex-col text-center gap-y-2">
@@ -42,13 +77,67 @@ const Step4 = ({
           title="آپلود تصاویر گالری"
         />
 
-        {/* نمایش پیش‌نمایش تصاویر */}
-        <DisplayImages
-          galleryPreview={galleryPreview.map((item) => item)}
-          imageSize={150}
-        />
+
       </div>
-     
+        {/* انتخاب نوع ملک */}
+        <label htmlFor="propertyType" className="flex flex-col gap-y-2 w-full">
+        نوع ملک
+        <Controller
+          control={control}
+          name="propertyType"
+          render={({ field: { onChange, value } }) => (
+            <Dropdown
+              items={propTypes}
+              placeholder="نوع ملک"
+              value={value?._id}
+              onChange={(selectedOption) => {
+                onChange(selectedOption);
+                setSelectedProperty(selectedOption?.title);
+              }}
+              className="w-full"
+              height="py-3"
+              error={errors.propertyType}
+            />
+          )}
+        />
+        {errors.propertyType && (
+          <span className="text-red-500 text-sm">
+            {errors.propertyType.message}
+          </span>
+        )}
+      </label>
+
+      {/* امکانات ملک */}
+      {availableFeatures?.amenities?.length > 0 && (
+        <div className="mt-4">
+          <h3 className="text-lg">امکانات</h3>
+
+          <div className="grid grid-cols-2 gap-3 mt-2">
+            {availableFeatures.amenities.map((feature, index) => (
+              <Controller
+                key={index}
+                control={control}
+                name={`amenities[${index}]`}
+                render={({ field: { onChange, value } }) => (
+                  <StatusSwitch
+                    label={feature}
+                    id={feature}
+                    register={register}
+                    description={availableFeatures.description}
+                    defaultChecked={value?.hasAmenity || false}
+                    onChange={(e) => {
+                      onChange({
+                        title: feature,
+                        hasAmenity: e.target.checked
+                      });
+                    }}
+                  />
+                )}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </>
   );
 };

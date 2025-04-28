@@ -7,22 +7,7 @@ const translateFields = require("../utils/translateFields");
 exports.addSaleType = async (req, res) => {
   try {
     const { title, description } = req.body;
-    let translations;
-    try {
-      translations = await translateFields({ title, description }, [
-        "title",
-        "description"
-      ]);
-    } catch (err) {
-      console.error("خطا در ترجمه:", err.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطا در ترجمه",
-        error: err.message
-      });
-    }
-
+   
     const saleType = new SaleType({
       title: title,
       description: description,
@@ -30,16 +15,33 @@ exports.addSaleType = async (req, res) => {
     });
 
     const result = await saleType.save();
-    const translationDocs = Object.entries(translations).map(
-      ([lang, { fields }]) => ({
-        language: lang,
-        refModel: "SaleType",
-        refId: result._id,
-        fields
-      })
-    );
+  
     try {
-      await Translation.insertMany(translationDocs);
+      const translations = await translateFields(
+        {
+          title,
+          description,
+        },
+        {
+          stringFields: ["title",  "description"],
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "SaleType",
+          refId: result._id,
+          fields
+        })
+      );
+      const savedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      })); 
+      await SaleType.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
     } catch (translationError) {
       await SaleType.findByIdAndDelete(result._id);
       return res.status(500).json({
@@ -60,7 +62,7 @@ exports.addSaleType = async (req, res) => {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطا در ایجاد نوع فروش",
+      description: error.message,
       error: error.message
     });
   }

@@ -9,23 +9,6 @@ exports.addCategory = async (req, res) => {
   try {
     const { title, description, ...body } = req.body;
 
-    // مرحله ترجمه
-    let translations;
-    try {
-      translations = await translateFields({ title, description }, [
-        "title",
-        "description"
-      ]);
-    } catch (err) {
-      console.error("خطا در ترجمه:", err.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطا در ترجمه",
-        error: err.message
-      });
-    }
-
     const thumbnail = req.uploadedFiles?.thumbnail?.[0]
       ? {
           url: req.uploadedFiles.thumbnail[0].url,
@@ -43,18 +26,42 @@ exports.addCategory = async (req, res) => {
 
     const result = await category.save();
 
-    const translationDocs = Object.entries(translations).map(
-      ([lang, { fields }]) => ({
-        language: lang,
-        refModel: "Category",
-        refId: result._id,
-        fields
-      })
-    );
-
     try {
-      await Translation.insertMany(translationDocs);
+      const translations = await translateFields(
+        {
+          title,
+          description
+        },
+        {
+          stringFields: ["title", "description"]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "Category",
+          refId: result._id,
+          fields
+        })
+      );
+      insertedTranslations = await Translation.insertMany(translationDocs);
+
+      const translationInfos = insertedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await Category.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+
+      return res.status(201).json({
+        acknowledgement: true,
+        message: "Created",
+        description: "دسته‌بندی با موفقیت ایجاد و ترجمه شد.",
+        data: result
+      });
     } catch (translationError) {
+      console.log(translationError.message);
       await Category.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
@@ -63,17 +70,6 @@ exports.addCategory = async (req, res) => {
         error: translationError.message
       });
     }
-
-    await Admin.findByIdAndUpdate(result.creator, {
-      $set: { category: result._id }
-    });
-
-    res.status(201).json({
-      acknowledgement: true,
-      message: "Created",
-      description: "دسته بندی با موفقیت ایجاد شد",
-      data: result
-    });
   } catch (error) {
     console.error("Error in addCategory:", error);
     res.status(500).json({

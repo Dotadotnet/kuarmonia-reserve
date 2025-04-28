@@ -3,9 +3,9 @@ const News = require("../models/news.model");
 const Product = require("../models/product.model");
 const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
-const { translate } = require("google-translate-api-x");
+const translateFields = require("../utils/translateFields");
 const Translation = require("../models/translation.model");
-/* 📌 اضافه کردن اخبار جدید */
+
 exports.addNews = async (req, res) => {
   try {
     const {
@@ -30,67 +30,6 @@ exports.addNews = async (req, res) => {
       };
     }
 
-    let translatedTitle = "";
-    let translatedSummary = "";
-    let translatedContent = "";
-    let translatedTitleTr = "";
-    let translatedSummaryTr = "";
-    let translatedContentTr = "";
-
-    console.log("Starting translation process...");
-
-    try {
-      console.log("Translating title to English...");
-      const resultTitleEn = await translate(title, { to: "en", client: "gtx" });
-      translatedTitle = resultTitleEn.text;
-      console.log("Translated Title (EN):", translatedTitle);
-
-      console.log("Translating summary to English...");
-      const resultSummaryEn = await translate(summary, {
-        to: "en",
-        client: "gtx"
-      });
-      translatedSummary = resultSummaryEn.text;
-      console.log("Translated Summary (EN):", translatedSummary);
-
-      console.log("Translating content to English...");
-      const resultContentEn = await translate(content, {
-        to: "en",
-        client: "gtx"
-      });
-      translatedContent = resultContentEn.text;
-      console.log("Translated Content (EN):", translatedContent);
-
-      console.log("Translating title to Turkish...");
-      const resultTitleTr = await translate(title, { to: "tr", client: "gtx" });
-      translatedTitleTr = resultTitleTr.text;
-      console.log("Translated Title (TR):", translatedTitleTr);
-
-      console.log("Translating summary to Turkish...");
-      const resultSummaryTr = await translate(summary, {
-        to: "tr",
-        client: "gtx"
-      });
-      translatedSummaryTr = resultSummaryTr.text;
-      console.log("Translated Summary (TR):", translatedSummaryTr);
-
-      console.log("Translating content to Turkish...");
-      const resultContentTr = await translate(content, {
-        to: "tr",
-        client: "gtx"
-      });
-      translatedContentTr = resultContentTr.text;
-      console.log("Translated Content (TR):", translatedContentTr);
-    } catch (err) {
-      console.error("خطا در ترجمه:", err);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطایی در فرآیند ترجمه رخ داد",
-        error: err.message
-      });
-    }
-
     const news = new News({
       title,
       summary,
@@ -111,62 +50,67 @@ exports.addNews = async (req, res) => {
     const result = await news.save();
     const { metaTitle, metaDescription } = result;
 
-    const [translatedMetaTitleEn, translatedMetaDescriptionEn] =
-      await Promise.all([
-        translate(metaTitle, { to: "en", client: "gtx" }),
-        translate(metaDescription, { to: "en", client: "gtx" })
-      ]);
-
-    const [translatedMetaTitleTr, translatedMetaDescriptionTr] =
-      await Promise.all([
-        translate(metaTitle, { to: "tr", client: "gtx" }),
-        translate(metaDescription, { to: "tr", client: "gtx" })
-      ]);
-    const translationData = [
-      {
-        language: "en",
-        refModel: "News",
-        refId: result._id,
-        fields: {
-          title: translatedTitle,
-          summary: translatedSummary,
-          content: translatedContent,
-          metaTitle: translatedMetaTitleEn.text,
-          metaDescription: translatedMetaDescriptionEn.text
+    try {
+      const translations = await translateFields(
+        {
+          title,
+          summary,
+          content,
+          metaTitle,
+          metaDescription
+        },
+        {
+          stringFields: [
+            "title",
+            "summary",
+            "content",
+            "metaTitle",
+            "metaDescription"
+          ],
+          forceBatch: false
         }
-      },
-      {
-        language: "tr",
-        refModel: "News",
-        refId: result._id,
-        fields: {
-          title: translatedTitleTr,
-          summary: translatedSummaryTr,
-          content: translatedContentTr,
-          metaTitle: translatedMetaTitleTr.text,
-          metaDescription: translatedMetaDescriptionTr.text
-        }
-      }
-    ];
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "News",
+          refId: result._id,
+          fields
+        })
+      );
+      const savedTranslations = await Translation.insertMany(translationDocs);
 
-    await Translation.insertMany(translationData);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
 
-    await Admin.findByIdAndUpdate(result.creator, {
-      $set: { news: result._id }
-    });
+      await News.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
 
-    res.status(201).json({
-      acknowledgement: true,
-      message: "Created",
-      description: "اخبار با موفقیت ایجاد شد",
-      data: result
-    });
+      res.status(201).json({
+        acknowledgement: true,
+        message: "Created",
+        description: "اخبار با موفقیت ایجاد شد",
+        data: result
+      });
+    } catch (translationError) {
+      console.log(translationError.message);
+      await News.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. خبر حذف شد.",
+        error: translationError.message
+      });
+    }
   } catch (error) {
     console.log("Error during news creation:", error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطایی در ثبت اخبار رخ داد",
+      description: error.message,
       error: error.message
     });
   }

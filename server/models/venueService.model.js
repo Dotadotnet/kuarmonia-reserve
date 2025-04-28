@@ -14,6 +14,12 @@ const venueServiceSchema = new mongoose.Schema(
       minLength: [3, "نام خدمات محل جشن باید حداقل ۳ کاراکتر باشد"],
       maxLength: [50, "نام خدمات محل جشن نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"]
     },
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
     description: {
       type: String,
       maxLength: [500, "توضیحات نمی‌تواند بیشتر از ۵۰۰ کاراکتر باشد"]

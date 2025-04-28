@@ -1,69 +1,67 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
-const Tag = require("./tag.model");
 const Category = require("./category.model");
-const Counter = require("./counter")
+const Counter = require("./counter");
 const baseSchema = require("./baseSchema.model");
 
+const {
+  generateSlug,
+  generateSeoFields,
+  encodeBase62
+} = require("../utils/translationUtils");
 
-const blogSchema =  new mongoose.Schema(
+const blogSchema = new mongoose.Schema(
   {
     blogId: {
       type: Number,
-      unique: true,
+      unique: true
     },
     title: {
       type: String,
       required: [true, "عنوان پست الزامی است"],
       trim: true,
       minLength: [3, "عنوان پست باید حداقل ۳ کاراکتر باشد"],
-      maxLength: [100, "عنوان پست نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"],
+      maxLength: [100, "عنوان پست نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
     },
     slug: {
       type: String,
-      unique: true,
-      required: false,
-      default: function () {
-        return this.title
-          .toString()
-          .trim()
-          .toLowerCase()
-          .replace(/[\u200B-\u200D\uFEFF]/g, "")
-          .replace(/[\s\ـ]+/g, "-")
-          .replace(/[^\u0600-\u06FFa-z0-9\-]/g, "")
-          .replace(/-+/g, "-")
-          .replace(/^-+|-+$/g, "");
-      },
+      unique: true
     },
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
     description: {
       type: String,
       maxLength: [300, "توضیحات نمی‌تواند بیشتر از ۳۰۰ کاراکتر باشد"],
-      required: [true, "توضیحات الزامی است"],
+      required: [true, "توضیحات الزامی است"]
     },
     thumbnail: {
       url: {
         type: String,
         required: [true, "لطفاً لینک تصویر بندانگشتی را وارد کنید"],
-        default: "https://placehold.co/296x200.png",
+        default: "https://placehold.co/296x200.png"
       },
       public_id: {
         type: String,
-        default: "N/A",
-      },
+        default: "N/A"
+      }
     },
     content: {
       type: String,
-      required: [true, "محتوا الزامی است"],
+      required: [true, "محتوا الزامی است"]
     },
     metaTitle: {
       type: String,
       maxLength: [60, "متا تایتل نمی‌تواند بیشتر از ۶۰ کاراکتر باشد"],
-      default: "",
+      default: ""
     },
     metaDescription: {
       type: String,
       maxLength: [160, "متا توضیحات نمی‌تواند بیشتر از ۱۶۰ کاراکتر باشد"],
-      default: "",
+      default: ""
     },
 
     canonicalUrl: {
@@ -71,94 +69,95 @@ const blogSchema =  new mongoose.Schema(
       required: false,
       trim: true,
       validate: {
-        validator: function(v) {
+        validator: function (v) {
           return /^(https?:\/\/[^\s$.?#].[^\s]*)$/.test(v);
         },
-        message: "URL معتبر نیست",
-      },
+        message: "URL معتبر نیست"
+      }
     },
     readTime: {
       type: String,
-      default: 0,
+      default: 0
     },
     isFeatured: {
       type: Boolean,
-      default: false,
+      default: false
     },
     visibility: {
       type: String,
       enum: ["public", "private"],
-      default: "public",
+      default: "public"
     },
     relatedBlogs: [
       {
         type: ObjectId,
-        ref: "Blog",
-      },
+        ref: "Blog"
+      }
     ],
 
     relatedEvents: [
       {
         type: ObjectId,
-        ref: "Event",
-      },
+        ref: "Event"
+      }
     ],
- 
+
     lastUpdated: {
       type: Date,
-      default: Date.now,
+      default: Date.now
     },
     publishDate: {
-      type: Date,
+      type: Date
     },
     publishStatus: {
       type: String,
       enum: ["pending", "approved", "rejected"],
       default: "pending",
-      required: [true, "وضعیت انتشار الزامی است"],
+      required: [true, "وضعیت انتشار الزامی است"]
     },
     tags: [
       {
         type: ObjectId,
         ref: "Tag",
-        required: [true, "تگ پست الزامی است"],
-      },
+        required: [true, "تگ پست الزامی است"]
+      }
     ],
     category: {
       type: ObjectId,
       ref: "Category",
-      required: [true, "دسته‌بندی پست الزامی است"],
+      required: [true, "دسته‌بندی پست الزامی است"]
     },
     creator: {
       type: ObjectId,
       ref: "Admin",
-      required: [true, "شناسه نویسنده الزامی است"],
+      required: [true, "شناسه نویسنده الزامی است"]
     },
 
     views: {
       type: Number,
       default: 0,
-      min: [0, "تعداد بازدید نمی‌تواند منفی باشد"],
+      min: [0, "تعداد بازدید نمی‌تواند منفی باشد"]
     },
     socialLinks: [
       {
-        name: { type: String, required: true },
-        url: { type: String, required: true },
+        link: {
+          type: String
+        },
+        network: {
+          type: ObjectId,
+          ref: "SocialLink"
+        }
       }
     ],
-    ...baseSchema.obj,
+    ...baseSchema.obj
   },
   { timestamps: true }
 );
 
-
-
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
-
 
 blogSchema.pre("save", async function (next) {
   try {
-    // تنظیم blogId با استفاده از Counter
     const counter = await Counter.findOneAndUpdate(
       { name: "blogId" },
       { $inc: { seq: 1 } },
@@ -166,50 +165,33 @@ blogSchema.pre("save", async function (next) {
     );
 
     this.blogId = counter.seq;
+    if (!this.metaTitle || !this.metaDescription) {
+      const category = await NewsType.findById(this.type);
+      const seo = generateSeoFields({
+        title: this.title,
+        summary: this.summary,
+        categoryTitle: category?.title || "عمومی"
+      });
 
-    // تنظیم canonicalUrl در صورت نبود مقدار
+      if (!this.metaTitle) this.metaTitle = seo.metaTitle;
+      if (!this.metaDescription) this.metaDescription = seo.metaDescription;
+    }
+    const base62Code = encodeBase62(this.newsId);
+    this.shortUrl = `${defaultDomain}/s/${base62Code}`;
     if (!this.canonicalUrl) {
-      const slugPart = this.slug ? this.slug : encodeURIComponent(this.title);
-      this.canonicalUrl = `${defaultDomain}/blog/${slugPart.replaceAll(" ","-")}`;
+      this.canonicalUrl = `${defaultDomain}/news/${this.slug}`;
     }
 
-    // بررسی تغییرات و تنظیم metaTitle و metaDescription
-    if (
-      this.isModified("title") ||
-      this.isModified("category") ||
-      !this.metaTitle ||
-      !this.metaDescription
-    ) {
-      const category = await Category.findById(this.category);
-      const categoryTitle = category ? category.title : "عمومی";
-      const descriptionText = this.description ? this.description : "";
-
-      // **تولید metaTitle**
-      let combinedMetaTitle = `${this.title} | ${categoryTitle}`;
-      if (combinedMetaTitle.length > 60) {
-        combinedMetaTitle = combinedMetaTitle.substring(0, 57) + "...";
-      }
-      this.metaTitle = combinedMetaTitle;
-
-      // **تولید metaDescription**
-      let combinedMetaDescription = `${descriptionText} | ${categoryTitle}`;
-      if (combinedMetaDescription.length > 160) {
-        combinedMetaDescription = combinedMetaDescription.substring(0, 157) + "...";
-      }
-      this.metaDescription = combinedMetaDescription;
-    }
-
-    next(); // ✅ `next()` فقط یک‌بار و در انتهای پردازش اجرا می‌شود.
+    next();
   } catch (error) {
-    console.error("خطا در تنظیم metaTitle، metaDescription و canonicalUrl:", error);
-    next(error); // اگر خطایی رخ دهد، `next(error)` را فراخوانی می‌کنیم تا مانع ذخیره‌سازی شود.
+    console.error(
+      "خطا در تنظیم metaTitle، metaDescription و canonicalUrl:",
+      error
+    );
+    next(error);
   }
 });
-
 
 const Blog = mongoose.model("Blog", blogSchema);
 
 module.exports = Blog;
-
-
-

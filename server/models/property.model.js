@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 const {
   generateSlug,
   generateSeoFields,
-  encodeBase62 
+  encodeBase62
 } = require("../utils/translationUtils");
 
 const propertySchema = new Schema(
@@ -28,6 +28,20 @@ const propertySchema = new Schema(
       type: String,
       unique: true
     },
+   translations: [
+        {
+          translationId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Translation",
+            required: true
+          },
+          language: {
+            type: String,
+            enum: ["en", "tr", "ar"],
+            required: true
+          }
+        }
+      ],
     saleType: {
       required: [true, "لطفاً نوع فروش ملک را وارد کنید"],
       type: Schema.Types.ObjectId,
@@ -51,13 +65,25 @@ const propertySchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "TradeType"
     },
+
     type: {
       required: [true, "لطفاً نوع  ملک را وارد کنید"],
       type: Schema.Types.ObjectId,
       ref: "PropertyType"
     },
-  
-    summary: {
+    unit: {
+      floor: Number,
+      bedrooms: Number,
+      bathrooms: Number,
+      square: Number,
+    },
+    building: {
+      totalFloors: Number,
+      totalUnits: Number,
+      bedrooms: [Number],
+      square: [Number]
+    },
+        summary: {
       type: String,
       maxLength: [160, "توضیحات نمی‌تواند بیشتر از ۱۶۰ کاراکتر باشد"]
     },
@@ -129,20 +155,6 @@ const propertySchema = new Schema(
       },
       required: [true, "مکان ملک الزامی است"]
     },
-    square: {
-      type: Number,
-      required: [true, "لطفاً مساحت ملک را وارد کنید"]
-    },
-    bedrooms: {
-      type: Number,
-      default: 0
-    },
-    bathrooms: {
-      type: Number,
-      default: 0
-    },
-
-
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
@@ -171,18 +183,8 @@ const propertySchema = new Schema(
         }
       }
     ],
-    createDate: {
-      type: Number
-    },
-    ownerId: {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    },
+  
 
-    updatedDate: {
-      type: Date,
-      default: Date.now
-    },
     isFeatured: {
       type: Boolean,
       default: false
@@ -316,8 +318,6 @@ propertySchema.pre("save", async function (next) {
   if (!this.canonicalUrl) {
     this.canonicalUrl = `${defaultDomain}/news/${this.slug}`;
   }
-
-
 
   next();
 });

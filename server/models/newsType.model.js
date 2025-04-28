@@ -18,15 +18,18 @@ const newsTypeSchema = new mongoose.Schema(
       type: String,
       maxLength: [500, "توضیحات نمی‌تواند بیشتر از ۵۰۰ کاراکتر باشد"]
     },
-    translationOf: {
-      type: ObjectId,
-      ref: "News",
-      default: null
-    },
     translations: [
       {
-        type: ObjectId,
-        ref: "News"
+        translationId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Translation",
+          required: true
+        },
+        language: {
+          type: String,
+          enum: ["en", "tr", "ar"],
+          required: true
+        }
       }
     ],
     slug: {
@@ -57,7 +60,7 @@ newsTypeSchema.pre("save", async function (next) {
     if (this.isModified("title")) {
       this.slug = await generateSlug(this.title);
     }
-    
+
     const counter = await Counter.findOneAndUpdate(
       { name: "newsTypeId" },
       { $inc: { seq: 1 } },

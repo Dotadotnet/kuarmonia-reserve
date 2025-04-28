@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import TinyMceEditor from "@/components/shared/ckeditor/TinyMceEditor";
 import ModalPortal from "@/components/shared/modal/ModalPortal";
 import Modal from "@/components/shared/modal/Modal";
 import { Controller } from "react-hook-form";
+import TextEditor from "@/components/shared/textEditor/TextEditor";
 
 const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -97,9 +97,9 @@ const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
                   isOpen={isOpen}
                   onOpen={() => setIsOpen(true)}
                   onClose={() => setIsOpen(false)}
-                  className=" md:!w-2/3 !w-full h-fit !p-1 !mx-0 !rounded-none"
+                  className=" md:!w-2/3 !w-full h-full !p-1 overflow-y-auto !mx-0 !rounded-none"
                 >
-                  <TinyMceEditor
+                  <TextEditor
                     value={editorData}
                     onChange={(value) => {
                       setEditorData(value);
@@ -133,25 +133,7 @@ const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
           </span>
         )}
       </label>
-      <label htmlFor="square" className="flex flex-col gap-y-2 w-full">
-        مساحت
-        <input
-          type="text"
-          name="square"
-          id="square"
-          className="rounded p-2 border w-full border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          {...register("square", {
-            required: "مساحت ساخت الزامی است",
-            pattern: {
-              value: /^\d{1,3}$/,
-              message: "لطفاً مساحت را به درستی وارد کنید"
-            }
-          })}
-        />
-        {errors.square && (
-          <span className="text-red-500 text-sm">{errors.square.message}</span>
-        )}
-      </label>
+     
     </div>
   );
 };

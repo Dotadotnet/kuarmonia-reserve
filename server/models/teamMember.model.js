@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { ObjectId } = mongoose.Schema.Types;
 const baseSchema = require("./baseSchema.model");
 const Counter = require("./counter");
 
@@ -20,10 +21,24 @@ const teamMemberSchema = new Schema({
       default: "N/A"
     }
   },
+  translations: [
+    {
+      translationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Translation",
+        required: true
+      },
+      language: {
+        type: String,
+        enum: ["en", "tr", "ar"],
+        required: true
+      }
+    }
+  ],
   description: {
     type: String,
     maxLength: [300, "توضیحات نمی‌تواند بیشتر از ۳۰۰ کاراکتر باشد"],
-    required: [true, "توضیحات الزامی است"],
+    required: [true, "توضیحات الزامی است"]
   },
   memberId: {
     type: Number,

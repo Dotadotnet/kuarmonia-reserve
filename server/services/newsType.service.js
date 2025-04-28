@@ -1,48 +1,14 @@
 /* internal imports */
 const NewsType = require("../models/newsType.model");
-const Admin = require("../models/admin.model");
 const { translate } = require("google-translate-api-x");
 const Translation = require("../models/translation.model");
-const {
-  generateSlug,
- } = require("../utils/translationUtils");
+const { generateSlug } = require("../utils/translationUtils");
+const translateFields = require("../utils/translateFields");
+
 /* 📌 اضافه کردن نوع خبر جدید */
 exports.addNewsType = async (req, res) => {
   try {
     const { title, description, icon } = req.body;
-
-    let translatedTitle = "";
-    let translatedDescription = "";
-    let translatedTitleTr = "";
-    let translatedDescriptionTr = "";
-
-    try {
-      const resultTitleEn = await translate(title, { to: "en", client: "gtx" });
-      translatedTitle = resultTitleEn.text;
-
-      const resultDescriptionEn = await translate(description, {
-        to: "en",
-        client: "gtx"
-      });
-      translatedDescription = resultDescriptionEn.text;
-
-      const resultTitleTr = await translate(title, { to: "tr", client: "gtx" });
-      translatedTitleTr = resultTitleTr.text;
-
-      const resultDescriptionTr = await translate(description, {
-        to: "tr",
-        client: "gtx"
-      });
-      translatedDescriptionTr = resultDescriptionTr.text;
-    } catch (err) {
-      console.error("خطا در ترجمه:", err);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطایی در فرآیند ترجمه رخ داد",
-        error: err.message
-      });
-    }
 
     const newsType = new NewsType({
       title,
@@ -52,42 +18,47 @@ exports.addNewsType = async (req, res) => {
     });
     const result = await newsType.save();
 
-    
-    const translationData = [
-      {
-        language: "en",
-        refModel: "NewsType",
-        refId: result._id,
-        fields: {
-          title: translatedTitle,
-          description: translatedDescription,
-          
+    try {
+      const translations = await translateFields(
+        {
+          title,
+          description
+        },
+        {
+          stringFields: ["title", "description"]
         }
-      },
-      {
-        language: "tr",
-        refModel: "NewsType",
-        refId: result._id,
-        fields: {
-          title: translatedTitleTr,
-          description: translatedDescriptionTr,
-        
-        }
-      }
-    ];
-    
-    await Translation.insertMany(translationData);
-
-    await Admin.findByIdAndUpdate(result.creator, {
-      $set: { newsType: result._id }
-    });
-
-    res.status(201).json({
-      acknowledgement: true,
-      message: "Created",
-      description: "نوع خبر با موفقیت ایجاد شد",
-      data: result
-    });
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "NewsType",
+          refId: result._id,
+          fields
+        })
+      );
+      const savedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await NewsType.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+      res.status(201).json({
+        acknowledgement: true,
+        message: "Created",
+        description: "اخبار با موفقیت ایجاد شد",
+        data: result
+      });
+    } catch (translationError) {
+      await NewsType.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. دسته‌بندی حذف شد.",
+        error: translationError.message
+      });
+    }
   } catch (error) {
     const errorMessage = error.message.split(":")[2]?.trim();
 
@@ -125,8 +96,6 @@ exports.getNewsTypes = async (res) => {
 /* 📌 دریافت یک نوع خبر */
 exports.getNewsType = async (req, res) => {
   try {
-
-    
     const newsType = await NewsType.findById(req.params.id);
 
     if (!newsType) {
@@ -180,16 +149,22 @@ exports.updateNewsType = async (req, res) => {
         }
 
         if (updatedNewsType.description) {
-          const resultDescriptionEn = await translate(updatedNewsType.description, {
-            to: "en",
-            client: "gtx"
-          });
+          const resultDescriptionEn = await translate(
+            updatedNewsType.description,
+            {
+              to: "en",
+              client: "gtx"
+            }
+          );
           translatedDescriptionEn = resultDescriptionEn.text;
 
-          const resultDescriptionTr = await translate(updatedNewsType.description, {
-            to: "tr",
-            client: "gtx"
-          });
+          const resultDescriptionTr = await translate(
+            updatedNewsType.description,
+            {
+              to: "tr",
+              client: "gtx"
+            }
+          );
           translatedDescriptionTr = resultDescriptionTr.text;
         }
 
@@ -198,7 +173,9 @@ exports.updateNewsType = async (req, res) => {
           {
             $set: {
               ...(translatedTitleEn && { "fields.title": translatedTitleEn }),
-              ...(translatedDescriptionEn && { "fields.description": translatedDescriptionEn })
+              ...(translatedDescriptionEn && {
+                "fields.description": translatedDescriptionEn
+              })
             }
           },
           { upsert: true }
@@ -209,12 +186,13 @@ exports.updateNewsType = async (req, res) => {
           {
             $set: {
               ...(translatedTitleTr && { "fields.title": translatedTitleTr }),
-              ...(translatedDescriptionTr && { "fields.description": translatedDescriptionTr })
+              ...(translatedDescriptionTr && {
+                "fields.description": translatedDescriptionTr
+              })
             }
           },
           { upsert: true }
         );
-
       } catch (translateErr) {
         console.error("❌ خطا در ترجمه:", translateErr.message);
         return res.status(404).json({
@@ -247,7 +225,6 @@ exports.updateNewsType = async (req, res) => {
       description: "نوع خبر با موفقیت دریافت و بروزرسانی شد",
       data: result
     });
-
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
@@ -257,7 +234,6 @@ exports.updateNewsType = async (req, res) => {
     });
   }
 };
-
 
 /* 📌 حذف نوع خبر */
 exports.deleteNewsType = async (req, res) => {

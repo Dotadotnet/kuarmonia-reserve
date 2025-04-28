@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { ObjectId } = mongoose.Schema.Types;
 const baseSchema = require("./baseSchema.model");
 const Counter = require("./counter");
 const {
@@ -18,6 +19,20 @@ const tradeTypeSchema = new Schema({
     type: Number,
     unique: true,
   },
+   translations: [
+      {
+        translationId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Translation",
+          required: true
+        },
+        language: {
+          type: String,
+          enum: ["en", "tr", "ar"],
+          required: true
+        }
+      }
+    ],
   creator: {
     type: Schema.Types.ObjectId,
     ref: "Admin",

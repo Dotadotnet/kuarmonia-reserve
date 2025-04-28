@@ -52,6 +52,8 @@ import Aboutus from "./pages/settings/aboutus";
 import AddMember from "./pages/settings/aboutus/add";
 import Faqs from "./pages/settings/faqs";
 import AddFaqs from "./pages/settings/faqs/add";
+import Services from "./pages/settings/services";
+import AddService from "./pages/settings/services/add";
 
 function App() {
   const location = useLocation();
@@ -125,6 +127,8 @@ function App() {
           <Route exact path="/settings/aboutus/add" element={<AddMember />} />
           <Route exact path="/settings/faqs/" element={<Faqs />} />
           <Route exact path="/settings/faqs/add" element={<AddFaqs />} />
+          <Route exact path="/settings/services/" element={<Services />} />
+          <Route exact path="/settings/services/add" element={<AddService />} />
         </Routes>
       </Auth>
     </Providers>

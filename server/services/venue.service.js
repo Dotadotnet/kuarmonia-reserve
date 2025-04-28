@@ -15,47 +15,47 @@ exports.addVenue = async (req, res) => {
       symbol,
       exchangeRate,
       country,
-      creator: req.user._id,
+      creator: req.user._id
     });
 
     const result = await venue.save();
 
     await Admin.findByIdAndUpdate(result.creator, {
-      $set: { venue: result._id },
+      $set: { venue: result._id }
     });
 
     res.status(201).json({
       acknowledgement: true,
       message: "Created",
       description: "محل مراسم با موفقیت ایجاد شد",
-      data: result,
+      data: result
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در ثبت محل مراسم رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
 
 /* 📌 دریافت همه محل مراسم */
-exports.getVenues = async ( res) => {
+exports.getVenues = async (res) => {
   try {
     const venues = await Venue.find().populate("creator");
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست محل مراسم با موفقیت دریافت شد",
-      data: venues,
+      data: venues
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در دریافت محل مراسم رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
@@ -69,7 +69,7 @@ exports.getVenue = async (req, res) => {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
-        description: "محل مراسم مورد نظر یافت نشد",
+        description: "محل مراسم مورد نظر یافت نشد"
       });
     }
 
@@ -77,14 +77,14 @@ exports.getVenue = async (req, res) => {
       acknowledgement: true,
       message: "Ok",
       description: "محل مراسم با موفقیت دریافت شد",
-      data: venue,
+      data: venue
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در دریافت محل مراسم رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
@@ -97,14 +97,14 @@ exports.updateVenue = async (req, res) => {
     console.log("Venue ID:", req.params.id);
 
     const result = await Venue.findByIdAndUpdate(req.params.id, updatedVenue, {
-      new: true,
+      new: true
     });
 
     if (!result) {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
-        description: "محل مراسم مورد نظر برای بروزرسانی یافت نشد",
+        description: "محل مراسم مورد نظر برای بروزرسانی یافت نشد"
       });
     }
 
@@ -112,14 +112,14 @@ exports.updateVenue = async (req, res) => {
       acknowledgement: true,
       message: "Ok",
       description: "محل مراسم با موفقیت بروزرسانی شد",
-      data: result,
+      data: result
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در بروزرسانی محل مراسم رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };
@@ -133,28 +133,31 @@ exports.deleteVenue = async (req, res) => {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
-        description: "محل مراسم مورد نظر برای حذف یافت نشد",
+        description: "محل مراسم مورد نظر برای حذف یافت نشد"
       });
     }
 
     await remove(venue.logo?.public_id);
 
-    await Product.updateMany({ venue: req.params.id }, { $unset: { venue: "" } });
+    await Product.updateMany(
+      { venue: req.params.id },
+      { $unset: { venue: "" } }
+    );
     await Admin.findByIdAndUpdate(venue.creator, {
-      $unset: { venue: "" },
+      $unset: { venue: "" }
     });
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
-      description: "محل مراسم با موفقیت حذف شد",
+      description: "محل مراسم با موفقیت حذف شد"
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
       description: "خطایی در حذف محل مراسم رخ داد",
-      error: error.message,
+      error: error.message
     });
   }
 };

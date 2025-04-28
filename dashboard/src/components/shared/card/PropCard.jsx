@@ -188,7 +188,7 @@ function Tooltip({ children, value, icon, ...props }) {
     <span {...props} className="custom-button !p-3 relative">
       {icon}
       <div
-        className={`absolute  top-full left-1/2 -translate-x-1/2 mt-2 !px-4 bg-green-300 text-green-500 text-sm rounded shadow-lg transition-opacity duration-300  whitespace-nowrap !py-0 cursor-pointer  border border-green-500/5 dark:border-blue-500/5 bg-green-500/5 dark:bg-blue-500/5 p-2  dark:text-blue-500  hover:border-green-500/10 dark:hover:border-blue-500/10 hover:bg-green-500/10 dark:hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70
+        className={`absolute  top-full left-1/2 -translate-x-1/2 mt-2 !px-4 bg-green-300 text-green-500 text-sm rounded  transition-opacity duration-300  whitespace-nowrap !py-0 cursor-pointer  border border-green-500/5 dark:border-blue-500/5 bg-green-500/5 dark:bg-blue-500/5 p-2  dark:text-blue-500  hover:border-green-500/10 dark:hover:border-blue-500/10 hover:bg-green-500/10 dark:hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70
         `}
       >
         {value}

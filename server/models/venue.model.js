@@ -3,8 +3,12 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 const Counter = require("./counter");
 const baseSchema = require("./baseSchema.model");
+const {
+  generateSlug,
+  generateSeoFields,
+  encodeBase62 
+} = require("../utils/translationUtils");
 
-/* ایجاد اسکیمای مکان برگزاری */
 const venueSchema = new mongoose.Schema(
   {
     venueId: {
@@ -19,20 +23,15 @@ const venueSchema = new mongoose.Schema(
       minLength: [3, "نام مکان باید حداقل ۳ کاراکتر باشد"],
       maxLength: [50, "نام مکان نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"]
     },
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
     slug: {
       type: String,
       unique: true,
-      default: function () {
-        return this.name
-          .toString()
-          .trim()
-          .toLowerCase()
-          .replace(/[\u200B-\u200D\uFEFF]/g, "")
-          .replace(/[\s\ـ]+/g, "-")
-          .replace(/[^\u0600-\u06FFa-z0-9\-]/g, "")
-          .replace(/-+/g, "-")
-          .replace(/^-+|-+$/g, "");
-      }
     },
     capacity: {
       minCapacity: {
@@ -103,7 +102,7 @@ const venueSchema = new mongoose.Schema(
       }
     ],
     tags: [{ type: ObjectId, ref: "Tags" }],
-    servicesVenue: [{ type: ObjectId, ref: "ServiceVenue" }],
+    venuesVenue: [{ type: ObjectId, ref: "VenueVenue" }],
     settingVenue: [{ type: ObjectId, ref: "SettingVenue" }],
     awards: [{ type: ObjectId, ref: "VenueAward" }],
     events: [{ type: ObjectId, ref: "VenueEvent" }],
@@ -223,25 +222,43 @@ const venueSchema = new mongoose.Schema(
 );
 
 venueSchema.pre("save", async function (next) {
-  if (!this.isNew || this.venueId) return next();
-  if (this.isNew) {
-    this.venueId = await getNextSequenceValue("venueId");
-  }
-
-  if (!this.canonicalUrl) {
-    this.canonicalUrl = `${defaultDomain}/venue/${this.slug}`;
-  }
-
   try {
-    const counter = await Counter.findOneAndUpdate(
-      { name: "venueId" },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    );
-    this.venueId = counter.seq;
+    if (this.isModified("title")) {
+      this.slug = await generateSlug(this.title);
+    }
+
+    if (!this.metaTitle || !this.metaDescription) {
+      const category = await VenueType.findById(this.type);
+      const seo = generateSeoFields({
+        title: this.title,
+        summary: this.summary,
+        categoryTitle: category?.title || "عمومی"
+      });
+
+      if (!this.metaTitle) this.metaTitle = seo.metaTitle;
+      if (!this.metaDescription) this.metaDescription = seo.metaDescription;
+    }
+
+    if (!this.venueId) {
+      const counter = await Counter.findOneAndUpdate(
+        { name: "venueId" },
+        { $inc: { seq: 1 } },
+        { new: true, upsert: true }
+      );
+      this.venueId = counter.seq;
+
+      const base62Code = encodeBase62(this.venueId);
+      this.shortUrl = `${defaultDomain}/s/${base62Code}`;
+    }
+
+    if (!this.canonicalUrl) {
+      this.canonicalUrl = `${defaultDomain}/venue/${this.slug}`;
+    }
+
     next();
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    console.error("خطا در pre-save خبر:", err);
+    next(err);
   }
 });
 

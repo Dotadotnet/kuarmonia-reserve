@@ -7,21 +7,7 @@ const translateFields = require("../utils/translateFields");
 exports.addTradeType = async (req, res) => {
   try {
     const { title, description, priceFields } = req.body;
-    let translations;
-    try {
-      translations = await translateFields({ title, description }, [
-        "title",
-        "description"
-      ]);
-    } catch (err) {
-      console.error("خطا در ترجمه:", err.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطا در ترجمه",
-        error: err.message
-      });
-    }
+   
     const tradeType = new TradeType({
       title: title,
       description: description,
@@ -30,23 +16,40 @@ exports.addTradeType = async (req, res) => {
     });
 
     const result = await tradeType.save();
-    const translationDocs = Object.entries(translations).map(
-      ([lang, { fields }]) => ({
-        language: lang,
-        refModel: "TradeType",
-        refId: result._id,
-        fields
-      })
-    );
+
 
     try {
-      await Translation.insertMany(translationDocs);
+      const translations = await translateFields(
+        {
+          title,
+          description,
+        },
+        {
+          stringFields: ["title",  "description"],
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "TradeType",
+          refId: result._id,
+          fields
+        })
+      );
+      const savedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      })); 
+      await TradeType.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
     } catch (translationError) {
       await TradeType.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. نوع معامله حذف شد.",
+        description: "خطا در ذخیره ترجمه‌ها. نوع معامله  حذف شد.",
         error: translationError.message
       });
     }
@@ -60,7 +63,7 @@ exports.addTradeType = async (req, res) => {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطا در ایجاد نوع معاملات",
+      description: error.message,
       error: error.message
     });
   }

@@ -18,6 +18,12 @@ const venueTypeSchema = new mongoose.Schema(
       type: String,
       maxLength: [500, "توضیحات نمی‌تواند بیشتر از ۵۰۰ کاراکتر باشد"]
     },
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
     icon: {
       type: String,
       required: false, // می‌تواند اختیاری باشد

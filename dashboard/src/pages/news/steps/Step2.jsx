@@ -9,9 +9,10 @@ import { useGetCategoriesQuery } from "@/services/category/categoryApi";
 import { useGetNewsTypesQuery } from "@/services/newsType/newsTypeApi";
 import Modal from "@/components/shared/modal/Modal";
 import toast from "react-hot-toast";
-import TinyMceEditor from "@/components/shared/ckeditor/TinyMceEditor";
+import TextEditor from "@/components/shared/textEditor/TextEditor";
 import ModalPortal from "@/components/shared/modal/ModalPortal";
 import Dropdown from "@/components/shared/dropDown/Dropdown";
+import Apply from "@/components/icons/Apply";
 
 const Step2 = ({
   register,
@@ -156,9 +157,8 @@ const Step2 = ({
       <div className="flex flex-col gap-y-2 w-full  ">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
           <div className="flex flex-col flex-1">
-   
             <label htmlFor="newsType" className="flex flex-col gap-y-2 ">
-        نوع خبر
+              نوع خبر
               <Controller
                 control={control}
                 name="newsType"
@@ -187,13 +187,14 @@ const Step2 = ({
           </div>
         </div>
         {errors.mainCategory && (
-          <span className="text-red-500 text-sm">{errors.mainCategory.message}</span>
+          <span className="text-red-500 text-sm">
+            {errors.mainCategory.message}
+          </span>
         )}
       </div>
       <div className="flex flex-col gap-y-2 w-full  ">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
           <div className="flex flex-col flex-1">
-   
             <label htmlFor="category" className="flex flex-col gap-y-2 ">
               دسته بندی
               <Controller
@@ -224,7 +225,9 @@ const Step2 = ({
           </div>
         </div>
         {errors.category && (
-          <span className="text-red-500 text-sm">{errors.category.message}</span>
+          <span className="text-red-500 text-sm">
+            {errors.category.message}
+          </span>
         )}
       </div>
       <label
@@ -258,13 +261,21 @@ const Step2 = ({
                   isOpen={isOpen}
                   onOpen={() => setIsOpen(true)}
                   onClose={() => setIsOpen(false)}
-                  className=" md:!w-2/3 !w-full h-fit !p-1 !mx-0 !rounded-none"
+                  className=" md:!w-2/3 !w-full h-full !p-1 !mx-0 !rounded-none"
                 >
-          <TinyMceEditor  value={editorData}
-                      onChange={(value) => {
-                        setEditorData(value);
-                        field.onChange(value);
-                      }} />
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="absolute apply-button bottom-4 right-4 z-50 md:hidden   n-600 rounded-full w-16 h-16 flex items-center justify-center"
+                  >
+                    <Apply className="!w-10 !h-10" />
+                  </button>
+                  <TextEditor
+                    value={editorData}
+                    onChange={(value) => {
+                      setEditorData(value);
+                      field.onChange(value);
+                    }}
+                  />
                 </Modal>
               </ModalPortal>
             </>

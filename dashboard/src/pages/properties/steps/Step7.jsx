@@ -1,7 +1,6 @@
 import React from "react";
 import Plus from "@/components/icons/Plus";
 import Minus from "@/components/icons/Minus";
-import { Controller } from "react-hook-form";
 import GalleryUpload from "@/components/shared/gallery/GalleryUpload";
 
 const Step7 = ({

@@ -12,6 +12,20 @@ const faqSchema = new Schema(
       type: Number,
       unique: true
     },
+      translations: [
+          {
+            translationId: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "Translation",
+              required: true
+            },
+            language: {
+              type: String,
+              enum: ["en", "tr", "ar"], // هر زبانی که ساپورت می‌کنی
+              required: true
+            }
+          }
+        ],    
     question: {
       type: String,
       required: [true, "لطفاً سوال را وارد کنید"],

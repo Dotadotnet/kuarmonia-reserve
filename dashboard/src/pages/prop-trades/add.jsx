@@ -62,6 +62,7 @@ const AddTradeType = () => {
     if (addData && !addData?.acknowledgement) {
       toast.error(addData?.description, { id: "trade" });
     }
+    console.log(addError)
     if (addError?.data) {
       toast.error(addError?.description, { id: "trade" });
     }

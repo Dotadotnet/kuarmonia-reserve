@@ -28,6 +28,20 @@ const propAwardSchema = new mongoose.Schema(
         "نام سازمان صادرکننده نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"
       ]
     },
+    translations: [
+         {
+           translationId: {
+             type: mongoose.Schema.Types.ObjectId,
+             ref: "Translation",
+             required: true
+           },
+           language: {
+             type: String,
+             enum: ["en", "tr", "ar"],
+             required: true
+           }
+         }
+       ],
     year: {
       type: Number,
       required: [true, "سال الزامی است"],

@@ -30,9 +30,11 @@ const AddBlog = ({
   const [invalidSteps, setInvalidSteps] = useState({});
   const [thumbnail, setThumbnail] = useState({});
   const [addBlog, { isLoading, data, error }] = useAddBlogMutation();
-
+  const [socialLinksData, setSocialLinksData] = useState([
+    { network: null, link: "" }
+  ]);
   const onSubmit = async (data) => {
-    const selectedTags2 = selectedTags.map((tag) => tag.id);
+    const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
 
     const formData = new FormData();
     console.log(data)
@@ -41,20 +43,13 @@ const AddBlog = ({
     formData.append("description", data.description);
     formData.append("content", data.content);
     formData.append("publishDate", data.publishDate);
-    formData.append("category", data.category);
+    formData.append("category", data.category.id);
     formData.append("isFeatured", data.isFeatured);
     formData.append("visibility", data.visibility);
-    formData.append("readTime", data.readTime);
-    formData.append(
-      "socialLinks",
-      JSON.stringify(
-        data.socialLinks.map((socialLink) => ({
-          name: socialLink.name, 
-          url: socialLink.url,
-        }))
-      )
-    );
-     formData.append("tags", JSON.stringify(selectedTags2));
+    formData.append("readTime", data.readTime.value);
+    formData.append("tags", extractIds(data.tags));
+    formData.append("socialLinks",JSON.stringify(socialLinksData));
+
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
@@ -120,6 +115,8 @@ const AddBlog = ({
             errors={errors}
             control={control}
             getValues={getValues}
+            socialLinksData={socialLinksData}
+            setSocialLinksData={setSocialLinksData}
           />
         );
 

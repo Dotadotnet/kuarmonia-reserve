@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 const baseSchema = require("./baseSchema.model");
 const Counter = require("./counter");
 const { generateSlug } = require("../utils/translationUtils");
+const { ObjectId } = mongoose.Schema.Types;
 
 const saleTypeSchema = new Schema({
   title: { type: String, required: true },
@@ -14,6 +15,20 @@ const saleTypeSchema = new Schema({
     type: Number,
     unique: true
   },
+  translations: [
+    {
+      translationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Translation",
+        required: true
+      },
+      language: {
+        type: String,
+        enum: ["en", "tr", "ar"],
+        required: true
+      }
+    }
+  ],
   creator: {
     type: Schema.Types.ObjectId,
     ref: "Admin",

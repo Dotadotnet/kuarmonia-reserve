@@ -15,17 +15,20 @@ const newsSchema = new mongoose.Schema(
       type: Number,
       unique: true
     },
-    translationOf: {
-      type: ObjectId,
-      ref: "News",
-      default: null
-    },
     translations: [
       {
-        type: ObjectId,
-        ref: "News"
+        translationId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Translation",
+          required: true
+        },
+        language: {
+          type: String,
+          enum: ["en", "tr", "ar"], // هر زبانی که ساپورت می‌کنی
+          required: true
+        }
       }
-    ],
+    ],    
     title: {
       type: String,
       required: [true, "عنوان خبر الزامی است"],

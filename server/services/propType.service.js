@@ -1,7 +1,7 @@
 const PropType = require("../models/propertyType.model");
 const remove = require("../utils/remove.util");
 const Translation = require("../models/translation.model");
-const { translate } = require("google-translate-api-x");
+const translateFields = require("../utils/translateFields");
 
 /* add new propType */
 exports.addPropType = async (req, res) => {
@@ -9,51 +9,8 @@ exports.addPropType = async (req, res) => {
     const { title, description, amenities } = req.body;
     const parsedAmenities = JSON.parse(amenities);
     console.log("Parsed Amenities:", parsedAmenities);
-    let translatedTitleEn = "";
-    let translatedDescriptionEn = "";
-    let translatedAmenitiesEn = [];
-
-    let translatedTitleTr = "";
-    let translatedDescriptionTr = "";
-    let translatedAmenitiesTr = [];
 
 
-    try {
-      console.log("Translating to English...");
-      translatedTitleEn = (
-        await translate(title, { to: "en", client: "gtx" })
-      ).text;
-      translatedDescriptionEn = (
-        await translate(description, { to: "en", client: "gtx" })
-      ).text;
-      translatedAmenitiesEn = await Promise.all(
-        parsedAmenities.map((k) =>
-          translate(k, { to: "en", client: "gtx" }).then((res) => res.text)
-        )
-      );
-
-      console.log("Translating to Turkish...");
-      translatedTitleTr = (
-        await translate(title, { to: "tr", client: "gtx" })
-      ).text;
-      translatedDescriptionTr = (
-        await translate(description, { to: "tr", client: "gtx" })
-      ).text;
-      translatedAmenitiesTr = await Promise.all(
-        parsedAmenities.map((k) =>
-          translate(k, { to: "tr", client: "gtx" }).then((res) => res.text)
-        )
-      );
-    
-    } catch (err) {
-      console.error("خطا در ترجمه:", err.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطا در ترجمه",
-        error: err.message
-      });
-    }
     const propType = new PropType({
       title: title,
       description: description,
@@ -62,36 +19,41 @@ exports.addPropType = async (req, res) => {
     });
 
     const result = await propType.save();
-    const translationData = [
-      {
-        language: "en",
-        refModel: "PropertyType",
-        refId: result._id,
-        fields: {
-          title: translatedTitleEn,
-          description: translatedDescriptionEn,
-          amenities: translatedAmenitiesEn
-        }
-      },
-      {
-        language: "tr",
-        refModel: "PropertyType",
-        refId: result._id,
-        fields: {
-          title: translatedTitleTr,
-          description: translatedDescriptionTr,
-          amenities: translatedAmenitiesTr
-        }
-      }
-    ];
+  
     try {
-      await Translation.insertMany(translationData);
+      const translations = await translateFields(
+        {
+          title,
+          description,
+          parsedAmenities
+        },
+        {
+          stringFields: ["title",  "description"],
+          arrayStringFields: ["parsedAmenities"]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "PropType",
+          refId: result._id,
+          fields
+        })
+      );
+      const inserted = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));      await PropType.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
     } catch (translationError) {
+      console.log(translationError.message)
       await PropType.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. نوع ملک حذف شد.",
+        description: "خطا در ذخیره ترجمه‌ها نوع ملک حذف شد.",
         error: translationError.message
       });
     }

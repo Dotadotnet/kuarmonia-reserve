@@ -17,7 +17,12 @@ const venueVendorSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
-        
+    translations: [
+      {
+        type: ObjectId,
+        ref: "Translation"
+      }
+    ],
 
     category: {
       type: ObjectId,
@@ -42,17 +47,13 @@ const venueVendorSchema = new mongoose.Schema(
       match: [
         /^(\+?\d{1,4}[-\s()]*)?(\d{2,4}[-\s()]*){2,5}$/,
         "شماره تماس وارد شده معتبر نیست"
-      ]      
+      ]
     },
-    
 
     email: {
       type: String,
       trim: true,
-      match: [
-        /^\S+@\S+\.\S+$/,
-        "ایمیل وارد شده معتبر نیست"
-      ]
+      match: [/^\S+@\S+\.\S+$/, "ایمیل وارد شده معتبر نیست"]
     },
 
     city: {

@@ -8,7 +8,7 @@ const KeyServices = () => {
       id: 1,
       title: "ازدواج بین المللی",
       icon: <Marriege aria-label="آیکون ازدواج بین المللی" />,
-      href: "/",
+      href: "/services/marriege",
     },
     {
       id: 2,

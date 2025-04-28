@@ -3,32 +3,12 @@ const NewsCountry = require("../models/newsCountry.model");
 const Admin = require("../models/admin.model");
 const { translate } = require("google-translate-api-x");
 const Translation = require("../models/translation.model");
-const {
-  generateSlug,
- } = require("../utils/translationUtils");
-/* 📌 اضافه کردن کشور خبر جدید */
+const { generateSlug } = require("../utils/translationUtils");
+const translateFields = require("../utils/translateFields");
+
 exports.addNewsCountry = async (req, res) => {
   try {
     const { title, ...otherInformation } = req.body;
-
-    let translatedTitle = "";
-    let translatedTitleTr = "";
-
-    try {
-      const resultTitleEn = await translate(title, { to: "en", client: "gtx" });
-      translatedTitle = resultTitleEn.text;
-
-      const resultTitleTr = await translate(title, { to: "tr", client: "gtx" });
-      translatedTitleTr = resultTitleTr.text;
-    } catch (err) {
-      console.error("خطا در ترجمه:", err);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطایی در فرآیند ترجمه رخ داد",
-        error: err.message
-      });
-    }
 
     const newsCountry = new NewsCountry({
       ...otherInformation,
@@ -37,37 +17,47 @@ exports.addNewsCountry = async (req, res) => {
     });
     const result = await newsCountry.save();
 
-    const translationData = [
-      {
-        language: "en",
-        refModel: "NewsCountry",
-        refId: result._id,
-        fields: {
-          title: translatedTitle
+    try {
+      const translations = await translateFields(
+        {
+          title,
+        },
+        {
+          stringFields: ["title"]
         }
-      },
-      {
-        language: "tr",
-        refModel: "NewsCountry",
-        refId: result._id,
-        fields: {
-          title: translatedTitleTr
-        }
-      }
-    ];
-
-    await Translation.insertMany(translationData);
-
-    await Admin.findByIdAndUpdate(result.creator, {
-      $set: { newsCountry: result._id }
-    });
-
-    res.status(201).json({
-      acknowledgement: true,
-      message: "Created",
-      description: "کشور خبر با موفقیت ایجاد شد",
-      data: result
-    });
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "NewsType",
+          refId: result._id,
+          fields
+        })
+      );
+   const savedTranslations=   await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await NewsCountry.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+      res.status(201).json({
+        acknowledgement: true,
+        message: "Created",
+        description: "اخبار با موفقیت ایجاد شد",
+        data: result
+      });
+    } catch (translationError) {
+      await NewsCountry.findByIdAndDelete(result._id);
+      console.log(translationError.message)
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. کشور خبر حذف شد.",
+        error: translationError.message
+      });
+    }
   } catch (error) {
     const errorMessage = error.message.split(":")[2]?.trim();
     res.status(500).json({
@@ -103,7 +93,6 @@ exports.getNewsCountries = async (res) => {
 
 /* 📌 دریافت یک کشور خبر */
 exports.getNewsCountry = async (req, res) => {
-  
   try {
     const newsCountry = await NewsCountry.findById(req.params.id);
 
@@ -122,7 +111,7 @@ exports.getNewsCountry = async (req, res) => {
       data: newsCountry
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     const errorMessage = error.message.split(":")[2]?.trim();
 
     res.status(500).json({
@@ -142,10 +131,16 @@ exports.updateNewsCountry = async (req, res) => {
     let translatedTitleTr = "";
     if (updatedNewsCountry.title) {
       try {
-        const resultTitleEn = await translate(updatedNewsCountry.title, { to: "en", client: "gtx" });
+        const resultTitleEn = await translate(updatedNewsCountry.title, {
+          to: "en",
+          client: "gtx"
+        });
         translatedTitleEn = resultTitleEn.text;
 
-        const resultTitleTr = await translate(updatedNewsCountry.title, { to: "tr", client: "gtx" });
+        const resultTitleTr = await translate(updatedNewsCountry.title, {
+          to: "tr",
+          client: "gtx"
+        });
         translatedTitleTr = resultTitleTr.text;
 
         await Translation.updateOne(
@@ -157,7 +152,6 @@ exports.updateNewsCountry = async (req, res) => {
           { refModel: "NewsCountry", refId: req.params.id, language: "tr" },
           { $set: { "fields.title": translatedTitleTr } }
         );
-
       } catch (translateErr) {
         console.error("خطا در ترجمه:", translateErr);
         return res.status(500).json({
@@ -192,7 +186,7 @@ exports.updateNewsCountry = async (req, res) => {
       data: result
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",

@@ -18,17 +18,17 @@ const Step3 = ({
   nextStep,
   prevStep,
   register,
-  control 
+  control
 }) => {
   const {
     isLoading: fetchingTags,
     data: fetchTagsData,
-    error: fetchTagsError,
+    error: fetchTagsError
   } = useGetTagsQuery();
   const {
     isLoading: fetchingCategories,
     data: fetchCategoriesData,
-    error: fetchCategoriesError,
+    error: fetchCategoriesError
   } = useGetCategoriesQuery();
   const tags = useMemo(
     () =>
@@ -36,7 +36,7 @@ const Step3 = ({
         id: tag._id,
         value: tag.title,
         label: tag.title,
-        description: tag.description,
+        description: tag.description
       })) || [],
     [fetchTagsData]
   );
@@ -46,7 +46,7 @@ const Step3 = ({
         id: category._id,
         value: category.title,
         label: category.title,
-        description: category.description,
+        description: category.description
       })) || [],
     [fetchCategoriesData]
   );
@@ -61,13 +61,13 @@ const Step3 = ({
 
     if (fetchTagsData) {
       toast.success(fetchTagsData?.description, {
-        id: "fetchTags",
+        id: "fetchTags"
       });
     }
 
     if (fetchTagsError) {
       toast.error(fetchTagsError?.data?.description, {
-        id: "fetchTags",
+        id: "fetchTags"
       });
     }
   }, [fetchingTags, fetchTagsData, fetchTagsError]);
@@ -78,17 +78,17 @@ const Step3 = ({
 
     if (fetchCategoriesData) {
       toast.success(fetchCategoriesData?.description, {
-        id: "fetchCategories",
+        id: "fetchCategories"
       });
     }
 
     if (fetchCategoriesError) {
       toast.error(fetchCategoriesError?.data?.description, {
-        id: "fetchCategories",
+        id: "fetchCategories"
       });
     }
   }, [fetchCategoriesData, fetchCategoriesData, fetchCategoriesError]);
-  
+
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2 gap-y-4 w-full">
@@ -96,16 +96,24 @@ const Step3 = ({
         <div className="flex flex-col gap-y-2 w-full ">
           <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
             <div className="flex flex-col flex-1">
-              <label htmlFor="tag" className="w-full flex flex-col gap-y-1">
-                <span className="text-sm">برچسب*</span>
-                 <MultiSelect
-                  items={tags}
-                  selectedItems={selectedTags}
-                  handleSelect={handleOptionsChange}
-                  className="w-full"
+              <label htmlFor="tags" className="flex flex-col gap-y-2 ">
+                تگ‌ها
+                <Controller
+                  control={control}
                   name="tags"
-                  icon={<Tag size={24} />}
-                /> 
+                  rules={{ required: "انتخاب تگ الزامی است" }}
+                  render={({ field: { onChange, value } }) => (
+                    <MultiSelect
+                      items={tags}
+                      selectedItems={value || []}
+                      handleSelect={onChange}
+                      icon={<Tag />}
+                      placeholder="چند مورد انتخاب کنید"
+                      className={"w-full h-12"}
+                      returnType="id"
+                    />
+                  )}
+                />
               </label>
             </div>
             <div className="mt-7 flex justify-start">
@@ -129,20 +137,19 @@ const Step3 = ({
             <div className="flex flex-col flex-1">
               <label htmlFor="category" className="flex flex-col gap-y-2">
                 دسته‌بندی
-              <Controller
+                <Controller
                   control={control}
                   name="category"
-                  render={({ field: { onChange, value } }) => (
+                  render={({ field: { onChange } }) => (
                     <Dropdown
-                    value={value}
-                    onChange={onChange}
+                      onChange={onChange}
                       items={categories}
                       sendId={true}
                       errors={errors.category}
                       className={"w-full h-12"}
                     />
                   )}
-                /> 
+                />
               </label>
             </div>
             <div className="mt-7 flex justify-start">

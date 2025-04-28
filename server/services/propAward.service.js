@@ -9,21 +9,7 @@ exports.addPropAward = async (req, res) => {
     const { title, description, country, issuingOrganization, ...otherInfo } =
       req.body;
     let thumbnail = null;
-    let translations;
-    try {
-      translations = await translateFields(
-        { title, description, issuingOrganization, country },
-        ["title", "description", "country", "issuingOrganization"]
-      );
-    } catch (err) {
-      console.error("خطا در ترجمه:", err.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطا در ترجمه",
-        error: err.message
-      });
-    }
+
     if (req.uploadedFiles["thumbnail"]?.length) {
       thumbnail = {
         url: req.uploadedFiles["thumbnail"][0].url,
@@ -41,23 +27,46 @@ exports.addPropAward = async (req, res) => {
     });
 
     const result = await propAward.save();
-    const translationDocs = Object.entries(translations).map(
-      ([lang, { fields }]) => ({
-        language: lang,
-        refModel: "PropAward",
-        refId: result._id,
-        fields
-      })
-    );
 
     try {
-      await Translation.insertMany(translationDocs);
+      const translations = await translateFields(
+        {
+          title,
+          description,
+          issuingOrganization,
+          country
+        },
+        {
+          stringFields: [
+            "title",
+            "description",
+            "issuingOrganization",
+            "country"
+          ]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "PropAward",
+          refId: result._id,
+          fields
+        })
+      );
+      const savedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = savedTranslations.map((t) => ({
+        translationId: t._id,
+        language: t.language
+      }));
+      await PropAward.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
     } catch (translationError) {
       await PropAward.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها.  جایزه حذف شد.",
+        description: "خطا در ذخیره ترجمه‌ها. پست بلاگ حذف شد.",
         error: translationError.message
       });
     }
@@ -68,10 +77,11 @@ exports.addPropAward = async (req, res) => {
       data: result
     });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطایی در ثبت جایزه  رخ داد",
+      description: error.message,
       error: error.message
     });
   }

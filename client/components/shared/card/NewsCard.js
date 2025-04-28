@@ -7,8 +7,10 @@ import Link from "next/link";
 const NewsCard = ({ news }) => {
   return (
 <Link 
- href={`/news/${news.slug}/${news._id}`} 
-  className="group bg-white dark:bg-gray-800 flex lg:flex-row flex-col gap-4 border border-secondary dark:border-gray-500 p-4 rounded relative hover:border-primary transition-colors delay-100 dark:hover:border-blue-500 dark:text-blue-500"
+ href={{
+  pathname: `/news/${news.slug}`,
+  query: { id: news._id },
+}}  className="group bg-white dark:bg-gray-800 flex lg:flex-row flex-col gap-4 border border-secondary dark:border-gray-500 p-4 rounded relative hover:border-primary transition-colors delay-100 dark:hover:border-blue-500 dark:text-blue-500"
 >
 
       <div className="flex flex-col gap-y-2 ">

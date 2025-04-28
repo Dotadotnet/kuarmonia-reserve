@@ -9,7 +9,7 @@ export default function Setting() {
     { name: "اسلایدها", path: "./setting/slides" },
     { name: "درباره ما", path: "./aboutus" },
     { name: "تماس با ما", path: "./contact" },
-    { name: "شبکه‌های اجتماعی", path: "./social-media" },
+    { name: "خدمات", path: "./services" },
     { name: "سوالات متداول", path: "./faqs" }
   ];
 

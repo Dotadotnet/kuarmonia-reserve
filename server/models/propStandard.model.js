@@ -10,6 +10,20 @@ const propStandardSchema = new mongoose.Schema(
       type: Number,
       unique: true
     },
+   translations: [
+        {
+          translationId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Translation",
+            required: true
+          },
+          language: {
+            type: String,
+            enum: ["en", "tr", "ar"],
+            required: true
+          }
+        }
+      ],
     title: {
       type: String,
       required: [true, "عنوان استاندارد الزامی است"],

@@ -3,7 +3,7 @@ const { ObjectId } = mongoose.Schema.Types;
 
 const translationSchema = new mongoose.Schema(
   {
-    language: { type: String, enum: [ "en", "tr"], required: true },
+    language: { type: String, enum: [ "en", "tr","ar"], required: true },
 
     refModel: { type: String, required: true },
     refId: { type: ObjectId, required: true }, 
