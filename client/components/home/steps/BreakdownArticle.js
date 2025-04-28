@@ -24,10 +24,9 @@ const BreakdownArticle = () => {
       t("55"),
     },
     {
-      title: "تماس با آژانس در تاریخ انتخابی",
+      title: t("56"),
       icon: <BiCar className="w-8 h-8 text-primary dark:text-blue-500" />,
-      description:
-        "با ما تماس بگیرید تا برنامه‌های مهاجرتی و سفر خود را نهایی کنید.",
+      description: t("57"),
     },
   ];
 

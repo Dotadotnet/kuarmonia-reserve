@@ -13,10 +13,18 @@ export default function Chat() {
         Crisp.configure("96c59817-5fcc-48e1-a63c-6f947cf5cee9",{
             locale: lang
           });
+         
 
 
 
         setTimeout(() => {
+            console.log(localStorage.getItem("theme"));
+            
+            if(localStorage.getItem("theme") == "dark"){
+                Crisp.setColorTheme("blue");
+            }else{
+                Crisp.setColorTheme("green");
+            }
             let chat_button = document.querySelector("span.cc-157aw");
             let function_edite = () => {
                 let default_massage = document.querySelector('span.cc-10y2t span.cc-dvx9d');
@@ -62,8 +70,7 @@ export default function Chat() {
                     if (ping_div_chat) {
                         ping_div_chat.setAttribute("style", 'dispaly:none');
                     }
-                    if (document.querySelector('span.cc-157aw.cc-1kgzy'))
-                        document.querySelector('span.cc-157aw.cc-1kgzy').setAttribute('style', 'background-color : #22C55E !important')
+                
                 } else {
 
                     let style = 'right : ' + '50px ' + `!important; bottom : 25px !important`
@@ -74,9 +81,13 @@ export default function Chat() {
                     if (ping_div_chat) {
                         ping_div_chat.setAttribute("style", 'right : ' + '49.3px ' + `!important; bottom : 24.8px !important`);
                     }
-                    if (document.querySelector('span.cc-157aw.cc-1kgzy')) {
-                        document.querySelector('span.cc-157aw.cc-1kgzy').setAttribute('style', 'background-color : #22C55E !important')
-                    }
+                 
+                }
+
+                if (document.querySelector('span.cc-157aw.cc-1kgzy') && localStorage.getItem("theme")  == "light" ) {
+                    document.querySelector('span.cc-157aw.cc-1kgzy').setAttribute('style', 'background-color : #22C55E !important')
+                } else{
+                    document.querySelector('span.cc-157aw.cc-1kgzy').setAttribute('style', 'background-color : rgb(43,127,255) !important')
                 }
             }
             if(document.querySelector('section.loader-div')){
@@ -90,8 +101,8 @@ export default function Chat() {
     }, []);
 
     return (
-        <div className="fixed z-50   ping-div-chat ping-animation shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-transparent hover:border-[rgb(34,197,94)]   bg-[rgb(34,197,94)] w-[60px] h-[60px] text-white transition ease-in duration-200 ">
-            <span className=" animate-ping border-[rgb(34,197,94)] absolute inline-flex h-full w-full rounded-full border-4 opacity-50"></span>
+        <div className="fixed z-50   ping-div-chat ping-animation shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-transparent hover:border-[rgb(34,197,94)]  dark:hover:border-[rgb(43,127,255)] dark:bg-[rgb(43,127,255)]  bg-[rgb(34,197,94)] w-[60px] h-[60px] text-white transition ease-in duration-200 ">
+            <span className=" animate-ping dark:border-[rgb(43,127,255)] border-[rgb(34,197,94)] absolute inline-flex h-full w-full rounded-full border-4 opacity-50"></span>
         </div>
     );
 }

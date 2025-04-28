@@ -1,17 +1,11 @@
 "use client";
 import { useState } from "react";
-import { IoMdGlobe } from "react-icons/io";
 import OutsideClick from "../../outsideClick/OutsideClick";
 import { useLocale } from "next-intl";
 import language from "@/app/language";
-import Link from "next/link";
 import { usePathname } from 'next/navigation'
-import {useRouter} from '@/i18n/routing';
-
-
 const LanguageSwitcher = () => {
   const pathname = usePathname().split('/');
-  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false);
   const t = useLocale();
   const class_lang = new language(t);

@@ -17,9 +17,9 @@ function ToolBar() {
           <Cart forToolbar={true} />
 
           <div className="flex flex-col items-center  hover:text-blue-400 ">
-            <div className="absolute bottom-8 shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-gray-50 hover:border-[rgb(34,197,94)] bg-[rgb(34,197,94)] w-[68px] h-[68px] p-2 text-white transition ease-in duration-200 ">
+            <div className="absolute bottom-8  text-center flex items-center justify-center rounded-full border-4 text-3xl  border-white dark:border-gray-900 bg-white dark:bg-gray-900  w-[68px] h-[68px] p-2 text-white transition ease-in duration-200 ">
            
-              <span className="animate-ping  border-[rgb(34,197,94)] absolute inline-flex h-full w-full rounded-full border-4 opacity-50"></span>
+              <span className="animate-ping dark:border-[rgb(43,127,255)] border-[rgb(34,197,94)] absolute inline-flex h-full w-full rounded-full border-4 opacity-50"></span>
             </div>
           </div>
           <ThemeToggle />
