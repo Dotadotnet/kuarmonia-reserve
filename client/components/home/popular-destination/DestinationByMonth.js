@@ -3,22 +3,24 @@ import React, { useState } from "react";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Image from 'next/image'
+import { useTranslations } from "next-intl";
 
 const DestinationByMonth = () => {
   const [selectMonth, setSelectMonth] = useState("January");
+  const t = useTranslations("Months")
   const months = [
-    "ژانویه",
-    "فوریه",
-    "مارث",
-    "آوریل",
-    "می",
-    "ژوئن",
-    "جولای",
-    "آگوست",
-    "سپتامبر",
-    "اکتبر",
-    "نوامبر",
-    "دسامبر",
+    t("1"),
+    t("2"),
+    t("3"),
+    t("4"),
+    t("5"),
+    t("6"),
+    t("7"),
+    t("8"),
+    t("9"),
+    t("10"),
+    t("11"),
+    t("12"),
   ];
 
   const [sliderRef] = useKeenSlider({

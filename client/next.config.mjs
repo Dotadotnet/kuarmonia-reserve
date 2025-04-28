@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig = {
     reactStrictMode: true,
     images: {
@@ -42,6 +43,21 @@ const nextConfig = {
         },
       ];
     },
+    // async rewrites() {
+    //   return [
+    //     {
+    //       source:  "/:lang/:path*", 
+    //       destination: "/:lang/:path*",
+    //     },
+    //     {
+    //       source:  "/:path*",
+    //       destination: "/fa/:path*",
+    //     }
+    //   ];
+    // } 
+
+  
   };
   
-  export default nextConfig;  
+const withNextIntl = createNextIntlPlugin();
+export default withNextIntl(nextConfig);

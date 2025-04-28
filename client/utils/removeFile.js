@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import { BsBadgeSdFill } from "react-icons/bs";
+import { RiArrowDownSFill } from "react-icons/ri";
 
 // حذف فایل از مسیر ذخیره‌سازی
 async function removeFile(filePath) {
@@ -16,3 +18,6 @@ async function removeFile(filePath) {
 }
 
 export default removeFile;
+
+
+

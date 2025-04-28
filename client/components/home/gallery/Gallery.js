@@ -9,8 +9,10 @@ import {
 import Image from "next/image";
 import Container from "@/components/shared/container/Container";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const Gallery = () => {
+  const t = useTranslations("HomePage")
   const { data, isLoading, error } = useGetFirstGalleryQuery();
   const galleries = data?.data || [];
   const [selectedGalleryId, setSelectedGalleryId] = useState(galleries[0]?._id);
@@ -40,9 +42,9 @@ const Gallery = () => {
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4 items-start">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText title={"گالری کارمونیا "} />
+                <HighlightText title={t("81")} />
               </h2>
-              <p className="text-base">تصاویری از فعالیت ها و مراسمات</p>
+              <p className="text-base">{t("82")}</p>
             </article>
             
           </div>

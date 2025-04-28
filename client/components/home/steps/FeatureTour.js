@@ -8,10 +8,12 @@ import { BiMap } from "react-icons/bi";
 import { FaPlaneDeparture } from "react-icons/fa";
 import { FiGift } from "react-icons/fi";
 import Image from 'next/image'
+import { useTranslations } from "next-intl";
 
 const FeatureTour = () => {
   const [gift, setGift] = useState(false);
   const router = useRouter();
+  const t = useTranslations("HomePage")
 
   const handleOutsideClick = () => {
     setGift(!gift);
@@ -43,18 +45,18 @@ const FeatureTour = () => {
 
         <article className="flex flex-col gap-y-2.5">
           <h1 className="text-base line-clamp-2">
-            مهاجرت به کانادا - فرصتی برای شروعی جدید
+            {t("58")}
           </h1>
           <div className="flex flex-col gap-y-1">
             <p className="text-sm pb-0">
-              برنامه‌ریزی برای زندگی و کار در کانادا | فرصت‌های شغلی و تحصیلی
+            {t("59")}
             </p>
             <p className="text-sm pb-0 flex gap-x-0.5 items-baseline">
              
             </p>
           </div>
           <span className="border group-hover:border-primary   dark:group-hover:border-blue-500 dark:hover:border-blue-500 dark:text-gray-100 transition-colors delay-100 px-4 py-0.5 rounded-primary flex items-center text-xs w-fit">
-            مهاجرت به کانادا
+          {t("60")}
           </span>
           <div className="flex flex-row flex-wrap justify-between">
             <Button
@@ -66,7 +68,7 @@ const FeatureTour = () => {
                 )
               }
             >
-              <del>رزرو کن</del>
+              <del>            {t("61")}              </del>
             </Button>
             <Button
               className="px-4 py-2 rounded text-base mt-2"

@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
+import { Crisp } from "crisp-sdk-web";
 export default function ThemeToggle() {
+  // Crisp.configure("96c59817-5fcc-48e1-a63c-6f947cf5cee9");
+
   const [theme, setTheme] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("theme") || "light";
@@ -19,9 +21,11 @@ export default function ThemeToggle() {
     document.documentElement.classList.add('[&_*]:!transition-none');
     if (theme === 'light') {
       document.documentElement.classList.remove('dark');
+      Crisp.setColorTheme("green")
       document.documentElement.style.colorScheme = 'light';
     } else {
       document.documentElement.classList.add('dark');
+      Crisp.setColorTheme("blue")
       document.documentElement.style.colorScheme = 'dark';
     }
 

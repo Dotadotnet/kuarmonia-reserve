@@ -1,42 +1,44 @@
 import React from "react";
 import Link from "next/link";
 import { Marriege, Investment, Passport, Legal, Building, Tourism } from "@/utils/SaveIcon";
+import { useTranslations } from "next-intl";
 
 const KeyServices = () => {
+  const t = useTranslations("HomePage")
   const steps = [
     {
       id: 1,
-      title: "ازدواج بین المللی",
+      title: t("11"),
       icon: <Marriege aria-label="آیکون ازدواج بین المللی" />,
       href: "/services/marriege",
     },
     {
       id: 2,
-      title: "سرمایه گذاری",
+      title: t("12"),
       icon: <Investment aria-label="آیکون سرمایه گذاری" />,
       href: "/",
     },
     {
       id: 3,
-      title: "اخذ ویزا و اقامت",
+      title: t("13"),
       icon: <Passport aria-label="آیکون اخذ ویزا و اقامت" />,
       href: "/",
     },
     {
       id: 4,
-      title: "امور وکالتی و اداری",
+      title: t("14"),
       icon: <Legal aria-label="آیکون امور وکالتی و اداری" />,
       href: "/service/4",
     },
     {
       id: 5,
-      title: "خرید ملک و مسکن",
+      title: t("15"),
       icon: <Building aria-label="آیکون خرید ملک و مسکن" />,
       href: "/properties",
     },
     {
       id: 6,
-      title: "تفریحی و گردشگری",
+      title: t("16"),
       icon: <Tourism />,
       href: "/",
     },
@@ -58,7 +60,7 @@ const KeyServices = () => {
               <span>{step.icon}</span>
             </div>
             <div className="flex flex-col gap-y-8 items-center justify-center">
-              <h2 className="text-sm lg:text-base mt-4">{step.title}</h2>
+              <h2 className="text-sm text-center lg:text-base mt-4">{step.title}</h2>
             </div>
           </div>
         </Link>

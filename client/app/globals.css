@@ -51,10 +51,31 @@ html {
   scroll-behavior:smooth;  
 }
 
-body {
+html[dir=rtl] {
   font-family:"Vazir", "Poppins", sans-serif !important;
   direction:rtl;
   overflow-x: hidden;
+}
+
+html[dir=ltr] {
+  font-family: sans-serif !important;
+  direction:ltr;
+  overflow-x: hidden;
+}
+
+html[dir=rtl] * {
+  @apply text-right;
+  direction: rtl;
+}
+
+
+html[dir=ltr] * {
+  @apply text-left;
+  direction: ltr; 
+}
+
+.text-center{
+  text-align: center !important;
 }
 
 .font-vazir {

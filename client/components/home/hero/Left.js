@@ -1,5 +1,6 @@
+"use client";
 import React, { useRef, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useSwiper, Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/free-mode";
@@ -8,24 +9,40 @@ import "swiper/css/navigation";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useLocale, useTranslations } from "next-intl";
+import language from "@/app/language";
+
 function Left() {
+  const swiper = useSwiper();
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
+  const t = useTranslations("HomePage");
   const onAutoplayTimeLeft = (s, time, progress) => {
     progressCircle.current.style.setProperty("--progress", 1 - progress);
     progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
   };
+  var prev = null;
+  var next = null;
+  const lang = useLocale();
+  const class_lang = new language(lang);
+  if (class_lang.getInfo().dir == "ltr") {
+     prev = "custom-next";
+     next = "custom-prev";
+  } else {
+     prev = "custom-prev"; 
+     next = "custom-next";
+  }
   return (
     <div className="col-span-1 h-full min-h-[450px] w-full flex flex-col relative px-3 ">
       <div className="absolute w-full top-1/2  flex justify-between z-50">
-      <div className="custom-prev -right-5 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer text-gray-700 w-8 h-8 bg-white dark:bg-gray-700 border-white dark:border-gray-900 -lg text-lg">
+        <div className={prev + " " + "hover:scale-125 transition-all  ltr:right-1 rtl:-right-5 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer text-gray-700 w-8 h-8 bg-white dark:bg-gray-700 border-white dark:border-gray-900 -lg text-lg"}>
           <span>
-            <IoIosArrowForward size={30} className="dark:text-gray-100" />
+            <IoIosArrowForward size={30} className="dark:text-gray-100 " />
           </span>
         </div>
-        <div className="custom-next left-1 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-100 border-white  text-lg dark:bg-gray-700">
+        <div className={next + " " + " hover:scale-125 transition-all ltr:-left-5 rtl:left-1 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-100 border-white  text-lg dark:bg-gray-700"}>
           <span>
-            <IoIosArrowBack size={30} className="dark:text-gray-100"  />
+            <IoIosArrowBack size={30} className="dark:text-gray-100" />
           </span>
         </div>
       </div>
@@ -53,27 +70,29 @@ function Left() {
             nextEl: ".custom-next",
             prevEl: ".custom-prev"
           }}
+
           modules={[Autoplay, Pagination, Navigation]}
           onAutoplayTimeLeft={onAutoplayTimeLeft}
           className="mySwiper"
         >
+
           <SwiperSlide>
             <div className="flex flex-col gap-y-4 justify-center items-center p-4 text-right  md:text-center">
               <motion.h2
-                className="md:text-5xl text-white font-nozha text-6xl w-full text-right"
+                className="md:text-5xl [word-spacing:0.4rem] text-white font-nozha text-6xl w-full text-right"
                 initial={{ x: -200, opacity: 0 }} // Initial state: Slide from left
                 animate={{ x: 0, opacity: 1 }} // End state: Position in place
                 transition={{ duration: 0.3 }} // Duration of slide-in effect
               >
-                فرصت طلائی
+                {t("5")}
                 <br />{" "}
-                <span className="text-4xl text-black">
-                  خرید ملک در ترکیه
+                <span className="text-4xl [word-spacing:0.4rem] text-black">
+                {t("6")}
                 </span>
                 <br />
               </motion.h2>
 
-              
+
             </div>
 
             <div className="absolute -bottom-8 -right-2 md:flex">
@@ -120,22 +139,22 @@ function Left() {
 
           <SwiperSlide>
             <div className="flex flex-col gap-y-4 p-4">
-            <h2
-                className="text-5xl text-white font-nozha w-full text-right"
-                initial={{ x: -200, opacity: 0 }} 
+              <h2
+                className="text-5xl [word-spacing:0.4rem] text-white font-nozha w-full text-right"
+                initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.3 }} 
+                transition={{ duration: 0.3 }}
               >
-               ازدواج بین‌المللی
+                {t("11")}
                 <br />{" "}
-                <span className="text-4xl text-black">
-                اقامت قانونی در کشور مقصد!
+                <span className="text-4xl [word-spacing:0.4rem] text-black">
+                  {t("12")}
                 </span>
                 <br />
               </h2>
 
-             
-        
+
+
             </div>
             <div className="absolute  flex  -bottom-8 -left-44 md:flex">
               <motion.div
@@ -161,23 +180,23 @@ function Left() {
 
           <SwiperSlide>
             <div className="flex flex-col p-4 gap-y-4">
-            <h2
-                className="text-5xl text-white font-nozha w-full text-right"
-                initial={{ x: -200, opacity: 0 }} 
+              <h2
+                className="text-5xl [word-spacing:0.4rem] text-white font-nozha w-full text-right"
+                initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.3 }} 
+                transition={{ duration: 0.3 }}
               >
-    خدمات  گردشگری
+                {t("9")}
                 <br />{" "}
-                <span className="text-4xl text-black">
-                تجربه سفری خاص و بی‌نظیر در کشورهای مقصد!
+                <span className="text-4xl [word-spacing:0.4rem] text-black">
+                  {t("10")}
                 </span>
                 <br />
               </h2>
 
-       
-        
-         
+
+
+
             </div>
             <div className="absolute  flex  -bottom-8 -left-44 md:flex">
               <motion.div

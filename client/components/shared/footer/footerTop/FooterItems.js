@@ -1,61 +1,64 @@
+
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React from "react";
 
 const FooterItems = () => {
+  const t = useTranslations('ForAll')
   const items = [
     {
       id: 1,
-      name: "لینک‌های سریع",
+      name: t('11'),
       href: [
         {
           id: 11,
-          name: "چگونه رزرو کنیم",
+          name: t('12'),
           href: "/how-to-book",
         },
         {
           id: 12,
-          name: "نقشه سایت",
+          name: t('13'),
           href: "/site-map",
         },
         {
           id: 13,
-          name: "فرصت‌های شغلی",
+          name: t('14'),
           href: "/careers",
         },
         {
           id: 14,
-          name: "درباره ما",
+          name: t('4'),
           href: "/about-us",
         },
         {
           id: 15,
-          name: "بلاگ‌ها",
+          name: t('2'),
           href: "/blogs",
         },
       ],
     },
     {
       id: 2,
-      name: "خدمات",
+      name: t('15'),
       href: [
         {
           id: 21,
-          name: "مهاجرت و ازدواج",
+          name: t('16'),
           href: "/marriage-immigration",
         },
         {
           id: 22,
-          name: "مهاجرت و تحصیل",
+          name: t('17'),
           href: "/study-immigration",
         },
         {
           id: 23,
-          name: "مهاجرت و مهارت",
+          name: t('18'),
           href: "/work-immigration",
         },
         {
           id: 24,
-          name: "اخذ ویزا",
+          name: t('19'),
           href: "/visa",
         },
         
@@ -63,21 +66,21 @@ const FooterItems = () => {
     },
     {
       id: 3,
-      name: "پشتیبانی",
+      name: t('20'),
       href: [
         {
           id: 31,
-          name: "تماس با ما",
+          name: t('3'),
           href: "/contact-us",
         },
         {
           id: 32,
-          name: "اعلان قانونی",
+          name: t('21'),
           href: "/legal-notice",
         },
         {
           id: 33,
-          name: "سوالات متداول",
+          name: t('22'),
           href: "/faqs",
         },
       ],

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import Link from "next/link";
 import { CgClose } from "react-icons/cg";
+import LanguageSwitcher from "../languageSwitch/page";
 
 const MobileMenu = ({ isOpen, setIsOpen }) => {
 
@@ -23,6 +24,9 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
                 isOpen ? <CgClose className="text-headingColor text-4xl" /> : <HiOutlineMenuAlt2 className="text-headingColor text-4xl" />
               }
             </motion.div>
+            <span className="mx-5">
+            <LanguageSwitcher />
+            </span>
             <Link href={"/"}>
               <motion.div
                 whileHover={{ scale: 1.1 }}

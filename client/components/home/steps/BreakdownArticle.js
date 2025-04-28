@@ -2,30 +2,31 @@ import React from "react";
 import { BiCar } from "react-icons/bi";
 import { MdLocationCity, MdPayment } from "react-icons/md";
 import { FaRegAddressCard } from "react-icons/fa"; // آیکون جدید برای مشاوره
+import { useTranslations } from "next-intl";
 
 const BreakdownArticle = () => {
+  const t = useTranslations("HomePage"); 
   const items = [
     {
-      title: "مشاوره",
+      title: t("50"),
       icon: <FaRegAddressCard className="w-8 h-8 text-primary dark:text-blue-500" />, 
-      description: "مشاوره‌ای برای برنامه‌ریزی بهتر سفر و مهاجرت.",
+      description: t("51"),
     },
     {
-      title: "انتخاب مکان",
+      title: t("52"),
       icon: <MdLocationCity className="w-8 h-8 text-primary dark:text-blue-500" />,
-      description: "انتخاب مکان ایده‌آل برای زندگی یا سفر.",
+      description: t("53"),
     },
     {
-      title: "پرداخت امن و آسان",
+      title: t("54"),
       icon: <MdPayment className="w-8 h-8 text-primary dark:text-blue-500" />,
       description:
-        "تراکنش‌های امن و سریع برای تجربه‌ای راحت و بی‌نگرانی.",
+      t("55"),
     },
     {
-      title: "تماس با آژانس در تاریخ انتخابی",
+      title: t("56"),
       icon: <BiCar className="w-8 h-8 text-primary dark:text-blue-500" />,
-      description:
-        "با ما تماس بگیرید تا برنامه‌های مهاجرتی و سفر خود را نهایی کنید.",
+      description: t("57"),
     },
   ];
 

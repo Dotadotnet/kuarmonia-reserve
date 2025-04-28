@@ -4,8 +4,10 @@ import React from "react";
 import AdvantageArticle from "./AdvantageArticle";
 import AdvantageBanner from "./AdvantageBanner";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const Advantage = () => {
+  const t = useTranslations("HomePage")
   return (
     <section
       className="bg-no-repeat bg-center h-full pt-12 dark:bg-gray-900 "
@@ -20,9 +22,9 @@ const Advantage = () => {
           <div className="flex flex-col justify-start items-start">
             <article className="flex items-start flex-col gap-y-4">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText title={"چرا کارمونیا"} />
+                <HighlightText title={t("24")} />
               </h2>
-              <p className="text-base">چرا انتخاب ما بهترین تصمیم شماست؟</p>
+              <p className="text-base">{t("25")}</p>
             </article>
 
             <div className="grid md:grid-cols-2 md:items-center grid-cols-1 gap-8">
