@@ -4,7 +4,6 @@ import Session from "../session";
 import Providers from "../providers";
 import { Toaster } from "react-hot-toast";
 import Screen from "@/components/shared/loading/Screen";
-import ThemeProvider from "@/utils/ThemeContext";
 import language from "../language";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
@@ -72,7 +71,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children, params }) {
-  // let lang_str = params.lang ? params.lang : 'fa';
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) {
     notFound();

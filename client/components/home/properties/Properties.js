@@ -32,7 +32,7 @@ const PropertiesServer = async () => {
                 <HighlightText title={t("20")} />
               </h2>
               <p className="text-base">
-                بهترین ها برای خرید ملک و سرمایه گذاری
+              {t("101")}
               </p>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">

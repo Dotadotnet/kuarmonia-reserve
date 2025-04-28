@@ -4,16 +4,27 @@ import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 import NewsSlider from "./NewsSlider";
 import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 
 const News = async () => {
+  const localeCookie = cookies().get("NEXT_LOCALE");
+  const locale = localeCookie?.value || "fa";
+  const cookieHeader = localeCookie ? `NEXT_LOCALE=${localeCookie.value}` : "";
+
   const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
   const response = await fetch(api, {
     cache: "no-store",
-    next: { tags: ["news"] }
+    next: { tags: ["news"] },
+    headers: {
+      "Accept-Language": locale,
+      ...(cookieHeader && { cookie: cookieHeader }),
+    },
   });
+
   const res = await response.json();
   const news = res.data;
-  const t = await getTranslations("HomePage");
+console.log(news)
+  const t = await getTranslations("HomePage", locale);
 
   return (
     <section
@@ -21,7 +32,7 @@ const News = async () => {
       className="pt-12 dark:bg-gray-900"
       style={{
         backgroundImage: "url(/assets/home-page/blogs-and-travel-guide/bg.svg)",
-        backgroundPosition: "125% 80%"
+        backgroundPosition: "125% 80%",
       }}
     >
       <Container>

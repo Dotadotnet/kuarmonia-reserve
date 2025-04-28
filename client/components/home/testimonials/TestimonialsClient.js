@@ -45,8 +45,8 @@ export default function Testimonials({ testimonials }) {
               />
             </div>
           </div>
-          <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
-          <p className="text-[#9176FF] font-medium">{item.name}</p>
+          <h3 className="text-xl text-center font-semibold mb-1">{item.title}</h3>
+          <p className="text-[#9176FF] text-center font-medium">{item.name}</p>
           <p className="text-center text-base my-4 text-gray-700 dark:text-gray-300">
             {item.text}
           </p>

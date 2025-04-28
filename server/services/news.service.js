@@ -117,14 +117,16 @@ exports.addNews = async (req, res) => {
 };
 
 /* 📌 دریافت همه اخبار */
-exports.getAllNews = async (res) => {
+exports.getAllNews = async (res,req) => {
   try {
-    const news = await News.find().populate([
-      {
-        path: "categories",
-        select: "title _id icon"
-      }
-    ]);
+    const locale = req.cookies?.NEXT_LOCALE;
+    console.log("req.cookies",req.cookies)
+    console.log(locale)
+    const news = await News.find().populate({
+      path: "translations.translationId",
+      match: { language: locale }
+    });
+    console.log(news)
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

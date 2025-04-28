@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const session = require("express-session");
+const cookieParser = require('cookie-parser');
 
 const error = require("./middleware/error.middleware");
 
@@ -23,6 +24,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use(
   session({

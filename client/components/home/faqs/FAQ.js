@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Container from "../../shared/container/Container";
-import HighlightText from "../../shared/highlightText/HighlightText";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
 const FAQ = ({ faqs }) => {
@@ -12,27 +10,17 @@ const FAQ = ({ faqs }) => {
   };
 
   return (
-    <Container>
-      <div className="w-full h-full flex flex-col gap-y-12 dark:bg-gray-900">
-        <article className="flex flex-col gap-y-4 items-start">
-          <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-            <HighlightText title={"سوالات متداول شما"} />
-          </h2>
-          <p className="text-base">سوالات متداول در مورد فرآیند های ما</p>
-        </article>
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-          {faqs.map((faq, index) => (
-            <Card
-              faq={faq}
-              key={index}
-              index={index}
-              isExpanded={expandedIndex === index}
-              onToggleCollapse={() => handleToggleCollapse(index)}
-            />
-          ))}
-        </div>
-      </div>
-    </Container>
+    <>
+      {faqs.map((faq, index) => (
+        <Card
+          faq={faq}
+          key={index}
+          index={index}
+          isExpanded={expandedIndex === index}
+          onToggleCollapse={() => handleToggleCollapse(index)}
+        />
+      ))}
+    </>
   );
 };
 

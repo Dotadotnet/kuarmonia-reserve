@@ -83,7 +83,6 @@ exports.getFaqs = async (res) => {
       path: "creator",
       select: "name avatar"
     });
-    console.log("faqses", faqses);
 
     res.status(200).json({
       acknowledgement: true,
