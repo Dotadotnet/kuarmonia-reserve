@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^6.1.0",
+    "ckeditor5-custom-build": "file:ckeditor5",
+    "@ckeditor/ckeditor5-build-classic": "^40.1.0",
     "@emotion/react": "11.7.1",
     "@radix-ui/react-popover": "^1.1.2",
     "@reduxjs/toolkit": "^2.5.0",
