@@ -28,7 +28,7 @@ const newsApi = kuarmoniaApi.injectEndpoints({
 
     removeNews: builder.mutation({
       query: (id) => ({
-        url: `/news/${id}`,
+        url: `/news/delete-news/${id}`,
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

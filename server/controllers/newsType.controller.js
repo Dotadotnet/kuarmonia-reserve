@@ -16,7 +16,7 @@ exports.addNewsType = async (req, res, next) => {
 /* get all newsTypes */
 exports.getNewsTypes = async (req, res, next) => {
   try {
-    await newsTypeService.getNewsTypes(res);
+    await newsTypeService.getNewsTypes(req,res);
   } catch (error) {
     next(error);
   } finally {

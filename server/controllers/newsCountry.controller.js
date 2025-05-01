@@ -5,7 +5,7 @@ const newsCountryService = require("../services/newsCountry.service");
 /* add new newsCountry */
 exports.addNewsCountry = async (req, res, next) => {
   try {
-    await newsCountryService.addNewsCountry(req, res);
+    await newsCountryService.addNewsCountry(res, res);
   } catch (error) {
     next(error);
   } finally {
@@ -16,7 +16,7 @@ exports.addNewsCountry = async (req, res, next) => {
 /* get all newsCountries */
 exports.getNewsCountries = async (req, res, next) => {
   try {
-    await newsCountryService.getNewsCountries(res);
+    await newsCountryService.getNewsCountries(res,req);
   } catch (error) {
     next(error);
   } finally {

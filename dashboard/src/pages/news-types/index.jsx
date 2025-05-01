@@ -24,8 +24,7 @@ const ListNewsType = () => {
     { isLoading: isRemoving, data: removeData, error: removeError }
   ] = useRemoveNewsTypeMutation();
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
-  const categories = useMemo(() => data?.data || [], [data]);
-
+  const newsTypes = useMemo(() => data?.data || [], [data]);
   useEffect(() => {
     if (isLoading) {
       toast.loading("در حال دریافت  ..", { id: "newsType-loading" });
@@ -71,10 +70,12 @@ const ListNewsType = () => {
         </div>
 
         {/* نمایش داده‌های دسته‌بندی‌ها */}
-        {isLoading || (categories && categories.length == 0) ? (
+        {isLoading || (newsTypes && newsTypes.length == 0) ? (
           <SkeletonItem repeat={5} />
         ) : (
-          categories.map((newsType) => (
+          newsTypes.map((newsType) => {
+            const {title,description}=newsType.translations[0].translation.fields
+            return (
             <div
               key={newsType._id}
               className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
@@ -90,14 +91,14 @@ const ListNewsType = () => {
                   </div>
                   <article className="flex-col flex gap-y-2  ">
                     <span className="line-clamp-1 text-base ">
-                      <span className=" ">{newsType?.title}</span>
+                      <span className=" ">{title}</span>
                     </span>
                     <span className="text-xs hidden lg:flex">
                       {new Date(newsType.createdAt).toLocaleDateString("fa-IR")}
                     </span>
                     <span className=" lg:hidden text-xs  line-clamp-1">
-                      {newsType?.description
-                        ? newsType?.description
+                      {description
+                        ? description
                         : new Date(newsType.createdAt).toLocaleDateString(
                             "fa-IR"
                           )}
@@ -132,7 +133,7 @@ const ListNewsType = () => {
                 </article>
               </div>
             </div>
-          ))
+          )})
         )}
 
         {/* Pagination */}

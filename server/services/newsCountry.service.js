@@ -3,40 +3,40 @@ const NewsCountry = require("../models/newsCountry.model");
 const Admin = require("../models/admin.model");
 const { translate } = require("google-translate-api-x");
 const Translation = require("../models/translation.model");
-const { generateSlug } = require("../utils/translationUtils");
 const translateFields = require("../utils/translateFields");
-
+const { generateSlug } = require("../utils/seoUtils");
 exports.addNewsCountry = async (req, res) => {
   try {
     const { title, ...otherInformation } = req.body;
-
     const newsCountry = new NewsCountry({
       ...otherInformation,
       title,
       creator: req.admin._id
     });
     const result = await newsCountry.save();
-
+    const slug = await generateSlug(title);
+    console.log(slug);
     try {
       const translations = await translateFields(
         {
           title,
+          slug
         },
         {
-          stringFields: ["title"]
+          stringFields: ["title", "slug"]
         }
       );
       const translationDocs = Object.entries(translations).map(
         ([lang, { fields }]) => ({
           language: lang,
-          refModel: "NewsType",
+          refModel: "NewsCountry",
           refId: result._id,
           fields
         })
       );
-   const savedTranslations=   await Translation.insertMany(translationDocs);
+      const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       }));
       await NewsCountry.findByIdAndUpdate(result._id, {
@@ -50,7 +50,7 @@ exports.addNewsCountry = async (req, res) => {
       });
     } catch (translationError) {
       await NewsCountry.findByIdAndDelete(result._id);
-      console.log(translationError.message)
+      console.log(translationError.message);
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
@@ -59,6 +59,7 @@ exports.addNewsCountry = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error.message)
     const errorMessage = error.message.split(":")[2]?.trim();
     res.status(500).json({
       acknowledgement: false,
@@ -70,16 +71,26 @@ exports.addNewsCountry = async (req, res) => {
 };
 
 /* 📌 دریافت همه کشور خبر */
-exports.getNewsCountries = async (res) => {
+exports.getNewsCountries = async (res,req) => {
   try {
-    const venueAminities = await NewsCountry.find({
+    console.log(req)
+    const countries = await NewsCountry.find({
       isDeleted: false
-    }).populate("creator");
+    }).populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
+      {
+        path: "creator",
+        select: "name avatar"
+      }
+    ])
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست کشور خبر با موفقیت دریافت شد",
-      data: venueAminities
+      data: countries
     });
   } catch (error) {
     res.status(500).json({

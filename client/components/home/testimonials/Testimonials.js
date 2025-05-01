@@ -39,6 +39,18 @@ const Testimonials = async () => {
       title: t("93"),
       name: t("98"),
       text: t("99")
+    },
+    {
+      image: "/assets/images/user4.jpg",
+      title: t("93"),
+      name: t("98"),
+      text: t("99")
+    },
+    {
+      image: "/assets/images/user4.jpg",
+      title: t("93"),
+      name: t("98"),
+      text: t("99")
     }
   ];
   return (

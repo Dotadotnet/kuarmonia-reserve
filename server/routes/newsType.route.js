@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const newsTypeController = require("../controllers/newsType.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -25,7 +26,7 @@ router.post(
 );
 
 // get all newsTypes
-router.get("/get-newsTypes", newsTypeController.getNewsTypes);
+router.get("/get-newsTypes",localeMiddleware, newsTypeController.getNewsTypes);
 
 // get a newsType
 router.get("/get-newsType/:id", newsTypeController.getNewsType);

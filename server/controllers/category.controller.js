@@ -17,7 +17,7 @@ exports.addCategory = async (req, res, next) => {
 /* get all categories */
 exports.getCategories = async (req, res, next) => {
   try {
-    await categoryService.getCategories(res);
+    await categoryService.getCategories(req,res);
   } catch (error) {
     next(error);
   } finally {

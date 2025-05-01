@@ -31,7 +31,7 @@ const MySearch = ({ forToolbar }) => {
       >
         <div className="flex flex-col gap-y-4 h-full">
           <p className="text-2xl drop-shadow">
-            جستجوی <HighlightText>مطلب مورد نظر</HighlightText>
+            جستجوی <>مطلب مورد نظر</>
           </p>
           <SearchFilter setIsModalOpen={setIsModalOpen} />
         </div>

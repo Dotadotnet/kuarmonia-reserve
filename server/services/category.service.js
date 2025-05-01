@@ -1,10 +1,10 @@
 const Category = require("../models/category.model");
-const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
 const Translation = require("../models/translation.model");
+const { generateSlug } = require("../utils/seoUtils");
 const translateFields = require("../utils/translateFields");
 
-/* add new category */
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 exports.addCategory = async (req, res) => {
   try {
     const { title, description, ...body } = req.body;
@@ -17,23 +17,25 @@ exports.addCategory = async (req, res) => {
       : null;
 
     const category = new Category({
-      title,
-      description,
       thumbnail,
       creator: req.admin._id,
       icon: body.icon
     });
 
     const result = await category.save();
+    const slug = await generateSlug(title);
+    const canonicalUrl = `${defaultDomain}/category/${slug}`;
 
     try {
       const translations = await translateFields(
         {
           title,
-          description
+          description,
+          slug,
+          canonicalUrl
         },
         {
-          stringFields: ["title", "description"]
+          stringFields: ["title", "description","slug","canonicalUrl"]
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -44,10 +46,10 @@ exports.addCategory = async (req, res) => {
           fields
         })
       );
-      insertedTranslations = await Translation.insertMany(translationDocs);
+      const  insertedTranslations = await Translation.insertMany(translationDocs);
 
       const translationInfos = insertedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       }));
       await Category.findByIdAndUpdate(result._id, {
@@ -82,19 +84,41 @@ exports.addCategory = async (req, res) => {
 };
 
 /* get all categories */
-exports.getCategories = async (res) => {
-  const categories = await Category.find({ isDeleted: { $ne: true } }).populate(
-    {
-      path: "creator",
-      select: "name avatar"
+exports.getCategories = async (req, res) => {
+  try {
+    console.log("req.awd awdawdawd",req.locale)
+    let categories = [];
+    try {
+      categories = await Category.find({ isDeleted: { $ne: true } }).populate([
+        {
+          path: "translations.translation",
+          match: { language: req.locale },
+        },
+        {
+          path: "creator",
+          select: "name avatar",
+        }
+      ]);
+    } catch (error) {
+      console.error("Error populating categories:", error);
+      // اگر نیاز به ارسال خطا به کاربر هست، می‌تونی این بخش رو در یک تابع بزرگ‌تر مثل کنترلر استفاده کنی.
     }
-  );
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "دسته بندی ها با موفقیت دریافت شدند",
-    data: categories
-  });
+console.log(categories)
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "دسته بندی ها با موفقیت دریافت شدند",
+      data: categories,
+    });
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در دریافت دسته بندی ها",
+      error: error.message,
+    });
+  }
 };
 
 exports.getProductCategories = async (res) => {

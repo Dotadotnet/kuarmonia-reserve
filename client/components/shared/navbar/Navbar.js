@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from "react";
 import Logo from "../logo/Logo";
 import Container from "../container/Container";
@@ -26,22 +26,23 @@ const Navbar = () => {
   return (
     <>
       {isMobile && <MobileNav isOpen={isOpen} setIsOpen={setIsOpen} />}
+
       <header>
         <Container>
           <ProgressBar />
-          <nav className="fixed top-0 m-4  left-0 flex flex-row justify-between right-0 shadow-lg lg:grid lg:grid-cols-12 items-center z-50 px-4 py-2 bg-white dark:bg-gray-900 rounded-xl dark:text-gray-100">
-
-            {isMobile ? <>
-              <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
-
-            </>
-              : <>
-
+          <nav className="fixed top-0 m-4 mt-9 md:mt-4 left-0 flex flex-row justify-between right-0 shadow-lg lg:grid lg:grid-cols-12 items-center z-50 px-4 py-2 bg-white dark:bg-gray-900 rounded-xl dark:text-gray-100">
+            {isMobile ? (
+              <>
+                <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
+              </>
+            ) : (
+              <>
                 <UserMenu />
-              
-                <LargeMenu />
-              </>}
 
+                <LargeMenu />
+              </>
+            )}
+           
             <Logo justify="end" />
           </nav>
         </Container>

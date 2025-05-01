@@ -15,7 +15,7 @@ const HighlightText = ({ title, center = false }) => {
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
         viewport={{ once: false, amount: 0.5 }}
-        className={`text-headingColor [word-spacing:0.6rem] flex justify-start items-center gap-x-2 font-nozha md:text-4xl text-4xl fld capitalize`}
+        className={`text-headingColor  flex justify-start items-center gap-x-2 font-nozha md:text-4xl text-4xl fld capitalize`}
       >
         <span className=" size-4 md:size-6   bg-primary dark:bg-blue-500 rounded-sm" />
         {title}

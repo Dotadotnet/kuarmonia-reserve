@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const newsCountryController = require("../controllers/newsCountry.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -25,7 +26,7 @@ router.post(
 );
 
 // get all newsCountrys
-router.get("/get-newsCountries", newsCountryController.getNewsCountries);
+router.get("/get-newsCountries",localeMiddleware, newsCountryController.getNewsCountries);
 
 // get a newsCountry
 router.get("/get-newsCountry/:id", newsCountryController.getNewsCountry);

@@ -2,7 +2,7 @@
 const NewsType = require("../models/newsType.model");
 const { translate } = require("google-translate-api-x");
 const Translation = require("../models/translation.model");
-const { generateSlug } = require("../utils/translationUtils");
+const { generateSlug } = require("../utils/seoUtils");
 const translateFields = require("../utils/translateFields");
 
 /* 📌 اضافه کردن نوع خبر جدید */
@@ -17,15 +17,17 @@ exports.addNewsType = async (req, res) => {
       creator: req.admin._id
     });
     const result = await newsType.save();
+    const slug = await generateSlug(title);
 
     try {
       const translations = await translateFields(
         {
           title,
-          description
+          description,
+          slug
         },
         {
-          stringFields: ["title", "description"]
+          stringFields: ["title", "description","slug"]
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -38,7 +40,7 @@ exports.addNewsType = async (req, res) => {
       );
       const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       }));
       await NewsType.findByIdAndUpdate(result._id, {
@@ -47,7 +49,7 @@ exports.addNewsType = async (req, res) => {
       res.status(201).json({
         acknowledgement: true,
         message: "Created",
-        description: "اخبار با موفقیت ایجاد شد",
+        description: "نوع خبر با موفقیت ایجاد شد",
         data: result
       });
     } catch (translationError) {
@@ -55,7 +57,7 @@ exports.addNewsType = async (req, res) => {
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. دسته‌بندی حذف شد.",
+        description: "خطا در ذخیره ترجمه‌ها. نوع خبر حذف شد.",
         error: translationError.message
       });
     }
@@ -72,16 +74,24 @@ exports.addNewsType = async (req, res) => {
 };
 
 /* 📌 دریافت همه نوع خبر */
-exports.getNewsTypes = async (res) => {
+exports.getNewsTypes = async (req,res) => {
   try {
-    const venueAminities = await NewsType.find({ isDeleted: false }).populate(
-      "creator"
-    );
+    const newsType = await NewsType.find({ isDeleted: false }).populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
+      {
+        path: "creator",
+        select: "name avatar"
+      }
+    ]);
+    console.log(req.locale)
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست نوع خبر با موفقیت دریافت شد",
-      data: venueAminities
+      data: newsType
     });
   } catch (error) {
     res.status(500).json({

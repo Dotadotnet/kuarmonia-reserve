@@ -15,18 +15,16 @@ import Reviews from "@/components/shared/review/Reviews";
 import Main from "@/layouts/Main";
 import Testimonials from "@/components/home/testimonials/Testimonials";
 
-export default async function Home() {
+export default async function Home({ params }) {
   return (
-    <>
-      <Main>
-        <Hero />
-        <News />
-        <Properties />
-        <Gallery />
-        <Testimonials />
-        <FAQ />
-        <NewsLetter />
-      </Main>
-    </>
+    <Main>
+      <Hero />
+      <News params={params}  />
+      <Properties />
+      <Gallery />
+      <Testimonials />
+      <FAQ />
+      <NewsLetter />
+    </Main>
   );
 }

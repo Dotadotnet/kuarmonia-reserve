@@ -5,7 +5,7 @@ import {
   IoNewspaperOutline,
   IoReceiptOutline,
   IoInformationCircleOutline,
-  IoCallOutline, // اضافه کردن آیکون تماس
+  IoCallOutline, 
 } from "react-icons/io5";
 import { useTranslations } from "next-intl";
 
@@ -14,20 +14,18 @@ const LargeMenu = () => {
   const menuItems = [
     { id: 1, label: t("1"), icon: <IoHomeOutline size={24} />, href: "/" },
     { id: 2, label: t("2"), icon: <IoReceiptOutline size={24} />, href: "/blog" },
-    { id: 3, label: t("3"), icon: <IoCallOutline size={24} />, href: "/contact" }, // استفاده از آیکون تماس
+    { id: 3, label: t("3"), icon: <IoCallOutline size={24} />, href: "/contact" }, 
     { id: 4, label: t("4"), icon: <IoInformationCircleOutline size={24} />, href: "/about" },
   ];
 
-  // مقداردهی پیش‌فرض به صفحه‌ی جاری
   const [selectMenu, setSelectMenu] = useState("");
 
   useEffect(() => {
-    // پیدا کردن آیتمی که آدرسش با مسیر فعلی یکی است
     const currentMenu = menuItems.find((item) => item.href === window.location.pathname);
     if (currentMenu) {
       setSelectMenu(currentMenu.label);
     }
-  }, []); // فقط یکبار در بارگذاری اولیه انجام می‌شود.
+  }, []); 
 
   return (
     <nav className=" col-span-9 justify-center rounded-primary hidden md:flex w-full">

@@ -45,17 +45,18 @@ const Step2 = ({
     () =>
       fetchCategoriesData?.data?.map((category) => ({
         id: category._id,
-        value: category.title,
+        value: category.translations[0].translation?.fields.title,
         label: category.title,
         icon: category.icon
       })) || [],
     [fetchCategoriesData]
   );
+  console.log(categories)
   const newsTypes = useMemo(
     () =>
       fetchNewsTypesData?.data?.map((newsType) => ({
         id: newsType._id,
-        value: newsType.title,
+        value: newsType.translations[0].translation?.fields.title,
         label: newsType.title,
         icon: newsType.icon
       })) || [],
@@ -65,12 +66,14 @@ const Step2 = ({
     () =>
       fetchTagsData?.data?.map((tag) => ({
         id: tag._id,
-        value: tag.title,
+        value: tag.translations[0].translation?.fields.title,
         label: tag.title,
         about: tag.about
       })),
     [fetchTagsData]
   );
+  console.log(tags)
+
   useEffect(() => {
     if (fetchingTags) {
       toast.loading("در حال دریافت تگ ها بندی ...", { id: "fetchTags" });
@@ -117,7 +120,7 @@ const Step2 = ({
   };
   return (
     <div className="flex flex-col gap-y-4 w-full h-full">
-      <div className="flex flex-col gap-y-2 w-full  ">
+       <div className="flex flex-col gap-y-2 w-full  ">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
           <div className="flex flex-col flex-1">
             <label htmlFor="tags" className="flex flex-col gap-y-2 ">
@@ -153,7 +156,7 @@ const Step2 = ({
         {errors.tags && (
           <span className="text-red-500 text-sm">{errors.tags.message}</span>
         )}
-      </div>
+      </div> 
       <div className="flex flex-col gap-y-2 w-full  ">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
           <div className="flex flex-col flex-1">
@@ -192,7 +195,7 @@ const Step2 = ({
           </span>
         )}
       </div>
-      <div className="flex flex-col gap-y-2 w-full  ">
+       <div className="flex flex-col gap-y-2 w-full  ">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
           <div className="flex flex-col flex-1">
             <label htmlFor="category" className="flex flex-col gap-y-2 ">
@@ -229,7 +232,7 @@ const Step2 = ({
             {errors.category.message}
           </span>
         )}
-      </div>
+      </div> 
       <label
         htmlFor="content"
         className="flex flex-col gap-y-4 w-full h-[200px]"

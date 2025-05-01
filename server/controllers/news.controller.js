@@ -49,7 +49,7 @@ exports.updateNews= async (req, res, next) => {
 /* delete news */
 exports.deleteNews= async (req, res, next) => {
   try {
-    await newsService.deleteVenue(req, res);
+    await newsService.deleteNews(req, res);
   } catch (error) {
     next(error);
   } finally {

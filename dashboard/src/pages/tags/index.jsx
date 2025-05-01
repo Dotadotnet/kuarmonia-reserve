@@ -42,7 +42,7 @@ const Tags = () => {
       toast.error(deleteError?.data?.message, { id: "deleteTag" });
     }
   }, [data, error, isLoading, deleting, deleteData, deleteError]);
-
+console.log(data)
   return (
     <>
       <ControlPanel>
@@ -65,7 +65,10 @@ const Tags = () => {
         {isLoading || data?.data?.length == 0 ? (
           <SkeletonItem repeat={5} />
         ) : (
-          data.data.map((tag) => (
+          data.data.map((tag) => {
+            const translationItem = tag.translations.find(t => t.translation && t.language === 'fa'); // یا زبان موردنظر
+    const fields = translationItem?.translation?.fields;
+            return(
             <div
               key={tag._id}
               className="mt-4 p-2 grid grid-cols-12 rounded-xl min-h-25 border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-50/50 dark:hover:bg-gray-900 dark:text-slate-100 "
@@ -85,14 +88,14 @@ const Tags = () => {
                       <span className="hidden lg:flex ">
                         {tag?.creator?.name}
                       </span>
-                      <span className=" lg:hidden ">{tag?.title}</span>
+                      <span className=" lg:hidden ">{fields?.title}</span>
                     </span>
                     <span className="text-xs hidden lg:flex">
                       {new Date(tag.createdAt).toLocaleDateString("fa-IR")}
                     </span>
                     <span className=" lg:hidden text-xs line-clamp-1 ">
-                      {tag?.description
-                        ? tag?.description
+                      {fields?.description
+                        ? fields?.description
                         : new Date(tag.createdAt).toLocaleDateString("fa-IR")}
                     </span>
                   </article>
@@ -100,12 +103,12 @@ const Tags = () => {
               </div>
               <div className="lg:col-span-3 lg:flex  hidden  text-center  items-center">
                 <span className="break-words text-sm lg:text-sm text-right">
-                  {tag.title}
+                  {fields.title}
                 </span>
               </div>
               <div className="lg:col-span-5 lg:flex hidden col-span-5 text-right  items-center">
                 <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                  {tag.description ? tag.description : "ندارد"}
+                  {fields?.description ? fields.description : "ندارد"}
                 </span>
               </div>
 
@@ -122,7 +125,7 @@ const Tags = () => {
                 </article>
               </div>
             </div>
-          ))
+          )})
         )}
       </ControlPanel>
     </>

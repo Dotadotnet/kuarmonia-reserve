@@ -28,23 +28,22 @@ const PropertiesServer = async () => {
         <div className="w-full h-full flex flex-col gap-y-2">
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4">
-              <h2 className="lg:text-5xl md:text-4xl text-4xl whitespace-normal">
+              <h2 className="lg:text-5xl md:text-4xl text-4xl ">
                 <HighlightText title={t("20")} />
               </h2>
-              <p className="text-base">
+              <p className="text-sm">
               {t("101")}
               </p>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
                 href="/news"
-                className="flex flex-row gap-x-1 items-center whitespace-nowrap"
+                className="flex flex-row gap-x-1 items-center whitespace-nowrap mt-4"
               >
                 {t("19")} <BiRightArrowAlt />
               </Link>
             </div>
           </div>
-          <p className="text-base mt-6 mb-2">{t("20")}</p>
           <PropertiesClient properties={properties} />
         </div>
       </div>

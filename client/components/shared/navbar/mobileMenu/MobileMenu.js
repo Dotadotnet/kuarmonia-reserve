@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
-import Link from "next/link";
 import { CgClose } from "react-icons/cg";
 import LanguageSwitcher from "../languageSwitch/page";
 
@@ -14,7 +13,7 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 200 }}
       >
-          <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-x-2 justify-start w-full">
             <motion.div
               whileTap={{ scale: 0.9 }}
               className="flex items-center justify-center cursor-pointer"
@@ -24,15 +23,8 @@ const MobileMenu = ({ isOpen, setIsOpen }) => {
                 isOpen ? <CgClose className="text-headingColor text-4xl" /> : <HiOutlineMenuAlt2 className="text-headingColor text-4xl" />
               }
             </motion.div>
-            <span className="mx-5">
             <LanguageSwitcher />
-            </span>
-            <Link href={"/"}>
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                className="flex items-center gap-2 cursor-pointer"
-              />
-            </Link>
+           
           </div>
       
       </motion.div>

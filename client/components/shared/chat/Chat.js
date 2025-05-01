@@ -1,108 +1,87 @@
-// pages/_app.js
 "use client";
 import { useEffect } from "react";
 import { Crisp } from "crisp-sdk-web";
-
 import { useLocale, useTranslations } from "next-intl";
- 
+
 export default function Chat() {
     const lang = useLocale();
-    const t = useTranslations("CrispChat")
+    const t = useTranslations("CrispChat");
 
     useEffect(() => {
-        Crisp.configure("96c59817-5fcc-48e1-a63c-6f947cf5cee9",{
-            locale: lang
-          });
-         
+        Crisp.configure("96c59817-5fcc-48e1-a63c-6f947cf5cee9", {
+            locale: lang,
+        });
 
+        let interval;
 
-
-        setTimeout(() => {
-            console.log(localStorage.getItem("theme"));
-            
-            if(localStorage.getItem("theme") == "dark"){
+        const timeout = setTimeout(() => {
+            if (localStorage.getItem("theme") == "dark") {
                 Crisp.setColorTheme("blue");
-            }else{
+            } else {
                 Crisp.setColorTheme("green");
             }
-            let chat_button = document.querySelector("span.cc-157aw");
-            let function_edite = () => {
-                let default_massage = document.querySelector('span.cc-10y2t span.cc-dvx9d');
-                if(default_massage){
+
+            const function_edite = () => {
+                const default_massage = document.querySelector("span.cc-10y2t span.cc-dvx9d");
+                if (default_massage) {
                     default_massage.innerHTML = t("0");
                 }
-                let alerts = document.querySelectorAll('div.cc-1no03 a[role~=alert]');
-                let links = document.querySelectorAll('div.cc-1no03 a[rel~=nofollow]');
-                let input_email = document.querySelector('div.cc-1no03 input[name~=message_field_identity-email]');
 
-                alerts.forEach(alert => {
-                    alert.remove()
-                });
-                links.forEach(link => {
-                    link.remove()
-                });
+                document.querySelectorAll('div.cc-1no03 a[role~=alert]').forEach(a => a.remove());
+                document.querySelectorAll('div.cc-1no03 a[rel~=nofollow]').forEach(a => a.remove());
+
+                const input_email = document.querySelector('div.cc-1no03 input[name~=message_field_identity-email]');
                 if (input_email) {
-                    input_email.parentNode?.parentNode?.parentNode?.parentNode?.parentNode?.parentNode?.parentNode?.parentNode?.remove()
+                    input_email.closest('form')?.remove();
                 }
-                let all_elements = document.querySelectorAll('div.cc-1no03 *');
-                all_elements.forEach(element => {
-                    element.style.cssText += 'font-family:Vazir !important';
+
+                document.querySelectorAll('div.cc-1no03 *').forEach(el => {
+                    el.style.cssText += 'font-family:Vazir !important';
                 });
-                let option_button = document.querySelector('a.cc-8ve5w.cc-gge6o');
-                if (option_button) {
-                    option_button.remove();
-                }
-                let width_doc = document.body.clientWidth;
-                let chat = document.querySelector('a.cc-1m2mf');
-                let ping_div_chat = document.querySelector('div.ping-div-chat');
+
+                const option_button = document.querySelector('a.cc-8ve5w.cc-gge6o');
+                if (option_button) option_button.remove();
+
+                const width_doc = document.body.clientWidth;
+                const chat = document.querySelector('a.cc-1m2mf');
+                const ping_div_chat = document.querySelector('div.ping-div-chat');
+
                 if (width_doc < 768) {
-                    
-                    if (width_doc > 479) {
-                        let margin_right = (width_doc - 60) / 2;
-                        var style = 'right : ' + String(margin_right) + 'px ' + '!important; bottom : 52px !important'
-                    } else {
-                        let margin_right = (width_doc - 54) / 2;
-                        var style = 'right : ' + String(margin_right) + 'px ' + '!important; bottom : 55px !important'
-                    }                     
-                    if (chat) {
-                        chat.setAttribute("style", style);
-                    }
-                    if (ping_div_chat) {
-                        ping_div_chat.setAttribute("style", 'dispaly:none');
-                    }
-                
+                    let margin_right = (width_doc - (width_doc > 479 ? 60 : 54)) / 2;
+                    const style = `right: ${margin_right}px !important; bottom: ${width_doc > 479 ? 52 : 55}px !important`;
+                    if (chat) chat.setAttribute("style", style);
+                    if (ping_div_chat) ping_div_chat.setAttribute("style", "display: none");
                 } else {
-
-                    let style = 'right : ' + '50px ' + `!important; bottom : 25px !important`
-
-                    if (chat) {
-                        chat.setAttribute("style", style);
-                    }
-                    if (ping_div_chat) {
-                        ping_div_chat.setAttribute("style", 'right : ' + '49.3px ' + `!important; bottom : 24.8px !important`);
-                    }
-                 
+                    if (chat) chat.setAttribute("style", "right: 50px !important; bottom: 25px !important");
+                    if (ping_div_chat) ping_div_chat.setAttribute("style", "right: 49.3px !important; bottom: 24.8px !important");
                 }
 
-                if (document.querySelector('span.cc-157aw.cc-1kgzy') && localStorage.getItem("theme")  == "light" ) {
-                    document.querySelector('span.cc-157aw.cc-1kgzy').setAttribute('style', 'background-color : #22C55E !important')
-                } else{
-                    document.querySelector('span.cc-157aw.cc-1kgzy').setAttribute('style', 'background-color : rgb(43,127,255) !important')
+                const chat_bubble = document.querySelector('span.cc-157aw.cc-1kgzy');
+                if (chat_bubble) {
+                    chat_bubble.setAttribute('style',
+                        localStorage.getItem("theme") === "light"
+                            ? 'background-color: #22C55E !important'
+                            : 'background-color: rgb(43,127,255) !important'
+                    );
                 }
-            }
-            if(document.querySelector('section.loader-div')){
-                document.querySelector('section.loader-div').remove()                
-            }
-            
-            let interval = setInterval(() => { 
-                function_edite();
-            }, 300);
-        }, 500)
+
+                const loader = document.querySelector('section.loader-div');
+                if (loader) loader.remove();
+            };
+
+            interval = setInterval(function_edite, 300);
+        }, 500);
+
+        // ✅ پاکسازی
+        return () => {
+            clearTimeout(timeout);
+            clearInterval(interval);
+        };
     }, []);
 
     return (
-        <div className="fixed z-50   ping-div-chat ping-animation shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-transparent hover:border-[rgb(34,197,94)]  dark:hover:border-[rgb(43,127,255)] dark:bg-[rgb(43,127,255)]  bg-[rgb(34,197,94)] w-[60px] h-[60px] text-white transition ease-in duration-200 ">
-            <span className=" animate-ping dark:border-[rgb(43,127,255)] border-[rgb(34,197,94)] absolute inline-flex h-full w-full rounded-full border-4 opacity-50"></span>
+        <div className="fixed z-50 ping-div-chat ping-animation shadow-2xl text-center flex items-center justify-center rounded-full border-4 text-3xl border-transparent hover:border-[rgb(34,197,94)] dark:hover:border-[rgb(43,127,255)] dark:bg-[rgb(43,127,255)] bg-[rgb(34,197,94)] w-[60px] h-[60px] text-white transition ease-in duration-200 ">
+            <span className="animate-ping dark:border-[rgb(43,127,255)] border-[rgb(34,197,94)] absolute inline-flex h-full w-full rounded-full border-4 opacity-50"></span>
         </div>
     );
 }

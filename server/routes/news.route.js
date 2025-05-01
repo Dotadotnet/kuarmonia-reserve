@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const newsController = require("../controllers/news.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -20,6 +21,7 @@ const router = express.Router();
 router.post(
   "/add-news",
   verify,
+  
   authorize("admin", "superAdmin"),
   upload('news').fields([
     { name: "thumbnail", maxCount: 1 },
@@ -30,10 +32,11 @@ router.post(
 // get all news
 router.get(
   "/get-news",
+  localeMiddleware,
   newsController.getAllNews
 );
 // get a news
-router.get("/get-news/:id", newsController.getNews);
+router.get("/get-news/:id",localeMiddleware, newsController.getNews);
 
 // update news
 router.patch(

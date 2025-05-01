@@ -1,6 +1,4 @@
-
 import React, { useState, useEffect, useMemo } from "react";
-
 import {
   useGetNewsQuery,
   useRemoveNewsMutation
@@ -15,6 +13,7 @@ import Pagination from "@/components/shared/pagination/Pagination";
 import Search from "@/components/shared/search";
 import AddButton from "@/components/shared/button/AddButton";
 import ControlPanel from "../ControlPanel";
+
 const ListNews = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 7;
@@ -32,6 +31,13 @@ const ListNews = () => {
   ] = useRemoveNewsMutation();
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
   const news = useMemo(() => data?.data || [], [data]);
+  // Function to get the title and summary in Persian
+  const getPersianTranslation = (translations) => {
+    const persianTranslation = translations?.find(
+      (t) => t.language === "fa"
+    );
+    return persianTranslation ? persianTranslation.translation.fields : {};
+  };
 
   useEffect(() => {
     if (isLoading) {
@@ -40,7 +46,6 @@ const ListNews = () => {
     if (data) {
       toast.success(data?.description, { id: "news-loading" });
     }
-
 
     if (error?.data) {
       toast.error(error?.data?.description, { id: "news-loading" });
@@ -65,7 +70,7 @@ const ListNews = () => {
         <Search searchTerm={searchTerm} />
         <AddButton link={"./add"} />
         <div className="mt-8 w-full grid grid-cols-12 text-slate-400 px-4 ">
-          <div className="col-span-11 lg:col-span-5  text-sm">
+          <div className="col-span-11 lg:col-span-4  text-sm">
             <span className="flex">عنوان و نماد</span>
           </div>
           <div className="col-span-8 lg:col-span-2 hidden lg:flex  text-sm">
@@ -82,17 +87,19 @@ const ListNews = () => {
         {isLoading || (news && news.length == 0) ? (
           <SkeletonItem repeat={5} />
         ) : (
-          news.map((news) => (
-            <div
-              key={news._id}
-              className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
-            >
-              <div className="col-span-10 lg:col-span-5 text-center flex items-center">
-                <StatusIndicator isActive={news.status === "active"} />
-                <div className="py-2 flex justify-center items-center gap-x-2 text-right">
-                    {news?.thumbnail ? (
+          news.map((newsItem) => {
+            const { title, summary } = getPersianTranslation(newsItem.translations); // دریافت ترجمه به زبان فارسی
+            return (
+              <div
+                key={newsItem._id}
+                className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
+              >
+                <div className="col-span-10 lg:col-span-4 text-center flex items-center">
+                  <StatusIndicator isActive={newsItem.status === "active"} />
+                  <div className="py-2 flex justify-center items-center gap-x-2 text-right">
+                    {newsItem?.thumbnail ? (
                       <img
-                        src={news?.thumbnail?.url || "/placeholder.png"}
+                        src={newsItem?.thumbnail?.url || "/placeholder.png"}
                         height={100}
                         width={100}
                         className="h-[60px] w-[60px] rounded-full object-cover "
@@ -100,58 +107,59 @@ const ListNews = () => {
                     ) : (
                       <div className="h-[60px] w-[60px] rounded-full bg-gray-300 animate-pulse"></div> // Skeleton Loader
                     )}
-                  <article className="flex-col flex gap-y-2  ">
-                    <span className="line-clamp-1 text-base ">
-                      <span className=" ">{news?.title}</span>
-                    </span>
-                    <span className="text-xs hidden lg:flex">
-                      {new Date(news.createdAt).toLocaleDateString(
-                        "fa-IR"
-                      )}
-                    </span>
-                    <span className=" lg:hidden text-xs  line-clamp-1">
-                      {news?.description
-                        ? news?.description
-                        : new Date(news.createdAt).toLocaleDateString(
-                            "fa-IR"
-                          )}
+                    <article className="flex-col flex gap-y-2">
+                      <span className="line-clamp-1 text-base ">
+                        {title}
+                      </span>
+                      <span className="text-xs hidden lg:flex">
+                        {new Date(newsItem.createdAt).toLocaleDateString(
+                          "fa-IR"
+                        )}
+                      </span>
+                      <span className=" lg:hidden text-xs  line-clamp-1">
+                        {summary
+                          ? summary
+                          : new Date(newsItem.createdAt).toLocaleDateString(
+                              "fa-IR"
+                            )}
+                      </span>
+                    </article>
+                  </div>
+                </div>
+                <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
+                  <article className="flex-col flex gap-y-2">
+                    <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
+                      <span className="flex">{newsItem.creator.name}</span>
                     </span>
                   </article>
                 </div>
-              </div>
-              <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
-                <article className="flex-col flex gap-y-2">
-                  <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
-                    <span className="flex">{news.creator.name}</span>
-                  </span>
-                </article>
-              </div>
 
-              <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
-                <article className="flex-col flex gap-y-2">
-                  <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                    {news.description}
-                  </span>
-                </article>
-              </div>
+                <div className="lg:col-span-5 hidden gap-2 lg:flex justify-left items-center text-right">
+                  <article className="flex-col flex gap-y-2">
+                    <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
+                      {summary}
+                    </span>
+                  </article>
+                </div>
 
-              <div className="col-span-2 md:col-span-1 gap-2 text-center flex justify-center items-center">
-                <article className="lg:flex-row flex flex-col justify-center gap-x-2  gap-y-2">
-                  <span
-                    className="edit-button "
-                    onClick={() => openEditModal(news)}
-                  >
-                    <Edit className="w-5 h-5" />
-                  </span>
-                  <DeleteModal
-                    message="آیا از حذف نوع ملک اطمینان دارید؟"
-                    isLoading={isRemoving}
-                    onDelete={() => removeNews(news?._id)}
-                  />
-                </article>
+                <div className="col-span-2 md:col-span-1 gap-2 text-center flex justify-center items-center">
+                  <article className="lg:flex-row flex flex-col justify-center gap-x-2  gap-y-2">
+                    <span
+                      className="edit-button "
+                      onClick={() => openEditModal(newsItem)}
+                    >
+                      <Edit className="w-5 h-5" />
+                    </span>
+                    <DeleteModal
+                      message="آیا از حذف نوع ملک اطمینان دارید؟"
+                      isLoading={isRemoving}
+                      onDelete={() => removeNews(newsItem?._id)}
+                    />
+                  </article>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
 
         {/* Pagination */}

@@ -10,9 +10,15 @@ import {
   FaTwitter,
   FaLinkedin
 } from "react-icons/fa";
+import { useLocale } from "next-intl";
 
 const NewsHeader = ({ news }) => {
-  const { title, summary, publishDate, avatar, creator, tags } = news;
+  const locale = useLocale();
+  const {  publishDate, avatar, creator, tags } = news;
+
+  const { title, summary } =
+    news?.translations?.find((t) => t.language === locale)?.translation
+      ?.fields || {};
   return (
     <header className="mx-auto max-w-screen-xl  text-center px-2">
       {publishDate ? (
@@ -101,8 +107,11 @@ const NewsMedia = ({ news }) => {
 };
 
 const NewsContent = ({ news }) => {
-  const { content } = news;
+  const locale = useLocale();
 
+  const { content } =
+    news?.translations?.find((t) => t.language === locale)?.translation
+      ?.fields || {};
   return (
     <div className="mx-auto max-w-screen-md space-y-12 px-4 py-10  text-lg tracking-wide text-gray-700 dark:text-gray-100">
       {content ? (
@@ -130,7 +139,7 @@ const NewsFooter = ({ news }) => {
             منبع خبر : <br />
           </p>
           <a
-            href={news.source.link}
+            href={news?.source?.link}
             target="_blank"
             rel="noreferrer"
             className="text-blue-600 "
@@ -254,18 +263,15 @@ const TickerTape = () => {
     </div>
   );
 };
-const News = ({ news }) => {
+const News = ({ params, news }) => {
   return (
     <main className="h-[650px] mt-18 overflow-y-auto dark:bg-gray-900 bg-white scrollbar-hide">
       <article>
         <TickerTape />
         <div className="flex flex-col md:flex-row items-center gap-4 max-w-screen-xl mx-auto px-4 pt-4">
-          {/* تصویر سمت راست در دسکتاپ، بالای صفحه در موبایل */}
           <div className="md:w-1/2 w-full order-1 md:order-2">
             <NewsMedia news={news} />
           </div>
-
-          {/* هدر سمت چپ در دسکتاپ، پایین در موبایل */}
           <div className="md:w-1/2 w-full order-2 md:order-1">
             <NewsHeader news={news} />
           </div>

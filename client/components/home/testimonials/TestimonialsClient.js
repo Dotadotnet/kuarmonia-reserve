@@ -8,13 +8,15 @@ import "./Style.css"
 import { useTranslations } from "next-intl";
 export default function Testimonials({ testimonials }) {
   const t = useTranslations("HomePage")
+  const middleSlide = Math.floor(testimonials.length / 2);
+
   return (
     <Swiper
       loop={true}
-      initialSlide={1}
       effect="coverflow"
       grabCursor
       centeredSlides
+      initialSlide={middleSlide}
       slidesPerView="auto"
       spaceBetween={80}
       modules={[EffectCoverflow, Autoplay]}
@@ -34,7 +36,7 @@ export default function Testimonials({ testimonials }) {
       {testimonials.map((item, index) => (
         <SwiperSlide
           key={index}
-          className="!w-80 bg-white dark:bg-black rounded-3xl shadow-xl p-6 flex flex-col !justify-center items-center h-[34rem] transition-all duration-300 ease-in-out"
+          className="!w-75 md:80 bg-white dark:bg-black rounded-3xl shadow-xl p-6 flex flex-col !justify-center items-center h-[34rem] transition-all duration-300 ease-in-out"
         >
           <div className="flex w-full justify-center">
             <div className="w-40 h-40 border-4 border-[#9176FF] p-1 rounded-full mb-6">

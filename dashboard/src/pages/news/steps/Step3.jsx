@@ -32,7 +32,7 @@ const Step3 = ({
     () =>
       fetchNewsCountriesData?.data?.map((newsCountry) => ({
         id: newsCountry._id,
-        value: newsCountry.title,
+        value: newsCountry.translations[0].translation?.fields.title,
         label: newsCountry.title,
         icon: newsCountry.icon
       })) || [],

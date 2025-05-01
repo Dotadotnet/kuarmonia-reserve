@@ -1,10 +1,10 @@
 /* internal import */
 const Tag = require("../models/tag.model");
 const Translation = require("../models/translation.model");
-const { translate } = require("google-translate-api-x");
-const { generateSlug } = require("../utils/translationUtils");
+const { generateSlug ,generateSeoFields } = require("../utils/seoUtils");
 const translateFields = require("../utils/translateFields");
 
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 exports.addTag = async (req, res) => {
   try {
     const { title, description, keynotes, robots } = req.body;
@@ -18,16 +18,17 @@ exports.addTag = async (req, res) => {
     }));
 
     const tag = new Tag({
-      title: title,
-      description: description,
-      keynotes: parsedKeynotes,
       creator: req.admin._id,
       robots: robotsArray
     });
 
     const result = await tag.save();
-    const { metaTitle, metaDescription } = result;
-
+    const slug = await generateSlug(title);
+    const canonicalUrl = `${defaultDomain}/tag/${slug}`;
+    const { metaTitle, metaDescription } = generateSeoFields({
+      title,
+      summary:description,
+    });
     try {
       const translations = await translateFields(
         {
@@ -35,15 +36,17 @@ exports.addTag = async (req, res) => {
           description,
           metaTitle,
           metaDescription,
-          parsedKeynotes
+          parsedKeynotes,
+          canonicalUrl
         },
         {
           stringFields: [
             "title",
-            "summary",
+            "description",
             "content",
             "metaTitle",
-            "metaDescription"
+            "metaDescription",
+            "canonicalUrl"
           ],
           arrayStringFields: ["parsedKeynotes"]
         }
@@ -58,7 +61,7 @@ exports.addTag = async (req, res) => {
       );
       const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       }));
       await Tag.findByIdAndUpdate(result._id, {
@@ -70,7 +73,7 @@ exports.addTag = async (req, res) => {
       return res.status(500).json({
         acknowledgement: false,
         message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. پست بلاگ حذف شد.",
+        description: "خطا در ذخیره ترجمه‌ها.  کلمه کلیدی حذف شد.",
         error: translationError.message
       });
     }
@@ -92,11 +95,17 @@ exports.addTag = async (req, res) => {
 };
 
 /* get all tags */
-exports.getTags = async (res) => {
-  const tags = await Tag.find({ isDeleted: false }).populate({
-    path: "creator",
-    select: "name avatar" // دریافت نام و آواتار سازنده
-  });
+exports.getTags = async (req,res) => {
+  const tags = await Tag.find({ isDeleted: false }).populate([
+    {
+      path: "translations.translation",
+      match: { language: req.locale },
+    },
+    {
+      path: "creator",
+      select: "name avatar",
+    }
+  ]);
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",

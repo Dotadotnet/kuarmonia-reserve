@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const categoryController = require("../controllers/category.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -26,7 +27,7 @@ router.post(
 );
 
 // get all categories
-router.get("/get-categories", categoryController.getCategories);
+router.get("/get-categories",localeMiddleware, categoryController.getCategories);
 router.get("/get-categories-with-products", categoryController.getProductCategories);
 
 // get a category

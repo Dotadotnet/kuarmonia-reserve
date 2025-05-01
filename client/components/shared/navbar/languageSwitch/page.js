@@ -27,12 +27,12 @@ const LanguageSwitcher = () => {
     <div className="relative">
       <button
   onClick={() => setIsOpen(!isOpen)}
-  className="p-2 px-8 md:px-2 rounded-secondary flex items-center justify-center bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors w-10 h-10"
+  className="p-2 px-2 md:px-3 rounded-secondary flex  items-center justify-center gap-x-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors md:w-10 md:h-10"
 >
   <img
     src={lang_now.img}
     alt={lang_now.name}
-    className="w-5 h-5 rounded-full ltr:mr-1 rtl:ml-1"
+    className="w-5 h-5 rounded-full "
   />
 </button>
 

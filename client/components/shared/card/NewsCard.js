@@ -4,41 +4,54 @@ import React from "react";
 import Tooltip from "@/components/shared/tooltip/Tooltip";
 import Image from "next/image";
 import Link from "next/link";
-const NewsCard = ({ news }) => {
-  return (
-<Link 
- href={{
-  pathname: `/news/${news.slug}`,
-  query: { id: news._id },
-}}  className="group bg-white dark:bg-gray-800 flex lg:flex-row flex-col gap-4 border border-secondary dark:border-gray-500 p-4 rounded relative hover:border-primary transition-colors delay-100 dark:hover:border-blue-500 dark:text-blue-500"
->
+import { useLocale } from 'next-intl';
 
+const NewsCard = ({ news  }) => {
+  const locale = useLocale();
+const {title ,summary,slug} = news?.translations?.find((t) => t.language === locale)?.translation?.fields || {};
+  return (
+    <Link
+      href={{
+        pathname: `/${locale}/news/${news.newsId}/${slug}`,
+      }}
+      key={news._id}
+      className="group bg-white rounded-3xl shadow-xl dark:bg-black flex lg:flex-row flex-col gap-4 md:h-fit  w-70 md:w-[450px] p-4  relative y   delay-100  dark:text-blue-500 transition-all duration-300 ease-in-out"
+    >
       <div className="flex flex-col gap-y-2 ">
-        {!news?.thumbnail ? (
-          <div className="md:w-[150px] w-[450px] h-[450px] md:h-[150px]">
-            <SkeletonImage
-              width={500}
-              height={500}
-              showSize={true}
-              txtSize="text-3xl"
-              borderRadius="rounded-xl"
-              className="z-0  w-full h-full"
-            />
+        <div className="flex w-full justify-center">
+          <div className="md:w-40 h-40 w-full  p-1 rounded-full ">
+            {!news?.thumbnail ? (
+              <div className="flex w-full justify-center">
+                <SkeletonImage
+                  width={500}
+                  height={500}
+                  showSize={true}
+                  txtSize="text-3xl"
+                  borderRadius="rounded-xl"
+                  className="z-0  w-full h-full"
+                />
+              </div>
+            ) : (
+              <Image
+                src={news.thumbnail?.url}
+                alt="feature tour"
+                width={600}
+                height={144}
+                className="object-cover h-full w-full  rounded"
+              />
+            )}
           </div>
-        ) : (
-          <Image
-            src={news.thumbnail?.url}
-            alt="feature tour"
-            width={256}
-            height={144}
-            className="object-cover h-full w-full md:w-[250px] md:h-[150px] rounded"
-          />
-        )}
-        <div className="flex flex-row lg:justify-center gap-x-2">
+        </div>
+        <div className="flex flex-row justify-center gap-x-2">
           {news?.categories?.map((item) => (
-            <Tooltip position={"bottom"} key={item._id} text={item.title} txtColor="text-white">
-              <div  className="relative group">
-                <span  className="custom-button  p-2  ease-linear delay-100 transition-colors w-10 h-10 dark:border-blue-800 border-secondary border rounded-primary flex items-center justify-center ">
+            <Tooltip
+              position={"bottom"}
+              key={item._id}
+              text={item.title}
+              txtColor="text-white"
+            >
+              <div className="relative group">
+                <span className="custom-button  p-2  ease-linear delay-100 transition-colors w-10 h-10 dark:border-blue-800 border-secondary border rounded-primary flex items-center justify-center ">
                   <span
                     className="h-6 w-6 text-sm"
                     dangerouslySetInnerHTML={{ __html: item.icon }}
@@ -50,18 +63,18 @@ const NewsCard = ({ news }) => {
         </div>
       </div>
 
-      <article className="flex flex-col gap-y-2.5 dark:text-white w-full">
-        <h3 className="text-base line-clamp-2 md:text-sx text-right ">
-          {news?.title || <SkeletonText lines={1} />}
+      <article className="flex flex-col gap-y-2.5 items-center dark:text-white w-full md:items-start">
+        <h3 className="text-base line-clamp-2 md:text-sx text-center md:text-right ">
+          {title || <SkeletonText lines={1} />}
         </h3>
         <div className="flex flex-col gap-y-1">
-          <p className="text-sm pb-0 line-clamp-4 text-right">
-            {news?.summary || <SkeletonText lines={4} />}
-          </p>
-          <p className="text-sm pb-0 flex gap-x-0.5 items-baseline"></p>
+        <p className="text-sm pb-0 line-clamp-2 md:line-clamp-2 md:block hidden text-right">
+  {summary || <SkeletonText lines={4} />}
+</p>
+
         </div>
         {news?.publishDate?.length > 3 ? (
-          <div className="border group-hover:border-primary dark:border-gray-600  dark:group-hover:border-blue-500 dark:hover:border-blue-500 dark:text-gray-100 transition-colors delay-100 px-4 py-0.5 rounded-primary flex items-center gap-x-1 text-xs w-fit">
+          <div className="border-gray-200 border group-hover:border-primary dark:border-gray-600  dark:group-hover:border-blue-500 dark:hover:border-blue-500 dark:text-gray-100 transition-colors delay-100 px-4 py-0.5 rounded-primary flex items-center gap-x-1 text-xs w-fit">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

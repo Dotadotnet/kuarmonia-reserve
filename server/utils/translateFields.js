@@ -1,93 +1,133 @@
 const { translate } = require("google-translate-api-x");
 
+const MAX_CHUNK_SIZE = 4500;
+
+const splitText = (text, max = MAX_CHUNK_SIZE) => {
+  const parts = [];
+  for (let i = 0; i < text.length; i += max) {
+    parts.push(text.slice(i, i + max));
+  }
+  return parts;
+};
+
 const translateFields = async (
   data,
-  { stringFields = [], arrayStringFields = [], arrayObjectFields = [] },
-  languages = ["en", "tr", "ar"]
+  {
+    stringFields = [],
+    arrayStringFields = [],
+    arrayObjectFields = [],
+    longTextFields = [],
+  },
+  languages = ["en", "tr"]
 ) => {
   const translations = {};
 
+  // زبان فارسی به عنوان منبع
+  translations["fa"] = { fields: {} };
+
+  for (const field of stringFields) {
+    if (typeof data[field] === "string") {
+      translations["fa"].fields[field] = data[field];
+    }
+  }
+
+  for (const field of arrayStringFields) {
+    if (Array.isArray(data[field])) {
+      translations["fa"].fields[field] = [...data[field]];
+    }
+  }
+
+  for (const field of arrayObjectFields) {
+    if (Array.isArray(data[field])) {
+      translations["fa"].fields[field] = data[field].map((item) =>
+        item && typeof item === "object" ? { ...item } : item
+      );
+    }
+  }
+
+  for (const field of longTextFields) {
+    if (typeof data[field] === "string") {
+      translations["fa"].fields[field] = data[field];
+    }
+  }
+
+  // ترجمه به سایر زبان‌ها
   for (const lang of languages) {
     translations[lang] = { fields: {} };
 
-    // ترجمه فیلدهای متنی ساده
+    // Simple strings
     for (const field of stringFields) {
       const value = data[field];
       if (typeof value === "string") {
         try {
           const result = await translate(value, { to: lang });
-          console.log(`✅ ترجمه فیلد "${field}" به زبان ${lang}:`, result.text);
           translations[lang].fields[field] = result.text;
         } catch (err) {
-          console.error(`❌ خطا در ترجمه فیلد "${field}" به زبان ${lang}: ${err.message}`);
-          throw new Error(`خطا در ترجمه فیلد "${field}" به زبان ${lang}: ${err.message}`);
+          throw new Error(`خطا در ترجمه فیلد "${field}" به ${lang}: ${err.message}`);
         }
       }
     }
 
-    // ترجمه فیلدهای آرایه‌ای از رشته‌ها
+    // Array of strings
     for (const field of arrayStringFields) {
       const value = data[field];
       if (Array.isArray(value)) {
-        try {
-          translations[lang].fields[field] = await Promise.all(
-            value.map(async (item) => {
-              if (typeof item === "string") {
-                const result = await translate(item, { to: lang });
-                console.log(`✅ ترجمه آیتم آرایه "${field}" به زبان ${lang}:`, result.text);
-                return result.text;
-              }
-              return item; // اگر چیزی غیر از رشته بود، تغییر نکنه
-            })
-          );
-        } catch (err) {
-          console.error(`❌ خطا در ترجمه آرایه "${field}" به زبان ${lang}: ${err.message}`);
-          throw new Error(`خطا در ترجمه آرایه "${field}" به زبان ${lang}: ${err.message}`);
-        }
+        translations[lang].fields[field] = await Promise.all(
+          value.map(async (item) =>
+            typeof item === "string"
+              ? (await translate(item, { to: lang })).text
+              : item
+          )
+        );
       }
     }
 
-    // ترجمه فیلدهای آرایه‌ای از آبجکت‌ها
+    // Array of objects
     for (const field of arrayObjectFields) {
       const value = data[field];
       if (Array.isArray(value)) {
-        try {
-          translations[lang].fields[field] = await Promise.all(
-            value.map(async (item) => {
-              if (item && typeof item === "object") {
-                const translatedItem = {};
-                for (const [key, val] of Object.entries(item)) {
-                  if (typeof val === "string") {
-                    try {
-                      const result = await translate(val, { to: lang });
-                      translatedItem[key] = result.text;
-                    } catch (err) {
-                      console.error(`❌ خطا در ترجمه فیلد "${key}" از آیتم آرایه "${field}" به زبان ${lang}: ${err.message}`);
-                      throw err;
-                    }
-                  } else if (Array.isArray(val)) {
-                    // اگر فیلدی خودش آرایه‌ای از رشته بود
-                    translatedItem[key] = await Promise.all(
-                      val.map(async (subItem) => {
-                        if (typeof subItem === "string") {
-                          const result = await translate(subItem, { to: lang });
-                          return result.text;
-                        }
-                        return subItem;
-                      })
-                    );
-                  } else {
-                    translatedItem[key] = val; // بدون تغییر
-                  }
+        translations[lang].fields[field] = await Promise.all(
+          value.map(async (item) => {
+            if (item && typeof item === "object") {
+              const translatedItem = {};
+              for (const [key, val] of Object.entries(item)) {
+                if (typeof val === "string") {
+                  translatedItem[key] = (await translate(val, { to: lang })).text;
+                } else if (Array.isArray(val)) {
+                  translatedItem[key] = await Promise.all(
+                    val.map(async (subItem) =>
+                      typeof subItem === "string"
+                        ? (await translate(subItem, { to: lang })).text
+                        : subItem
+                    )
+                  );
+                } else {
+                  translatedItem[key] = val;
                 }
-                return translatedItem;
               }
-              return item;
+              return translatedItem;
+            }
+            return item;
+          })
+        );
+      }
+    }
+
+    // Long text fields with chunking
+    for (const field of longTextFields) {
+      const value = data[field];
+      if (typeof value === "string") {
+        try {
+          const chunks = splitText(value);
+          const translatedChunks = await Promise.all(
+            chunks.map(async (chunk) => {
+              const result = await translate(chunk, { to: lang });
+              return result.text;
             })
           );
+          translations[lang].fields[field] = translatedChunks.join(" ");
         } catch (err) {
-          console.error(`❌ خطا در ترجمه آرایه‌ی آبجکت "${field}" به زبان ${lang}: ${err.message}`);
-          throw new Error(`خطا در ترجمه آرایه‌ی آبجکت "${field}" به زبان ${lang}: ${err.message}`);
+          throw new Error(`خطا در ترجمه متن بلند "${field}" به ${lang}: ${err.message}`);
         }
       }
     }

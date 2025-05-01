@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const tagController = require("../controllers/tag.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -25,7 +26,7 @@ router.post(
 );
 
 // get all tags
-router.get("/get-tags", tagController.getTags);
+router.get("/get-tags",localeMiddleware, tagController.getTags);
 
 // get a tag
 router.get("/get-tag/:id", tagController.getTag);

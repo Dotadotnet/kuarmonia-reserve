@@ -24,17 +24,15 @@ const ListNewsCountry = () => {
     { isLoading: isRemoving, data: removeData, error: removeError }
   ] = useRemoveNewsCountryMutation();
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
-  const categories = useMemo(() => data?.data || [], [data]);
+  const countries = useMemo(() => data?.data || [], [data]);
 
   useEffect(() => {
-
     if (isLoading) {
       toast.loading("در حال دریافت  ..", { id: "newsCountry-loading" });
     }
     if (data) {
       toast.success(data?.code, { id: "newsCountry-loading" });
     }
-
 
     if (error?.data) {
       toast.error(error?.data?.code, { id: "newsCountry-loading" });
@@ -68,78 +66,77 @@ const ListNewsCountry = () => {
           <div className="lg:col-span-4 lg:flex hidden text-sm md:block">
             کد کشور
           </div>
- 
 
           <div className="col-span-1 md:block text-sm">عملیات</div>
         </div>
 
         {/* نمایش داده‌های دسته‌بندی‌ها */}
-        {isLoading || (categories && categories.length == 0) ? (
+        {isLoading || (countries && countries.length == 0) ? (
           <SkeletonItem repeat={5} />
         ) : (
-          categories.map((newsCountry) => (
-            <div
-              key={newsCountry._id}
-              className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
-            >
-              <div className="col-span-10 lg:col-span-5 text-center flex items-center">
-                <StatusIndicator isActive={newsCountry.status === "active"} />
-                <div className="py-2 flex justify-center items-center gap-x-2 text-right">
-                  <div className=" flex justify-center items-center">
-                  <div
-                      dangerouslySetInnerHTML={{ __html: newsCountry?.icon }}
-                      style={{ width: "56px", height: "56px" }}
-                    />
+          countries.map((newsCountry) => {
+            return (
+              <div
+                key={newsCountry._id}
+                className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
+              >
+                <div className="col-span-10 lg:col-span-5 text-center flex items-center">
+                  <StatusIndicator isActive={newsCountry.status === "active"} />
+                  <div className="py-2 flex justify-center items-center gap-x-2 text-right">
+                    <div className=" flex justify-center items-center">
+                      <div
+                        dangerouslySetInnerHTML={{ __html: newsCountry?.icon }}
+                        style={{ width: "56px", height: "56px" }}
+                      />
+                    </div>
+                    <article className="flex-col flex gap-y-2  ">
+                      <span className="line-clamp-1 text-base ">
+                        <span className=" ">{newsCountry?.translations[0].translation.fields.title}</span>
+                      </span>
+                      <span className="text-xs hidden lg:flex">
+                        {new Date(newsCountry.createdAt).toLocaleDateString(
+                          "fa-IR"
+                        )}
+                      </span>
+                      <span className=" lg:hidden text-xs  line-clamp-1">
+                        {newsCountry?.code
+                          ? newsCountry?.code
+                          : new Date(newsCountry.createdAt).toLocaleDateString(
+                              "fa-IR"
+                            )}
+                      </span>
+                    </article>
                   </div>
-                  <article className="flex-col flex gap-y-2  ">
-                    <span className="line-clamp-1 text-base ">
-                      <span className=" ">{newsCountry?.title}</span>
-                    </span>
-                    <span className="text-xs hidden lg:flex">
-                      {new Date(newsCountry.createdAt).toLocaleDateString(
-                        "fa-IR"
-                      )}
-                    </span>
-                    <span className=" lg:hidden text-xs  line-clamp-1">
-                      {newsCountry?.code
-                        ? newsCountry?.code
-                        : new Date(newsCountry.createdAt).toLocaleDateString(
-                            "fa-IR"
-                          )}
+                </div>
+                <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
+                  <article className="flex-col flex gap-y-2">
+                    <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
+                      <span className="flex">{newsCountry.creator.name}</span>
                     </span>
                   </article>
                 </div>
-              </div>
-              <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
-                <article className="flex-col flex gap-y-2">
-                  <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
-                    <span className="flex">{newsCountry.creator.name}</span>
-                  </span>
-                </article>
-              </div>
 
-              <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
-                <article className="flex-col flex gap-y-2">
-                  <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                    {newsCountry.code}
-                  </span>
-                </article>
+                <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
+                  <article className="flex-col flex gap-y-2">
+                    <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
+                      {newsCountry.code}
+                    </span>
+                  </article>
+                </div>
+
+                <div className="col-span-2 md:col-span-1 gap-2 text-center flex justify-center items-center">
+                  <article className="lg:flex-row flex flex-col justify-center gap-x-2  gap-y-2">
+                    <Edit id={newsCountry._id} />
+                    <DeleteModal
+                      message="آیا از حذف نوع ملک اطمینان دارید؟"
+                      isLoading={isRemoving}
+                      onDelete={() => removeNewsCountry(newsCountry?._id)}
+                    />
+                  </article>
+                </div>
               </div>
-
-
-
-              <div className="col-span-2 md:col-span-1 gap-2 text-center flex justify-center items-center">
-                <article className="lg:flex-row flex flex-col justify-center gap-x-2  gap-y-2">
-                <Edit id={newsCountry._id} />
-                  <DeleteModal
-                    message="آیا از حذف نوع ملک اطمینان دارید؟"
-                    isLoading={isRemoving}
-                    onDelete={() => removeNewsCountry(newsCountry?._id)}
-                  />
-                </article>
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
 
         {/* Pagination */}

@@ -1,10 +1,11 @@
 /* internal imports */
 const News = require("../models/news.model");
-const Product = require("../models/product.model");
-const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
 const translateFields = require("../utils/translateFields");
 const Translation = require("../models/translation.model");
+const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
+const NewsType = require("../models/newsType.model");
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 exports.addNews = async (req, res) => {
   try {
@@ -12,9 +13,9 @@ exports.addNews = async (req, res) => {
       title,
       type,
       summary,
+      content,
       tags,
       category,
-      content,
       publishDate,
       socialLinks,
       visibility,
@@ -31,12 +32,9 @@ exports.addNews = async (req, res) => {
     }
 
     const news = new News({
-      title,
-      summary,
       thumbnail,
       tags: JSON.parse(tags),
       categories: JSON.parse(category),
-      content,
       type,
       country,
       publishDate,
@@ -48,7 +46,13 @@ exports.addNews = async (req, res) => {
     });
 
     const result = await news.save();
-    const { metaTitle, metaDescription } = result;
+    const slug = await generateSlug(title);
+    const { metaTitle, metaDescription } = generateSeoFields({
+      title,
+      summary,
+      categoryTitle: await NewsType.findById(type).title
+    });
+    const canonicalUrl = `${defaultDomain}/news/${slug}`;
 
     try {
       const translations = await translateFields(
@@ -56,18 +60,21 @@ exports.addNews = async (req, res) => {
           title,
           summary,
           content,
+          slug,
           metaTitle,
-          metaDescription
+          metaDescription,
+          canonicalUrl
         },
         {
           stringFields: [
             "title",
             "summary",
-            "content",
+            "slug",
             "metaTitle",
-            "metaDescription"
+            "metaDescription",
+            "canonicalUrl"
           ],
-          forceBatch: false
+          longTextFields: ["content"]
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -81,7 +88,7 @@ exports.addNews = async (req, res) => {
       const savedTranslations = await Translation.insertMany(translationDocs);
 
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       }));
 
@@ -117,16 +124,25 @@ exports.addNews = async (req, res) => {
 };
 
 /* 📌 دریافت همه اخبار */
-exports.getAllNews = async (res,req) => {
+exports.getAllNews = async (res, req) => {
   try {
-    const locale = req.cookies?.NEXT_LOCALE;
-    console.log("req.cookies",req.cookies)
-    console.log(locale)
-    const news = await News.find().populate({
-      path: "translations.translationId",
-      match: { language: locale }
-    });
-    console.log(news)
+    const news = await News.find()
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: "translations.translation",
+          match: { language: req.locale }
+        },
+        {
+          path: "creator",
+          select: "name avatar"
+        },
+        {
+          path: "categories",
+          select: "icon title _id"
+        }
+      ]);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
@@ -144,10 +160,16 @@ exports.getAllNews = async (res,req) => {
   }
 };
 
-/* 📌 دریافت یک اخبار */
 exports.getNews = async (req, res) => {
   try {
-    const news = await News.findById(req.params.id).populate([
+    console.log(req.locale);
+    const newsId = parseInt(req.params.id, 10);
+
+    const news = await News.findOne({ newsId }).populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
       {
         path: "creator",
         select: "name avatar"
@@ -223,10 +245,9 @@ exports.updateNews = async (req, res) => {
   }
 };
 
-/* 📌 حذف اخبار */
 exports.deleteNews = async (req, res) => {
   try {
-    const news = await News.findByIdAndDelete(req.params.id);
+    const news = await News.findById(req.params.id);
 
     if (!news) {
       return res.status(404).json({
@@ -236,17 +257,17 @@ exports.deleteNews = async (req, res) => {
       });
     }
 
-    await remove(news.logo?.public_id);
+    const translationIds = news.translations.map((item) => item.translation);
 
-    await Product.updateMany({ news: req.params.id }, { $unset: { news: "" } });
-    await Admin.findByIdAndUpdate(news.creator, {
-      $unset: { news: "" }
-    });
+    await Translation.deleteMany({ _id: { $in: translationIds } });
+
+    await News.findByIdAndDelete(req.params.id);
+    await remove("news", news.thumbnail.public_id);
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
-      description: "اخبار با موفقیت حذف شد"
+      description: "اخبار و ترجمه‌های مرتبط با موفقیت حذف شد"
     });
   } catch (error) {
     res.status(500).json({

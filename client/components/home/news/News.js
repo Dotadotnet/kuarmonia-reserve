@@ -4,26 +4,20 @@ import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 import NewsSlider from "./NewsSlider";
 import { getTranslations } from "next-intl/server";
-import { cookies } from "next/headers";
 
-const News = async () => {
-  const localeCookie = cookies().get("NEXT_LOCALE");
-  const locale = localeCookie?.value || "fa";
-  const cookieHeader = localeCookie ? `NEXT_LOCALE=${localeCookie.value}` : "";
-
+const News = async ({ params }) => {
+  const locale = params.locale;
   const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["news"] },
     headers: {
-      "Accept-Language": locale,
-      ...(cookieHeader && { cookie: cookieHeader }),
-    },
+      "Accept-Language": locale
+    }
   });
 
   const res = await response.json();
   const news = res.data;
-console.log(news)
   const t = await getTranslations("HomePage", locale);
 
   return (
@@ -32,7 +26,7 @@ console.log(news)
       className="pt-12 dark:bg-gray-900"
       style={{
         backgroundImage: "url(/assets/home-page/blogs-and-travel-guide/bg.svg)",
-        backgroundPosition: "125% 80%",
+        backgroundPosition: "125% 80%"
       }}
     >
       <Container>
@@ -45,7 +39,7 @@ console.log(news)
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
-                href="/news"
+                href={`/${locale}/news`}
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >
                 {t("19")} <BiRightArrowAlt />
@@ -54,7 +48,7 @@ console.log(news)
           </div>
           <p className="text-base">{t("18")}</p>
 
-          <NewsSlider news={news} />
+          <NewsSlider news={news}  />
         </div>
       </Container>
     </section>

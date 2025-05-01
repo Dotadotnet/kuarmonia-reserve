@@ -9,12 +9,12 @@ import { useTranslations } from "next-intl";
 import { useGetTeamMebersQuery } from "@/services/teamMember/teamMemberApi";
 function TeamMembers() {
   const t = useTranslations("About")
-  const [position, setPosition] = useState(0); // موقعیت خط (درصدی)
+  const [position, setPosition] = useState(0); 
   const handleSlideChange = (swiper) => {
-    const currentIndex = swiper.activeIndex; // اندیس اسلاید فعلی
-    const totalSlides = -swiper.slides.length; // تعداد کل اسلایدها
-    const newPosition = (currentIndex / totalSlides) * 100; // محاسبه موقعیت جدید
-    setPosition(newPosition); // به‌روزرسانی موقعیت
+    const currentIndex = swiper.activeIndex; 
+    const totalSlides = -swiper.slides.length; 
+    const newPosition = (currentIndex / totalSlides) * 100; 
+    setPosition(newPosition); 
   };
   const { data, isLoading, error } = useGetTeamMebersQuery();
   const members = useMemo(() => data?.data || [], [data]);

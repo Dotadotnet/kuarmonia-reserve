@@ -16,7 +16,7 @@ exports.addTag = async (req, res, next) => {
 /* get all tags */
 exports.getTags = async (req, res, next) => {
   try {
-    await tagService.getTags(res);
+    await tagService.getTags(req,res);
   } catch (error) {
     next(error);
   } finally {
