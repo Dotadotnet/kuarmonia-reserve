@@ -37,7 +37,7 @@ const Step2 = ({
     () =>
       fetchCategoriesData?.data?.map((category) => ({
         id: category._id,
-        value: category.title,
+        value: category.translations[0].translation?.fields.title,
         label: category.title,
         icon: category.icon
       })) || [],
@@ -47,7 +47,7 @@ const Step2 = ({
     () =>
       fetchTagsData?.data?.map((tag) => ({
         id: tag._id,
-        value: tag.title,
+        value: tag.translations[0].translation?.fields.title,
         label: tag.title,
         about: tag.about
       })),

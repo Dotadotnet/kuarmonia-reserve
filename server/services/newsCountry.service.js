@@ -8,14 +8,14 @@ const { generateSlug } = require("../utils/seoUtils");
 exports.addNewsCountry = async (req, res) => {
   try {
     const { title, ...otherInformation } = req.body;
+    console.log(req.body)
     const newsCountry = new NewsCountry({
       ...otherInformation,
-      title,
       creator: req.admin._id
     });
+
     const result = await newsCountry.save();
     const slug = await generateSlug(title);
-    console.log(slug);
     try {
       const translations = await translateFields(
         {
@@ -64,7 +64,7 @@ exports.addNewsCountry = async (req, res) => {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: errorMessage,
+      description: error.message,
       error: error.message
     });
   }

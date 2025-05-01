@@ -4,7 +4,6 @@
 const express = require("express");
 
 /* middleware imports */
-const upload = require("../middleware/upload.middleware");
 
 /* internal import */
 const newsCountryController = require("../controllers/newsCountry.controller");
@@ -21,6 +20,7 @@ const router = express.Router();
 router.post(
   "/add-newsCountry",
   verify,
+  localeMiddleware,
   authorize("admin", "superAdmin"),
   newsCountryController.addNewsCountry
 );

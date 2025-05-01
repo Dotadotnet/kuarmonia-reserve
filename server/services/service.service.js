@@ -3,12 +3,17 @@ const Service = require("../models/service.model");
 const Product = require("../models/product.model");
 const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
-const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
+const Translation = require("../models/translation.model");
+const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
+const Category = require("../models/category.model");
+
+
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 exports.addService = async (req, res) => {
   try {
-    const { title, summary, tags, content, roadmap, faqs, ...other } = req.body;
+    const { title, summary, tags,category, content, roadmap, faqs, ...other } = req.body;
     const parsedRoadmap = JSON.parse(roadmap);
     const parsedFaqs = JSON.parse(faqs);
     const parsedTags = JSON.parse(tags);
@@ -21,19 +26,23 @@ exports.addService = async (req, res) => {
 
     const service = new Service({
       ...other,
-      title,
-      summary,
       tags: parsedTags,
-      content,
       roadmap: parsedRoadmap,
       faqs: parsedFaqs,
       thumbnail,
+      category,
       creator: req.admin._id
     });
 
     const result = await service.save();
-    const { metaTitle, metaDescription } = result;
+        const slug = await generateSlug(title);
+        const canonicalUrl = `${defaultDomain}/service/${slug}`;
 
+    const { metaTitle, metaDescription } = generateSeoFields({
+      title,
+      summary,
+      categoryTitle: await Category.findById(category).title
+    });
     try {
       const translations = await translateFields(
         {
@@ -43,18 +52,22 @@ exports.addService = async (req, res) => {
           metaTitle,
           metaDescription,
           parsedRoadmap,
-          parsedFaqs
+          parsedFaqs,
+          slug,
+          canonicalUrl
         },
         {
           stringFields: [
             "title",
             "summary",
-            "content",
             "metaTitle",
             "metaDescription",
+            "slug",
+            "canonicalUrl"
           ],
           arrayObjectFields: ["parsedFaqs","parsedRoadmap"],
-          
+          longTextFields: ["content"]
+
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -67,7 +80,7 @@ exports.addService = async (req, res) => {
       );
       const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       }));
       await Service.findByIdAndUpdate(result._id, {
