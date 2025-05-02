@@ -40,7 +40,7 @@ const LanguageSwitcher = () => {
         <OutsideClick
           onOutsideClick={() => setIsOpen(false)}
           className={`absolute top- ${
-            t === "en" ? "left-2" : "right-2"
+            t === "en"|"tr" ? "left-2" : "right-2"
           }  w-40 mt-2 bg-white dark:bg-slate-900 border border-primary dark:border-blue-500 rounded shadow-md p-2 z-50`}
         >
           {langs_result.map((lang) => (

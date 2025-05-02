@@ -113,9 +113,9 @@ const NewsContent = ({ news }) => {
     news?.translations?.find((t) => t.language === locale)?.translation
       ?.fields || {};
   return (
-    <div className="mx-auto max-w-screen-md space-y-12 px-4 py-10  text-lg tracking-wide text-gray-700 dark:text-gray-100">
+    <div className="mx-auto max-w-screen-md  space-y-12 px-4 py-10  text-lg tracking-wide text-gray-700 dark:text-gray-100">
       {content ? (
-        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div dangerouslySetInnerHTML={{ __html: content }} className="dark:!text-gray-100" />
       ) : (
         <SkeletonText lines={10} />
       )}

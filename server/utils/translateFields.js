@@ -1,4 +1,5 @@
 const { translate } = require("google-translate-api-x");
+const cheerio = require("cheerio");
 
 const MAX_CHUNK_SIZE = 4500;
 
@@ -8,6 +9,26 @@ const splitText = (text, max = MAX_CHUNK_SIZE) => {
     parts.push(text.slice(i, i + max));
   }
   return parts;
+};
+
+// تابع برای ترجمه محتوای HTML
+const translateHTMLContent = async (html, lang) => {
+  const $ = cheerio.load(html);
+
+  // ترجمه متن در داخل تگ‌ها
+  const translateTextNodes = async (node) => {
+    for (let child of node.contents()) {
+      if (child.type === 'text' && child.data.trim()) {
+        const translated = await translate(child.data, { to: lang });
+        child.data = translated.text;
+      } else if (child.type === 'tag') {
+        await translateTextNodes($(child));
+      }
+    }
+  };
+
+  await translateTextNodes($.root());
+  return $.html();  // برگرداندن محتوای HTML با متن ترجمه‌شده
 };
 
 const translateFields = async (
@@ -113,7 +134,7 @@ const translateFields = async (
       }
     }
 
-    // Long text fields with chunking
+    // Long text fields with chunking and HTML translation
     for (const field of longTextFields) {
       const value = data[field];
       if (typeof value === "string") {
@@ -121,8 +142,8 @@ const translateFields = async (
           const chunks = splitText(value);
           const translatedChunks = await Promise.all(
             chunks.map(async (chunk) => {
-              const result = await translate(chunk, { to: lang });
-              return result.text;
+              const translatedChunk = await translateHTMLContent(chunk, lang); // استفاده از تابع ترجمه HTML
+              return translatedChunk;
             })
           );
           translations[lang].fields[field] = translatedChunks.join(" ");

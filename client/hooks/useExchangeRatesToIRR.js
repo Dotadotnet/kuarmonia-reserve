@@ -67,7 +67,7 @@ export const useExchangeRatesToIRR = () => {
       try {
         const res = await fetch(BASE_URL);
         const data = await res.json();
-
+console.log(data)
         const extractRate = (sourceArray, symbol, key) => {
           const item = sourceArray.find((i) => i.symbol === symbol);
           if (item) {

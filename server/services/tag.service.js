@@ -36,7 +36,7 @@ exports.addTag = async (req, res) => {
           description,
           metaTitle,
           metaDescription,
-          parsedKeynotes,
+          keynotes:parsedKeynotes,
           canonicalUrl
         },
         {
@@ -48,7 +48,7 @@ exports.addTag = async (req, res) => {
             "metaDescription",
             "canonicalUrl"
           ],
-          arrayStringFields: ["parsedKeynotes"]
+          arrayStringFields: ["keynotes"]
         }
       );
       const translationDocs = Object.entries(translations).map(
