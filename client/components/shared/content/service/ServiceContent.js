@@ -55,8 +55,8 @@ console.log(title,content,summary,roadmap,faqs);
             </div>
             {service?.thumbnail && (
               <Image
-                width={600}
-                height={144}
+                width={1200}
+                height={600}
                 className="-z-10 absolute top-0 left-0 mt-10 h-96 w-full object-cover"
                 src={service?.thumbnail.url}
                 alt=""
