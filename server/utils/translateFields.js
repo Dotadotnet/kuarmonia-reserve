@@ -11,16 +11,27 @@ const splitText = (text, max = MAX_CHUNK_SIZE) => {
   return parts;
 };
 
-// تابع برای ترجمه محتوای HTML
 const translateHTMLContent = async (html, lang) => {
   const $ = cheerio.load(html);
 
-  // ترجمه متن در داخل تگ‌ها
+  // ذخیره figure‌ها و جایگزینی آن‌ها با placeholder
+  const figures = [];
+  $('figure.image').each((i, el) => {
+    const placeholder = `[[FIGURE_IMAGE_${i}]]`;
+    figures.push($(el).toString());
+    $(el).replaceWith(placeholder);
+  });
+
+  // ترجمه‌ی نودهای متنی
   const translateTextNodes = async (node) => {
     for (let child of node.contents()) {
       if (child.type === 'text' && child.data.trim()) {
-        const translated = await translate(child.data, { to: lang });
-        child.data = translated.text;
+        try {
+          const translated = await translate(child.data, { to: lang });
+          child.data = translated.text;
+        } catch (err) {
+          console.error(`خطا در ترجمه متن: ${child.data}`, err.message);
+        }
       } else if (child.type === 'tag') {
         await translateTextNodes($(child));
       }
@@ -28,9 +39,15 @@ const translateHTMLContent = async (html, lang) => {
   };
 
   await translateTextNodes($.root());
-  return $.html();  // برگرداندن محتوای HTML با متن ترجمه‌شده
-};
 
+  // برگرداندن تگ‌های figure به جای placeholderها
+  let finalHTML = $.html();
+  figures.forEach((fig, i) => {
+    finalHTML = finalHTML.replace(`[[FIGURE_IMAGE_${i}]]`, fig);
+  });
+
+  return finalHTML;
+};
 const translateFields = async (
   data,
   {
