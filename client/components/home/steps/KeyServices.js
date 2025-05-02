@@ -38,7 +38,7 @@ const KeyServices = async ({ params }) => {
         {services.map((service) => {
           const matchedTranslation =
             service.translations.find(
-              (t) => t.translation.language === locale
+              (t) => t.translation?.language === locale
             ) || service.translations[0]; 
 
           const { title, slug } = matchedTranslation.translation.fields;

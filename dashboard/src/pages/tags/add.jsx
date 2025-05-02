@@ -31,6 +31,7 @@ const AddTag = () => {
     if (addData) {
       toast.success(addData?.description, { id: "addTag" });
       setIsOpen(false);
+      resizeTo()
     }
 
     if (addError?.data) {
