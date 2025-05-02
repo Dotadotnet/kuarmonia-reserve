@@ -152,27 +152,31 @@ export default function CurrencyRates() {
         <div className="flex text-center justify-center items-center gap-x-2">
           <img
             src="https://hatscripts.github.io/circle-flags/flags/ca.svg"
-            width="20"
-            height="20"
-            alt="tehran"
+            width="24"
+            height="24"
+            alt="toronto"
+            className=" border-1 rounded-full border-white bg-white backdrop-blur-md "
+
           />{" "}
           <p className="!text-white">{time.toronto}</p>
         </div>
         <div className="text-center gap-x-2  flex justify-center items-center">
           <img
             src="https://hatscripts.github.io/circle-flags/flags/tr.svg"
-            width="20"
-            height="20"
-            alt="tehran"
+            width="24"
+            height="24"
+            alt="istanbull"
+            className=" border-1 rounded-full border-white bg-white backdrop-blur-md "
           />{" "}
           <p className="!text-white">{time.istanbul}</p>
         </div>
         <div className="flex text-center gap-x-2 justify-center items-center ">
           <img
             src="https://hatscripts.github.io/circle-flags/flags/ir.svg"
-            width="20"
-            height="20"
+            width="24"
+            height="24"
             alt="tehran"
+               className=" border-1 rounded-full border-white bg-white backdrop-blur-md "
           />{" "}
           <p className="!text-white">{time.tehran}</p>
         </div>

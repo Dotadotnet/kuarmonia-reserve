@@ -16,7 +16,7 @@ console.log(title,content,summary,roadmap,faqs);
       <main>
         <article>
           <header className="mx-auto mt-80 max-w-screen-lg rounded-t-primary bg-gray-100 dark:bg-gray-900 pt-16 text-center shadow-lg ">
-          <div className="flex items-center mt-14 justify-center text-center">
+          <div className="flex items-center justify-center text-center">
               <div className="text-gray-700 mt-6 md:mt-0">
                 <p>
                   <a
