@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const serviceController = require("../controllers/service.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -30,15 +31,18 @@ router.post(
 // get all service
 router.get(
   "/get-services",
+  localeMiddleware,
   serviceController.getAllService
 );
 // get a service
-router.get("/get-service/:id", serviceController.getService);
+router.get("/get-service/:id",  localeMiddleware,
+  serviceController.getService);
 
 // update service
 router.patch(
   "/update-service/:id",
   verify,
+  localeMiddleware,
   authorize("admin", "superAdmin"),
   serviceController.updateService
 );

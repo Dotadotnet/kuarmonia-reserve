@@ -14,11 +14,13 @@ import Medias from "@/components/home/medias/Medias";
 import Reviews from "@/components/shared/review/Reviews";
 import Main from "@/layouts/Main";
 import Testimonials from "@/components/home/testimonials/Testimonials";
+import KeyServices from "@/components/home/steps/KeyServices";
 
 export default async function Home({ params }) {
   return (
     <Main>
-      <Hero />
+      <Hero  />
+      <KeyServices params={params}   />
       <News params={params}  />
       <Properties />
       <Gallery />

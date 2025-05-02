@@ -26,21 +26,22 @@ const LanguageSwitcher = () => {
   return (
     <div className="relative">
       <button
-  onClick={() => setIsOpen(!isOpen)}
-  className="p-2 px-2 md:px-3 rounded-secondary flex  items-center justify-center gap-x-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors md:w-10 md:h-10"
->
-  <img
-    src={lang_now.img}
-    alt={lang_now.name}
-    className="w-5 h-5 rounded-full "
-  />
-</button>
-
+        onClick={() => setIsOpen(!isOpen)}
+        className=" rounded-secondary flex  items-center justify-center gap-x-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors md:w-10 md:h-10"
+      >
+        <img
+          src={lang_now.img}
+          alt={lang_now.name}
+          className="w-7 h-7 rounded-full "
+        />
+      </button>
 
       {isOpen && (
         <OutsideClick
           onOutsideClick={() => setIsOpen(false)}
-          className="absolute top-full right-2 w-40 mt-2 bg-white dark:bg-slate-900 border border-primary dark:border-blue-500 rounded shadow-md p-2 z-50"
+          className={`absolute top- ${
+            t === "en" ? "left-2" : "right-2"
+          }  w-40 mt-2 bg-white dark:bg-slate-900 border border-primary dark:border-blue-500 rounded shadow-md p-2 z-50`}
         >
           {langs_result.map((lang) => (
             <a

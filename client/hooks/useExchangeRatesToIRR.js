@@ -67,7 +67,6 @@ export const useExchangeRatesToIRR = () => {
       try {
         const res = await fetch(BASE_URL);
         const data = await res.json();
-        console.log(data);
 
         const extractRate = (sourceArray, symbol, key) => {
           const item = sourceArray.find((i) => i.symbol === symbol);
@@ -142,14 +141,14 @@ export default function CurrencyRates() {
     };
 
     const interval = setInterval(updateTimes, 1000);
-    updateTimes(); // Initial call to set the time immediately
+    updateTimes(); 
 
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="flex z-50 justify-between w-full bg-orange-500 md:hidden">
-      <div className="flex justify-between w-1/2 px-4 items-center gap-x-4">
+      <div className="flex justify-between w-7/12 px-1 items-center gap-x-2">
         <div className="flex text-center justify-center items-center gap-x-2">
           <img
             src="https://hatscripts.github.io/circle-flags/flags/ca.svg"
@@ -160,23 +159,25 @@ export default function CurrencyRates() {
           <p className="!text-white">{time.toronto}</p>
         </div>
         <div className="text-center gap-x-2  flex justify-center items-center">
-        <img
+          <img
             src="https://hatscripts.github.io/circle-flags/flags/tr.svg"
             width="20"
             height="20"
             alt="tehran"
-          />          <p className="!text-white">{time.istanbul}</p>
+          />{" "}
+          <p className="!text-white">{time.istanbul}</p>
         </div>
         <div className="flex text-center gap-x-2 justify-center items-center ">
-        <img
+          <img
             src="https://hatscripts.github.io/circle-flags/flags/ir.svg"
             width="20"
             height="20"
             alt="tehran"
-          />          <p className="!text-white">{time.tehran}</p>
+          />{" "}
+          <p className="!text-white">{time.tehran}</p>
         </div>
       </div>{" "}
-      <div className="w-1/2 h-8 flex flex-col gap-1 items-end">
+      <div className="w-5/12 h-8 flex flex-col gap-1 items-end">
         <Swiper
           loop={true}
           direction="vertical"
@@ -192,12 +193,12 @@ export default function CurrencyRates() {
         >
           {Object.entries(rates).map(
             ([currency, { price, change_percent }]) => (
-              <SwiperSlide className="!flex !justify-end ">
+              <SwiperSlide className="!flex !justify-end !gap-x-2">
                 <div
                   key={currency}
                   className="flex items-center justify-Center gap-x-2 px-2 py-1 "
                 >
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-x-2">
                     <Arrow change={change_percent} />
                     <span className="text-sm  text-white">
                       {price.toLocaleString()}

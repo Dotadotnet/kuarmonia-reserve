@@ -16,7 +16,7 @@ exports.addService= async (req, res, next) => {
 /* get all services */
 exports.getAllService = async (req, res, next) => {
   try {
-    await serviceService.getAllService(res);
+    await serviceService.getAllService(req,res);
   } catch (error) {
     next(error);
   } finally {

@@ -8,12 +8,12 @@ const Translation = require("../models/translation.model");
 const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
 const Category = require("../models/category.model");
 
-
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 exports.addService = async (req, res) => {
   try {
-    const { title, summary, tags,category, content, roadmap, faqs, ...other } = req.body;
+    const { title, summary, tags, category, content, roadmap, faqs, ...other } =
+      req.body;
     const parsedRoadmap = JSON.parse(roadmap);
     const parsedFaqs = JSON.parse(faqs);
     const parsedTags = JSON.parse(tags);
@@ -35,8 +35,8 @@ exports.addService = async (req, res) => {
     });
 
     const result = await service.save();
-        const slug = await generateSlug(title);
-        const canonicalUrl = `${defaultDomain}/service/${slug}`;
+    const slug = await generateSlug(title);
+    const canonicalUrl = `${defaultDomain}/service/${slug}`;
 
     const { metaTitle, metaDescription } = generateSeoFields({
       title,
@@ -51,8 +51,8 @@ exports.addService = async (req, res) => {
           content,
           metaTitle,
           metaDescription,
-          parsedRoadmap,
-          parsedFaqs,
+          roadmap: parsedRoadmap,
+          faqs: parsedFaqs,
           slug,
           canonicalUrl
         },
@@ -65,9 +65,8 @@ exports.addService = async (req, res) => {
             "slug",
             "canonicalUrl"
           ],
-          arrayObjectFields: ["parsedFaqs","parsedRoadmap"],
+          arrayObjectFields: ["faqs", "roadmap"],
           longTextFields: ["content"]
-
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -94,7 +93,7 @@ exports.addService = async (req, res) => {
         data: result
       });
     } catch (err) {
-      console.log(err.message)
+      console.log(err.message);
       await Service.findByIdAndDelete(result._id);
       res.status(500).json({
         acknowledgement: false,
@@ -114,14 +113,21 @@ exports.addService = async (req, res) => {
   }
 };
 /* 📌 دریافت همه خدمت */
-exports.getAllService = async (res) => {
+exports.getAllService = async (req, res) => {
   try {
-    const service = await Service.find().populate([
-      {
-        path: "category",
-        select: "title _id icon"
-      }
-    ]);
+    const service = await Service.find()
+      .select(" serviceId icon _id")
+      .populate([
+        {
+          path: "translations.translation",
+          match: { language: req.locale },
+
+        },
+        {
+          path: "category",
+          select: "title _id icon"
+        }
+      ]);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
@@ -142,7 +148,13 @@ exports.getAllService = async (res) => {
 /* 📌 دریافت یک خدمت */
 exports.getService = async (req, res) => {
   try {
-    const service = await Service.findById(req.params.id).populate([
+
+    const serviceId = parseInt(req.params.id, 10);
+    const service = await Service.findOne({ serviceId }).populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
       {
         path: "creator",
         select: "name avatar"
@@ -152,12 +164,8 @@ exports.getService = async (req, res) => {
         select: "title _id keynotes"
       },
       {
-        path: "categories",
+        path: "category",
         select: "title _id icon"
-      },
-      {
-        path: "socialLinks.network",
-        select: "title platform icon"
       }
     ]);
     if (!service) {
@@ -174,6 +182,7 @@ exports.getService = async (req, res) => {
       data: service
     });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
