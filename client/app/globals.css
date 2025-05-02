@@ -183,7 +183,7 @@ select {
 }
 
 blockquote {
-  @apply border-r-4 border-primary p-4 italic text-green-500 text-base leading-8 my-5;
+  @apply border-r-4 border-primary p-4  text-green-500 text-base leading-8 my-5;
 }
 
 /* حالت دارک مود */
