@@ -10,44 +10,38 @@ const splitText = (text, max = MAX_CHUNK_SIZE) => {
   }
   return parts;
 };
+async function translateHTMLContent(html, lang) {
+  const $ = cheerio.load(html, { decodeEntities: false });
 
-const translateHTMLContent = async (html, lang) => {
-  const $ = cheerio.load(html);
-
-  // ذخیره figure‌ها و جایگزینی آن‌ها با placeholder
-  const figures = [];
-  $('figure.image').each((i, el) => {
-    const placeholder = `[[FIGURE_IMAGE_${i}]]`;
-    figures.push($(el).toString());
-    $(el).replaceWith(placeholder);
-  });
-
-  // ترجمه‌ی نودهای متنی
-  const translateTextNodes = async (node) => {
-    for (let child of node.contents()) {
-      if (child.type === 'text' && child.data.trim()) {
+  async function translateNode(node) {
+    if (node.type === "text") {
+      // فقط متن‌ها رو ترجمه کن
+      const original = node.data.trim();
+      if (original) {
         try {
-          const translated = await translate(child.data, { to: lang });
-          child.data = translated.text;
+          const result = await translate(original, { to: lang });
+          node.data = result.text;
         } catch (err) {
-          console.error(`خطا در ترجمه متن: ${child.data}`, err.message);
+          console.error("خطا در ترجمه:", err.message);
         }
-      } else if (child.type === 'tag') {
-        await translateTextNodes($(child));
+      }
+    } else if (node.type === "tag") {
+      // به تمام تگ‌ها وارد شو
+      for (const child of node.children || []) {
+        await translateNode(child);
       }
     }
-  };
+  }
 
-  await translateTextNodes($.root());
+  const body = $("body").length ? $("body")[0] : $.root()[0];
+  for (const node of body.children) {
+    await translateNode(node);
+  }
 
-  // برگرداندن تگ‌های figure به جای placeholderها
-  let finalHTML = $.html();
-  figures.forEach((fig, i) => {
-    finalHTML = finalHTML.replace(`[[FIGURE_IMAGE_${i}]]`, fig);
-  });
+  return $.html();
+}
 
-  return finalHTML;
-};
+
 const translateFields = async (
   data,
   {

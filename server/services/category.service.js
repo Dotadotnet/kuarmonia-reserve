@@ -86,7 +86,6 @@ exports.addCategory = async (req, res) => {
 /* get all categories */
 exports.getCategories = async (req, res) => {
   try {
-    console.log("req.awd awdawdawd",req.locale)
     let categories = [];
     try {
       categories = await Category.find({ isDeleted: { $ne: true } }).populate([
