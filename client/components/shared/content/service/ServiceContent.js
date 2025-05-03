@@ -9,23 +9,26 @@ import Image from "next/image";
 export default function ServiceContent({ service }) {
   console.log(service);
   const locale = useLocale();
-  const {title,content,summary,roadmap,faqs} = service.translations.find((t) => t.language === locale)?.translation.fields || {};
-console.log(title,content,summary,roadmap,faqs);
+  const { title, content, summary, roadmap, faqs } =
+    service.translations.find((t) => t.language === locale)?.translation
+      .fields || {};
+  console.log(title, content, summary, roadmap, faqs);
   return (
     <div className="bg-gray-100 dark:bg-gray-800 mt-4 z-40 relative scrollbar-hide h-screen overflow-y-auto">
       <main>
         <article>
           <header className="mx-auto mt-80 max-w-screen-lg rounded-t-primary bg-gray-100 dark:bg-gray-900 pt-16 text-center shadow-lg ">
-          <div className="flex items-center justify-center text-center">
-              <div className="text-gray-700 mt-6 md:mt-0">
-                <p>
-                  <a
-                    href="#"
-                    className="text-indigo-600  font-medium hover:text-gray-900 transition text-center duration-500 ease-in-out dark:text-gray-300"
-                  >
-                    <span className="text-2xl"> {service?.creator?.name}</span>
-                  </a>
-                </p>
+            <div className="flex items-center justify-center text-center">
+              <div className="text-gray-700 mt-6 md:mt-0 text-center">
+                <a
+                  href="#"
+                  className="text-indigo-600  font-medium hover:text-gray-900 transition text-center duration-500 ease-in-out dark:text-gray-300"
+                >
+                  <span className="text-2xl text-center">
+                    {" "}
+                    {service?.creator?.name}
+                  </span>
+                </a>
                 <p className="text-center text-sm mt-1">
                   <span className="font-medium">
                     {new Date(service?.createdAt).toLocaleDateString("fa-IR", {
@@ -41,7 +44,7 @@ console.log(title,content,summary,roadmap,faqs);
             </h1>
             <p className="mt-6 text- text-center text-gray-700">{summary}</p>
             <div className="mt-6 px-8 w-full overflow-x-auto scrollbar-hide flex justify-center gap-2">
-              {service?.tags?.length > 0 && (
+              {service?.tags?.length > 0 &&
                 service?.tags.map((item) => (
                   <button
                     key={item.id}
@@ -50,8 +53,7 @@ console.log(title,content,summary,roadmap,faqs);
                     <FaTag className="w-4 h-4 text-gray-500" />
                     {item.value}
                   </button>
-                ))
-              )}
+                ))}
             </div>
             {service?.thumbnail && (
               <Image
@@ -89,7 +91,10 @@ console.log(title,content,summary,roadmap,faqs);
           </div>
           <div className="mx-auto max-w-screen-lg space-y-12 rounded-b-lg bg-gray-100 dark:bg-gray-900 px-8 pt-10 pb-20 font-serif text-lg tracking-wide text-gray-700 sm:shadow-lg ">
             {content && (
-              <div className="text-justify" dangerouslySetInnerHTML={{ __html: content }} />
+              <div
+                className="text-justify"
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
             )}
           </div>
         </article>
