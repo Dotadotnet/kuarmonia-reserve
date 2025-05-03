@@ -10,7 +10,7 @@ const TimelineItem = ({ data }) => {
         <span className="absolute left-[5px] top-[5px] w-[calc(100%-10px)] p-[5px] text-center text-xs font-bold uppercase tracking-[1px] group-odd:left-auto group-odd:right-1 md:w-auto bg-secondary dark:bg-blue-500 rounded-sm">
           {title}
         </span>
-        <time className="mt-6 text-xs text-[#777] md:mr-0">{duration}</time>
+        <time className="mt-10 text-xs text-[#777] md:mr-0">{duration}</time>
         <p className="my-4 max-w-64 text-sm sm:text-base">{description}</p>
         {link && (
           <a
