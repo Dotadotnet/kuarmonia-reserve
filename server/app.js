@@ -77,7 +77,7 @@ app.use("/api/newsCountry", require("./routes/newsCountry.route"));
 app.use("/api/teamMember", require("./routes/teamMember.route"));
 app.use("/api/faqs", require("./routes/faqs.route"));
 app.use("/api/service", require("./routes/service.route"));
-// app.use("/api/upload", require("./routes/upload.route"));
+ app.use("/api/upload", require("./routes/upload.route"));
 
 app.use(error);
 

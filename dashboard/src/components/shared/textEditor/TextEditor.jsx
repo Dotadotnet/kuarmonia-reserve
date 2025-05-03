@@ -14,6 +14,14 @@ const MyEditor = ({ value, onChange }) => {
       <CKEditor
         editor={Editor}
         data={data}
+        config={{
+          simpleUpload: {
+            uploadUrl: import.meta.env.VITE_BASE_URL + '/upload/add-upload',
+            headers: {
+              Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN}`
+            }
+          }
+        }}
         onChange={(event, editor) => {
           const value = editor.getData();
           setData(value);  
