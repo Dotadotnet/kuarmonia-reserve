@@ -183,23 +183,12 @@ select {
 }
 
 blockquote {
-  @apply p-4 text-green-500 text-base leading-8 my-5;
-  border-left: 4px solid var(--primary); /* در حالت LTR */
+  @apply border-r-4 ltr:border-l-4 border-primary p-4  text-green-500 text-base leading-8 my-5;
 }
 
 /* حالت دارک مود */
 .dark blockquote {
-  @apply p-4 text-blue-500 text-base leading-8 my-5;
-  border-left: 4px solid var(--blue); /* در حالت دارک مود */
-}
-
-/* برای حالت RTL */
-html[dir="rtl"] blockquote {
-  border-right: 4px solid var(--primary); /* در حالت RTL */
-}
-
-html[dir="rtl"].dark blockquote {
-  border-right: 4px solid var(--blue); /* در حالت دارک مود و RTL */
+  @apply border-r-4 ltr:border-l-4 border-blue-500 p-4  text-blue-500 text-base leading-8 my-5;
 }
 
 .custom-button {
