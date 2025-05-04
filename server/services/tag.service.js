@@ -1,7 +1,7 @@
 /* internal import */
 const Tag = require("../models/tag.model");
 const Translation = require("../models/translation.model");
-const { generateSlug ,generateSeoFields } = require("../utils/seoUtils");
+const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
 const translateFields = require("../utils/translateFields");
 
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
@@ -27,7 +27,7 @@ exports.addTag = async (req, res) => {
     const canonicalUrl = `${defaultDomain}/tag/${slug}`;
     const { metaTitle, metaDescription } = generateSeoFields({
       title,
-      summary:description,
+      summary: description
     });
     try {
       const translations = await translateFields(
@@ -36,7 +36,7 @@ exports.addTag = async (req, res) => {
           description,
           metaTitle,
           metaDescription,
-          keynotes:parsedKeynotes,
+          keynotes: parsedKeynotes,
           canonicalUrl
         },
         {
@@ -68,7 +68,7 @@ exports.addTag = async (req, res) => {
         $set: { translations: translationInfos }
       });
     } catch (translationError) {
-      console.log(translationError.message)
+      console.log(translationError.message);
       await Tag.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
@@ -95,24 +95,40 @@ exports.addTag = async (req, res) => {
 };
 
 /* get all tags */
-exports.getTags = async (req,res) => {
-  const tags = await Tag.find({ isDeleted: false }).populate([
-    {
-      path: "translations.translation",
-      match: { language: req.locale },
-    },
-    {
-      path: "creator",
-      select: "name avatar",
-    }
-  ]);
+exports.getTags = async (req, res) => {
+  console.log("req.query", req.query);
+  const { page = 1, limit = 5, search = "" } = req.query;
+  const skip = (page - 1) * limit;
+
+  const searchQuery = search
+    ? { title: { $regex: search, $options: "i" }, isDeleted: false }
+    : { isDeleted: false };
+
+  const tags = await Tag.find(searchQuery)
+    .skip(skip)
+    .limit(Number(limit))
+    .sort({ createdAt: -1 })
+    .populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
+      {
+        path: "creator",
+        select: "name avatar"
+      }
+    ]);
+    const total = await Tag.countDocuments(searchQuery);
+
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
     description: "تگ ها با موفقیت دریافت شدند",
-    data: tags
+    data: tags,
+    total
   });
 };
+
 
 /* get a tag */
 exports.getTag = async (req, res) => {

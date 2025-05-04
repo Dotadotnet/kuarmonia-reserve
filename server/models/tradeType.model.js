@@ -9,20 +9,15 @@ const {
 
 const tradeTypeSchema = new Schema({
   title: { type: String, required: true },
-  slug: {
-    type: String,
-    unique: true,
-    required: false,
-   
-  },
+  
   typeId: {
     type: Number,
     unique: true,
   },
    translations: [
       {
-        translationId: {
-          type: mongoose.Schema.Types.ObjectId,
+        translation: {
+          type: ObjectId,
           ref: "Translation",
           required: true
         },
@@ -34,11 +29,10 @@ const tradeTypeSchema = new Schema({
       }
     ],
   creator: {
-    type: Schema.Types.ObjectId,
+    type: ObjectId,
     ref: "Admin",
     required: [true, "شناسه نویسنده الزامی است"]
   },
-  description: { type: String, required: true },
   priceFields: {
     type: [String],
     enum: {
@@ -49,11 +43,9 @@ const tradeTypeSchema = new Schema({
   },
   ...baseSchema.obj,
 });
-const defaultDomain = process.env.API;
 
 tradeTypeSchema.pre("save", async function (next) {
   try {
-    // فقط زمانی مقداردهی شود که جدید است
     if (this.isNew) {
       const counter = await Counter.findOneAndUpdate(
         { name: "tradeTypeId" },
@@ -65,10 +57,7 @@ tradeTypeSchema.pre("save", async function (next) {
  if (this.isModified("title")) {
       this.slug = await generateSlug(this.title);
     }
-    if (!this.canonicalUrl) {
-      this.canonicalUrl = `${defaultDomain}/tags/${this.slug}`;
-    }
-  
+ 
 
     next();
   } catch (error) {

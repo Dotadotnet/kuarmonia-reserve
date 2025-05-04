@@ -8,7 +8,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 const NewsSlider = ({ news }) => {
-  const middleSlide = Math.floor(news.length / 2);
 
   return (
     <Swiper
@@ -16,7 +15,7 @@ const NewsSlider = ({ news }) => {
     effect="coverflow"
     grabCursor
     centeredSlides
-    initialSlide={middleSlide}
+    initialSlide={1}
     slidesPerView="auto"
     spaceBetween={80}
     modules={[EffectCoverflow, Autoplay]}

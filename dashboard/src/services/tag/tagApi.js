@@ -18,8 +18,8 @@ const TagApi = kuarmoniaApi.injectEndpoints({
 
     // get all tags
     getTags: builder.query({
-      query: () => ({
-        url: "/tag/get-tags",
+      query: ({ page = 1, limit = 5, search = "" } = {}) => ({
+        url: `/tag/get-tags/?page=${page}&limit=${limit}&search=${search}`,
         method: "GET",
       }),
 
