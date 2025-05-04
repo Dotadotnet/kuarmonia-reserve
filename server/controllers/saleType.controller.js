@@ -17,7 +17,7 @@ exports.addSaleType = async (req, res, next) => {
 /* get all saletypes */
 exports.getSaleTypes = async (req, res, next) => {
   try {
-    await saleTypesService.getSaleTypes(res);
+    await saleTypesService.getSaleTypes(req,res);
   } catch (error) {
     next(error);
   } finally {

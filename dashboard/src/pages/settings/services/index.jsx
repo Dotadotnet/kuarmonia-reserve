@@ -76,7 +76,10 @@ const ListService = () => {
         {isLoading || (members && members.length == 0) ? (
           <SkeletonItem repeat={5} />
         ) : (
-          members.map((service) => (
+          members.map((service) => {
+            const {title,summary}=service.translations[0].translation.fields
+
+            return(
             <div
               key={service._id}
               className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
@@ -96,7 +99,7 @@ const ListService = () => {
                   )}
                   <article className="flex-col flex gap-y-2  ">
                     <span className="line-clamp-1 text-base ">
-                      <span className=" ">{service?.title}</span>
+                      <span className=" ">{title}</span>
                     </span>
                     <span className="text-xs hidden lg:flex">
                       {new Date(service.createdAt).toLocaleDateString("fa-IR")}
@@ -110,7 +113,7 @@ const ListService = () => {
               <div className="lg:col-span-3 hidden gap-2 lg:flex justify-left items-center text-right">
                 <article className="flex-col flex gap-y-2">
                   <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
-                    <span className="flex">{service.summary}</span>
+                    <span className="flex">{summary}</span>
                   </span>
                 </article>
               </div>
@@ -143,7 +146,7 @@ const ListService = () => {
                 </article>
               </div>
             </div>
-          ))
+          )})
         )}
 
         {/* Pagination */}

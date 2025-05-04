@@ -2,14 +2,14 @@ const PropType = require("../models/propertyType.model");
 const remove = require("../utils/remove.util");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
+const { generateSlug } = require("../utils/seoUtils");
 
 /* add new propType */
 exports.addPropType = async (req, res) => {
   try {
     const { title, description, amenities } = req.body;
     const parsedAmenities = JSON.parse(amenities);
-    console.log("Parsed Amenities:", parsedAmenities);
-
 
     const propType = new PropType({
       title: title,
@@ -19,17 +19,21 @@ exports.addPropType = async (req, res) => {
     });
 
     const result = await propType.save();
-  
+    const slug = await generateSlug(title);
+    const canonicalUrl = `${defaultDomain}/property/type/${slug}`;
+
     try {
       const translations = await translateFields(
         {
           title,
           description,
-          parsedAmenities
+          amenities: parsedAmenities,
+          canonicalUrl,
+          slug
         },
         {
-          stringFields: ["title",  "description"],
-          arrayStringFields: ["parsedAmenities"]
+          stringFields: ["title", "description", "canonicalUrl", "slug"],
+          arrayStringFields: ["amenities"]
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -40,15 +44,16 @@ exports.addPropType = async (req, res) => {
           fields
         })
       );
-      const inserted = await Translation.insertMany(translationDocs);
+      const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
-      }));      await PropType.findByIdAndUpdate(result._id, {
+      }));
+      await PropType.findByIdAndUpdate(result._id, {
         $set: { translations: translationInfos }
       });
     } catch (translationError) {
-      console.log(translationError.message)
+      console.log(translationError.message);
       await PropType.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
@@ -75,11 +80,17 @@ exports.addPropType = async (req, res) => {
 };
 
 /* get all propTypes */
-exports.getPropTypes = async (res) => {
-  const propTypes = await PropType.find({ isDeleted: { $ne: true } }).populate({
-    path: "creator",
-    select: "name avatar"
-  });
+exports.getPropTypes = async (req, res) => {
+  const propTypes = await PropType.find({ isDeleted: { $ne: true } }).populate([
+    {
+      path: "translations.translation",
+      match: { language: req.locale }
+    },
+    {
+      path: "creator",
+      select: "name avatar"
+    }
+  ]);
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",

@@ -3,7 +3,7 @@ const PropAward = require("../models/propAward.model");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
 
-/* 📌 اضافه کردن جایزه  جدید */
+
 exports.addPropAward = async (req, res) => {
   try {
     const { title, description, country, issuingOrganization, ...otherInfo } =
@@ -18,10 +18,6 @@ exports.addPropAward = async (req, res) => {
     }
     const propAward = new PropAward({
       ...otherInfo,
-      title,
-      description,
-      country,
-      issuingOrganization,
       thumbnail,
       creator: req.admin._id
     });
@@ -55,7 +51,7 @@ exports.addPropAward = async (req, res) => {
       );
       const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       }));
       await PropAward.findByIdAndUpdate(result._id, {
@@ -88,11 +84,18 @@ exports.addPropAward = async (req, res) => {
 };
 
 /* 📌 دریافت همه جایزه ها */
-exports.getPropAwards = async (res) => {
+exports.getPropAwards = async (req,res) => {
   try {
-    const propAwards = await PropAward.find({ isDeleted: false }).populate(
-      "creator"
-    );
+    const propAwards = await PropAward.find({ isDeleted: false }).populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
+      {
+        path: "creator",
+        select: "name avatar"
+      }
+    ]);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

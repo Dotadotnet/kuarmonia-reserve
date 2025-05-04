@@ -5,8 +5,6 @@ const baseSchema = require("./baseSchema.model");
 const Counter = require("./counter");
 
 const tradeTypeSchema = new Schema({
-  title: { type: String, required: true },
-  
   typeId: {
     type: Number,
     unique: true,
@@ -20,7 +18,7 @@ const tradeTypeSchema = new Schema({
         },
         language: {
           type: String,
-          enum: ["en", "tr", "ar"],
+          enum: ["fa", "en", "tr"],
           required: true
         }
       }

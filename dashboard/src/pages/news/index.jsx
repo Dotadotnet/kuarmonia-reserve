@@ -16,7 +16,7 @@ import ControlPanel from "../ControlPanel";
 
 const ListNews = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 5;
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading, error, refetch } = useGetNewsQuery({

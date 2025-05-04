@@ -19,10 +19,6 @@ exports.addPropStandard = async (req, res) => {
 
     const propStandard = new PropStandard({
       ...otherInfo,
-      title,
-      description,
-      country,
-      issuingOrganization,
       thumbnail,
       creator: req.admin._id
     });
@@ -56,7 +52,7 @@ exports.addPropStandard = async (req, res) => {
       );
       const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       }));      await PropStandard.findByIdAndUpdate(result._id, {
         $set: { translations: translationInfos }
@@ -88,11 +84,20 @@ exports.addPropStandard = async (req, res) => {
 };
 
 /* 📌 دریافت همه استانداردها */
-exports.getPropStandards = async (res) => {
+exports.getPropStandards = async (req,res) => {
   try {
     const propAminities = await PropStandard.find({
       isDeleted: false
-    }).populate("creator");
+    }).populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
+      {
+        path: "creator",
+        select: "name avatar"
+      }
+    ]);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

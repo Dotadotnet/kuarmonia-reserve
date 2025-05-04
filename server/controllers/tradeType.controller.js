@@ -17,7 +17,7 @@ exports.addTradeType = async (req, res, next) => {
 /* get all categories */
 exports.getTradeTypes = async (req, res, next) => {
   try {
-    await tradeTypesService.getTradeTypes(res);
+    await tradeTypesService.getTradeTypes(req,res);
   } catch (error) {
     next(error);
   } finally {

@@ -16,7 +16,7 @@ exports.addPropAward = async (req, res, next) => {
 /* get all propAwards */
 exports.getPropAwards = async (req, res, next) => {
   try {
-    await propAwardService.getPropAwards(res);
+    await propAwardService.getPropAwards(req,res);
   } catch (error) {
     next(error);
   } finally {

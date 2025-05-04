@@ -8,6 +8,7 @@ const express = require("express");
 const saleTypeController = require("../controllers/saleType.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -23,7 +24,7 @@ router.post(
 );
 
 // get all saleTypes
-router.get("/get-saleTypes", saleTypeController.getSaleTypes);
+router.get("/get-saleTypes",localeMiddleware, saleTypeController.getSaleTypes);
 
 // get a saleType
 router.get("/get-saleType/:id", saleTypeController.getSaleType);

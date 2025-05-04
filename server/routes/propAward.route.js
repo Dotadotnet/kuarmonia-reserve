@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const propAwardController = require("../controllers/propAward.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -26,7 +27,7 @@ router.post(
 );
 
 // get all propAwards
-router.get("/get-propAwards", propAwardController.getPropAwards);
+router.get("/get-propAwards",localeMiddleware, propAwardController.getPropAwards);
 
 // get a propAward
 router.get("/get-propAward/:id", propAwardController.getPropAward);

@@ -16,7 +16,7 @@ exports.addPropStandard = async (req, res, next) => {
 /* get all propStandards */
 exports.getPropStandards = async (req, res, next) => {
   try {
-    await propStandardService.getPropStandards(res);
+    await propStandardService.getPropStandards(req,res);
   } catch (error) {
     next(error);
   } finally {

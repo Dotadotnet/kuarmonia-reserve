@@ -82,7 +82,10 @@ const ListPropAward = () => {
         {isLoading || (awards && awards.length == 0) ? (
           <SkeletonItem repeat={5} />
         ) : (
-          awards.map((propAward) => (
+          awards.map((propAward) => {
+            const {title,description}=propAward.translations[0].translation.fields
+
+            return(
             <div
               key={propAward._id}
               className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
@@ -102,7 +105,7 @@ const ListPropAward = () => {
                     )}
                   <article className="flex-col flex gap-y-2  ">
                     <span className="line-clamp-1 text-base ">
-                      <span className=" ">{propAward?.title}</span>
+                      <span className=" ">{title}</span>
                     </span>
                     <span className="text-xs hidden lg:flex">
                       {new Date(propAward.createdAt).toLocaleDateString(
@@ -110,8 +113,8 @@ const ListPropAward = () => {
                       )}
                     </span>
                     <span className=" lg:hidden text-xs  line-clamp-1">
-                      {propAward?.description
-                        ? propAward?.description
+                      {description
+                        ? description
                         : new Date(propAward.createdAt).toLocaleDateString(
                             "fa-IR"
                           )}
@@ -130,7 +133,7 @@ const ListPropAward = () => {
               <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
                 <article className="flex-col flex gap-y-2">
                   <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                    {propAward.description}
+                    {description}
                   </span>
                 </article>
               </div>
@@ -151,7 +154,7 @@ const ListPropAward = () => {
                 </article>
               </div>
             </div>
-          ))
+          )})
         )}
 
         {/* Pagination */}

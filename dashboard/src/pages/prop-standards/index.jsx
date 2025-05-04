@@ -77,7 +77,10 @@ const ListPropStandard = () => {
         {isLoading || (standards && standards.length == 0) ? (
           <SkeletonItem repeat={5} />
         ) : (
-          standards.map((propStandard) => (
+          standards.map((propStandard) => {
+            const {title,description}=propStandard.translations[0].translation.fields
+
+            return(
             <div
               key={propStandard._id}
               className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
@@ -97,7 +100,7 @@ const ListPropStandard = () => {
                     )}
                   <article className="flex-col flex gap-y-2  ">
                     <span className="line-clamp-1 text-base ">
-                      <span className=" ">{propStandard?.title}</span>
+                      <span className=" ">{title}</span>
                     </span>
                     <span className="text-xs hidden lg:flex">
                       {new Date(propStandard.createdAt).toLocaleDateString(
@@ -105,8 +108,8 @@ const ListPropStandard = () => {
                       )}
                     </span>
                     <span className=" lg:hidden text-xs  line-clamp-1">
-                      {propStandard?.description
-                        ? propStandard?.description
+                      {description
+                        ? description
                         : new Date(propStandard.createdAt).toLocaleDateString(
                             "fa-IR"
                           )}
@@ -125,7 +128,7 @@ const ListPropStandard = () => {
               <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
                 <article className="flex-col flex gap-y-2">
                   <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                    {propStandard.description}
+                    {description}
                   </span>
                 </article>
               </div>
@@ -146,7 +149,7 @@ const ListPropStandard = () => {
                 </article>
               </div>
             </div>
-          ))
+          )})
         )}
 
         {/* Pagination */}

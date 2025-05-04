@@ -8,6 +8,7 @@ const express = require("express");
 const propTypeController = require("../controllers/propType.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -23,7 +24,7 @@ router.post(
 );
 
 // get all propTypes
-router.get("/get-propTypes", propTypeController.getPropTypes);
+router.get("/get-propTypes",localeMiddleware, propTypeController.getPropTypes);
 
 // get a propType
 router.get("/get-propType/:id", propTypeController.getPropType);

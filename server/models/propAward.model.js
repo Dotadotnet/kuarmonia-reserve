@@ -6,32 +6,12 @@ const Counter = require("./counter");
 
 const propAwardSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: [true, "عنوان جایزه الزامی است"],
-      trim: true,
-      minlength: [3, "عنوان جایزه باید حداقل ۳ کاراکتر باشد"],
-      maxlength: [100, "عنوان جایزه نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
-    },
-    description: {
-      type: String,
-      required: [true, "لطفاً توضیحات لازم را وارد کنید"],
-      trim: true
-    },
-    issuingOrganization: {
-      type: String,
-      required: [true, "نام سازمان صادرکننده الزامی است"],
-      trim: true,
-      minlength: [3, "نام سازمان صادرکننده باید حداقل ۳ کاراکتر باشد"],
-      maxlength: [
-        100,
-        "نام سازمان صادرکننده نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"
-      ]
-    },
+   
+   
     translations: [
          {
-           translationId: {
-             type: mongoose.Schema.Types.ObjectId,
+           translation: {
+             type: ObjectId,
              ref: "Translation",
              required: true
            },
@@ -48,13 +28,7 @@ const propAwardSchema = new mongoose.Schema(
       min: [1900, "سال باید بعد از ۱۹۰۰ باشد"],
       max: [new Date().getFullYear(), `سال نمی‌تواند در آینده باشد`]
     },
-    country: {
-      type: String,
-      required: [true, "کشور الزامی است"],
-      trim: true,
-      minlength: [2, "نام کشور باید حداقل ۲ کاراکتر باشد"],
-      maxlength: [100, "نام کشور نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
-    },
+   
     isInternational: {
       type: Boolean,
       default: false

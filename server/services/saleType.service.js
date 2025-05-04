@@ -2,28 +2,31 @@ const SaleType = require("../models/saleType.model");
 const remove = require("../utils/remove.util");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
+const { generateSlug } = require("../utils/seoUtils");
 
-/* add new saleType */
 exports.addSaleType = async (req, res) => {
   try {
     const { title, description } = req.body;
    
     const saleType = new SaleType({
-      title: title,
-      description: description,
       creator: req.admin._id
     });
 
     const result = await saleType.save();
-  
+      const slug = await generateSlug(title);
+      const canonicalUrl = `${defaultDomain}/property/saletype/${slug}`;
+
     try {
       const translations = await translateFields(
         {
           title,
           description,
+          canonicalUrl,
+          slug
         },
         {
-          stringFields: ["title",  "description"],
+          stringFields: ["title",  "description","canonicalUrl","slug"],
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -36,7 +39,7 @@ exports.addSaleType = async (req, res) => {
       );
       const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
       })); 
       await SaleType.findByIdAndUpdate(result._id, {
@@ -69,11 +72,17 @@ exports.addSaleType = async (req, res) => {
 };
 
 /* get all saleTypes */
-exports.getSaleTypes = async (res) => {
-  const saleTypes = await SaleType.find({ isDeleted: { $ne: true } }).populate({
-    path: "creator",
-    select: "name avatar"
-  });
+exports.getSaleTypes = async (req,res) => {
+  
+  const saleTypes = await SaleType.find({ isDeleted: { $ne: true } }).populate([
+    {
+      path: "translations.translation",
+      match: { language: req.locale }
+    },
+    {
+      path: "creator",
+      select: "name avatar"
+    }]);
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",

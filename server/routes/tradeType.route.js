@@ -8,6 +8,7 @@ const express = require("express");
 const tradeTypeController = require("../controllers/tradeType.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -23,7 +24,7 @@ router.post(
 );
 
 // get all tradeTypes
-router.get("/get-tradeTypes", tradeTypeController.getTradeTypes);
+router.get("/get-tradeTypes",localeMiddleware, tradeTypeController.getTradeTypes);
 
 // get a tradeType
 router.get("/get-tradeType/:id", tradeTypeController.getTradeType);

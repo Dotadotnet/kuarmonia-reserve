@@ -17,7 +17,7 @@ exports.addPropType = async (req, res, next) => {
 /* get all proptypes */
 exports.getPropTypes = async (req, res, next) => {
   try {
-    await propTypesService.getPropTypes(res);
+    await propTypesService.getPropTypes(req,res);
   } catch (error) {
     next(error);
   } finally {

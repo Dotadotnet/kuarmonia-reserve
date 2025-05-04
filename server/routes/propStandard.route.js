@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const propStandardController = require("../controllers/propStandard.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -26,7 +27,7 @@ router.post(
 );
 
 // get all propStandards
-router.get("/get-propStandards", propStandardController.getPropStandards);
+router.get("/get-propStandards",localeMiddleware, propStandardController.getPropStandards);
 
 // get a propStandard
 router.get("/get-propStandard/:id", propStandardController.getPropStandard);

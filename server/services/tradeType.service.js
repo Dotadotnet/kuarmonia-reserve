@@ -2,30 +2,34 @@ const TradeType = require("../models/tradeType.model");
 const remove = require("../utils/remove.util");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
+const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
 
 /* add new tradeType */
 exports.addTradeType = async (req, res) => {
   try {
     const { title, description, priceFields } = req.body;
-   
+
     const tradeType = new TradeType({
-      title: title,
-      description: description,
       priceFields: JSON.parse(priceFields),
       creator: req.admin._id
     });
 
     const result = await tradeType.save();
+    const slug = await generateSlug(title);
 
+    const canonicalUrl = `${defaultDomain}/property/tradetype/${slug}`;
 
     try {
       const translations = await translateFields(
         {
           title,
           description,
+          slug,
+          canonicalUrl
         },
         {
-          stringFields: ["title",  "description"],
+          stringFields: ["title", "description", "slug", "canonicalUrl"]
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -38,9 +42,9 @@ exports.addTradeType = async (req, res) => {
       );
       const savedTranslations = await Translation.insertMany(translationDocs);
       const translationInfos = savedTranslations.map((t) => ({
-        translationId: t._id,
+        translation: t._id,
         language: t.language
-      })); 
+      }));
       await TradeType.findByIdAndUpdate(result._id, {
         $set: { translations: translationInfos }
       });
@@ -70,13 +74,21 @@ exports.addTradeType = async (req, res) => {
 };
 
 /* get all tradeTypes */
-exports.getTradeTypes = async (res) => {
+exports.getTradeTypes = async (req,res) => {
   const tradeTypes = await TradeType.find({
     isDeleted: { $ne: true }
-  }).populate({
-    path: "creator",
-    select: "name avatar"
-  });
+  })
+  .sort({ createdAt: -1 })
+  .populate([
+    {
+      path: "translations.translation",
+      match: { language: req.locale }
+    },
+    {
+      path: "creator",
+      select: "name avatar"
+    }
+  ]);
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
