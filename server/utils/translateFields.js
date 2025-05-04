@@ -10,37 +10,41 @@ const splitText = (text, max = MAX_CHUNK_SIZE) => {
   }
   return parts;
 };
+
 async function translateHTMLContent(html, lang) {
   const $ = cheerio.load(html, { decodeEntities: false });
 
   async function translateNode(node) {
     if (node.type === "text") {
-      // فقط متن‌ها رو ترجمه کن
       const original = node.data.trim();
       if (original) {
         try {
-          const result = await translate(original, { to: lang });
-          node.data = result.text;
+          const chunks = splitText(original);
+          const translatedChunks = await Promise.all(
+            chunks.map(async (chunk) => {
+              const result = await translate(chunk, { to: lang });
+              return result.text;
+            })
+          );
+          node.data = translatedChunks.join(" "); // بازگشت به متن ترجمه‌شده
         } catch (err) {
           console.error("خطا در ترجمه:", err.message);
         }
       }
     } else if (node.type === "tag") {
-      // به تمام تگ‌ها وارد شو
       for (const child of node.children || []) {
-        await translateNode(child);
+        await translateNode(child); // ادامه پردازش فرزندان
       }
     }
   }
 
   const body = $("body").length ? $("body")[0] : $.root()[0];
   for (const node of body.children) {
-    await translateNode(node);
+    await translateNode(node); // ترجمه هر گره
   }
 
-  return $.html();
+  return $.html(); // HTML ترجمه‌شده
 }
-
 
 const translateFields = async (
   data,
@@ -53,10 +57,9 @@ const translateFields = async (
   languages = ["en", "tr"]
 ) => {
   const translations = {};
-
-  // زبان فارسی به عنوان منبع
   translations["fa"] = { fields: {} };
 
+  // پردازش فیلدهای مختلف
   for (const field of stringFields) {
     if (typeof data[field] === "string") {
       translations["fa"].fields[field] = data[field];
@@ -87,7 +90,7 @@ const translateFields = async (
   for (const lang of languages) {
     translations[lang] = { fields: {} };
 
-    // Simple strings
+    // ترجمه رشته‌های ساده
     for (const field of stringFields) {
       const value = data[field];
       if (typeof value === "string") {
@@ -100,7 +103,7 @@ const translateFields = async (
       }
     }
 
-    // Array of strings
+    // ترجمه آرایه‌های رشته‌ای
     for (const field of arrayStringFields) {
       const value = data[field];
       if (Array.isArray(value)) {
@@ -114,7 +117,7 @@ const translateFields = async (
       }
     }
 
-    // Array of objects
+    // ترجمه آرایه‌های شیء
     for (const field of arrayObjectFields) {
       const value = data[field];
       if (Array.isArray(value)) {
@@ -145,25 +148,18 @@ const translateFields = async (
       }
     }
 
-    // Long text fields with chunking and HTML translation
     for (const field of longTextFields) {
       const value = data[field];
       if (typeof value === "string") {
         try {
-          const chunks = splitText(value);
-          const translatedChunks = await Promise.all(
-            chunks.map(async (chunk) => {
-              const translatedChunk = await translateHTMLContent(chunk, lang); // استفاده از تابع ترجمه HTML
-              return translatedChunk;
-            })
-          );
-          translations[lang].fields[field] = translatedChunks.join(" ");
+          const translatedHTML = await translateHTMLContent(value, lang); // 👉 فقط یک بار صدا زده می‌شه
+          translations[lang].fields[field] = translatedHTML;
         } catch (err) {
           throw new Error(`خطا در ترجمه متن بلند "${field}" به ${lang}: ${err.message}`);
         }
       }
     }
-  }
+    }
 
   return translations;
 };

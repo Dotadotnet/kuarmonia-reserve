@@ -1,7 +1,4 @@
-/* internal imports */
 const Service = require("../models/service.model");
-const Product = require("../models/product.model");
-const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
 const translateFields = require("../utils/translateFields");
 const Translation = require("../models/translation.model");
@@ -234,7 +231,7 @@ exports.updateService = async (req, res) => {
 /* 📌 حذف خدمت */
 exports.deleteService = async (req, res) => {
   try {
-    const service = await Service.findByIdAndDelete(req.params.id);
+    const service = await Service.findById(req.params.id);
 
     if (!service) {
       return res.status(404).json({
@@ -243,17 +240,12 @@ exports.deleteService = async (req, res) => {
         description: "خدمت مورد نظر برای حذف یافت نشد"
       });
     }
+    const translationIds = service.translations.map((item) => item.translation);
+    await Translation.deleteMany({ _id: { $in: translationIds } });
 
-    await remove(service.logo?.public_id);
+    await remove("service", news.thumbnail.public_id);
 
-    await Product.updateMany(
-      { service: req.params.id },
-      { $unset: { service: "" } }
-    );
-    await Admin.findByIdAndUpdate(service.creator, {
-      $unset: { service: "" }
-    });
-
+   
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

@@ -20,7 +20,8 @@ const AddTag = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const AddTag = () => {
     if (addData) {
       toast.success(addData?.description, { id: "addTag" });
       setIsOpen(false);
-      resizeTo()
+      reset();
     }
 
     if (addError?.data) {
@@ -160,8 +161,8 @@ const AddTag = () => {
                         message: "توضیحات باید حداقل ۵۰ کاراکتر باشد"
                       },
                       maxLength: {
-                        value: 160,
-                        message: "توضیحات نمی‌تواند بیشتر از ۱۶۰ کاراکتر باشد"
+                        value: 300,
+                        message: "توضیحات نمی‌تواند بیشتر از 300 کاراکتر باشد"
                       }
                     })}
                   />

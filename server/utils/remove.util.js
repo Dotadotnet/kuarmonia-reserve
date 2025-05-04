@@ -1,7 +1,6 @@
 /* external import */
 const { S3Client, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 
-/* MinIO client configuration */
 const s3Client = new S3Client({
   endpoint: process.env.MINIO_ENDPOINT,
   forcePathStyle: true,
@@ -12,7 +11,6 @@ const s3Client = new S3Client({
   },
 });
 
-/* remove image from MinIO */
 async function remove(bucketName, objectName) {
   try {
     const deleteCommand = new DeleteObjectCommand({
