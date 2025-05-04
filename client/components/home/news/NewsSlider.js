@@ -15,7 +15,7 @@ const NewsSlider = ({ news }) => {
     effect="coverflow"
     grabCursor
     centeredSlides
-    initialSlide={1}
+    initialSlide={0}
     slidesPerView="auto"
     spaceBetween={80}
     modules={[EffectCoverflow, Autoplay]}

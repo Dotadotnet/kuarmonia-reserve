@@ -3,9 +3,6 @@ const { Schema } = mongoose;
 const { ObjectId } = mongoose.Schema.Types;
 const baseSchema = require("./baseSchema.model");
 const Counter = require("./counter");
-const {
-  generateSlug,
- } = require("../utils/translationUtils");
 
 const tradeTypeSchema = new Schema({
   title: { type: String, required: true },
@@ -54,10 +51,7 @@ tradeTypeSchema.pre("save", async function (next) {
       );
       this.typeId = counter.seq;
     }
- if (this.isModified("title")) {
-      this.slug = await generateSlug(this.title);
-    }
- 
+
 
     next();
   } catch (error) {
