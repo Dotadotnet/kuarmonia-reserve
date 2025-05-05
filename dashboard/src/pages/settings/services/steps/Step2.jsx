@@ -42,7 +42,7 @@ const Step2 = ({
     () =>
       fetchCategoriesData?.data?.map((category) => ({
         id: category._id,
-        value: category.translations[0].translation?.fields.title,
+        value: category?.translations?.[0]?.translation?.fields?.title || "",
         label: category.title,
         icon: category.icon
       })) || [],
