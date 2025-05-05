@@ -245,10 +245,6 @@ exports.deleteService = async (req, res) => {
     const translationIds = service.translations.map((item) => item.translation);
     await Translation.deleteMany({ _id: { $in: translationIds } });
 
-    // حذف تصویر
-    await remove("service", service.thumbnail.public_id);
-
-    // حذف خود سرویس
     await service.remove();
 
     res.status(200).json({
