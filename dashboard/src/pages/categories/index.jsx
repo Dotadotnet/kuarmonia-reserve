@@ -29,6 +29,7 @@ const ListCategory = () => {
     removeCategory,
     { isLoading: isRemoving, data: deleteCategory, error: removeError }
   ] = useDeleteCategoryMutation();
+
   useEffect(() => {
     if (isLoading) {
       toast.loading("در حال دریافت دسته بندی...", { id: "category-loading" });
@@ -89,7 +90,7 @@ const ListCategory = () => {
         ) : (
           categories.map((category) => {
             const { title, description } =
-            category.translations[0].translation.fields;
+              category?.translations[0].translation?.fields || {};
             return (
               <div
                 key={category._id}
