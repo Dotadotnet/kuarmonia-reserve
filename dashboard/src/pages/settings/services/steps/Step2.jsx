@@ -27,7 +27,12 @@ const Step2 = ({
     isLoading: fetchingTags,
     data: fetchTagsData,
     error: fetchTagsError
-  } = useGetTagsQuery();
+  } = useGetTagsQuery({
+    page: 1,
+    limit: Infinity,
+    status: "all",
+    search: ""
+  });
   const {
     isLoading: fetchingCategories,
     data: fetchCategoriesData,

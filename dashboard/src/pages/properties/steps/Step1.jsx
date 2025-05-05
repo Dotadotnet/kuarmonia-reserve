@@ -71,12 +71,13 @@ const Step1 = ({ register, errors, control }) => {
     () =>
       tradeTypesData?.data?.map((item) => ({
         id: item._id,
-        title: item.title,
+        title: item.translations[0].translation?.fields.title,
         value: item.title,
         priceFields: item.priceFields
       })) || [],
     [tradeTypesData]
   );
+  console.log("tradeTypes", tradeTypes);
   const saleTypes = useMemo(
     () =>
       saleTypesData?.data?.map((item) => ({
