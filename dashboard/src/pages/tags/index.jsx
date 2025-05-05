@@ -80,7 +80,7 @@ const Tags = () => {
             const translationItem = tag.translations.find(
               (t) => t.translation && t.language === "fa"
             ); // یا زبان موردنظر
-            const fields = translationItem?.translation?.fields;
+            const fields = translationItem?.translation?.fields ||{};
             return (
               <div
                 key={tag._id}
