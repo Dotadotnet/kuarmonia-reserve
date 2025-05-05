@@ -26,7 +26,7 @@ const ListService = () => {
     { isLoading: isRemoving, data: removeData, error: removeError }
   ] = useRemoveServiceMutation();
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
-  const members = useMemo(() => data?.data || [], [data]);
+  const services = useMemo(() => data?.data || [], [data]);
 
   useEffect(() => {
     if (isLoading) {
@@ -73,10 +73,10 @@ const ListService = () => {
         </div>
 
         {/* نمایش داده‌های دسته‌بندی‌ها */}
-        {isLoading || (members && members.length == 0) ? (
+        {isLoading || (services && services.length == 0) ? (
           <SkeletonItem repeat={5} />
         ) : (
-          members.map((service) => {
+          services.map((service) => {
             const {title,summary}=service.translations[0].translation.fields
 
             return(

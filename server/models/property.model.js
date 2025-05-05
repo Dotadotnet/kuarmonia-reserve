@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 const Counter = require("./counter");
-const Category = require("./category.model");
 const baseSchema = require("./baseSchema.model");
 const { Schema } = mongoose;
 const {
-  generateSlug,
-  generateSeoFields,
   encodeBase62
 } = require("../utils/translationUtils");
 
@@ -18,20 +15,11 @@ const propertySchema = new Schema(
       unique: true,
       default: () => `property_${new Date().getTime()}`
     },
-    title: {
-      type: String,
-      required: [true, "لطفاً عنوان ملک را وارد کنید"],
-      trim: true,
-      maxLength: [50, "عنوان نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"]
-    },
-    slug: {
-      type: String,
-      unique: true
-    },
+   
    translations: [
         {
-          translationId: {
-            type: mongoose.Schema.Types.ObjectId,
+          translation: {
+            type: ObjectId,
             ref: "Translation",
             required: true
           },
@@ -44,7 +32,7 @@ const propertySchema = new Schema(
       ],
     saleType: {
       required: [true, "لطفاً نوع فروش ملک را وارد کنید"],
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "SaleType"
     },
     socialLinks: [
@@ -62,13 +50,13 @@ const propertySchema = new Schema(
     ],
     tradeType: {
       required: [true, "لطفاً نوع معامله ملک را وارد کنید"],
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "TradeType"
     },
 
     type: {
       required: [true, "لطفاً نوع  ملک را وارد کنید"],
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "PropertyType"
     },
     unit: {
@@ -83,31 +71,16 @@ const propertySchema = new Schema(
       bedrooms: [Number],
       square: [Number]
     },
-        summary: {
-      type: String,
-      maxLength: [160, "توضیحات نمی‌تواند بیشتر از ۱۶۰ کاراکتر باشد"]
-    },
-    description: {
-      type: String,
-      required: [true, "لطفاً توضیحات ملک را وارد کنید"],
-      trim: true
-    },
+
     address: [{ type: ObjectId, ref: "Address" }],
-    ourEventSpaces: [
+    ourEventSpaces: [{ type: ObjectId, ref: "EventSpace" }],
+    amenities: [
       {
-        name: { type: String },
-        intro: { type: String },
-        description: { type: String },
-        squareFootage: { type: String },
-        spaces: [
-          {
-            public_id: { type: String, required: true },
-            alt: String,
-            caption: String
-          }
-        ]
+        type: ObjectId,
+        ref: "Amenity",
+        required: true
       }
-    ],
+    ],    
     citizenshipStatus: {
       type: String,
       enum: ["goldenVisa", "residency", "citizenship"]
@@ -135,19 +108,7 @@ const propertySchema = new Schema(
       type: ObjectId,
       ref: "Currency"
     },
-    amenities: [
-      {
-        title: {
-          type: String,
-          required: [true, " امکانات الزامی است"],
-          maxLength: [100, " امکانات نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
-        },
-        hasAmenity: {
-          type: Boolean,
-          default: false
-        }
-      }
-    ],
+    
     location: {
       type: {
         lat: { type: Number, required: true },
@@ -156,7 +117,7 @@ const propertySchema = new Schema(
       required: [true, "مکان ملک الزامی است"]
     },
     category: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "Category",
       required: [true, "دسته‌بندی پست الزامی است"]
     },
@@ -192,89 +153,49 @@ const propertySchema = new Schema(
 
     tags: [
       {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: "Tag",
         required: [true, "تگ ملک الزامی است"]
       }
     ],
-
-    metaTitle: {
-      type: String,
-      maxLength: [60, "متا تایتل نمی‌تواند بیشتر از ۶۰ کاراکتر باشد"],
-      default: ""
-    },
-    metaDescription: {
-      type: String,
-      maxLength: [160, "متا توضیحات نمی‌تواند بیشتر از ۱۶۰ کاراکتر باشد"],
-      default: ""
-    },
-    metaKeywords: {
-      type: [String],
-      default: []
-    },
-    metaRobots: {
-      type: String,
-      default: "index, follow"
-    },
-    canonicalUrl: {
-      type: String,
-      trim: true,
-      validate: {
-        validator: function (v) {
-          return /^(https?:\/\/[^\s$.?#].[^\s]*)$/.test(v);
-        },
-        message: "URL معتبر نیست"
-      }
-    },
+   
+    
     availability: {
       type: String,
       enum: ["active", "inactive"],
       default: "active"
     },
     creator: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "Admin",
       required: [true, "شناسه نویسنده الزامی است"]
     },
     bookmarkedBy: [
       {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: "User"
       }
     ],
     likes: [
       {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: "like"
       }
     ],
     dislikes: [
       {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: "like"
       }
     ],
     reviews: [
       {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: "Review"
       }
     ],
 
-    features: [
-      {
-        title: {
-          type: String,
-          required: [true, "لطفاً عنوان ویژگی را وارد کنید"],
-          maxLength: [100, "عنوان ویژگی نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
-        },
-        content: {
-          type: [String],
-          required: [true, "لطفاً محتوای ویژگی را وارد کنید"],
-          maxLength: [200, "محتوا نمی‌تواند بیشتر از ۲۰۰ کاراکتر باشد"]
-        }
-      }
-    ],
+
     views: {
       type: Number,
       default: 0,
@@ -287,22 +208,7 @@ const propertySchema = new Schema(
 const defaultDomain = process.env.API;
 
 propertySchema.pre("save", async function (next) {
-  if (this.isModified("title")) {
-    this.slug = await generateSlug(this.title);
-  }
-
-  if (!this.metaTitle || !this.metaDescription) {
-    const category = await Category.findById(this.type);
-    const seo = generateSeoFields({
-      title: this.title,
-      summary: this.summary,
-      categoryTitle: category?.title || "عمومی"
-    });
-
-    if (!this.metaTitle) this.metaTitle = seo.metaTitle;
-    if (!this.metaDescription) this.metaDescription = seo.metaDescription;
-  }
-
+  
   if (!this.propertyId) {
     const counter = await Counter.findOneAndUpdate(
       { name: "propertyId" },
@@ -315,9 +221,6 @@ propertySchema.pre("save", async function (next) {
     this.shortUrl = `${defaultDomain}/s/${base62Code}`;
   }
 
-  if (!this.canonicalUrl) {
-    this.canonicalUrl = `${defaultDomain}/news/${this.slug}`;
-  }
 
   next();
 });

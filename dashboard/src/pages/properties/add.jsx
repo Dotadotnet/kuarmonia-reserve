@@ -126,13 +126,12 @@ const Add = () => {
     formData.append("description", editorData);
     formData.append("createDate", data.createDate);
     formData.append("createDate", data.createDate);
-    console.log("data.totalFloors",data.totalFloors)
     formData.append("unit", JSON.stringify(data.unit));
     formData.append("building", JSON.stringify(data.building));
     formData.append("category", data.category.id);
     formData.append("currency", data.currency.id);
     formData.append("tradeType", data.tradeType?.id);
-    formData.append("type", data.propertyType?.id);
+    formData.append("propertyType", data.propertyType?.id);
     formData.append("saleType", data.saleType._id);
     formData.append("isFeatured", data.isFeatured);
     formData.append("citizenshipStatus", citizenshipStatus);

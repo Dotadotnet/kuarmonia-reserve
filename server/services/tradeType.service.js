@@ -89,6 +89,7 @@ exports.getTradeTypes = async (req,res) => {
       select: "name avatar"
     }
   ]);
+  console.log("tradeTypes", tradeTypes);
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",

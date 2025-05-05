@@ -13,7 +13,12 @@ const Step6 = ({ register, errors, control ,setCitizenshipStatus}) => {
   const { data: categoriesData} =
   useGetCategoriesQuery();
   const { data: tagsData, refetch: refetchTags } =
-  useGetTagsQuery();
+  useGetTagsQuery({
+    page: 1,
+    limit: Infinity,
+    status: "all",
+    search: ""
+  });
   const categories = Array.isArray(categoriesData?.data)
     ? categoriesData.data
     : [];
@@ -21,13 +26,13 @@ const Step6 = ({ register, errors, control ,setCitizenshipStatus}) => {
 
   const categoryOptions = categories?.map((category) => ({
     id: category._id,
-    value: category.title,
-    description: category.description
+    value: category.translations[0].translation?.fields.title,
+    description: category.translations[0].translation?.fields.description
   }));
   const tagsOptions = tags?.map((tag) => ({
     id: tag._id,
-    value: tag.title,
-    description: tag.description
+    value: tag.translations[0].translation?.fields.title,
+    description: tag.translations[0].translation?.fields.description
   }));
 
   return (

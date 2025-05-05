@@ -12,7 +12,7 @@ const Step1 = ({ register, errors, control }) => {
     isLoading: isLoadingTradeTypes,
     error: errorTradeTypes
   } = useGetTradeTypesQuery();
-
+console.log(tradeTypesData);
   const {
     data: saleTypesData,
     isLoading: isLoadingSaleTypes,
@@ -71,20 +71,19 @@ const Step1 = ({ register, errors, control }) => {
     () =>
       tradeTypesData?.data?.map((item) => ({
         id: item._id,
-        title: item.translations[0].translation?.fields.title,
-        value: item.title,
+        title: item?.translations[0].translation?.fields.title,
+        value: item?.translations[0].translation?.fields.title,
         priceFields: item.priceFields
       })) || [],
     [tradeTypesData]
   );
-  console.log("tradeTypes", tradeTypes);
   const saleTypes = useMemo(
     () =>
       saleTypesData?.data?.map((item) => ({
         ...item,
         id: item._id,
-        title:item.title,
-        value: item.title
+        title:item?.translations[0].translation?.fields.title,
+        value: item?.translations[0].translation?.fields.title
       })) || [],
     [saleTypesData]
   );
@@ -133,9 +132,9 @@ const Step1 = ({ register, errors, control }) => {
         control={control}
         name="tradeType"
         render={({ field: { value } }) => {
-          const selectedTrade = tradeTypes.find((t) => t._id === value?._id);
+          const selectedTrade = tradeTypes.find((t) => t.id === value?.id);
           if (!selectedTrade) return null;
-
+console.log(selectedTrade);
           return (
             <>
               {selectedTrade.priceFields.includes("deposit") && (
@@ -157,9 +156,17 @@ const Step1 = ({ register, errors, control }) => {
               {selectedTrade.priceFields.includes("totalPrice") && (
                 <InputField
                   name="totalPrice"
-                  label="ارزش کل"
+                  label="قیمت تمام شده"
                   register={register}
                   error={errors.totalPrice}
+                />
+              )}
+              {selectedTrade.priceFields.includes("propertyValue") && (
+                <InputField
+                  name="propertyValue"
+                  label="ارزش کل"
+                  register={register}
+                  error={errors.propertyValue}
                 />
               )}
               {selectedTrade.priceFields.includes("installmentAmount") && (

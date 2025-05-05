@@ -6,7 +6,11 @@ const remove = require("../utils/remove.util");
 const Address = require("../models/address.model");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
-
+const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
+const PropertyType = require("../models/propertyType.model");
+const Amenity = require("../models/amenity.model");
+const propEventSpace = require("../models/propEventSpace.model");
 exports.addProperty = async (req, res) => {
   try {
     const {
@@ -22,11 +26,12 @@ exports.addProperty = async (req, res) => {
       address,
       unit,
       building,
+      propertyType,
+      ourEventSpaces,
       ...otherInformation
     } = req.body;
     let thumbnail = null;
     let gallery = [];
-
     const parseAddress = JSON.parse(address);
     const parsedTags = JSON.parse(tags);
     const parsedFeatures = JSON.parse(features);
@@ -36,6 +41,7 @@ exports.addProperty = async (req, res) => {
     const parsedVariants = JSON.parse(variants);
     const parsedUnit = JSON.parse(unit);
     const parsedBuilding = JSON.parse(building);
+    const parsedEventSpaces = JSON.parse(ourEventSpaces);
 
     if (req.uploadedFiles["thumbnail"]?.length) {
       thumbnail = {
@@ -60,40 +66,133 @@ exports.addProperty = async (req, res) => {
       email: parseAddress.email,
       postalCode: parseAddress.postalCode
     });
+    console.log("addressProp", addressProp);
     const unitNum = {
       square: Number(parsedUnit.square),
       bathrooms: Number(parsedUnit.bathrooms),
       bedrooms: Number(parsedUnit.bedrooms),
       floor: Number(parsedUnit.floor)
     };
-
+console
     const buildingNum = {
       totalFloors: Number(parsedBuilding.totalFloors),
       totalUnits: Number(parsedBuilding.totalUnits),
       bedrooms: parsedBuilding.bedrooms.map((item) => Number(item)),
       square: parsedBuilding.square.map((item) => Number(item))
     };
-
+    for (const amenity of parsedAmenities) {
+      const amenityProp = await Amenity.create({
+        hasAmenity: amenity.hasAmenity,
+      });
+    
+      try {
+        const { title } = amenity;
+    
+        const translationsAmenity = await translateFields(
+          { title },
+          { stringFields: ["title"] }
+        );
+    
+        const translationAmenityDocs = Object.entries(translationsAmenity).map(
+          ([lang, { fields }]) => ({
+            language: lang,
+            refModel: "Amenity",
+            refId: amenityProp._id,
+            fields,
+          })
+        );
+    
+        const savedTranslationsAmenity = await Translation.insertMany(translationAmenityDocs);
+    
+        const translationInfos = savedTranslationsAmenity.map((t) => ({
+          translation: t._id,
+          language: t.language,
+        }));
+    
+        await Amenity.findByIdAndUpdate(amenityProp._id, {
+          $set: { translations: translationInfos },
+        });
+    
+      } catch (translationError) {
+        await Amenity.findByIdAndDelete(amenityProp._id);
+        return res.status(500).json({
+          acknowledgement: false,
+          message: "Translation Save Error",
+          description: "خطا در ذخیره ترجمه‌ها. ویژگی حذف شد.",
+          error: translationError.message,
+        });
+      }
+    }
+    
+    for (const space of parsedEventSpaces) {
+      const eventSpaceProp = await propEventSpace.create({
+        square: space.square,
+      });
+    
+      try {
+        const { name, intro, description } = space;
+    
+        const translationsEventSpace = await translateFields(
+          { name, intro, description },
+          {
+            stringFields: ["title", "intro", "description"],
+          }
+        );
+    
+        const translationEventSpaceDocs = Object.entries(translationsEventSpace).map(
+          ([lang, { fields }]) => ({
+            language: lang,
+            refModel: "PropEventSpace",
+            refId: eventSpaceProp._id,
+            fields,
+          })
+        );
+    
+        const savedTranslations = await Translation.insertMany(translationEventSpaceDocs);
+    
+        const translationInfos = savedTranslations.map((t) => ({
+          translation: t._id,
+          language: t.language,
+        }));
+    
+        await propEventSpace.findByIdAndUpdate(eventSpaceProp._id, {
+          $set: { translations: translationInfos },
+        });
+    
+      } catch (translationError) {
+        await propEventSpace.findByIdAndDelete(eventSpaceProp._id);
+        return res.status(500).json({
+          acknowledgement: false,
+          message: "Translation Save Error",
+          description: "خطا در ذخیره ترجمه‌ها. فضای رویداد حذف شد.",
+          error: translationError.message,
+        });
+      }
+    }
+    
     const result = await Property.create({
       ...otherInformation,
       creator: req.admin._id,
       thumbnail,
       gallery,
       tags: parsedTags,
-      title,
-      description,
-      summary,
       unit: unitNum,
       building: buildingNum,
       socialLinks: parsedSocialLinks,
       features: parsedFeatures,
-      amenities: parsedAmenities,
       location: parsedLocation,
       variants: parsedVariants,
-      address: addressProp._id
+      address: addressProp._id,
+      amenities: parsedAmenities.map((amenity) => amenity._id),
+      eventSpaces: parsedEventSpaces.map((space) => space._id),
     });
-    const { metaTitle, metaDescription } = result;
-
+    const slug = await generateSlug(title);
+    const { metaTitle, metaDescription } = generateSeoFields({
+      title,
+      summary,
+      categoryTitle: await PropertyType.findById(propertyType).title
+    });
+    const canonicalUrl = `${defaultDomain}/property/${slug}`;
     try {
       const translations = await translateFields(
         {
@@ -102,7 +201,9 @@ exports.addProperty = async (req, res) => {
           description,
           metaTitle,
           metaDescription,
-          parsedFeatures
+          parsedFeatures,
+          canonicalUrl,
+          slug
         },
         {
           stringFields: [
@@ -110,9 +211,11 @@ exports.addProperty = async (req, res) => {
             "summary",
             "description",
             "metaTitle",
-            "metaDescription"
+            "metaDescription",
+            "canonicalUrl",
+            "slug"
           ],
-          arrayObjectFields: ["parsedFeatures"]
+          arrayObjectFields: ["features"]
         }
       );
       const translationDocs = Object.entries(translations).map(

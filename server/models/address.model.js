@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Counter = require("./counter");
+const {  Types } = mongoose;
 
 const addressSchema = new mongoose.Schema(
   {
@@ -7,6 +8,7 @@ const addressSchema = new mongoose.Schema(
       type: Number,
       unique: true
     },
+    
     country: {
       type: String,
       default: "ایران",
@@ -28,19 +30,7 @@ const addressSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
-    amenities: [
-      {
-        title: {
-          type: String,
-          required: [true, " امکانات الزامی است"],
-          maxLength: [100, " امکانات نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
-        },
-        hasAmenity: {
-          type: Boolean,
-          default: false
-        }
-      }
-    ],
+   
     phone: { 
       type: String, 
       required: [true, 'لطفا شماره تماس خود را وارد کنید'],

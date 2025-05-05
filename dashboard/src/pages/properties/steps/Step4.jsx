@@ -28,9 +28,9 @@ const Step4 = ({
     () =>
       propertyTypesData?.data?.map((item) => ({
         id: item._id,
-        title: item.title,
-        value: item.title,
-        amenities: item.amenities
+        title: item?.translations[0].translation?.fields.title,
+        value: item?.translations[0].translation?.fields.title,
+        amenities: item?.translations[0].translation?.fields.amenities
       })) || [],
     [propertyTypesData]
   );
@@ -41,12 +41,12 @@ const Step4 = ({
   useEffect(() => {
     if (selectedProperty) {
       const selectedType = propertyTypes.find(
-        (type) => type.title === selectedProperty
+        (type) => type.translations[0].translation?.fields.title === selectedProperty
       );
 
       setAvailableFeatures({
-        amenities: selectedType?.amenities || [],
-        description: selectedType?.description || ""
+        amenities: selectedType?.translations[0].translation?.fields.amenities || [],
+        description: selectedType?.translations[0].translation?.fields.description || ""
       });
     }
   }, [selectedProperty, propertyTypes]);
