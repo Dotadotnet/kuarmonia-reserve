@@ -77,7 +77,7 @@ const ListService = () => {
           <SkeletonItem repeat={5} />
         ) : (
           members.map((service) => {
-            const {title,summary}=service.translations[0].translation.fields
+            const { title, summary } = service?.translations?.[0]?.translation?.fields || {};
 
             return(
             <div
