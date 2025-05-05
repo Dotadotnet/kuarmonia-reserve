@@ -244,8 +244,8 @@ exports.deleteService = async (req, res) => {
     // حذف ترجمه‌ها
     const translationIds = service.translations.map((item) => item.translation);
     await Translation.deleteMany({ _id: { $in: translationIds } });
+    await Service.findByIdAndDelete(req.params.id);
 
-    await service.remove();
 
     res.status(200).json({
       acknowledgement: true,
