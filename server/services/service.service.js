@@ -240,18 +240,24 @@ exports.deleteService = async (req, res) => {
         description: "خدمت مورد نظر برای حذف یافت نشد"
       });
     }
+
+    // حذف ترجمه‌ها
     const translationIds = service.translations.map((item) => item.translation);
     await Translation.deleteMany({ _id: { $in: translationIds } });
 
-    await remove("service", news.thumbnail.public_id);
+    // حذف تصویر
+    await remove("service", service.thumbnail.public_id);
 
-   
+    // حذف خود سرویس
+    await service.remove();
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "خدمت با موفقیت حذف شد"
     });
   } catch (error) {
+    console.log(error.message);  // اصلاح اشتباه تایپی در "console.log"
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
@@ -260,3 +266,4 @@ exports.deleteService = async (req, res) => {
     });
   }
 };
+

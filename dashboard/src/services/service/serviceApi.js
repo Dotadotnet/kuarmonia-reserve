@@ -28,7 +28,7 @@ const serviceApi = kuarmoniaApi.injectEndpoints({
 
     removeService: builder.mutation({
       query: (id) => ({
-        url: `/service/${id}`,
+        url: `/service/delete-service/${id}`,
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

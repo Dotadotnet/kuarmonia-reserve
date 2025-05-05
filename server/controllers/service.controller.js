@@ -49,7 +49,7 @@ exports.updateService= async (req, res, next) => {
 /* delete service */
 exports.deleteService= async (req, res, next) => {
   try {
-    await serviceService.deleteVenue(req, res);
+    await serviceService.deleteService(req, res);
   } catch (error) {
     next(error);
   } finally {
