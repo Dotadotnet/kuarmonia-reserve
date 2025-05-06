@@ -30,44 +30,39 @@ const CartButton = ({ property }) => {
               {property?.building?.bedrooms?.map((bedroom, index) => (
                 <span
                   key={index}
-                  className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
+                  className="text-sm flex md:flex-row flex-col justify-center items-center text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
                 >
-                  {bedroom} {t("bedroom")} 
+                  <span>{bedroom}</span>
+                  <span>{t("bedroom")}</span>
                 </span>
               ))}
             </div>
-          
           </div>
           <div className="flex items-center flex-wrap justify-start gap-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
+            <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
               <Square className="text-xl text-gray-600 dark:text-gray-400" />{" "}
               {t("squares")}
               {property?.building?.square?.map((square, index) => (
-               <span
-               key={index}
-               className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
-             >
-                  {square} {t("metr")} 
+                <span
+                  key={index}
+                  className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
+                >
+                  {square} {t("metr")}
                 </span>
               ))}
             </div>
-          
           </div>
           <div className="flex items-center flex-wrap justify-start gap-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
-          <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
+            <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
               <FaRegCalendarAlt className="text-xl text-gray-600 dark:text-gray-400" />{" "}
               {t("createDate")}
-               <span
-         
-               className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
-             >
-                  {property?.createDate} {t("year")} 
-                </span>
+              <span className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2">
+                {property?.createDate} {t("year")}
+              </span>
             </div>
-          
           </div>
         </div>
-     
+
         <div className="flex justify-start mt-4 flex-wrap items-center gap-4">
           {property?.currency &&
             property?.variants.map((variant, index) => {
