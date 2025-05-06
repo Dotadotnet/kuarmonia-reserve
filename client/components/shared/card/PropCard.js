@@ -137,7 +137,7 @@ const PropertyCard = ({ property }) => {
             </div>
           )}
         </div>
-        <div className="flex gap-x-2 justify-start pt-1 px-4 pb-10 border-t border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300">
+        <div className="flex gap-x-2 justify-start pt-1 px-4 pb-10 border-t border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 overerflow-x-auto scrollbar-hide max-w-20">
           {property?.building?.square?.map((size, index) => (
             <Tooltip
               key={index}

@@ -13,9 +13,9 @@ const PropertiesClient = ({ properties }) => {
 
   return (
 
-          <div className="h-[500px] ">
+          <div className="h-[550px] ">
             <Swiper
-              slidesPerView={1.2}
+              slidesPerView={1.1}
               breakpoints={{
                 1024: { slidesPerView: 3.5 }
               }}
@@ -24,7 +24,7 @@ const PropertiesClient = ({ properties }) => {
               freeMode={true}
               autoplay={{ delay: 4500 }}
 
-              className="w-full h-full z-50 "
+              className="w-full h-fit z-50 my-2 "
             >
               {properties && properties.length === 0
                 ? Array.from({ length: 6 }).map((_, index) => (
