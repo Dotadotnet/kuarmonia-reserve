@@ -47,8 +47,8 @@ const CartButton = ({ property }) => {
                   key={index}
                   className="text-sm flex md:flex-row flex-col text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-2 py-2 gap-x-1 ml-2"
                 >
-                  <span >{square}</span>
-                  <span className="text-xs md:text-base">{t("metr")}</span>                  
+                  <span>{square}</span>
+                  <span className="text-xs md:text-base">{t("metr")}</span>
                 </span>
               ))}
             </div>
