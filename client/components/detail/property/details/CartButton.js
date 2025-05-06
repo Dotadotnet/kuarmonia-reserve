@@ -45,9 +45,10 @@ const CartButton = ({ property }) => {
               {property?.building?.square?.map((square, index) => (
                 <span
                   key={index}
-                  className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
+                  className="text-sm flex md:flex-row flex-col text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
                 >
-                  {square} {t("metr")}
+                  <span>{square}</span>
+                  <span>{t("metr")}</span>                  
                 </span>
               ))}
             </div>
