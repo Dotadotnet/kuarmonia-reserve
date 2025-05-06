@@ -5,7 +5,7 @@ const Step3 = ({ register, errors }) => {
   const [buildingBedrooms, setBuildingBedrooms] = useState([""]);
   const [buildingSquares, setBuildingSquares] = useState([""]);
   return (
-    <div className="w-full max-h-128 flex flex-col gap-y-4">
+    <div className="w-full max-h-[500px] overflow-y-auto flex flex-col gap-y-4">
       {/* Tabs */}
       <div className="flex gap-x-4 mb-4">
         <button

@@ -122,7 +122,7 @@ const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
           {...register("createDate", {
             required: "عمر ساخت الزامی است",
             pattern: {
-              value: /^\d{1,2}$/, // فقط سال 4 رقمی را قبول می‌کند
+              value: /^\d{1,2}$/, 
               message: "لطفاً سال را به درستی وارد کنید"
             }
           })}
