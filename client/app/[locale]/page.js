@@ -22,7 +22,7 @@ export default async function Home({ params }) {
       <Hero  />
       <KeyServices params={params}   />
       <News params={params}  />
-      <Properties />
+      <Properties params={params} />
       <Gallery />
       <Testimonials />
       <FAQ />

@@ -2,42 +2,26 @@ import Main from "@/layouts/Main";
 
 import PropertyDetail from "@/components/shared/content/PropertyContent";
 
-
-export async function generateMetadata( { params, searchParams }, parent) {
-  
-  // read route params
-  const { id } = await params
-
-  // fetch data
-
-  const res = await fetch(process.env.NEXT_PUBLIC_API + '/property/get-by-id/' + id);
-  const res_decoded = await res.json();
-  const data = res_decoded.data;
-
-  // optionally access and extend (rather than replace) parent metadata
-
-  return {
-    title: data.title,
-    openGraph: {
-      images: [data.thumbnail.url],
-    },
-  }
-}
-
-const Property = async ({ params }) => {
-  const { id, slug } = params;
-  const res = await fetch(process.env.NEXT_PUBLIC_API + '/property/get-by-id/' + id);
-  const res_decoded = await res.json();
-  const data = res_decoded.data;
-
+const Property = async ({ params  }) => {
+  const { id,locale } = params;
+  console.log(id,locale);
+  const api = `${process.env.NEXT_PUBLIC_API}/property/get-property/${id}`;
+  console.log(api);
+  const response = await fetch(api, {
+    cache: "no-store",
+    next: { tags: ["property", `property/${id}`] },
+    headers: {
+      "Accept-Language": locale
+    }
+  });
+  const res = await response.json();
+  const property = res.data;
+  console.log("property", property);
   return (
     <Main>
       <div className="pt-28"></div>
-      <PropertyDetail
-        property={data}
-      />
+      <PropertyDetail property={property} />
     </Main>
-
   );
 };
 

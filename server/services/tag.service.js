@@ -96,7 +96,7 @@ exports.addTag = async (req, res) => {
 
 /* get all tags */
 exports.getTags = async (req, res) => {
-  console.log("req.query", req.query);
+  console.log("req.locale", req.locale);
   const { page = 1, limit = 5, search = "" } = req.query;
   const skip = (page - 1) * limit;
 
@@ -118,6 +118,12 @@ exports.getTags = async (req, res) => {
         select: "name avatar"
       }
     ]);
+    tags.forEach((service) => {
+      console.log("Service ID:", service._id);
+      service.translations.forEach((t) => {
+        console.log("Translation:", t.translation);
+      });
+    });
     const total = await Tag.countDocuments(searchQuery);
 
   res.status(200).json({

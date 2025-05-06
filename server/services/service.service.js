@@ -112,24 +112,24 @@ exports.addService = async (req, res) => {
 /* 📌 دریافت همه خدمت */
 exports.getAllService = async (req, res) => {
   try {
-    const service = await Service.find()
+    const services = await Service.find()
       .select(" serviceId icon _id")
       .populate([
         {
           path: "translations.translation",
-          match: { language: req.locale },
-
+          match: { language: req.locale }
         },
         {
           path: "category",
           select: "title _id icon"
         }
       ]);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست خدمت با موفقیت دریافت شد",
-      data: service
+      data: services
     });
   } catch (error) {
     console.log(error);
@@ -145,7 +145,6 @@ exports.getAllService = async (req, res) => {
 /* 📌 دریافت یک خدمت */
 exports.getService = async (req, res) => {
   try {
-
     const serviceId = parseInt(req.params.id, 10);
     const service = await Service.findOne({ serviceId }).populate([
       {
@@ -246,14 +245,13 @@ exports.deleteService = async (req, res) => {
     await Translation.deleteMany({ _id: { $in: translationIds } });
     await Service.findByIdAndDelete(req.params.id);
 
-
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "خدمت با موفقیت حذف شد"
     });
   } catch (error) {
-    console.log(error.message);  // اصلاح اشتباه تایپی در "console.log"
+    console.log(error.message); // اصلاح اشتباه تایپی در "console.log"
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
@@ -262,4 +260,3 @@ exports.deleteService = async (req, res) => {
     });
   }
 };
-

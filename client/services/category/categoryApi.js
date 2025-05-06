@@ -18,6 +18,10 @@ const categoryApi = kuarmoniaApi.injectEndpoints({
       query: ({ page = 1, limit = 7, search = "" } = {}) => ({
         url: `/category/?page=${page}&limit=${limit}&search=${search}`,
         method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "x-lang": "fa"
+        }
       }),
 
       providesTags: ["Category"],

@@ -78,7 +78,6 @@ const ListService = () => {
         ) : (
           services.map((service) => {
             const { title, summary } = service?.translations?.[0]?.translation?.fields || {};
-console.log(service)
             return(
             <div
               key={service._id}

@@ -41,7 +41,7 @@ const KeyServices = async ({ params }) => {
               (t) => t.translation?.language === locale
             ) || service.translations[0]; 
 
-          const { title, slug } = matchedTranslation.translation.fields;
+          const { title, slug } = matchedTranslation.translation?.fields;
 
           return (
             <Link

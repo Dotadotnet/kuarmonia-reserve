@@ -4,10 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import useGetCountryLatLng from "@/hooks/useGetCountryLatLng";
-import dynamic from "next/dynamic";
 
-// ایمپورت داینامیک برای جلوگیری از خطای SSR
-const Search = dynamic(() => import("react-leaflet-search"), { ssr: false });
 
 const GeoLocation = ({ location, zoom, height, setSelectedLocation }) => {
   const latlng = useGetCountryLatLng(location);
@@ -44,7 +41,7 @@ const GeoLocation = ({ location, zoom, height, setSelectedLocation }) => {
       zoom={zoom}
       scrollWheelZoom={false}
       style={{ height: height }}
-      className="w-full rounded overflow-hidden !z-40"
+      className="w-full rounded overflow-hidden"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -52,7 +49,6 @@ const GeoLocation = ({ location, zoom, height, setSelectedLocation }) => {
       />
 
       
-      {/* نشانگر مکان انتخاب‌شده */}
       <Marker position={markerPosition}>
         <Popup>مکان انتخاب‌شده</Popup>
       </Marker>

@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 
 const Left = ({ property, isLoading }) => {
+    const locale = useLocale();
+      const t = useTranslations("Property")
+  
   const [mainImage, setMainImage] = useState("");
 
   useEffect(() => {
@@ -10,7 +15,6 @@ const Left = ({ property, isLoading }) => {
     }
   }, [property?.gallery]);
 
-  // تابع تشخیص نوع فایل (تصویر یا ویدئو)
   const isVideo = (url) => {
     return (
       url?.includes(".mp4") || url?.includes(".mov") || url?.includes(".avi")
@@ -32,9 +36,9 @@ const Left = ({ property, isLoading }) => {
         : "bg-transparent text-transparent"
     }`}
           >
-            {property?.citizenshipStatus === "citizenship" && "اخذ شهروندی"}
-            {property?.citizenshipStatus === "residency" && "اخذ اقامت"}
-            {property?.citizenshipStatus === "goldenVisa" && "اخذ ویزای طلایی"}
+            {property?.citizenshipStatus === "citizenship" && t("citizenship")}
+            {property?.citizenshipStatus === "residency" && t("residency")}
+            {property?.citizenshipStatus === "goldenVisa" && t("goldenVisa")}
           </span>
         </div>
 

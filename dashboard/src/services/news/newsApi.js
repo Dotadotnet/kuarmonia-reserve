@@ -21,7 +21,10 @@ const newsApi = kuarmoniaApi.injectEndpoints({
       query: () => ({
         url: `/news/get-news`,
         method: "GET",
-       
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "Accept-Language": "fa" 
+        }
       }),
       providesTags: ["News"],
     }),

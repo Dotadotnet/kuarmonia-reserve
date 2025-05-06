@@ -1,8 +1,13 @@
 module.exports = (req, res, next) => {
-  // چک کردن هدر "accept-language" و گرفتن فقط بخش زبان
-  const locale = req.headers["accept-language"]
-      ? req.headers["accept-language"].split(",")[0].split("-")[0] // گرفتن فقط زبان
-      : req.cookies["NEXT_LOCALE"] || "fa"; // اگر هدر نبود، از کوکی یا پیش‌فرض استفاده کن
+  let locale =
+    req.headers["x-lang"] ||
+    (req.headers["accept-language"]
+      ? req.headers["accept-language"].split(",")[0].split("-")[0]
+      : "fa");
+
+  console.log("req.headers[x-lang]:", req.headers["x-lang"]);
+  console.log("locale:", locale);
+
   req.locale = locale;
   next();
 };

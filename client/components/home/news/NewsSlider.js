@@ -45,7 +45,7 @@ const NewsSlider = ({ news }) => {
   >
       {news && news.length === 0
         ? Array.from({ length: 4 }).map((_, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} className="!w-70 md:!w-[450px]">
               <NewsCardSkeleton />
             </SwiperSlide>
           ))

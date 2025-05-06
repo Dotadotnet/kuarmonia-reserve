@@ -20,10 +20,15 @@ const propertyApi = kuarmoniaApi.injectEndpoints({
     getProperties: builder.query({
       query: () => ({
         url: "/property/get-properties",
-        method: "GET"
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "Accept-Language": "fa" // اضافه کردن زبان فارسی
+        }
       }),
       providesTags: ["Property"]
     }),
+    
 
 
     // update property

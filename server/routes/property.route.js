@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const propertyController = require("../controllers/property.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -30,10 +31,10 @@ router.post(
 
 
 // get all propertys
-router.get("/get-properties", propertyController.getProperties);
+router.get("/get-properties",localeMiddleware, propertyController.getProperties);
 
 // get a property
-router.get("/get-property/:id", propertyController.getProperty);
+router.get("/get-property/:id",localeMiddleware, propertyController.getProperty);
 
 // update property
 router.get("/get-by-id/:id", propertyController.getPropertyById);

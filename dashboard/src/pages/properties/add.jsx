@@ -125,7 +125,6 @@ const Add = () => {
     formData.append("summary", data.summary);
     formData.append("description", editorData);
     formData.append("createDate", data.createDate);
-    formData.append("createDate", data.createDate);
     formData.append("unit", JSON.stringify(data.unit));
     formData.append("building", JSON.stringify(data.building));
     formData.append("category", data.category.id);
@@ -163,6 +162,10 @@ const Add = () => {
       {
         type: "totalPrice",
         value: data.totalPrice
+      },
+      {
+        type: "propertyValue",
+        value: data.propertyValue
       },
       {
         type: "installmentAmount",
@@ -204,7 +207,7 @@ const Add = () => {
       console.log(`${pair[0]}:`, pair[1]);
     }
 
-    addProperty(formData);
+     addProperty(formData);
   };
 
   const handleNext = async () => {

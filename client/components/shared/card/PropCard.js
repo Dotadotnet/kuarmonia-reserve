@@ -1,15 +1,15 @@
 import React from "react";
-import { toPersianNumbers } from "@/utils/convertNumbers";
 import Square from "@/components/icons/Square";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  FaBed,
-  FaRegCalendarAlt,
-  FaBath
-} from "react-icons/fa";
+import { useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+import { FaBed, FaRegCalendarAlt, FaBath } from "react-icons/fa";
 
 const PropertyCard = ({ property }) => {
+  const locale = useLocale();
+  const t = useTranslations("Property");
+
   let updatedFinalPrice = property?.finalPrice;
   let updatedFinalPriceLabel = property?.finalPriceLabel;
   if (property?.tradeType && property?.variants) {
@@ -40,11 +40,27 @@ const PropertyCard = ({ property }) => {
       updatedFinalPrice = installmentAmount;
     }
   }
+  console.log("property", property);
+  const { title, summary, slug } =
+    property?.translations?.find((t) => t.translation?.language === locale)
+      ?.translation?.fields || {};
+  const typeTitle = property?.type?.translations?.find(
+    (t) => t.translation?.language === locale
+  )?.translation?.fields?.title;
 
+  const saleTypeTitle = property?.saleType?.translations?.find(
+    (t) => t.translation?.language === locale
+  )?.translation?.fields?.title;
+
+  const tradeTypeTitle = property?.tradeType?.translations?.find(
+    (t) => t.translation?.language === locale
+  )?.translation?.fields?.title;
+  console.log(title, summary, slug, typeTitle, saleTypeTitle, tradeTypeTitle);
+  console.log(property?.propertyId);
   return (
     <Link
       key={property?._id}
-      href={`/property/${property?.propertyId}/${property?.slug.replaceAll(" ","-")}`}
+      href={`/property/${property?.propertyId}/${slug}`}
       className="max-w-sm w-full  z-49 "
     >
       <div className="bg-white dark:bg-gray-800  relative   shadow-xl rounded overflow-hidden ">
@@ -61,9 +77,9 @@ const PropertyCard = ({ property }) => {
                 : "bg-transparent text-transparent"
             }`}
           >
-            {property?.citizenshipStatus === "citizenship" && "اخذ شهروندی"}
-            {property?.citizenshipStatus === "residency" && "اخذ اقامت"}
-            {property?.citizenshipStatus === "goldenVisa" && "اخذ ویزای طلایی"}
+            {property?.citizenshipStatus === "citizenship" && t("citizenship")}
+            {property?.citizenshipStatus === "residency" && t("residency")}
+            {property?.citizenshipStatus === "goldenVisa" && t("goldenVisa")}
           </span>
         </div>
         <div className="bg-cover w-full relative bg-center h-56">
@@ -76,20 +92,21 @@ const PropertyCard = ({ property }) => {
           />
         </div>
         <div className="flex w-full gap-1 pt-2 px-2 justify-between h-fit">
-          {property?.type && (
+          {typeTitle && (
             <Badge className="text-green-800 dark:text-green-100 bg-green-100 dark:bg-green-600 flex flex-row items-center gap-x-1">
-              {property?.type?.title}
+              {typeTitle}
             </Badge>
           )}
           <div className="flex gap-2">
-            {property?.saleType && (
+            {saleTypeTitle && (
               <Badge className="text-rose-800 dark:text-rose-100 bg-rose-100 dark:bg-rose-600 flex flex-row items-center gap-x-1">
-                {property?.saleType.title}
+                {saleTypeTitle}
               </Badge>
             )}
-            {property?.tradeType && (
+
+            {tradeTypeTitle && (
               <Badge className="text-cyan-800 dark:text-cyan-100 bg-cyan-100 dark:bg-cyan-600 flex flex-row items-center gap-x-1">
-                {property?.tradeType.title}
+                {tradeTypeTitle}
               </Badge>
             )}
           </div>
@@ -97,39 +114,40 @@ const PropertyCard = ({ property }) => {
         <div className="p-4 text-right">
           <div className="flex flex-col  justify-between">
             <h3 className=" tracking-wide text-2xl font-nozha text-gray-900 dark:text-gray-100">
-              {toPersianNumbers(property?.title)}
+              {title}
             </h3>
             <h4 className="text-gray-700 text-justify dark:text-gray-300 ">
-              {property?.summary}
+              {summary}
             </h4>
           </div>
           {updatedFinalPrice && property?.currency && (
-            <>
+            <div className="flex items-center justify-start">
               <span className="text-3xl font-extrabold font-nozha text-blue-800 dark:text-blue-300">
                 {" "}
-                {toPersianNumbers(
-                  Number(updatedFinalPrice).toLocaleString("fa-IR")
-                )}
+                {updatedFinalPrice}
               </span>
-              <span className="text-gray-500 dark:text-gray-300">
-                {property?.currency}
-              </span>
-              <strong className="text-blue-600 dark:text-blue-400 text-sm">
-                {updatedFinalPriceLabel}
-              </strong>
-            </>
+              <div className="flex items-center gap-x-1 w-6 h-6">
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: property?.currency.symbol
+                  }}
+                  className="text-gray-500 dark:text-gray-300"
+                ></span>
+              </div>
+            </div>
           )}
         </div>
         <div className="flex gap-x-2 justify-start pt-1 px-4 pb-10 border-t border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300">
-          {property?.square && (
+          {property?.building?.square?.map((size, index) => (
             <Tooltip
-              data-tooltip-target="square "
+              key={index}
+              data-tooltip-target={`square-${index}`}
               aria-label="مساحت"
-              title="مساحت"
-              value={property.square}
-              icon={<Square className="h-6 w-6 " />}
+              title={`مساحت واحد ${index + 1}`}
+              value={size}
+              icon={<Square className="h-6 w-6" />}
             />
-          )}
+          ))}
 
           {property?.createDate && (
             <Tooltip
@@ -140,15 +158,16 @@ const PropertyCard = ({ property }) => {
               icon={<FaRegCalendarAlt className="h-6 w-6 " />}
             />
           )}
-          {property?.bedrooms > 0 && (
+          {property?.building?.bedrooms?.map((bedroom, index) => (
             <Tooltip
-              data-tooltip-target="bedrooms"
+              key={index}
+              data-tooltip-target={`bedroom-${index}`}
               aria-label="اتاق"
-              title="اتاق"
-              value={property?.bedrooms}
-              icon={<FaBed className="h-6 w-6 " />}
+              title={`اتاق ${index + 1}`}
+              value={bedroom}
+              icon={<FaBed className="h-6 w-6" />}
             />
-          )}
+          ))}
 
           {property?.bathrooms > 0 && (
             <Tooltip
@@ -184,7 +203,7 @@ function Tooltip({ children, value, icon, ...props }) {
     <span {...props} className="custom-button !p-3 relative">
       {icon}
       <div
-        className={`absolute  top-full left-1/2 -translate-x-1/2 mt-2 !px-4 bg-green-300 text-green-500 text-sm rounded shadow-lg transition-opacity duration-300  whitespace-nowrap !py-0 cursor-pointer  border border-green-500/5 dark:border-blue-500/5 bg-green-500/5 dark:bg-blue-500/5 p-2  dark:text-blue-500  hover:border-green-500/10 dark:hover:border-blue-500/10 hover:bg-green-500/10 dark:hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70
+        className={`absolute  top-full left-1/2 -translate-x-1/2 mt-2 !px-4  text-green-500 text-sm rounded transition-opacity duration-300  whitespace-nowrap !py-0 cursor-pointer  border border-green-500/5 dark:border-blue-500/5 bg-green-500/5 dark:bg-blue-500/5 p-2  dark:text-blue-500  hover:border-green-500/10 dark:hover:border-blue-500/10 hover:bg-green-500/10 dark:hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70
         `}
       >
         {value}

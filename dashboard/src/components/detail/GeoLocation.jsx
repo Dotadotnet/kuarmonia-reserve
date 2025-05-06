@@ -53,7 +53,7 @@ const GeoLocation = ({ location, zoom, height, setSelectedLocation }) => {
       zoom={zoom}
       scrollWheelZoom={false}
       style={{ height: height }}
-      className={"w-full rounded overflow-hidden z-40"}
+      className={"w-full rounded overflow-hidden !z-50"}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

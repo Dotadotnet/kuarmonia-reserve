@@ -37,7 +37,7 @@ const Step4 = ({
   const propertyTypes = propertyTypesData?.data || [];
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [availableFeatures, setAvailableFeatures] = useState([]);
-
+console.log("propertyTypes", propertyTypes);
   useEffect(() => {
     if (selectedProperty) {
       const selectedType = propertyTypes.find(

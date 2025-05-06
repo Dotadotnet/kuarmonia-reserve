@@ -5,11 +5,16 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
-const PropertiesServer = async () => {
+const PropertiesServer = async ({ params }) => {
+  const locale = params.locale;
+
   const api = `${process.env.NEXT_PUBLIC_API}/property/get-properties`;
   const response = await fetch(api, {
     cache: "no-store",
-    next: { tags: ["properties"] }
+    next: { tags: ["properties"] },
+    headers: {
+      "Accept-Language": locale
+    }
   });
   const res = await response.json();
   const properties = res.data;

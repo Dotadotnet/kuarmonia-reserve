@@ -9,7 +9,6 @@ export async function generateMetadata(
   parent
 ) {
   
-  // read route params
   const { id } = await params
 
   // fetch data

@@ -14,12 +14,10 @@ const amenitySchema = new Schema(
         translation: {
           type: Types.ObjectId,
           ref: "Translation",
-          required: true
         },
         language: {
           type: String,
-          enum: ["en", "tr", "ar"],
-          required: true
+          enum: ["en", "tr", "fa"],
         }
       }
     ]

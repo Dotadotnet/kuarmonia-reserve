@@ -4,58 +4,127 @@ import Bag from "@/components/icons/Bag";
 import Spinner from "@/components/shared/spinner/Spinner";
 import { useAddToCartMutation } from "@/services/cart/cartApi";
 import { toast } from "react-hot-toast";
+import { useTranslations } from "next-intl";
+import { FaBed, FaRegCalendarAlt, FaBath } from "react-icons/fa";
+import Square from "@/components/icons/Square";
 
 const CartButton = ({ property }) => {
+  const t = useTranslations("Property");
+
   const [
     addToCart,
     { isLoading: addingToCart, data: cartData, error: cartError }
   ] = useAddToCartMutation();
 
-  // تغییر واحد زمانی که کاربر روی دکمه کلیک می‌کند
   const handleUnitClick = (unit) => {};
-
+  console.log("property?.building", property?.building);
   return (
     <section className="flex flex-row items-center gap-x-4">
       <div className="flex-flex-col gap-y-8">
-        <div className="flex flex-col gap-y-12">
-          <div className="flex gap-x-2 items-center"></div>
+        <div className="flex flex-col gap-y-3">
+          <div className="flex items-center flex-wrap justify-start gap-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
+            <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
+              <FaBed className="text-xl text-gray-600 dark:text-gray-400" />{" "}
+              {/* اضافه کردن آیکون */}
+              {t("bedrooms")}
+              {property?.building?.bedrooms?.map((bedroom, index) => (
+                <span
+                  key={index}
+                  className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
+                >
+                  {bedroom} {t("bedroom")} 
+                </span>
+              ))}
+            </div>
+          
+          </div>
+          <div className="flex items-center flex-wrap justify-start gap-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
+              <Square className="text-xl text-gray-600 dark:text-gray-400" />{" "}
+              {t("squares")}
+              {property?.building?.square?.map((square, index) => (
+               <span
+               key={index}
+               className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
+             >
+                  {square} {t("metr")} 
+                </span>
+              ))}
+            </div>
+          
+          </div>
+          <div className="flex items-center flex-wrap justify-start gap-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
+              <FaRegCalendarAlt className="text-xl text-gray-600 dark:text-gray-400" />{" "}
+              {t("createDate")}
+               <span
+         
+               className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2"
+             >
+                  {property?.createDate} {t("year")} 
+                </span>
+            </div>
+          
+          </div>
         </div>
-        <div className="flex justify-center mt-4 items-center gap-4">
+     
+        <div className="flex justify-start mt-4 flex-wrap items-center gap-4">
           {property?.currency &&
             property?.variants.map((variant, index) => {
-              if (!variant?.value) return null; // اگر مقدار نیست، چیزی نمایش داده نشه
+              if (!variant?.value) return null;
 
               let label = "";
               switch (variant.type) {
                 case "deposit":
-                  label = "ودیعه";
+                  label = t("deposit");
                   break;
                 case "monthlyRent":
-                  label = "برای هر ماه";
+                  label = t("monthlyRent");
                   break;
                 case "totalPrice":
-                  label = "ارزش کل";
+                  label = t("totalPrice");
                   break;
                 case "installmentAmount":
-                  label = "مبلغ قسط";
+                  label = t("installmentAmount");
                   break;
                 case "installments":
-                  label = "تعداد اقساط";
+                  label = t("installments");
+                  break;
+                case "propertyValue":
+                  label = t("propertyValue");
                   break;
                 default:
-                  label = "مقدار نامشخص";
+                  label = t("totalPrice");
               }
 
               return (
-                <div key={property._id} className="flex justify-center gap-x-2 items-center">
-                  <span>{property.currency}</span>
-                  <p
-                    key={index}
-                    className=" text-xl md:text-4xl text-gray-900 dark:text-gray-100"
-                  >
-                    {` ${variant?.value?.toLocaleString("fa-IR")}  `}
-                  </p>
-                  <span className="text-xl ">{label}</span>
+                <div
+                  key={index}
+                  className="flex items-center justify-between gap-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700"
+                >
+                  <div className="flex justify-center items-center">
+                    <div className="w-7 h-7 flex items-center justify-center text-lg text-gray-700 dark:text-gray-200">
+                      {property.currency?.symbol ? (
+                        <span
+                          className="w-6 h-6"
+                          dangerouslySetInnerHTML={{
+                            __html: property.currency.symbol
+                          }}
+                        />
+                      ) : (
+                        <span className="text-sm">
+                          {property.currency?.title}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xl  text-gray-900 dark:text-gray-100">
+                      {variant.value}
+                    </p>
+                  </div>
+
+                  <span className="text-sm text-gray-600 dark:text-gray-300">
+                    {label}
+                  </span>
                 </div>
               );
             })}
@@ -70,7 +139,10 @@ const CartButton = ({ property }) => {
             ) : (
               <>
                 <Bag />
-                <span className="flex  text-white">درخواست مشاروه </span>
+                <span className="flex  text-white">
+                  {" "}
+                  {t("request-Consultation")}{" "}
+                </span>
               </>
             )}
           </button>

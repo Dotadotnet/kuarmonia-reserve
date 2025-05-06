@@ -3,8 +3,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const kuarmoniaApi = createApi({
   reducerPath: "kuarmoniaApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: import.meta.env.VITE_BASE_URL
+    baseUrl: import.meta.env.VITE_BASE_URL,
+    prepareHeaders: (headers, { getState }) => {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      headers.set("x-lang", "fa"); // ⬅️ اینو اضافه کن
+      return headers;
+    },
   }),
+   
   tagTypes: [
     "User",
     "Admin",

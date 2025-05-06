@@ -99,7 +99,7 @@
     "98": "Callie West",
     "99": "Bu ekiple tören çok unutulmaz ve mükemmeldi. Onların hizmetlerini kullanmanızı öneririm.",
     "100": "Daha Fazla Görüntüle",
-    "101":"Gayrimenkul alımı ve yatırım için "
+    "101": "Gayrimenkul alımı ve yatırım için "
   },
   "ForAll": {
     "1": "Ev",
@@ -209,5 +209,32 @@
     "14": "Hesap Doğrulama",
     "15": "Kodu almadınız mı?",
     "16": "Bir yeniden kod gönder"
+  },
+  "Property": {
+    "review-property": "Gayrimenkul İncelemesi",
+    "amenities": "Gayrimenkul Olanakları",
+    "features": "Gayrimenkul Özellikleri",
+    "location": "Gayrimenkul Yeri",
+    "request-Consultation": "İlk Danışma Talep Et",
+    "review": "Fikirleriniz veya önerileriniz varsa, bizimle paylaşmanızdan memnuniyet duyarız.",
+    "comment": "Yorumlar",
+    "add-comment": "Yorum Ekle",
+    "rating": "Puanlama",
+    "no-reviews": "Henüz inceleme yok",
+    "citizenship": "Vatandaşlık",
+    "residency": "İkamet",
+    "goldenVisa": " Altın Vize",
+    "deposit": "Depozito",
+    "monthlyRent": "Aylık Kira",
+    "totalPrice": "Toplam Fiyat",
+    "installmentAmount": "Taksit Tutarı",
+    "installments": "Taksitler",
+    "propertyValue": "Mülk Değeri",
+    "bedrooms": "Yatak odaları",
+    "bedroom": "Yatak odası",
+    "squares": " Kareler",
+    "metr": " metir",
+    "createDate": " Oluşturma Tarihi",
+    "year": "Yıl"
   }
 }

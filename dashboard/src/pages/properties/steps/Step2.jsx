@@ -115,7 +115,7 @@ const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
       <label htmlFor="createDate" className="flex flex-col gap-y-2 w-full">
        عمر ساختمان
         <input
-          type="text"
+          type="number"
           name="createDate"
           id="createDate"
           className="rounded p-2 border w-full border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"

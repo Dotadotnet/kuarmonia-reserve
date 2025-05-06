@@ -99,7 +99,7 @@
     "98": "Calls West",
     "99": "The ceremony with this team was very memorable and perfect. ",
     "100": "View more",
-    "101":"The best for buying property and investing"
+    "101": "The best for buying property and investing"
   },
   "ForAll": {
     "1": "Home",
@@ -124,9 +124,9 @@
     "20": "Support",
     "21": "Legal notification",
     "22": "Frequently asked questions",
-    "23": "All rights of this work belong to the Carmenia Collection.",
+    "23": "All rights of this work belong to the kuarmonia Collection.",
     "24": "Designed and developed by Majid Pashaei",
-    "25": "We help you at all stages of immigration at ** Carmenia Immigration Company. ",
+    "25": "We help you at all stages of immigration at  kuarmonia Immigration Company. ",
     "26": "Visa",
     "27": "MasterCard",
     "28": "Pipal",
@@ -209,5 +209,33 @@
     "14": "Account verification",
     "15": "Didn't get the code?",
     "16": "Send a re -code"
+  },
+  "Property": {
+    "review-property": "Review Property",
+    "amenities": "Amenities",
+    "features": "Features",
+    "location": "Location",
+    "request-Consultation": "Request",
+    "review": "If you have any ideas or suggestions, we’d be happy to hear from you.",
+    "comment": "Comments",
+    "add-comment": "Add Comment",
+    "rating": "Rating",
+    "no-reviews": "No Review",
+    "citizenship": "Citizenship",
+    "residency": "Residency",
+    "goldenVisa": "Golden Visa",
+    "deposit": "Deposit",
+    "monthlyRent": "Monthly Rent",
+    "totalPrice": "Total Price",
+    "installmentAmount": "Installment Amount",
+    "installments": "Installments",
+    "propertyValue": "Property Value",
+    "bedrooms": "Bedrooms",
+    "bedroom": "Bedroom",
+    "squares": "Squares",
+    "metr": "metr",
+    "createDate": "Create Date",
+    "year": "Year"
+
   }
 }

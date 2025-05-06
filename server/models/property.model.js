@@ -10,10 +10,8 @@ const {
 const propertySchema = new Schema(
   {
     propertyId: {
-      type: String,
-      required: true,
+      type: Number,
       unique: true,
-      default: () => `property_${new Date().getTime()}`
     },
    
    translations: [
@@ -25,7 +23,7 @@ const propertySchema = new Schema(
           },
           language: {
             type: String,
-            enum: ["en", "tr", "ar"],
+            enum: ["fa", "en", "tr"],
             required: true
           }
         }
@@ -39,12 +37,10 @@ const propertySchema = new Schema(
       {
         link: {
           type: String,
-          required: [true, "آدرس شبکه اجتماعی الزامی است"]
         },
         network: {
           type: ObjectId,
           ref: "SocialLink",
-          required: [true, "نوع شبکه اجتماعی الزامی است"]
         }
       }
     ],
@@ -53,7 +49,17 @@ const propertySchema = new Schema(
       type: ObjectId,
       ref: "TradeType"
     },
-
+    createDate: {
+      type: Number,
+      required: true,
+      min: 0,
+      max: 100 // به دلخواه
+    },    
+    type: {
+      required: [true, "لطفاً نوع  ملک را وارد کنید"],
+      type: ObjectId,
+      ref: "PropertyType"
+    },
     type: {
       required: [true, "لطفاً نوع  ملک را وارد کنید"],
       type: ObjectId,
@@ -85,25 +91,31 @@ const propertySchema = new Schema(
       type: String,
       enum: ["goldenVisa", "residency", "citizenship"]
     },
-    variants: [
-      {
-        type: {
-          type: String,
-          enum: [
-            "deposit",
-            "monthlyRent",
-            "totalPrice",
-            "installmentAmount",
-            "installments"
-          ],
-          required: true
-        },
-        value: {
-          type: Number,
-          required: true
+    variants: {
+      type: [
+        {
+          type: {
+            type: String,
+            enum: [
+              "deposit",
+              "monthlyRent",
+              "totalPrice",
+              "installmentAmount",
+              "installments",
+              "propertyValue",
+            ],
+            required: true
+          },
+          value: {
+            type: Number,
+            required: true
+          }
         }
-      }
-    ],
+      ],
+      required: true,
+      validate: [v => Array.isArray(v) && v.length > 0, 'حداقل یک مورد در variants باید وجود داشته باشد']
+    }
+,    
     currency: {
       type: ObjectId,
       ref: "Currency"
@@ -158,7 +170,10 @@ const propertySchema = new Schema(
         required: [true, "تگ ملک الزامی است"]
       }
     ],
-   
+    shortUrl: {
+      type: String,
+      unique: true
+    },
     
     availability: {
       type: String,
@@ -218,7 +233,7 @@ propertySchema.pre("save", async function (next) {
     this.propertyId = counter.seq;
 
     const base62Code = encodeBase62(this.propertyId);
-    this.shortUrl = `${defaultDomain}/s/${base62Code}`;
+    this.shortUrl = `${defaultDomain}/n/${base62Code}`;
   }
 
 

@@ -100,9 +100,7 @@ exports.getCategories = async (req, res) => {
       ]);
     } catch (error) {
       console.error("Error populating categories:", error);
-      // اگر نیاز به ارسال خطا به کاربر هست، می‌تونی این بخش رو در یک تابع بزرگ‌تر مثل کنترلر استفاده کنی.
     }
-console.log(categories)
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
