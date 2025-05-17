@@ -1,10 +1,21 @@
 {
   "HomePage": {
-    "0": "Kuarmonia",
-    "1": "Göç ve Yatırım",
-    "2": "Parlak bir gelecek ve başarılı yatırım için",
-    "3": "KUARMONIA'da, parlak bir gelecek inşa etmek ve inşa etmek için yeni yollar sunuyoruz",
-    "4": "Başarılı Yolculuğunuza Başlayın",
+    "heroTitle": "Kuarmonia",
+    "heroSubtitle": "Göç ve Yatırım",
+    "heroSlogan": "Parlak bir gelecek ",
+    "heroDescription": "KUARMONIA'da, parlak bir gelecek inşa etmek ve inşa etmek için yeni yollar sunuyoruz",
+    "heroButton": "Başarılı Yolculuğunuza Başlayın",
+    "cartTitle": "Alışveriş Sepeti",
+    "NotFound": "Ürün Bulunamadı",
+    "search": {
+      "title": "İçerik ara",
+      "placeholder": "Aramak istediğiniz kelimeyi girin...",
+      "loading": "Aranıyor...",
+      "success": "Sonuçlar başarıyla alındı",
+      "error": "Sonuçlar alınamadı",
+      "noResults": "Sonuç bulunamadı",
+      "perNight": "gecelik"
+    },
     "5": "Altın Fırsat",
     "6": "Türkiye'de mülk satın alın",
     "7": "Uluslararası evlilik",
@@ -236,5 +247,39 @@
     "metr": " metir",
     "createDate": " Oluşturma Tarihi",
     "year": "Yıl"
+  },
+  "Service": {
+    "faqs": "Sıkça Sorulan Sorular"
+  },
+
+  "notFound": {
+    "title": "404 - Sayfa Bulunamadı",
+    "message": "İstediğiniz sayfa mevcut değil.",
+    "button": "Ana Sayfaya Dön"
+  },
+  "News": {
+    "latestNews": "Son Haberler",
+    "today": "Bugün",
+    "readMore": "Daha fazla oku",
+    "publishedAt": "Yayınlanma Tarihi",
+    "source": "Haber Kaynağı",
+    "noSource": "Herhangi bir kaynak belirtilmemiştir.",
+    "share": "Paylaş",
+    "userComments": "Kullanıcı Yorumları",
+    "postedAt": "Gönderilme Tarihi",
+    "minutesAgo": "{count} دقیقه پیش",
+    "hoursAgo": "{count} ساعت پیش",
+    "daysAgo": "{count} روز پیش",
+    "weekdayPrefix": "- {weekday}",
+    "subscribe": "Abone Ol",
+    "latestVideo": "Son Videolar",
+    "yourEmail": "E-posta adresiniz",
+    "emailPrivacy": "Son haberleri e-posta ile alın. E-posta adresinizi asla paylaşmayız.",
+    "noNews": "Haber bulunamadı",
+    "subscribeNote": "Haber bültenimize abone olarak en son haberleri e-posta ile alın. E-posta adresiniz gizli tutulur.",
+    "subscribeButton": "Bültene Abone Ol",
+    "emailPlaceholder": "E-posta adresinizi girin",
+    "emailRequired": "Lütfen e-posta adresinizi girin.",
+    "emailValid": "Lütfen geçerli bir e-posta girin"
   }
 }

@@ -4,7 +4,6 @@ const { ObjectId } = mongoose.Schema.Types;
 const Counter = require("./counter");
 const baseSchema = require("./baseSchema.model");
 
-/* ایجاد اسکیمای دسته‌بندی */
 const categorySchema = new mongoose.Schema(
   {
     categoryId: {
@@ -21,7 +20,7 @@ const categorySchema = new mongoose.Schema(
            },
            language: {
              type: String,
-             enum: ["en", "tr", "ar"], 
+             enum: ["fa", "en", "tr"], 
              required: true
            }
          }

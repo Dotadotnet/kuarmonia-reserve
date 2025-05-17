@@ -4,6 +4,7 @@ const express = require("express");
 /* middleware imports */
 const upload = require("../middleware/upload.middleware");
 const verify = require("../middleware/verify.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* internal import */
 const adminController = require("../controllers/admin.controller");
@@ -28,12 +29,13 @@ router.post("/sign-in", adminController.signIn);
 router.patch("/forgot-password", adminController.forgotPassword);
 
 // login persistance
-router.get("/me", verify,  adminController.persistLogin);
+router.get("/me", verify, localeMiddleware, adminController.persistLogin);
 
 // get all admins
 router.get(
   "/all-admins",
   verify,
+  localeMiddleware,
   authorize("superAdmin"),
   adminController.getAdmins
 );
@@ -42,25 +44,28 @@ router.get(
 router.get(
   "/get-admin/:id",
   verify,
+  localeMiddleware,
   authorize("superAdmin"),
   adminController.getAdmin
 );
 
 // update admin information
 router.patch(
-  "/update-information",
+  "/update-information/:id",
   verify,
+  localeMiddleware,
   authorize("superAdmin", "admin"),
   upload("avatar").single("avatar"),
-  adminController.updateAdmin
+  adminController.updateAdminInfo
 );
 
 router.patch(
   "/update-admin/:id",
   verify,
+  localeMiddleware,
   authorize("superAdmin", "admin"),
   upload("avatar").single("avatar"),
-  adminController.updateAdminInfo
+  adminController.updateAdmin
 );
 
 // delete admin information

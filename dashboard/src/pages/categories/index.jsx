@@ -14,7 +14,7 @@ import Edit from "./edit";
 import ControlPanel from "../ControlPanel";
 const ListCategory = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 5;
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const { data, isLoading, error, refetch } = useGetCategoriesQuery({
@@ -29,7 +29,7 @@ const ListCategory = () => {
     removeCategory,
     { isLoading: isRemoving, data: deleteCategory, error: removeError }
   ] = useDeleteCategoryMutation();
-
+console.log(searchTerm)
   useEffect(() => {
     if (isLoading) {
       toast.loading("در حال دریافت دسته بندی...", { id: "category-loading" });
@@ -64,7 +64,7 @@ const ListCategory = () => {
   return (
     <>
       <ControlPanel>
-        <Search searchTerm={searchTerm} />
+        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <Add />
         <div className="mt-8 w-full grid grid-cols-12 text-slate-400 px-4 ">
           <div className="col-span-11 lg:col-span-3  text-sm">

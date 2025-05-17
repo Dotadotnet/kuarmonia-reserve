@@ -5,7 +5,7 @@ import FooterBottom from "./footerBottom/FooterBottom";
 
 const Footer = () => {
   return (
-    <footer className="bg-secondary dark:!bg-gray-800 ">
+    <footer className="bg-secondary dark:bg-gray-800 ">
         <div className="flex flex-col gap-y-8 p-7">
           <FooterTop />
           <hr className="border-primary dark:border-blue-500" />

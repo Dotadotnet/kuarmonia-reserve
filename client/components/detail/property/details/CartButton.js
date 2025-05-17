@@ -22,15 +22,14 @@ const CartButton = ({ property }) => {
     <section className="flex flex-row items-center gap-x-4">
       <div className="flex-flex-col gap-y-8">
         <div className="flex flex-col gap-y-3">
-          <div className="flex items-center flex-wrap justify-start gap-2 md:p-4 p-1 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center flex-wrap justify-start gap-2 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
             <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
               <FaBed className="text-xl text-gray-600 dark:text-gray-400" />{" "}
-              {/* اضافه کردن آیکون */}
               {t("bedrooms")}
               {property?.building?.bedrooms?.map((bedroom, index) => (
                 <span
                   key={index}
-                  className="text-sm flex md:flex-row flex-col justify-center items-center text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-2 py-2  ml-2"
+                  className="text-sm flex md:flex-row flex-col justify-center items-center gap-2    rounded-lg  bg-cyan-100 text-cyan-500  px-2 py-2  "
                 >
                   <span>{bedroom}</span>
                   <span className="text-xs md:text-base">{t("bedroom")}</span>
@@ -39,13 +38,13 @@ const CartButton = ({ property }) => {
             </div>
           </div>
           <div className="flex items-center flex-wrap justify-start gap-4 p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700">
-            <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
+            <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-1">
               <Square className="text-xl text-gray-600 dark:text-gray-400" />{" "}
               {t("squares")}
               {property?.building?.square?.map((square, index) => (
                 <span
                   key={index}
-                  className="text-sm flex md:flex-row flex-col text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-2 py-2 gap-x-1 ml-2"
+                  className="text-sm flex md:flex-row flex-col  da rounded-lg bg-cyan-100 text-cyan-500 p-3 px-4 gap-x-1 ml-2"
                 >
                   <span>{square}</span>
                   <span className="text-xs md:text-base">{t("metr")}</span>
@@ -57,7 +56,7 @@ const CartButton = ({ property }) => {
             <div className=" flex items-center justify-center text-lg text-gray-700 dark:text-gray-200 gap-x-2">
               <FaRegCalendarAlt className="text-xl text-gray-600 dark:text-gray-400" />{" "}
               {t("createDate")}
-              <span className="text-sm text-gray-100 da rounded-lg dark:bg-blue-500 bg-primary px-4 py-2  ml-2">
+              <span className="text-sm  da rounded-lg bg-cyan-100 text-cyan-500 px-4 py-2  ml-2">
                 {property?.createDate} {t("year")}
               </span>
             </div>

@@ -35,7 +35,7 @@ exports.addCategory = async (req, res) => {
           canonicalUrl
         },
         {
-          stringFields: ["title", "description","slug","canonicalUrl"]
+          stringFields: ["title", "description", "slug", "canonicalUrl"]
         }
       );
       const translationDocs = Object.entries(translations).map(
@@ -46,7 +46,9 @@ exports.addCategory = async (req, res) => {
           fields
         })
       );
-      const  insertedTranslations = await Translation.insertMany(translationDocs);
+      const insertedTranslations = await Translation.insertMany(
+        translationDocs
+      );
 
       const translationInfos = insertedTranslations.map((t) => ({
         translation: t._id,
@@ -83,29 +85,52 @@ exports.addCategory = async (req, res) => {
   }
 };
 
-/* get all categories */
+
 exports.getCategories = async (req, res) => {
+  const { page = 1, limit = 5, search = "" } = req.query;
+  const skip = (page - 1) * limit;
+
   try {
-    let categories = [];
-    try {
-      categories = await Category.find({ isDeleted: { $ne: true } }).populate([
+    let matchedCategoryIds = [];
+
+    if (search) {
+      const translations = await Translation.find({
+        language: req.locale,
+        refModel: "Category",
+        "fields.title": { $regex: search, $options: "i" }
+      }).select("refId");
+
+      matchedCategoryIds = translations.map((t) => t.refId);
+    }
+
+    const query = {
+      isDeleted: false,
+      ...(search ? { _id: { $in: matchedCategoryIds } } : {})
+    };
+
+    const categories = await Category.find(query)
+      .skip(skip)
+      .limit(Number(limit))
+      .sort({ createdAt: -1 })
+      .populate([
         {
           path: "translations.translation",
-          match: { language: req.locale },
+          match: { language: req.locale }
         },
         {
           path: "creator",
-          select: "name avatar",
+          select: "name avatar"
         }
       ]);
-    } catch (error) {
-      console.error("Error populating categories:", error);
-    }
+
+    const total = await Category.countDocuments(query);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "دسته بندی ها با موفقیت دریافت شدند",
       data: categories,
+      total
     });
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -113,28 +138,11 @@ exports.getCategories = async (req, res) => {
       acknowledgement: false,
       message: "Error",
       description: "خطا در دریافت دسته بندی ها",
-      error: error.message,
+      error: error.message
     });
   }
 };
 
-exports.getProductCategories = async (res) => {
-  const categories = await Category.find().populate({
-    path: "products",
-    match: { isDeleted: false, status: "active", publishStatus: "approved" },
-    select: "_id"
-  });
-  const filteredCategories = categories.filter(
-    (category) => category.products.length > 0
-  );
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "دسته بندی ها با موفقیت دریافت شدند",
-    data: filteredCategories
-  });
-};
 /* get a category */
 exports.getCategory = async (req, res) => {
   const category = await Category.findById(req.params.id);

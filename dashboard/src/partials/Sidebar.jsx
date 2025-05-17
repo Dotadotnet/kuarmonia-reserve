@@ -87,8 +87,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       icon: Dashboard,
       path: "/",
       subItems: [
-        { title: "اصلی", path: "/" },
-        { title: "آنالیز", path: "/analytics" }
+        { title: "آنالیز", path: "/" },
+        { title: "پروفایل من", path: "/my-profile" },
       ]
     },
     { title: "کاربران", icon: User, path: "/users" },
@@ -117,8 +117,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "نوع معامله", icon: Switch, path: "/prop-trades" },
         { title: "نوع فروش", icon: PSale, path: "/prop-sales" },
         { title: "نوع ملک", icon: Buildings, path: "/prop-types" },
-        { title: "استاندارها", icon: Standard, path: "/prop-standards" },
-        { title: "جوایز", icon: Medal, path: "/prop-awards" }
+        { title: "استاندارها", icon: Standard, path: "/standards" },
+        { title: "جوایز", icon: Medal, path: "/awards" }
       ]
     },
     {
@@ -132,16 +132,34 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "خدمات", icon: VenueService, path: "/venue-services" },
         { title: "امکانات", icon: Amentity, path: "/venue-amenities" },
         { title: "تنظیمات", icon: Setting, path: "/venue-settings" },
-        { title: "استاندارد", icon: Standard, path: "/venue-standards" },
-        { title: "جوایز", icon: Medal, path: "/venue-awards" },
+        { title: "استاندارد", icon: Standard, path: "/standards" },
+        { title: "جوایز", icon: Medal, path: "/awards" },
         { title: "همکاران", icon: Vendor, path: "/venue-vendors" }
+      ]
+    },
+    {
+      title: " فرصت ها",
+      icon: Celebration,
+      subItems: [
+        { title: "لیست", icon: VenueEvent, path: "/opportunities" },
+        { title: "نوغ شغل", icon: Venue, path: "/job-types" },
+        { title: "زمان بندی شغل", icon: Venue, path: "/job-times" },
+        { title: "نوع  حضور", icon: Venue, path: "/job-modes" },
+        { title: " نوع همکاری", icon: Type, path: "/employment-types" },
+        { title: "سطح تجربه کاری", icon: Ship, path: "/experience-levels" },
+        { title: "وضعیت اقامت", icon: VenueService, path: "/residency-status" },
+        { title: "نتیجه اقامت", icon: VenueService, path: "/citizenship-outcome" },
+        { title: "نوع مرکز علمی", icon: Amentity, path: "/institution-type" },
+        { title: "مرکز علمی", icon: Vendor, path: "/institutions" },
+        { title: "تنظیمات", icon: Setting, path: "/venue-settings" },
+        { title: "استاندارد", icon: Standard, path: "/standards" },
+        { title: "جوایز", icon: Medal, path: "/awards" },
       ]
     }
   ];
 
   return (
     <div className="min-w-fit">
-      {/* Sidebar backdrop (mobile only) */}
       <div
         className={`fixed inset-0 bg-gray-900 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
           sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -153,7 +171,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex lg:!flex flex-col absolute z-40 right-0 top-0 lg:static lg:right-auto lg:top-auto lg:translate-x-0 h-[100dvh] overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-white dark:bg-gray-800 p-3 transition-all duration-200 ease-in-out ${
+        className={`flex lg:!flex flex-col absolute z-40 right-0 top-0 lg:static lg:right-auto lg:top-auto lg:translate-x-0 h-auto  overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-white dark:bg-gray-800 p-3 transition-all duration-200 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "translate-x-64"
         }`}
       >

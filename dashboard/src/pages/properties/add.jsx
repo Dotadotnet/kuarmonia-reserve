@@ -335,11 +335,11 @@ const Add = () => {
           className="w-full !h-screen !mr-0 flex items-center justify-center"
         >
           {" "}
-          <SwiperSlide className="!mr-0">
+          <SwiperSlide className="!mr-0 !ml-0">
             <div className=" flex justify-center w-screen md:w-full">
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl overflow-hidden text-black dark:text-gray-300 flex flex-col p-8 gap-y-4 shadow-lg relative h-[600px] mb-12 items-center"
+                className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl overflow-hidden text-black dark:text-gray-300 flex flex-col p-2 py-4 gap-y-4 shadow-lg relative h-[600px] mb-12 items-center"
               >
                 {currentStep === 1 && (
                   <Step1
@@ -409,10 +409,7 @@ const Add = () => {
                 )}
                 {currentStep === 8 && (
                   <Step8
-                    register={register}
-                    errors={errors}
-                    watch={watch}
-                    control={control}
+       
                     setSelectedCountry={setSelectedCountry}
                     setSelectedState={setSelectedState}
                     setSelectedCity={setSelectedCity}

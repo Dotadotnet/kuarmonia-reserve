@@ -57,7 +57,7 @@ const Tags = () => {
   return (
     <>
       <ControlPanel>
-        <Search searchTerm={searchTerm} />
+        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <Add />
         <div className="mt-8 w-full grid grid-cols-12 text-slate-400 px-4 ">
           <div className="col-span-11 lg:col-span-3  text-sm">

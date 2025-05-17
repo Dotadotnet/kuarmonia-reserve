@@ -16,7 +16,6 @@ const DestinationDescription = () => {
       <div className="w-full h-full flex flex-col justify-center">
         <article className="flex flex-col gap-y-4">
           <h1 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-            <HighlightText>محبوب ترین</HighlightText> فرصت ها
             <Image
               src="/assets/home-page/destination/underline.svg"
               alt="arrow"

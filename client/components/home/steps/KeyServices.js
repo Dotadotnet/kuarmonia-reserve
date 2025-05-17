@@ -13,7 +13,7 @@ import {
 import { getTranslations } from "next-intl/server";
 
 const KeyServices = async ({ params }) => {
-  const locale = params.locale;
+  const { locale } = await params;
   const api = `${process.env.NEXT_PUBLIC_API}/service/get-services`;
   const response = await fetch(api, {
     cache: "no-store",
@@ -25,7 +25,6 @@ const KeyServices = async ({ params }) => {
 
   const res = await response.json();
   const services = res.data;
-  console.log(services);
   const t = await getTranslations("HomePage", locale);
 
   return (
@@ -41,7 +40,7 @@ const KeyServices = async ({ params }) => {
               (t) => t.translation?.language === locale
             ) || service.translations[0]; 
 
-          const { title, slug } = matchedTranslation.translation?.fields;
+          const { title, slug } = matchedTranslation?.translation?.fields;
 
           return (
             <Link

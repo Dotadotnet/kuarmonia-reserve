@@ -13,9 +13,9 @@ const PropertiesClient = ({ properties }) => {
 
   return (
 
-          <div className="h-[550px] ">
+          <div className="h-fit ">
             <Swiper
-              slidesPerView={1.1}
+              slidesPerView={1.7}
               breakpoints={{
                 1024: { slidesPerView: 3.5 }
               }}

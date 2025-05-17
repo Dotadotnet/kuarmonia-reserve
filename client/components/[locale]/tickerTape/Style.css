@@ -1,0 +1,22 @@
+
+.ticker-tape {
+    padding: var(--spacing-xs) 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  
+  .ticker-content {
+    display: inline-block;
+    animation: ticker 30s linear infinite;
+    padding-left: 100%;
+  }
+  
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }

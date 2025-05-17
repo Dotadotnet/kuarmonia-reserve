@@ -15,10 +15,12 @@ import Reviews from "@/components/shared/review/Reviews";
 import Main from "@/layouts/Main";
 import Testimonials from "@/components/home/testimonials/Testimonials";
 import KeyServices from "@/components/home/steps/KeyServices";
+import Destination from "@/components/home/destination/Destination";
+import TravelAvailability from "@/components/home/hero/travelAvailability/TravelAvailability";
 
 export default async function Home({ params }) {
   return (
-    <Main>
+    <Main >
       <Hero  />
       <KeyServices params={params}   />
       <News params={params}  />
@@ -26,6 +28,7 @@ export default async function Home({ params }) {
       <Gallery />
       <Testimonials />
       <FAQ />
+      <Destination />
       <NewsLetter />
     </Main>
   );

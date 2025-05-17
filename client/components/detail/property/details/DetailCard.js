@@ -30,7 +30,7 @@ const DetailCard = ({ title, content }) => {
           {content?.map((content, index) => (
             <p
               key={index}
-              className="text-sm flex flex-row items-start gap-x-1.5 line-clamp-1 dark:text-gray-300"
+              className="!text-sm flex text-justify flex-row items-start gap-x-1.5 line-clamp-1 dark:text-gray-300"
             >
               <span className="dark:text-gray-400">
                 <BiChevronRight className="h-4 w-4" />

@@ -7,28 +7,27 @@ const Review = require("../models/review.model");
 const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
 const token = require("../utils/token.util");
+const translateFields = require("../utils/translateFields");
+const Translation = require("../models/translation.model");
+const Address = require("../models/address.model");
 
-/* sign up an admin */
 exports.signUp = async (req, res) => {
   try {
     const { body } = req;
-    const { name, email, password, phone, avatarUrl } = body;
+    const { name, email, password, phone, avatarUrl, bio, address } = body;
+    const parseAddress = JSON.parse(address);
 
-    console.log(body);
-
-    // اعتبارسنجی اولیه
-    if (!name || !email || !password || !phone) {
+    if (!name || !email || !password || !phone || !bio || !address) {
       return res.status(400).json({
         acknowledgement: false,
         message: "درخواست نادرست",
         description: "همه فیلدها الزامی است",
-        isSuccess: false,
+        isSuccess: false
       });
     }
 
-    // بررسی وجود کاربر تکراری
     const existingAdmin = await Admin.findOne({
-      $or: [{ email }, { phone }],
+      $or: [{ email }, { phone }]
     });
 
     if (existingAdmin) {
@@ -38,14 +37,24 @@ exports.signUp = async (req, res) => {
         description:
           "کاربری با این ایمیل یا شماره تلفن قبلاً ثبت‌نام کرده است. لطفاً به صفحه ورود بروید.",
         redirectToLogin: true,
-        isSuccess: false,
+        isSuccess: false
       });
     }
-
-    // پردازش آواتار
+    const addressProp = await Address.create({
+      country: parseAddress.country,
+      city: parseAddress.city,
+      street: parseAddress.street,
+      state: parseAddress.state,
+      floor: parseAddress.floor,
+      unit: parseAddress.unit,
+      plateNumber: parseAddress.plateNumber,
+      phone: phone,
+      email: email,
+      postalCode: parseAddress.postalCode
+    });
     let avatar = {
       url: avatarUrl || null,
-      public_id: null,
+      public_id: null
     };
 
     if (
@@ -55,48 +64,80 @@ exports.signUp = async (req, res) => {
     ) {
       avatar = {
         url: req.uploadedFiles["avatar"][0].url,
-        public_id: req.uploadedFiles["avatar"][0].key,
+        public_id: req.uploadedFiles["avatar"][0].key
       };
     }
 
-    // تنظیم نقش و وضعیت
     const adminCount = await Admin.countDocuments();
     const role = adminCount === 0 ? "superAdmin" : "operator";
     const status = adminCount === 0 ? "active" : "inactive";
 
-    // ایجاد کاربر جدید
     const admin = new Admin({
       name,
       email,
       password,
       phone,
+      address: addressProp._id,
       role,
       status,
-      avatar,
+      avatar
     });
+    const result = await admin.save();
+    addressProp.admin = admin._id;
 
-    await admin.save();
+    try {
+      const translations = await translateFields(
+        {
+          name,
+          bio
+        },
+        {
+          stringFields: ["name", "bio"]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "Admin",
+          refId: result._id,
+          fields
+        })
+      );
+      const insertedTranslations = await Translation.insertMany(
+        translationDocs
+      );
 
-    return res.status(201).json({
-      acknowledgement: true,
-      message: "تبریک!",
-      description: "ثبت‌نام شما با موفقیت انجام شد.",
-      isSuccess: true,
-      data: {
-        id: admin._id,
-        name: admin.name,
-        email: admin.email,
-        role: admin.role,
-        status: admin.status,
-      },
-    });
+      const translationInfos = insertedTranslations.map((t) => ({
+        translation: t._id,
+        language: t.language
+      }));
+      await Admin.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+
+      return res.status(201).json({
+        acknowledgement: true,
+        message: "Created",
+        description: "کاربر با موفقیت ایجاد و ترجمه شد.",
+        data: result
+      });
+    } catch (translationError) {
+      console.log(translationError.message);
+      await Admin.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره کاربر  کاربر حذف شد.",
+        error: translationError.message
+      });
+    }
   } catch (error) {
     console.error("signUp error:", error);
     return res.status(500).json({
       acknowledgement: false,
       message: "خطای داخلی سرور",
       description: error.message,
-      isSuccess: false,
+      isSuccess: false
     });
   }
 };
@@ -149,36 +190,15 @@ exports.signIn = async (req, res) => {
   }
 };
 
-/* reset admin password */
-exports.forgotPassword = async (req, res) => {
-  const admin = await Admin.findOne({ email: req.body.email });
-
-  if (!admin) {
-    res.status(404).json({
-      acknowledgement: false,
-      message: "Not Found",
-      description: "کاربر یافت نشد"
-    });
-  } else {
-    const hashedPassword = admin.encryptedPassword(req.body.password);
-
-    await Admin.findOneAndUpdate(
-      { email: req.body.email },
-      { password: hashedPassword },
-      { runValidators: false, returnOriginal: false }
-    );
-
-    res.status(200).json({
-      acknowledgement: true,
-      message: "OK",
-      description: "پسورد کاربر با موفقیت تغییر کرد"
-    });
-  }
-};
-
-/* login persistance */
 exports.persistLogin = async (req, res) => {
-  const admin = await Admin.findById(req.admin._id).select("-password -phone");
+  const admin = await Admin.findById(req.admin._id)
+    .select("-password")
+    .populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      }
+    ]);
 
   if (!admin) {
     res.status(404).json({
@@ -196,9 +216,35 @@ exports.persistLogin = async (req, res) => {
   }
 };
 
+/* get single admin */
+exports.getAdmin = async (req, res) => {
+  const admin = await Admin.findById(req.params.id)
+    .select("-password")
+    .populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
+      {
+        path: "address"
+      }
+    ]);
+  res.status(200).json({
+    acknowledgement: true,
+    message: "OK",
+    description: `اطلاعات کاربر${admin.name}' با موفقیت دریافت شد`,
+    data: admin
+  });
+};
+
 /* get all admins */
-exports.getAdmins = async (res) => {
-  const admins = await Admin.find();
+exports.getAdmins = async (req, res) => {
+  const admins = await Admin.find().populate([
+    {
+      path: "translations.translation",
+      match: { language: req.locale }
+    }
+  ]);
 
   res.status(200).json({
     acknowledgement: true,
@@ -208,140 +254,249 @@ exports.getAdmins = async (res) => {
   });
 };
 
-/* get single admin */
-exports.getAdmin = async (req, res) => {
-  const admin = await Admin.findById(req.params.id);
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "OK",
-    description: `اطلاعات کاربر${admin.name}' با موفقیت دریافت شد`,
-    data: admin
-  });
-};
-
-/* update admin information */
 exports.updateAdmin = async (req, res) => {
-  const existingAdmin = await Admin.findById(req.admin._id);
-  const admin = req.body;
+  try {
+    const existingAdmin = await Admin.findById(req.params.id).populate(
+      "address"
+    );
 
-  // بررسی عدم تغییر نقش superAdmin
-  if (admin.role === "superAdmin") {
-    return res.status(403).json({
+    if (!existingAdmin) {
+      return res.status(404).json({
+        acknowledgement: false,
+        message: "not found",
+        description: "کاربر یافت نشد"
+      });
+    }
+
+    const {
+      name,
+      email,
+      phone,
+      bio,
+      role,
+      status,
+      country,
+      city,
+      street,
+      state,
+      floor,
+      unit,
+      plateNumber,
+      postalCode,
+      avatarUrl
+    } = req.body;
+    console.log("role", role);
+    if (role === "superAdmin") {
+      return res.status(403).json({
+        acknowledgement: false,
+        message: "Forbidden",
+        description: "کاربر مدیر کل قابل ویرایش نیست"
+      });
+    }
+
+    await Address.findByIdAndUpdate(existingAdmin.address._id, {
+      country,
+      city,
+      street,
+      state,
+      floor,
+      unit,
+      plateNumber,
+      postalCode,
+      email,
+      phone
+    });
+
+    let avatar = existingAdmin.avatar;
+    console.log("avatar", avatar);
+    console.log("req.uploadedFiles", req.uploadedFiles);
+    if (
+      req.uploadedFiles &&
+      req.uploadedFiles["avatar"] &&
+      req.uploadedFiles["avatar"].length > 0
+    ) {
+      await remove("avatar", existingAdmin.avatar?.public_id);
+      avatar = {
+        url: req.uploadedFiles["avatar"][0].url,
+        public_id: req.uploadedFiles["avatar"][0].key
+      };
+    }
+    console.log("avatar", avatar);
+    const updatedAdmin = await Admin.findByIdAndUpdate(
+      existingAdmin._id,
+      {
+        $set: {
+          email,
+          phone,
+          role,
+          status,
+          avatar
+        }
+      },
+      { new: true, runValidators: true }
+    );
+
+    console.log("updatedAdmin", updatedAdmin);
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "OK",
+      description: `اطلاعات ${name} با موفقیت تغییر کرد`
+    });
+  } catch (error) {
+    console.error("Error updating admin:", error);
+    res.status(500).json({
       acknowledgement: false,
-      message: "Forbidden",
-      description: "کاربر مدیر کل قابل ویرایش نیست"
+      message: "خطای داخلی سرور",
+      description: error.message
     });
   }
-
-  // حذف تصویر آواتار قدیمی اگر تصویر جدیدی ارسال شده
-  if (
-    req.uploadedFiles &&
-    req.uploadedFiles["avatar"] &&
-    req.uploadedFiles["avatar"].length > 0
-  ) {
-    // حذف تصویر قبلی از سرویس ذخیره‌سازی
-    await remove("avatar", existingAdmin.avatar?.public_id);
-
-    // تنظیم تصویر جدید
-    avatar = {
-      url: req.uploadedFiles["avatar"][0].url,
-      public_id: req.uploadedFiles["avatar"][0].key
-    };
-  } else if (!req.body.avatarUrl) {
-    // اگر تصویر جدید نیست، حذف تصویر قبلی
-    if (existingAdmin.avatar?.public_id) {
-      await remove("avatar", existingAdmin.avatar.public_id);
-    }
-
-    // در صورت عدم ارسال آدرس جدید برای تصویر، مقدار پیش‌فرض
-    avatar = {
-      url: null,
-      public_id: null
-    };
-  }
-
-  // به‌روزرسانی اطلاعات کاربر
-  const updatedAdmin = await Admin.findByIdAndUpdate(
-    existingAdmin._id,
-    {
-      $set: {
-        ...admin,
-        avatar // اطمینان از ارسال تصویر جدید
-      }
-    },
-    {
-      runValidators: true,
-      new: true // اطمینان از اینکه داده‌های به‌روزرسانی‌شده برگردند
-    }
-  );
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "OK",
-    description: `اطلاعات ${updatedAdmin.name} با موفقیت تغییر کرد`
-  });
 };
-
-/* update admin information */
 exports.updateAdminInfo = async (req, res) => {
-  const existingAdmin = await Admin.findById(req.params.id);
-  const admin = req.body;
+  try {
+    const existingAdmin = await Admin.findById(req.params.id).populate(
+      "address"
+    );
 
-  // بررسی عدم تغییر نقش superAdmin
-  if (admin.role === "superAdmin") {
-    return res.status(403).json({
+    if (!existingAdmin) {
+      return res.status(404).json({
+        acknowledgement: false,
+        message: "not found",
+        description: "کاربر یافت نشد"
+      });
+    }
+
+    const {
+      name,
+      email,
+      phone,
+      bio,
+      role,
+      status,
+      country,
+      city,
+      street,
+      state,
+      floor,
+      unit,
+      plateNumber,
+      postalCode,
+      avatarUrl
+    } = req.body;
+
+    if (existingAdmin.address) {
+      await Address.findByIdAndUpdate(existingAdmin.address._id, {
+        country,
+        city,
+        street,
+        state,
+        floor,
+        unit,
+        plateNumber,
+        postalCode,
+        email,
+        phone
+      });
+    } else {
+      const newAddress = new Address({
+        country,
+        city,
+        street,
+        state,
+        floor,
+        unit,
+        plateNumber,
+        postalCode,
+        email,
+        phone
+      });
+
+      existingAdmin.address = newAddress._id;
+      await newAddress.save();
+      await existingAdmin.save();
+    }
+    let avatar = existingAdmin.avatar;
+    if (
+      req.uploadedFiles &&
+      req.uploadedFiles["avatar"] &&
+      req.uploadedFiles["avatar"].length > 0
+    ) {
+      await remove("avatar", existingAdmin.avatar?.public_id);
+      avatar = {
+        url: req.uploadedFiles["avatar"][0].url,
+        public_id: req.uploadedFiles["avatar"][0].key
+      };
+    }
+    const result = await Admin.findByIdAndUpdate(
+      existingAdmin._id,
+      {
+        $set: {
+          email,
+          phone,
+          role,
+          status,
+          avatar
+        }
+      },
+      { new: true, runValidators: true }
+    );
+    if (result.translations && result.translations.length > 0) {
+      await Promise.all(
+        result.translations.map(async ({ translation, language }) => {
+          const translatedFields = await translateFields(
+            { name, bio },
+            { stringFields: ["name", "bio"], targetLanguages: [language] }
+          );
+
+          await Translation.findByIdAndUpdate(translation, {
+            fields: translatedFields[language].fields
+          });
+        })
+      );
+    } else {
+      const translations = await translateFields(
+        {
+          name,
+          bio
+        },
+        {
+          stringFields: ["name", "bio"]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "Admin",
+          refId: result._id,
+          fields
+        })
+      );
+      const insertedTranslations = await Translation.insertMany(
+        translationDocs
+      );
+
+      const translationInfos = insertedTranslations.map((t) => ({
+        translation: t._id,
+        language: t.language
+      }));
+      await Admin.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+    }
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "OK",
+      description: `اطلاعات ${name} با موفقیت تغییر کرد`
+    });
+  } catch (error) {
+    console.error("Error updating admin:", error);
+    res.status(500).json({
       acknowledgement: false,
-      message: "دسترسی ممنوع",
-      description: "کاربر مدیر کل قابل ویرایش نیست"
+      message: "خطای داخلی سرور",
+      description: error.message
     });
   }
-
-  // متغیر avatar برای ذخیره‌سازی اطلاعات آواتار جدید
-  let avatar = existingAdmin.avatar;
-
-  // حذف تصویر آواتار قدیمی اگر تصویر جدیدی ارسال شده
-  if (
-    req.uploadedFiles &&
-    req.uploadedFiles["avatar"] &&
-    req.uploadedFiles["avatar"].length > 0
-  ) {
-    // حذف تصویر قبلی از سرویس ذخیره‌سازی
-    await remove("avatar", existingAdmin.avatar?.public_id);
-
-    // تنظیم تصویر جدید
-    avatar = {
-      url: req.uploadedFiles["avatar"][0].url,
-      public_id: req.uploadedFiles["avatar"][0].key
-    };
-  } else if (req.body.avatarUrl) {
-    // اگر تصویر جدید نیست، حذف تصویر قبلی
-    if (existingAdmin.avatar?.public_id) {
-      await remove("avatar", existingAdmin.avatar.public_id);
-    }
-
-    // در صورت عدم ارسال آدرس جدید برای تصویر، مقدار پیش‌فرض
-    avatar = {
-      url: null,
-      public_id: null
-    };
-  }
-
-  // به‌روزرسانی اطلاعات کاربر همراه با آواتار جدید
-  const updatedAdmin = await Admin.findByIdAndUpdate(
-    existingAdmin._id,
-    { $set: { ...admin, avatar } },
-    {
-      runValidators: true,
-      new: true
-    }
-  );
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "OK",
-    description: `اطلاعات ${updatedAdmin.name} با موفقیت تغییر کرد`
-  });
 };
 
 /* delete admin information */

@@ -20,12 +20,10 @@ const Right = ({ property }) => {
       <article className="flex flex-col gap-y-8">
         <div className="flex flex-col gap-y-4">
           <h1 className="lg:text-5xl md:text-3xl text-xl">{title}</h1>
-          <p className="text-xl">
             <div
               dangerouslySetInnerHTML={{ __html: description }}
-              className="dark:!text-gray-100"
+              className="dark:!text-gray-100 text-justify"
             />
-          </p>
         </div>
          <CartButton property={property} /> 
       </article>

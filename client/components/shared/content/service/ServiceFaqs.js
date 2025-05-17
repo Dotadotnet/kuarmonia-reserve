@@ -1,10 +1,12 @@
-'use client'
+"use client";
 import { useState } from "react";
 import Plus from "@/components/icons/Plus";
 import Minus from "@/components/icons/Minus";
+import { useTranslations } from "next-intl";
 
 const Faq = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const t = useTranslations("Service");
 
   const toggleFaq = (index) => {
     setActiveIndex((prevActiveIndex) =>
@@ -15,7 +17,7 @@ const Faq = ({ items }) => {
   return (
     <section className="mx-auto grid max-w-6xl grid-cols-1 gap-4 p-4 md:grid-cols-[550px_1fr] md:gap-14 md:p-8">
       <h2 className="text-center text-4xl font-bold text-gray-600 md:text-left md:text-6xl">
-        سوالات متداول{" "}
+        {t("faqs")}
       </h2>
 
       <div>

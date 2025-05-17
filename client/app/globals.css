@@ -3,7 +3,10 @@
 @plugin "tailwind-scrollbar-hide";
 @plugin "@tailwindcss/forms";
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Poppins:wght@400;600;700&display=swap");
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
 
 @font-face {
   font-family:"vazir";
@@ -11,6 +14,7 @@
   font-weight:normal;
   font-style:normal;
 }
+
 
 @font-face {
   font-family:"nozha";
@@ -45,8 +49,12 @@
   --gridTemplateColumns-16:repeat(16, minmax(0, 1fr));
   --gridTemplateColumns-20:repeat(20, minmax(0, 1fr));
   --gridTemplateColumns-24:repeat(24, minmax(0, 1fr));
+  --font-heading: 'Source Serif Pro', Georgia, serif;
 }
- 
+:root[dir="rtl"] {
+  --font-heading: 'vazir', Georgia, serif;
+  --direction: rtl;
+}
 
 html {
   scroll-behavior:smooth;  
@@ -126,6 +134,56 @@ input.hide-arrow[type="number"] {
 
 a:has(> svg.fa-whatsapp) {
   display:none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 4px; 
+  width: 4px;  
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #a0aec0; 
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #718096; 
+}
+.scroll-topbar {
+  direction: rtl; /* برای اینکه اسکرول به سمت بالا بیاد */
+  overflow-x: auto;
+  overflow-y: hidden;
+  transform: rotateX(180deg);
+}
+
+.scroll-topbar > * {
+  transform: rotateX(180deg); /* محتوا رو برمی‌گردونیم به حالت عادی */
+}
+
+blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+  font-style: italic;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  background-color: var(--bg-secondary);
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  position: relative;
+}
+
+blockquote::before {
+  content: '"';
+  font-size: 3rem;
+  position: absolute;
+  left: var(--spacing-sm);
+  top: 0;
+  color: var(--primary-light);
+  opacity: 0.3;
 }
 
 

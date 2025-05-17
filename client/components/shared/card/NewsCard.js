@@ -4,18 +4,22 @@ import React from "react";
 import Tooltip from "@/components/shared/tooltip/Tooltip";
 import Image from "next/image";
 import Link from "next/link";
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from "next-intl";
 
-const NewsCard = ({ news  }) => {
+const NewsCard = ({ news }) => {
+  const t = useTranslations("News");
+
   const locale = useLocale();
-const {title ,summary,slug} = news?.translations?.find((t) => t.language === locale)?.translation?.fields || {};
+  const { title, summary, slug } =
+    news?.translations?.find((t) => t.language === locale)?.translation
+      ?.fields || {};
   return (
     <Link
       href={{
-        pathname: `/${locale}/news/${news.newsId}/${slug}`,
+        pathname: `/${locale}/news/${news.newsId}/${slug}`
       }}
       key={news._id}
-      className="group bg-white rounded-3xl shadow-xl dark:bg-black flex lg:flex-row flex-col gap-4 md:h-fit  w-70 md:w-[450px] p-4  relative y   delay-100  dark:text-blue-500 transition-all duration-300 ease-in-out"
+      className="group relative overflow-hidden  bg-white border border-gray-100 dark:border-gray-800 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:border-blue-500  dark:hover:shadow-none dark:bg-black flex lg:flex-row flex-col gap-4 md:h-fit  w-70 md:w-[450px] p-4 delay-100  dark:text-blue-500 transition-all duration-300 ease-in-out"
     >
       <div className="flex flex-col gap-y-2 ">
         <div className="flex w-full justify-center">
@@ -68,10 +72,9 @@ const {title ,summary,slug} = news?.translations?.find((t) => t.language === loc
           {title || <SkeletonText lines={1} />}
         </h3>
         <div className="flex flex-col gap-y-1">
-        <p className="text-sm pb-0 line-clamp-2 md:line-clamp-2 md:block hidden text-right">
-  {summary || <SkeletonText lines={4} />}
-</p>
-
+          <p className="text-sm pb-0 line-clamp-2 md:line-clamp-2 md:block text-center md:!text-right">
+            {summary || <SkeletonText lines={4} />}
+          </p>
         </div>
         {news?.publishDate?.length > 3 ? (
           <div className="border-gray-200 border group-hover:border-primary dark:border-gray-600  dark:group-hover:border-blue-500 dark:hover:border-blue-500 dark:text-gray-100 transition-colors delay-100 px-4 py-0.5 rounded-primary flex items-center gap-x-1 text-xs w-fit">
@@ -96,21 +99,30 @@ const {title ,summary,slug} = news?.translations?.find((t) => t.language === loc
               {news?.publishDate &&
                 (() => {
                   const publishDate = new Date(news.publishDate);
-                  const today = new Date();
-                  const daysDiff = Math.floor(
-                    (today - publishDate) / (1000 * 60 * 60 * 24)
-                  );
-                  const weekday = publishDate.toLocaleDateString("fa-IR", {
+                  const now = new Date();
+
+                  const diffMs = now - publishDate;
+                  const diffMinutes = Math.floor(diffMs / (1000 * 60));
+                  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+                  const weekday = publishDate.toLocaleDateString(locale, {
                     weekday: "long"
                   });
 
-                  if (daysDiff === 0) {
-                    return `امروز - ${weekday}`;
+                  if (diffDays === 0) {
+                    if (diffHours >= 1) {
+                      return `${t("hoursAgo", {
+                        count: diffHours
+                      })} - ${weekday}`;
+                    } else {
+                      return `${t("minutesAgo", {
+                        count: diffMinutes
+                      })} - ${weekday}`;
+                    }
                   }
 
-                  return `${daysDiff.toLocaleString(
-                    "fa-IR"
-                  )} روز پیش - ${weekday}`;
+                  return `${t("daysAgo", { count: diffDays })} - ${weekday}`;
                 })()}
             </span>
           </div>

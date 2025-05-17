@@ -38,10 +38,9 @@ const Step9 = ({ register, errors }) => {
             name="plateNumber"
             id="plateNumber"
             {...register("plateNumber", {
-              required: "وارد کردن پلاک الزامی است",
               minLength: {
-                value: 3,
-                message: "پلاک باید حداقل ۳ حرف داشته باشد"
+                value: 1,
+                message: "پلاک باید حداقل 1 حرف داشته باشد"
               },
               maxLength: {
                 value: 100,
@@ -66,7 +65,6 @@ const Step9 = ({ register, errors }) => {
             name="postalCode"
             id="postalCode"
             {...register("postalCode", {
-              required: "وارد کردن کد پستی الزامی است",
               minLength: {
                 value: 3,
                 message: "کد پستی باید حداقل ۳ حرف داشته باشد"

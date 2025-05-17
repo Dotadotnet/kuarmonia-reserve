@@ -12,7 +12,6 @@ const Step1 = ({ register, errors, control }) => {
     isLoading: isLoadingTradeTypes,
     error: errorTradeTypes
   } = useGetTradeTypesQuery();
-console.log(tradeTypesData);
   const {
     data: saleTypesData,
     isLoading: isLoadingSaleTypes,
@@ -134,7 +133,6 @@ console.log(tradeTypesData);
         render={({ field: { value } }) => {
           const selectedTrade = tradeTypes.find((t) => t.id === value?.id);
           if (!selectedTrade) return null;
-console.log(selectedTrade);
           return (
             <>
               {selectedTrade.priceFields.includes("deposit") && (

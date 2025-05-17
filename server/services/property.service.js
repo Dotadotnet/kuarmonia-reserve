@@ -45,7 +45,6 @@ exports.addProperty = async (req, res) => {
       typeof ourEventSpaces === "string"
         ? JSON.parse(ourEventSpaces)
         : ourEventSpaces;
-    console.log("parsedVariants", parsedVariants);
 
     if (req.uploadedFiles["thumbnail"]?.length) {
       thumbnail = {
@@ -86,7 +85,6 @@ exports.addProperty = async (req, res) => {
     const eventSpaceProps = [];
 
     for (const amenity of parsedAmenities) {
-      console.log("amenity", amenity);
 
       const amenityProp = await Amenity.create({
         hasAmenity: amenity.hasAmenity

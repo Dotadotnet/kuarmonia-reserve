@@ -4,255 +4,321 @@ import AvatarStep from "./AvatarStep";
 import NameStep from "./NameStep";
 import EmailStep from "./EmailStep";
 import PasswordStep from "./PasswordStep";
+import AddressStep from "./AddressStep";
+import BioStep from "./BioStep";
 import PhoneStep from "./PhoneStep";
-import StepIndicator from "./StepIndicator"; 
+import StepIndicator from "./StepIndicator";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import { useSignUpMutation } from "@/services/auth/authApi";
 import { useForm } from "react-hook-form";
 import SendButton from "@/components/shared/button/SendButton";
-
+import Add from "../../../posts/add";
 
 const StepSignUp = () => {
-    const [avatarPreview, setAvatarPreview] = useState(null);
-    const [signup, { isLoading, data, error }] = useSignUpMutation();
-    const [currentStep, setCurrentStep] = useState(1);
-    const [completedSteps, setCompletedSteps] = useState({});
-    const [invalidSteps, setInvalidSteps] = useState({});
-    const { register, setValue, reset, formState: { errors }, trigger, handleSubmit, watch } = useForm({
-        mode: "onChange",
-      });
-      const totalSteps = 5;
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [signup, { isLoading, data, error }] = useSignUpMutation();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [completedSteps, setCompletedSteps] = useState({});
+  const [invalidSteps, setInvalidSteps] = useState({});
+  const {
+    register,
+    setValue,
+    reset,
+    formState: { errors },
+    trigger,
+    handleSubmit,
+    watch
+  } = useForm({
+    mode: "onChange"
+  });
+  const totalSteps = 7;
 
-      const watchedFields = watch();
-    useEffect(() => {
-      if (isLoading) {
-        toast.loading("در حال ثبت نام...", { id: "signup" });
-      }
-  
-      if (data) {
-        if (data.isSuccess) {
+  const watchedFields = watch();
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("در حال ثبت نام...", { id: "signup" });
+    }
+
+    if (data) {
+      if (data.isSuccess) {
         toast.success(data?.description, { id: "signup" });
         window.open("/signin", "_self");
-  
-        }else{
-          toast.error(data?.description, { id: "signup" });
+      } else {
+        toast.error(data?.description, { id: "signup" });
+      }
+    }
+    if (error?.data) {
+      toast.error(error?.data?.description, { id: "signup" });
+    }
+  }, [isLoading, data, error]);
+
+  const handleImageSelect = (imageOrUrl) => {
+    const imageUrl =
+      typeof imageOrUrl === "string"
+        ? imageOrUrl
+        : URL.createObjectURL(imageOrUrl);
+    setAvatarPreview(imageUrl);
+    setValue("avatar", imageOrUrl, { shouldValidate: true });
+  };
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+
+    if (data.avatar instanceof File) {
+      formData.append("avatar", data.avatar);
+    } else {
+      formData.append("avatarUrl", data.avatar);
+    }
+
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("phone", data.phone);
+    formData.append(
+      "address",
+      JSON.stringify({
+        country: data.country,
+        state: data.state,
+        city: data.city,
+        street: data.street,
+        plateNumber: data.plateNumber,
+        postalCode: data.postalCode,
+        floor: data.floor,
+        unit: data.unit
+      })
+    );
+    formData.append("bio", data.bio);
+
+    handleSignup(formData);
+  };
+
+  const handleSignup = (formData) => {
+    signup(formData);
+  };
+
+  const nextStep = async () => {
+    let valid = false;
+    switch (currentStep) {
+      case 1:
+        if (!avatarPreview) {
+          toast.error("لطفاً عکس پروفایل خود را انتخاب کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
         }
-   
-      }
-      if (error?.data) {
-        toast.error(error?.data?.description, { id: "signup" });
-      }
-    }, [isLoading, data, error]);
+        valid = true;
+        break;
+      case 2:
+        valid = await trigger("name");
+        if (!valid) {
+          toast.error("لطفاً نام خود را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        break;
+      case 3:
+        valid = await trigger("email");
+        if (!valid) {
+          toast.error("لطفاً ایمیل خود را به شکل صحیح وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        break;
+      case 4:
+        valid = await trigger("password");
+        if (!valid) {
+          toast.error("لطفاً رمز عبور خود را به طور صحیح وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        break;
 
-    const handleImageSelect = (imageOrUrl) => {
-        const imageUrl = typeof imageOrUrl === "string" ? imageOrUrl : URL.createObjectURL(imageOrUrl);
-        setAvatarPreview(imageUrl);
-        setValue("avatar", imageOrUrl, { shouldValidate: true });
-      };
+      case 5:
+        valid = await trigger(
+          "country" &&
+            "state" &&
+            "city" &&
+            "street" &&
+            "plateNumber" &&
+            "postalCode"
+        );
+        if (!valid) {
+          toast.error("لطفاً آدرس خود را به شکل صحیح وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        break;
+      case 6:
+        valid = await trigger("bio");
+        if (!valid) {
+          toast.error("لطفاً بیوگرافی خود را به شکل صحیح وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        break;
+        case7: valid = await trigger("phone");
+        if (!valid) {
+          toast.error("لطفاً شماره تلفن خود را به شکل صحیح وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        break;
+      default:
+        break;
+    }
 
-  
-    const onSubmit = async (data) => {
-        const formData = new FormData();
-    
-        if (data.avatar instanceof File) { 
-            formData.append("avatar", data.avatar); // آپلود فایل
+    if (valid) {
+      setCompletedSteps((prev) => ({ ...prev, [currentStep]: true }));
+      setInvalidSteps((prev) => ({ ...prev, [currentStep]: false }));
+      setCurrentStep((prevStep) => prevStep + 1);
+    }
+  };
+  const prevStep = () => {
+    setCurrentStep((prevStep) => prevStep - 1);
+  };
+  const renderStepContent = (step) => {
+    switch (step) {
+      case 1:
+        return (
+          <AvatarStep
+            avatarPreview={avatarPreview}
+            handleImageSelect={handleImageSelect}
+            nextStep={nextStep}
+            register={register}
+            errors={errors.avatar}
+          />
+        );
+      case 2:
+        return (
+          <NameStep
+            register={register}
+            errors={errors}
+            prevStep={prevStep}
+            nextStep={nextStep}
+          />
+        );
+      case 3:
+        return (
+          <EmailStep
+            register={register}
+            errors={errors}
+            prevStep={prevStep}
+            nextStep={nextStep}
+          />
+        );
+      case 4:
+        return (
+          <PasswordStep
+            register={register}
+            errors={errors}
+            prevStep={prevStep}
+            nextStep={nextStep}
+          />
+        );
+      case 5:
+        return (
+          <AddressStep
+            register={register}
+            errors={errors}
+            prevStep={prevStep}
+            nextStep={nextStep}
+          />
+        );
+      case 6:
+        return (
+          <BioStep
+            register={register}
+            errors={errors}
+            prevStep={prevStep}
+            nextStep={nextStep}
+          />
+        );
+      case 7:
+        return (
+          <PhoneStep register={register} errors={errors} prevStep={prevStep} />
+        );
+
+      default:
+        return null;
+    }
+  };
+  const handleStepClick = async (step) => {
+    if (step < currentStep) {
+      setCurrentStep(step);
+    } else if (step > currentStep) {
+      let canProceed = true;
+      for (let i = 1; i < step; i++) {
+        if (!completedSteps[i]) {
+          canProceed = false;
+          toast.error(`لطفاً ابتدا مرحله ${i} را تکمیل کنید.`);
+          setCurrentStep(i);
+          break;
+        }
+      }
+      if (canProceed) {
+        setCurrentStep(step);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fieldToStep = {
+      avatar: 1,
+      name: 2,
+      email: 3,
+      password: 4,
+      phone: 5
+    };
+
+    setInvalidSteps((prevInvalidSteps) => {
+      const newInvalidSteps = { ...prevInvalidSteps };
+      Object.keys(errors).forEach((field) => {
+        const step = fieldToStep[field];
+        if (step) {
+          newInvalidSteps[step] = true;
+        }
+      });
+      return JSON.stringify(prevInvalidSteps) !==
+        JSON.stringify(newInvalidSteps)
+        ? newInvalidSteps
+        : prevInvalidSteps;
+    });
+
+    setCompletedSteps((prevCompletedSteps) => {
+      const newCompletedSteps = { ...prevCompletedSteps };
+      Object.entries(watchedFields).forEach(([field, value]) => {
+        if (field === "avatar") {
+          newCompletedSteps[fieldToStep[field]] = !!value;
         } else {
-            formData.append("avatarUrl", data.avatar); // استفاده از URL
+          newCompletedSteps[fieldToStep[field]] = value && value.length > 0;
         }
-        
-        formData.append("name", data.name);
-        formData.append("email", data.email);
-        formData.append("password", data.password);
-        formData.append("phone", data.phone);
-    
-        handleSignup(formData);
-    };
-    
-    const handleSignup = (formData) => {
-      signup(formData);
-    };
-    
-    const nextStep = async () => {
-        let valid = false;
-        switch (currentStep) {
-          case 1:
-            if (!avatarPreview) {
-              toast.error("لطفاً عکس پروفایل خود را انتخاب کنید");
-              setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-              return;
-            }
-            valid = true;
-            break;
-          case 2:
-            valid = await trigger("name");
-            if (!valid) {
-              toast.error("لطفاً نام خود را وارد کنید");
-              setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-              return;
-            }
-            break;
-          case 3:
-            valid = await trigger("email");
-            if (!valid) {
-              toast.error("لطفاً ایمیل خود را به شکل صحیح وارد کنید");
-              setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-              return;
-            }
-            break;
-          case 4:
-            valid = await trigger("password");
-            if (!valid) {
-              toast.error("لطفاً رمز عبور خود را به طور صحیح وارد کنید");
-              setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-              return;
-            }
-            break;
-          case 5:
-            valid = await trigger("phone");
-            if (!valid) {
-              toast.error("لطفاً شماره تلفن خود را به شکل صحیح وارد کنید");
-              setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-              return;
-            }
-            break;
-          default:
-            break;
-        }
-    
-        if (valid) {
-          setCompletedSteps((prev) => ({ ...prev, [currentStep]: true }));
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: false }));
-          setCurrentStep((prevStep) => prevStep + 1);
-        }
-      };
-      const prevStep = () => {
-        setCurrentStep((prevStep) => prevStep - 1);
-      };
-    const renderStepContent = (step) => {
-        switch (step) {
-          case 1:
-            return (
-              <AvatarStep
-                avatarPreview={avatarPreview}
-                handleImageSelect={handleImageSelect}
-                nextStep={nextStep}
-                register={register}
-                errors={errors.avatar}
-              />
-            );
-          case 2:
-            return (
-              <NameStep
-                register={register}
-                errors={errors}
-                prevStep={prevStep}
-                nextStep={nextStep}
-              />
-            );
-          case 3:
-            return (
-              <EmailStep
-                register={register}
-                errors={errors}
-                prevStep={prevStep}
-                nextStep={nextStep}
-              />
-            );
-          case 4:
-            return (
-              <PasswordStep
-                register={register}
-                errors={errors}
-                prevStep={prevStep}
-                nextStep={nextStep}
-              />
-            );
-          case 5:
-            return (
-              <PhoneStep
-                register={register}
-                errors={errors}
-                prevStep={prevStep}
-              />
-            );
-          default:
-            return null;
-        }
-      };
-      const handleStepClick = async (step) => {
-        if (step < currentStep) {
-          setCurrentStep(step);
-        } else if (step > currentStep) {
-          let canProceed = true;
-          for (let i = 1; i < step; i++) {
-            if (!completedSteps[i]) {
-              canProceed = false;
-              toast.error(`لطفاً ابتدا مرحله ${i} را تکمیل کنید.`);
-              setCurrentStep(i);
-              break;
-            }
-          }
-          if (canProceed) {
-            setCurrentStep(step);
-          }
-        }
-      };
-    
-      useEffect(() => {
-        const fieldToStep = {
-          avatar: 1,
-          name: 2,
-          email: 3,
-          password: 4,
-          phone: 5,
-        };
-      
-        setInvalidSteps((prevInvalidSteps) => {
-          const newInvalidSteps = { ...prevInvalidSteps };
-          Object.keys(errors).forEach((field) => {
-            const step = fieldToStep[field];
-            if (step) {
-              newInvalidSteps[step] = true;
-            }
-          });
-          return JSON.stringify(prevInvalidSteps) !== JSON.stringify(newInvalidSteps) ? newInvalidSteps : prevInvalidSteps;
-        });
-      
-        setCompletedSteps((prevCompletedSteps) => {
-          const newCompletedSteps = { ...prevCompletedSteps };
-          Object.entries(watchedFields).forEach(([field, value]) => {
-            if (field === "avatar") {
-              newCompletedSteps[fieldToStep[field]] = !!value;
-            } else {
-              newCompletedSteps[fieldToStep[field]] = value && value.length > 0;
-            }
-          });
-          return JSON.stringify(prevCompletedSteps) !== JSON.stringify(newCompletedSteps) ? newCompletedSteps : prevCompletedSteps;
-        });
-      }, [errors, watchedFields]);
-      
-      
-    return ( 
-        <form onSubmit={handleSubmit(onSubmit)}>
+      });
+      return JSON.stringify(prevCompletedSteps) !==
+        JSON.stringify(newCompletedSteps)
+        ? newCompletedSteps
+        : prevCompletedSteps;
+    });
+  }, [errors, watchedFields]);
 
-        <StepIndicator
-          currentStep={currentStep}
-          totalSteps={totalSteps}
-          onStepClick={handleStepClick} 
-          completedSteps={completedSteps}
-          invalidSteps={invalidSteps}
-        />
-  
-        {renderStepContent(currentStep)}
-  
-        {currentStep === totalSteps && (
-          <div className="flex justify-between mt-12">
-                      <SendButton />
-            <NavigationButton direction="prev" onClick={prevStep} />
-          </div>
-        )}
-      </form>
-);
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <StepIndicator
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        onStepClick={handleStepClick}
+        completedSteps={completedSteps}
+        invalidSteps={invalidSteps}
+      />
+
+      {renderStepContent(currentStep)}
+
+      {currentStep === totalSteps && (
+        <div className="flex justify-between mt-12">
+          <SendButton />
+          <NavigationButton direction="prev" onClick={prevStep} />
+        </div>
+      )}
+    </form>
+  );
 };
 
 export default StepSignUp;

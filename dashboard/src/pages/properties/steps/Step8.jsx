@@ -14,6 +14,7 @@ const Step8 = ({
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [mapCountry, setMapCountry] = useState("Bangladesh");
+  const [selectedCityLatLng, setSelectedCityLatLng] = useState(null);
 
   useEffect(() => {
     fetch("/data/countries.json")
@@ -21,7 +22,6 @@ const Step8 = ({
       .then((data) => setCountries(data))
       .catch((err) => console.error("Error loading countries JSON:", err));
   }, []);
-
   const handleCountryChange = (e) => {
     const countryId = parseInt(e.target.value);
     const country = countries.find((c) => c.id === countryId);
@@ -30,7 +30,7 @@ const Step8 = ({
     setSelectedState("");
     setSelectedCity("");
     setCities([]);
-
+    console.log(country.name);
     fetch("/data/states.json")
       .then((res) => res.json())
       .then((data) => {
@@ -64,7 +64,14 @@ const Step8 = ({
     const cityId = parseInt(e.target.value);
     const city = cities.find((c) => c.id === cityId);
 
-    setSelectedCity(city ? city.name : ""); // ذخیره نام شهر
+    setSelectedCity(city ? city.name : "");
+
+    if (city && city.latitude && city.longitude) {
+      setSelectedCityLatLng({
+        lat: parseFloat(city.latitude),
+        lng: parseFloat(city.longitude)
+      });
+    }
   };
 
   return (
@@ -113,18 +120,15 @@ const Step8 = ({
             ))}
           </select>
         )}
- 
       </div>
-
 
       <GeoLocation
         location={mapCountry}
-        setSelectedLocation={setSelectedLocation}
         zoom={10}
         height="200px"
+        setSelectedLocation={setSelectedLocation}
+        cityLatLng={selectedCityLatLng}
       />
-
-      
     </>
   );
 };

@@ -171,8 +171,20 @@ exports.getNews = async (req, res) => {
         match: { language: req.locale }
       },
       {
+        path: "type",
+        populate: {
+          path: "translations.translation",
+          match: { language: req.locale },
+          select: "fields.title  language"
+        },
+        select: "fields.title  language"
+      },
+      {
         path: "creator",
-        select: "name avatar"
+         populate: {
+          path: "translations.translation",
+          match: { language: req.locale },
+        },
       },
       {
         path: "tags",

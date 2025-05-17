@@ -1,8 +1,16 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Banner() {
   const [bannerOpen, setBannerOpen] = useState(true);
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setBannerOpen(false);
+    }, 10000); 
+    return () => clearTimeout(timer); 
+  }, []);
+
   const query = new URLSearchParams(location.search);
   const template = query.get("template");
   const liteLink =
@@ -14,7 +22,7 @@ function Banner() {
     <>
       {bannerOpen && (
         <div className="fixed bottom-0 right-0 w-full md:bottom-8 md:right-12 md:w-auto z-50">
-          <div className="bg-gray-800 border border-transparent dark:border-gray-700/60 text-gray-50 text-sm p-3 md:rounded shadow-lg flex justify-between">
+          <div className="dark:bg-gray-800 bg-gray-100 border border-transparent dark:border-gray-700/60 text-gray-50 text-sm p-3 md:rounded shadow-lg flex justify-between">
             <div className="text-gray-500 inline-flex">
               <a
                 className="font-medium hover:underline text-gray-50"
@@ -23,13 +31,13 @@ function Banner() {
                 rel="noreferrer"
               ></a>
               <p>
-                {"کلیه حقوق این اثر متعلق به شرکت  "}
+                {"کلیه حقوق این اثر متعلق به شرکت "}
                 <span className="text-red-500 text-lg">کارمونیا</span>
                 {
-                  " می باشد هر گونه کپی برداری یا استفاده غیر قانونی و ورود نا مجاز پی گرد قانونی در پی دارد"
+                  " می‌باشد. هرگونه کپی‌برداری یا استفاده غیرقانونی و ورود غیرمجاز پیگرد قانونی دارد."
                 }
               </p>
-              <span className="italic px-1.5"></span>{" "}
+              <span className="italic px-1.5"></span>
             </div>
             <button
               className="text-gray-500 hover:text-gray-400 pl-2 ml-3 border-l border-gray-700/60"

@@ -94,47 +94,62 @@ exports.addTag = async (req, res) => {
   }
 };
 
-/* get all tags */
 exports.getTags = async (req, res) => {
-  console.log("req.locale", req.locale);
   const { page = 1, limit = 5, search = "" } = req.query;
   const skip = (page - 1) * limit;
 
-  const searchQuery = search
-    ? { title: { $regex: search, $options: "i" }, isDeleted: false }
-    : { isDeleted: false };
+  try {
+    let matchedTagIds = [];
 
-  const tags = await Tag.find(searchQuery)
-    .skip(skip)
-    .limit(Number(limit))
-    .sort({ createdAt: -1 })
-    .populate([
-      {
-        path: "translations.translation",
-        match: { language: req.locale }
-      },
-      {
-        path: "creator",
-        select: "name avatar"
-      }
-    ]);
-    tags.forEach((service) => {
-      console.log("Service ID:", service._id);
-      service.translations.forEach((t) => {
-        console.log("Translation:", t.translation);
-      });
+    if (search) {
+      const translations = await Translation.find({
+        language: req.locale,
+        refModel: "Tag",
+        "fields.title": { $regex: search, $options: "i" }
+      }).select("refId");
+
+      matchedTagIds = translations.map((t) => t.refId);
+    }
+
+    const query = {
+      isDeleted: false,
+      ...(search ? { _id: { $in: matchedTagIds } } : {})
+    };
+
+    const tags = await Tag.find(query)
+      .skip(skip)
+      .limit(Number(limit))
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: "translations.translation",
+          match: { language: req.locale }
+        },
+        {
+          path: "creator",
+          select: "name avatar"
+        }
+      ]);
+
+    const total = await Tag.countDocuments(query);
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "تگ‌ها با موفقیت دریافت شدند",
+      data: tags,
+      total
     });
-    const total = await Tag.countDocuments(searchQuery);
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "تگ ها با موفقیت دریافت شدند",
-    data: tags,
-    total
-  });
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در دریافت تگ‌ها",
+      error: error.message
+    });
+  }
 };
-
 
 /* get a tag */
 exports.getTag = async (req, res) => {

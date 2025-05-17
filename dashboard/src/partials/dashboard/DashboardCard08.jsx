@@ -93,8 +93,7 @@ function DashboardCard08() {
       <header className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60 flex items-center">
         <h2 className=" text-gray-800 dark:text-gray-100">فروش در طول زمان </h2>
       </header>
-      {/* نمودار ساخته شده با Chart.js 3 */}
-      {/* تغییر ویژگی ارتفاع برای تنظیم ارتفاع نمودار */}
+     
       <LineChart data={chartData} width={595} height={248} />
     </div>
   );

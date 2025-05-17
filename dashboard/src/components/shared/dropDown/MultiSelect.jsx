@@ -66,7 +66,7 @@ const MultiSelect = ({
                     dangerouslySetInnerHTML={{ __html: item.icon }}
                   />
                 )}
-                {item.title ||item.value}
+                {item.title || item.value}
 
                 <span
                   className="text-red-500"
@@ -105,15 +105,15 @@ const MultiSelect = ({
             className="w-full px-4 py-2 border-b dark:border-gray-700 focus:outline-none dark:bg-gray-800 "
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <ul className="max-h-40 overflow-y-auto pl-2 mt-2 flex flex-col gap-1">
+          <div className="max-h-40 overflow-y-auto pl-2 mt-2 flex flex-col gap-1">
             {filteredItems.map((item) => (
-              <li
+              <div
                 key={item.id}
                 onClick={() => handleItemSelect(item)}
                 className={`px-4 py-2 rounded-md cursor-pointer ${
                   selectedItems.some((selected) => selected.id === item.id)
-                    ? "bg-blue-100 text-blue-700  flex gap-x-1 "
-                    : "bg-gray-100 hover:bg-blue-100 dark:bg-gray-700 dark:hover:bg-gray-900  flex gap-x-4 "
+                    ? "bg-blue-100 text-blue-700 flex gap-x-1"
+                    : "bg-gray-100 hover:bg-blue-100 dark:bg-gray-700 dark:hover:bg-gray-900 flex gap-x-4"
                 }`}
               >
                 {item.icon && (
@@ -122,15 +122,15 @@ const MultiSelect = ({
                     dangerouslySetInnerHTML={{ __html: item.icon }}
                   />
                 )}
-                <span>{item.title||item.value}</span>
+                <span>{item.title || item.value}</span>
                 {item.description && (
                   <Tooltip position="right" bg="dark" size="sm">
                     {item.description}
                   </Tooltip>
                 )}
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       )}
     </div>

@@ -31,8 +31,8 @@ const adminApi = kuarmoniaApi.injectEndpoints({
 
     // update admin
     updateAdmin: builder.mutation({
-      query: (body) => ({
-        url: `/admin/update-information`,
+      query: ({id,body}) => ({
+        url: `/admin/update-admin/${id}`,
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -46,7 +46,7 @@ const adminApi = kuarmoniaApi.injectEndpoints({
     // admin single admin
     updateAdminInfo: builder.mutation({
       query: ({ id, body }) => ({
-        url: `/admin/update-admin/${id}`,
+        url: `/admin/update-information/${id}`,
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

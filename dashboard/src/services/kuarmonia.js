@@ -29,11 +29,11 @@ export const kuarmoniaApi = createApi({
     "Currency",
     "Post",
     "Blog",
+    "Standard",
+    "Award",
     "Gallery",
     "VenueType",
-    "VenueStandard",
     "VenueSetting",
-    "VenueAward",
     "VenueAmenity",
     "Venue",
     "CeremonyType",
@@ -49,7 +49,17 @@ export const kuarmoniaApi = createApi({
     "NewsCountry",
     "NewsType",
     "Faq",
-    "Service"
+    "Service",
+    "JobType",
+    "JobTime",
+    "EmploymentType",
+    "ExperienceLevel",
+    "ResidencyStatus",
+    "CitizenshipOutcome",
+    "Institution",
+    "InstitutionType",
+    "Opportunity",
+    "JobMode"
   ],
   endpoints: () => ({})
 });

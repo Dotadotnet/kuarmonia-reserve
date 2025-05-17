@@ -16,9 +16,7 @@ const ServicePost = async ({ params }) => {
   console.log(service);
   return (
     <Main>
-      <div className="   px-4 py-12">
         <ServiceContent service={service} />
-      </div>
     </Main>
   );
 };

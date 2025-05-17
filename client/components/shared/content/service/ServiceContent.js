@@ -7,14 +7,12 @@ import { useLocale } from "next-intl";
 import Image from "next/image";
 
 export default function ServiceContent({ service }) {
-  console.log(service);
   const locale = useLocale();
   const { title, content, summary, roadmap, faqs } =
     service.translations.find((t) => t.language === locale)?.translation
       .fields || {};
-  console.log(title, content, summary, roadmap, faqs);
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 mt-4 z-40 relative scrollbar-hide h-screen overflow-y-auto">
+    <div className="bg-gray-100 dark:bg-gray-800  z-40 relative scrollbar-hide h-screen overflow-y-auto">
       <main>
         <article>
           <header className="mx-auto mt-80 max-w-screen-lg rounded-t-primary bg-gray-100 dark:bg-gray-900 pt-16 text-center shadow-lg ">
@@ -31,10 +29,10 @@ export default function ServiceContent({ service }) {
                 </a>
                 <p className="text-center text-sm mt-1">
                   <span className="font-medium">
-                    {new Date(service?.createdAt).toLocaleDateString("fa-IR", {
+                    {new Date(service?.createdAt).toLocaleDateString(locale, {
                       weekday: "long"
                     })}{" "}
-                    - {new Date(service?.createdAt).toLocaleDateString("fa-IR")}
+                    - {new Date(service?.createdAt).toLocaleDateString(locale)}
                   </span>
                 </p>
               </div>
@@ -59,7 +57,7 @@ export default function ServiceContent({ service }) {
               <Image
                 width={1200}
                 height={600}
-                className="-z-10 absolute top-0 left-0 mt-10 h-96 w-full object-cover"
+                className="-z-10 absolute top-0 left-0 h-105 w-full object-cover"
                 src={service?.thumbnail.url}
                 alt=""
               />
@@ -89,7 +87,7 @@ export default function ServiceContent({ service }) {
               </div>
             )}
           </div>
-          <div className="mx-auto max-w-screen-lg space-y-12 rounded-b-lg bg-gray-100 dark:bg-gray-900 px-8 pt-10 pb-20 font-serif text-lg tracking-wide text-gray-700 sm:shadow-lg ">
+          <div className="mx-auto max-w-screen-lg space-y-12 rounded-b-lg bg-gray-100 dark:bg-gray-900 md:px-8 px-4 pt-10 pb-20 font-serif text-lg tracking-wide text-gray-700 dark:text-white  sm:shadow-lg ">
             {content && (
               <div
                 className="text-justify"

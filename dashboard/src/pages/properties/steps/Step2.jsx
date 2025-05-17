@@ -3,10 +3,11 @@ import ModalPortal from "@/components/shared/modal/ModalPortal";
 import Modal from "@/components/shared/modal/Modal";
 import { Controller } from "react-hook-form";
 import TextEditor from "@/components/shared/textEditor/TextEditor";
+import Apply from "@/components/icons/Apply";
 
-const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
-    const [isOpen, setIsOpen] = useState(false);
-  
+const Step2 = ({ setEditorData, register, errors, control, editorData }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const stripHtmlTags = (html) => {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
@@ -99,6 +100,12 @@ const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
                   onClose={() => setIsOpen(false)}
                   className=" md:!w-2/3 !w-full h-full !p-1 overflow-y-auto !mx-0 !rounded-none"
                 >
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="absolute apply-button bottom-4 right-4 z-50 md:hidden   n-600 rounded-full w-16 h-16 flex items-center justify-center"
+                  >
+                    <Apply className="!w-10 !h-10" />
+                  </button>
                   <TextEditor
                     value={editorData}
                     onChange={(value) => {
@@ -113,7 +120,7 @@ const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
         />
       </label>
       <label htmlFor="createDate" className="flex flex-col gap-y-2 w-full">
-       عمر ساختمان
+        عمر ساختمان
         <input
           type="number"
           name="createDate"
@@ -122,7 +129,7 @@ const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
           {...register("createDate", {
             required: "عمر ساخت الزامی است",
             pattern: {
-              value: /^\d{1,2}$/, 
+              value: /^\d{1,2}$/,
               message: "لطفاً سال را به درستی وارد کنید"
             }
           })}
@@ -133,7 +140,6 @@ const Step2 = ({ setEditorData, register, errors ,control,editorData  }) => {
           </span>
         )}
       </label>
-     
     </div>
   );
 };

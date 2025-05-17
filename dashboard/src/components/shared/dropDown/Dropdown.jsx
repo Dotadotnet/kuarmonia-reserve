@@ -7,7 +7,7 @@ const Dropdown = ({
   onChange,
   className = "h-12 w-full",
   isReadOnly = false,
-  iconOnly = false,
+  iconOnly = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,9 +24,9 @@ const Dropdown = ({
     if (!isReadOnly) {
       setSelectedItem(item);
       if (handleSelect) {
-        handleSelect(item); 
+        handleSelect(item);
       } else if (onChange) {
-        onChange(item); 
+        onChange(item);
       }
       setIsOpen(false);
       setTooltipContent("");
@@ -35,19 +35,19 @@ const Dropdown = ({
 
   useEffect(() => {
     if (value) {
-const selected = items.find((item) => item.value === value);
+      const selected = items.find((item) => item.value === value);
       setSelectedItem(selected || null);
     } else {
-      setSelectedItem(null); 
+      setSelectedItem(null);
     }
-  }, [value, items]); 
+  }, [value, items]);
 
   const handleMouseEnter = (e, description) => {
     const rect = e.target.getBoundingClientRect();
     setTooltipContent(description);
     setTooltipPosition({
       top: rect.top + window.scrollY,
-      left: rect.right + 10,
+      left: rect.right + 10
     });
   };
 
@@ -63,10 +63,19 @@ const selected = items.find((item) => item.value === value);
           isReadOnly ? " opacity-50" : ""
         }`}
         disabled={isReadOnly}
-      > 
-      {/* ببین  اینجا باید اون ولیو هایکه سلکت کردی رو  اینجا بزاری ببین کدومهاس که سکلت میکنی */}
+      >
         <span className="ml-2 dark:text-gray-100 flex justify-center text-center">
-          {iconOnly && selectedItem?.icon ? selectedItem.icon : selectedItem?.value || ""}
+          {iconOnly && selectedItem?.icon ? (
+            <div dangerouslySetInnerHTML={{ __html: selectedItem.icon }} />
+          ) : (
+            <div className="flex items-center gap-2 ">
+              <span
+                className="w-5 h-5"
+                dangerouslySetInnerHTML={{ __html: selectedItem?.icon }}
+              />
+              <span>{selectedItem?.title || selectedItem?.value}</span>
+            </div>
+          )}
         </span>
         {!isReadOnly && !iconOnly && (
           <span className="dark:text-gray-100">
@@ -87,27 +96,31 @@ const selected = items.find((item) => item.value === value);
         )}
       </button>
       {isOpen && (
-        <div className="absolute mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg z-50 p-2">
-          <input
-            type="text"
-            placeholder="جستجو کن"
-            className="w-full px-4 py-2 border-b dark:border-gray-700 focus:outline-none dark:bg-gray-800"
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <ul className="max-h-40 overflow-y-auto flex mt-2 flex-col gap-y-2">
-            {filteredItems.map((item) => (
-              <li
-                key={item.id}
-                onClick={() => handleItemSelect(item)}
-                onMouseEnter={(e) => handleMouseEnter(e, item.description)}
-                onMouseLeave={handleMouseLeave}
-                className={`marker:relative  bg-gray-100 hover:bg-blue-100   ${iconOnly ? "flex justify-center" : "px-2 py-2"} dark:bg-gray-700 dark:hover:bg-gray-900 rounded-md cursor-pointer group`}
-              >
-                {iconOnly ? item.icon : item.value}
-              </li>
-            ))}
-          </ul>
-        </div>
+         <ul className="absolute mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 !z-50 dark:border-gray-700 rounded-md shadow-lg  p-2">
+          {filteredItems.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => handleItemSelect(item)}
+              onMouseEnter={(e) => handleMouseEnter(e, item.description)}
+              onMouseLeave={handleMouseLeave}
+              className={`marker:relative mt-1 bg-gray-100 hover:bg-blue-100 ${
+                iconOnly ? "flex justify-center" : "px-2 py-2"
+              } dark:bg-gray-700 dark:hover:bg-gray-900 rounded-md cursor-pointer group`}
+            >
+              {iconOnly ? (
+                item.icon
+              ) : (
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-5 h-5"
+                    dangerouslySetInnerHTML={{ __html: item.icon }}
+                  />
+                  <span>{item.title || item.value}</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </ul>
       )}
       {tooltipContent && (
         <div
@@ -119,7 +132,7 @@ const selected = items.find((item) => item.value === value);
             whiteSpace: "wrap",
             pointerEvents: "none",
             zIndex: 50,
-            opacity: tooltipContent ? 1 : 0,
+            opacity: tooltipContent ? 1 : 0
           }}
         >
           {tooltipContent}

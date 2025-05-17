@@ -6,7 +6,7 @@ import NewsSlider from "./NewsSlider";
 import { getTranslations } from "next-intl/server";
 
 const News = async ({ params }) => {
-  const locale = params.locale;
+  const { locale } = await params;
   const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
   const response = await fetch(api, {
     cache: "no-store",

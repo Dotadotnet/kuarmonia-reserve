@@ -7,6 +7,8 @@ import Inform from "@/components/icons/Inform";
 import Modal from "@/components/shared/modal/Modal";
 import { useLocale } from "next-intl";
 import { useTranslations } from "next-intl";
+import ShieldAlert from "@/components/icons/ShieldAlert";
+import ShieldCheck from "@/components/icons/ShieldCheck";
 
 const Description = ({ property }) => {
   const t = useTranslations("Property");
@@ -42,8 +44,8 @@ const Description = ({ property }) => {
     <section className="flex flex-col gap-y-2.5">
       <div className="flex flex-row gap-x-2 items-center">
         <span className="whitespace-nowrap text-sm">
+          
           {t("amenities")}
-          🏡
         </span>
         <div className="flex flex-row gap-x-2 items-center">
           <hr className="w-full border-gray-300 dark:border-gray-700" />
@@ -68,7 +70,7 @@ const Description = ({ property }) => {
                   key={index}
                   className="flex items-center gap-x-2 text-gray-700 dark:text-gray-300"
                 >
-                  {amenity.hasAmenity ? "✅" : "❌"}
+                  {amenity.hasAmenity ? <ShieldCheck className="w-6 h-6 text-primary" />:<ShieldAlert className="h-6 w-6 text-yellow-500"  />}
                   <span>{title}</span>
                 </div>
               );

@@ -4,7 +4,7 @@ const Location = ({ className, ...props }) => {
   return (
     <svg
       {...props}
-      className={"w-7 h-7" + (className ? " " + className : "")}
+      className={"w-6 h-6" + (className ? " " + className : "")}
       xmlns="http://www.w3.org/2000/svg"
       width={24}
       height={24}

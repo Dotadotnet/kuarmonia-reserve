@@ -19,8 +19,8 @@ const categoryApi = kuarmoniaApi.injectEndpoints({
 
     // get all categories
     getCategories: builder.query({
-      query: () => ({
-        url: "/category/get-categories",
+      query: ({ page = 1, limit = 5, search = "" } = {}) => ({
+        url: `/category/get-categories/?page=${page}&limit=${limit}&search=${search}`,
         method: "GET",
       }),
 

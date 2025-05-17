@@ -40,7 +40,7 @@ export default function KarmoniaTestimonials() {
   };
 
   return (
-    <section className="py-14  rounded-primary bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900 dark:bg-gray-900 lg:py-24 bg-blue-100 dark:bg-gray-900">
+    <section className="py-14  rounded-primary bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900 dark:bg-gray-900 lg:py-24 bg-blue-100 ">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
         <div className="mb-16 rounded-full">
           <h2 className="text-4xl font-manrope font-bold text-gray-900 text-center">

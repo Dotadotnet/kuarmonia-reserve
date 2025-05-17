@@ -1,10 +1,21 @@
 {
   "HomePage": {
-    "0": "Kuarmonia",
-    "1": "Immigration and investment",
-    "2": "For a bright future and successful investment",
-    "3": "In Carmonia, we are providing new ways to migrate and build a bright future",
-    "4": "Start your successful journey",
+    "heroTitle": "Kuarmonia",
+    "heroSubtitle": "Immigration and investment",
+    "heroSlogan": "For a bright future",
+    "heroDescription": "In Kuarmonia, we are providing new ways to migrate and build a bright future",
+    "heroButton": "Start your successful journey",
+    "cartTitle": "Your cart",
+    "NotFound": "No items found",
+    "search": {
+      "title": "Search for content",
+      "placeholder": "Enter your search term...",
+      "loading": "Searching...",
+      "success": "Results retrieved successfully",
+      "error": "Failed to retrieve results",
+      "noResults": "No results found",
+      "perNight": "per night"
+    },
     "5": "Golden opportunity",
     "6": "Buy Property in Türkiye",
     "7": "International marriage",
@@ -83,7 +94,7 @@
     "81": "Kuarmonia Gallery",
     "82": "Pictures of activities and ceremonies",
     "83": "Client Review",
-    "84": "Feedback from our users from the experience of working with Carmonia",
+    "84": "Feedback from our users from the experience of working with Kuarmonia",
     "85": "Your usual questions",
     "86": "Frequently asked questions about our processes",
     "87": "Enter your email.",
@@ -177,7 +188,7 @@
     "25": "Completed immigration and investment projects",
     "26": "More than 625 immigration and investment projects have been successful.",
     "27": "Our successful customers' comments on immigration",
-    "28": "Since I worked with Carmonia, I have been able to go through the immigration stages of Canada through marriage safely. ",
+    "28": "Since I worked with Kuarmonia, I have been able to go through the immigration stages of Canada through marriage safely. ",
     "29": "My wife and I were looking to emigrate to Türkiye through marriage. ",
     "30": "I have had the experience of successful immigration to Canada through investment programs with the help of the experienced Kuarmonia team. "
   },
@@ -236,6 +247,38 @@
     "metr": "metr",
     "createDate": "Create Date",
     "year": "Year"
-
+  },
+  "Service": {
+    "faqs": "Frequently asked questions"
+  },
+  "notFound": {
+    "title": "404 - Page Not Found",
+    "message": "The page you requested does not exist.",
+    "button": "Go to Home Page"
+  },
+  "News": {
+    "latestNews": "Latest News",
+    "today": "Today",
+    "readMore": "Read more",
+    "publishedAt": "Published on",
+    "source": "News Source",
+    "noSource": "No source provided.",
+    "share": "Share",
+    "userComments": "User Comments",
+    "postedAt": "Posted on",
+    "minutesAgo": "{count} minutes ago",
+    "hoursAgo": "{count} hours ago",
+    "daysAgo": "{count} days ago",
+    "weekdayPrefix": "- {weekday}",
+    "subscribe": "Abone Ol",
+    "latestVideo": "Son Videolar",
+    "yourEmail": "E-posta adresiniz",
+    "emailPrivacy": "Son haberleri e-posta ile alın. E-posta adresinizi asla paylaşmayız.",
+    "noNews": "Henüz haber yok",
+    "subscribeNote": "Get the latest news delivered to your inbox. We never share your email.",
+    "subscribeButton": "Subscribe",
+    "emailPlaceholder": "E-posta adresinizi girin",
+    "emailRequired": "Please enter your email address.",
+    "emailValid": "Please enter a valid email."
   }
 }

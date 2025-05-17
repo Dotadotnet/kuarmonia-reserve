@@ -7,6 +7,7 @@ import "./charts/ChartjsConfig";
 import Dashboard from "./pages/Dashboard";
 import SignIn from "./pages/auth/signin/index";
 import SignUp from "./pages/auth/signup/index";
+import MyProfile from "./pages/my-profile/index";
 import Users from "./pages/users/index";
 import { Toaster } from "react-hot-toast";
 import Categories from "./pages/categories";
@@ -24,25 +25,33 @@ import Galleries from "./pages/galleries";
 import Properties from "./pages/properties";
 import AddProperty from "./pages/properties/add";
 import PropertyTrades from "./pages/prop-trades";
-import PropSales from "./pages/prop-sales";
+import Sales from "./pages/prop-sales";
 import PropTypes from "./pages/prop-types";
-import PropAward from "./pages/prop-awards";
-import AddPropAward from "./pages/prop-awards/add";
-import PropStandard from "./pages/prop-standards";
-import AddPropStandard from "./pages/prop-standards/add";
+import Award from "./pages/awards";
+import AddAward from "./pages/awards/add";
+import Standard from "./pages/standards";
+import AddStandard from "./pages/standards/add";
 import Venues from "./pages/venues";
 import AddVenue from "./pages/venues/add";
 import VenueType from "./pages/venue-types";
 import VenueService from "./pages/venue-services";
 import VenueAmenities from "./pages/venue-amenities";
-import VenueStandard from "./pages/venue-standards";
-import AddVenueStandard from "./pages/venue-standards/add";
 import VenueSetting from "./pages/venue-settings";
-import VenueAward from "./pages/venue-awards";
-import AddVenueAward from "./pages/venue-awards/add";
 import CeremonyType from "./pages/ceremony-types";
 import VenueVendor from "./pages/venue-vendors";
 import AddVenueVendor from "./pages/venue-vendors/add";
+import JobTypes from "./pages/job-types";
+import JobTimes from "./pages/job-times";
+import JobModes from "./pages/job-modes";
+import EmploymentTypes from "./pages/employment-types";
+import ExperienceLevels from "./pages/experience-levels";
+import ResidencyStatus from "./pages/residency-status";
+import CitizenshipOutcome from "./pages/citizenship-outcome";
+import InstitutionType from "./pages/institution-type";
+import Institutions from "./pages/institutions";
+import AddInstitutions from "./pages/institutions/add";
+import Opportunities from "./pages/opportunities";
+import AddOpportunitie from "./pages/opportunities/add";
 import News from "./pages/news";
 import AddNews from "./pages/news/add";
 import NewsCountry from "./pages/news-countries";
@@ -72,6 +81,7 @@ function App() {
           <Route exact path="/" element={<Dashboard />} />
           <Route exact path="/signin" element={<SignIn />} />
           <Route exact path="/signup" element={<SignUp />} />
+          <Route exact path="/my-profile" element={<MyProfile />} />
           <Route exact path="/users" element={<Users />} />
           <Route exact path="/tags" element={<Tags />} />
           <Route exact path="/categories" element={<Categories />} />
@@ -87,30 +97,19 @@ function App() {
           <Route exact path="/properties" element={<Properties />} />
           <Route exact path="/properties/add" element={<AddProperty />} />
           <Route exact path="/prop-trades" element={<PropertyTrades />} />
-          <Route exact path="/prop-sales" element={<PropSales />} />
+          <Route exact path="/prop-sales" element={<Sales />} />
           <Route exact path="/prop-types" element={<PropTypes />} />
-          <Route exact path="/prop-awards" element={<PropAward />} />
-          <Route exact path="/prop-awards/add" element={<AddPropAward />} />
-          <Route exact path="/prop-standards" element={<PropStandard />} />
-          <Route
-            exact
-            path="/prop-standards/add"
-            element={<AddPropStandard />}
-          />
+          <Route exact path="/awards" element={<Award />} />
+          <Route exact path="/awards/add" element={<AddAward />} />
+          <Route exact path="/standards" element={<Standard />} />
+          <Route exact path="/standards/add" element={<AddStandard />} />
           <Route exact path="/venues" element={<Venues />} />
           <Route exact path="/venues/add" element={<AddVenue />} />
           <Route exact path="/venue-types" element={<VenueType />} />
           <Route exact path="/venue-services" element={<VenueService />} />
           <Route exact path="/venue-amenities" element={<VenueAmenities />} />
           <Route exact path="/venue-settings" element={<VenueSetting />} />
-          <Route exact path="/venue-awards" element={<VenueAward />} />
-          <Route exact path="/venue-awards/add" element={<AddVenueAward />} />
-          <Route exact path="/venue-standards" element={<VenueStandard />} />
-          <Route
-            exact
-            path="/venue-standards/add"
-            element={<AddVenueStandard />}
-          />
+
           <Route
             exact
             path="/venue-ceremony-types"
@@ -118,6 +117,26 @@ function App() {
           />
           <Route exact path="/venue-vendors/add" element={<AddVenueVendor />} />
           <Route exact path="/venue-vendors" element={<VenueVendor />} />
+          <Route exact path="/job-types" element={<JobTypes />} />
+          <Route exact path="/job-times" element={<JobTimes />} />
+          <Route exact path="/job-modes" element={<JobModes />} />
+          <Route exact path="/employment-types" element={<EmploymentTypes />} />
+          <Route
+            exact
+            path="/experience-levels"
+            element={<ExperienceLevels />}
+          />
+          <Route
+            exact
+            path="/citizenship-outcome"
+            element={<CitizenshipOutcome />}
+          />
+          <Route exact path="/residency-status" element={<ResidencyStatus />} />
+          <Route exact path="/institution-type" element={<InstitutionType />} />
+          <Route exact path="/institutions" element={<Institutions />} />
+          <Route exact path="/institutions/add" element={<AddInstitutions/>} />
+          <Route exact path="/opportunities" element={<Opportunities />} />
+          <Route exact path="/Opportunities/add" element={<AddOpportunitie/>} />
           <Route exact path="/news" element={<News />} />
           <Route exact path="/news/add" element={<AddNews />} />
           <Route exact path="/news-countries" element={<NewsCountry />} />

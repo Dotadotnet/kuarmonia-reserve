@@ -1,5 +1,3 @@
-// import داده‌ها بدون تایپ
-import { timelineItemData } from "./data";
 
 const TimelineItem = ({ data }) => {
   const { title, description, link, duration } = data;

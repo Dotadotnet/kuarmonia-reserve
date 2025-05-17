@@ -6,8 +6,6 @@ import {
   Chart, LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip,
 } from 'chart.js';
 import 'chartjs-adapter-moment';
-
-// Import utilities
 import { tailwindConfig, formatValue } from '../utils/Utils';
 
 Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip);
@@ -27,7 +25,6 @@ function LineChart02({
 
   useEffect(() => {
     const ctx = canvas.current;
-    // eslint-disable-next-line no-unused-vars
     const newChart = new Chart(ctx, {
       type: 'line',
       data: data,
@@ -181,7 +178,6 @@ function LineChart02({
           </div>
         </div>
       </div>
-      {/* Chart built with Chart.js 3 */}
       <div className="grow">
         <canvas ref={canvas} width={width} height={height}></canvas>
       </div>

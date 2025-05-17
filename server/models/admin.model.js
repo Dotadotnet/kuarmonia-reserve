@@ -10,21 +10,6 @@ const adminSchema = new mongoose.Schema(
       type: Number,
       unique: true
     },
-    name: {
-      type: String,
-      validate: {
-        validator: function (value) {
-          if (this.role === "admin" || this.role === "superAdmin") {
-            return !!value;
-          }
-          return true;
-        },
-        message: "برای نقش مدیر یا مدیر کل، وارد کردن نام الزامی است"
-      },
-      trim: true,
-      maxLength: [100, "نام شما باید حداکثر 100 کاراکتر باشد"]
-    },
-
     email: {
       type: String,
       validate: {
@@ -41,8 +26,16 @@ const adminSchema = new mongoose.Schema(
     },
     translations: [
       {
-        type: ObjectId,
-        ref: "Translation"
+        translation: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Translation",
+          required: true
+        },
+        language: {
+          type: String,
+          enum: ["fa", "en", "tr"],
+          required: true
+        }
       }
     ],
     password: {
@@ -75,17 +68,17 @@ const adminSchema = new mongoose.Schema(
     phone: {
       type: String,
       required: [true, "لطفا شماره تماس خود را وارد کنید"],
-      validate: {
-        validator: (value) => /^09\d{9}$/.test(value),
-        message:
-          "شماره تماس {VALUE} معتبر نیست. شماره باید 11 رقم باشد و با 09 شروع شود"
-      },
+      match: [
+        /^\+?[1-9]\d{1,14}$/,
+        "شماره تماس باید فرمت بین‌المللی داشته باشد"
+      ],
+
       unique: true
     },
 
     role: {
       type: String,
-      enum: ["superAdmin", "admin", "operator"],
+      enum: ["superAdmin", "admin", "operator", "writer", "publisher","vendor"],
       default: "operator"
     },
 
@@ -99,7 +92,6 @@ const adminSchema = new mongoose.Schema(
       type: ObjectId,
       ref: "Address"
     },
-
     ...baseSchema.obj
   },
   { timestamps: true }

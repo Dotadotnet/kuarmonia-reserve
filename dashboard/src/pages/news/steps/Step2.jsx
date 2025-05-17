@@ -45,7 +45,12 @@ const Step2 = ({
     isLoading: fetchingCategories,
     data: fetchCategoriesData,
     error: fetchCategoriesError
-  } = useGetCategoriesQuery();
+  } = useGetCategoriesQuery({
+    page: 1,
+    limit: Infinity,
+    status: "all",
+    search: ""
+  });
   const categories = useMemo(
     () =>
       fetchCategoriesData?.data?.map((category) => ({
@@ -56,7 +61,6 @@ const Step2 = ({
       })) || [],
     [fetchCategoriesData]
   );
-  console.log(categories)
   const newsTypes = useMemo(
     () =>
       fetchNewsTypesData?.data?.map((newsType) => ({
@@ -77,7 +81,6 @@ const Step2 = ({
       })),
     [fetchTagsData]
   );
-  console.log(tags)
 
   useEffect(() => {
     if (fetchingTags) {

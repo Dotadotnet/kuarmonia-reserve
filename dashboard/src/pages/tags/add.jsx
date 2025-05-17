@@ -107,7 +107,7 @@ const AddTag = () => {
         <Modal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          className="lg:w-1/3 md:w-1/2 w-full z-50 h-fit"
+          className="lg:w-1/3 md:w-1/2 w-full z-50 h-fit overflow-y-auto  max-h-3/4"
         >
           <form
             className="text-sm w-full h-full flex flex-col gap-y-4 p-4"

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Counter = require("./counter");
-const {  Types } = mongoose;
 
 const addressSchema = new mongoose.Schema(
   {
@@ -8,7 +7,7 @@ const addressSchema = new mongoose.Schema(
       type: Number,
       unique: true
     },
-    
+
     country: {
       type: String,
       default: "ایران",
@@ -30,15 +29,24 @@ const addressSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
-   
-    phone: { 
-      type: String, 
-      required: [true, 'لطفا شماره تماس خود را وارد کنید'],
-      match: [/^\+?[1-9]\d{1,14}$/, 'شماره تماس باید فرمت بین‌المللی داشته باشد']
+
+    phone: {
+      type: String,
+      unique: true,
+
+      required: [true, "لطفا شماره تماس خود را وارد کنید"],
+      match: [
+        /^\+?[1-9]\d{1,14}$/,
+        "شماره تماس باید فرمت بین‌المللی داشته باشد"
+      ]
     },
-    email: { 
-      type: String, 
-      match: [/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/, 'ایمیل وارد شده معتبر نیست']
+    email: {
+      type: String,
+      unique: true,
+      match: [
+        /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
+        "ایمیل وارد شده معتبر نیست"
+      ]
     },
     floor: {
       type: String,
@@ -50,12 +58,29 @@ const addressSchema = new mongoose.Schema(
       trim: true
     },
     postalCode: {
+      type: String
+    },
+    website: {
       type: String,
-     
+      trim: true,
+      match: [
+        /^(https?:\/\/)?([\w\-]+\.)+[\w\-]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/,
+        "آدرس وب‌سایت معتبر نیست"
+      ]
+    },
+    location: {
+      type: {
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true }
+      }
+    },
+    admin: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "َAdmin"
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "َAdmin"
+      ref: "User"
     }
   },
   { timestamps: true }

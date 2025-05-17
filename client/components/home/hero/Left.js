@@ -1,6 +1,5 @@
-"use client";
-import React, { useRef, useState } from "react";
-import { useSwiper, Swiper, SwiperSlide } from "swiper/react";
+import React, { useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/free-mode";
@@ -13,7 +12,6 @@ import { useLocale, useTranslations } from "next-intl";
 import language from "@/app/language";
 
 function Left() {
-  const swiper = useSwiper();
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
   const t = useTranslations("HomePage");
@@ -26,21 +24,33 @@ function Left() {
   const lang = useLocale();
   const class_lang = new language(lang);
   if (class_lang.getInfo().dir == "ltr") {
-     prev = "custom-next";
-     next = "custom-prev";
+    prev = "custom-next";
+    next = "custom-prev";
   } else {
-     prev = "custom-prev"; 
-     next = "custom-next";
+    prev = "custom-prev";
+    next = "custom-next";
   }
   return (
     <div className="col-span-1 h-full min-h-[450px] w-full flex flex-col relative px-3 ">
       <div className="absolute w-full top-1/2  flex justify-between z-50">
-        <div className={prev + " " + "hover:scale-125 transition-all  ltr:right-1 rtl:-right-5 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer text-gray-700 w-8 h-8 bg-white dark:bg-gray-700 border-white dark:border-gray-900 -lg text-lg"}>
+        <div
+          className={
+            prev +
+            " " +
+            "hover:scale-125 transition-all  ltr:right-1 rtl:-right-5 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer text-gray-700 w-8 h-8 bg-white dark:bg-gray-700 border-white dark:border-gray-900 -lg text-lg"
+          }
+        >
           <span>
             <IoIosArrowForward size={30} className="dark:text-gray-100 " />
           </span>
         </div>
-        <div className={next + " " + " hover:scale-125 transition-all ltr:-left-5 rtl:left-1 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-100 border-white  text-lg dark:bg-gray-700"}>
+        <div
+          className={
+            next +
+            " " +
+            " hover:scale-125 transition-all ltr:-left-5 rtl:left-1 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-100 border-white  text-lg dark:bg-gray-700"
+          }
+        >
           <span>
             <IoIosArrowBack size={30} className="dark:text-gray-100" />
           </span>
@@ -70,40 +80,41 @@ function Left() {
             nextEl: ".custom-next",
             prevEl: ".custom-prev"
           }}
-
           modules={[Autoplay, Pagination, Navigation]}
           onAutoplayTimeLeft={onAutoplayTimeLeft}
           className="mySwiper"
         >
-
           <SwiperSlide>
-            <div className="flex flex-col gap-y-4 justify-center items-center p-4 text-right  md:text-center">
-              <motion.h2
-                className="md:text-5xl [word-spacing:0.4rem] text-white font-nozha text-6xl w-full text-right"
-                initial={{ x: -200, opacity: 0 }} // Initial state: Slide from left
-                animate={{ x: 0, opacity: 1 }} // End state: Position in place
-                transition={{ duration: 0.3 }} // Duration of slide-in effect
+            <div className="flex flex-col gap-y-4 justify-start items-center p-4 text-right ">
+          <h2
+                className="text-5xl  text-white  w-full text-right"
+                initial={{ x: -200, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
               >
-                {t("5")}
+                <span className="rtl:font-nozha ">{t("5")}</span>
                 <br />{" "}
-                <span className="text-4xl [word-spacing:0.4rem] text-black">
-                {t("6")}
+                <span className="text-2xl font-vazir text-black">
+                  {t("6")}
                 </span>
                 <br />
-              </motion.h2>
-
-
+              </h2>
             </div>
 
-            <div className="absolute -bottom-8 -right-2 md:flex">
+            <div
+              className={`absolute  flex  -bottom-8 ${
+                lang === "fa" ? "left-44" : "right-44"
+              } md:flex`}
+            >
+              {" "}
               <motion.div
                 animate={{
-                  y: ["0px", "20px", "0px"] // حرکت بالا و پایین
+                  y: ["0px", "20px", "0px"]
                 }}
                 transition={{
-                  repeat: Infinity, // تکرار انیمیشن
+                  repeat: Infinity,
                   repeatType: "loop",
-                  duration: 3 // مدت زمان یک سیکل حرکت
+                  duration: 3
                 }}
               >
                 <Image
@@ -111,27 +122,34 @@ function Left() {
                   height={872}
                   width={500}
                   alt="سرمایه گذاری"
-                  className="w-40  ml-4 block md:mr-auto"
+                  className="w-40 block md:mr-auto"
+                  style={{ aspectRatio: "500 / 872" }}
+                  priority
                 />
               </motion.div>
             </div>
-            <div className="absolute -bottom-8 -left-56  md:flex">
+            <div
+              className={`absolute  flex  -bottom-8 ${
+                lang === "fa" ? "-left-60" : "-right-44"
+              } md:flex`}
+            >
+              {" "}
               <motion.div
                 animate={{
-                  y: ["0px", "20px", "0px"] // حرکت بالا و پایین
+                  y: ["0px", "20px", "0px"]
                 }}
                 transition={{
-                  repeat: Infinity, // تکرار انیمیشن
+                  repeat: Infinity,
                   repeatType: "loop",
-                  duration: 3 // مدت زمان یک سیکل حرکت
+                  duration: 3
                 }}
               >
                 <Image
                   src="/assets/home-page/banner/marriage1.webp"
                   height={500}
                   width={500}
-                  alt="ازدواج بین المللی"
-                  className="w-80  ml-4 block md:mr-auto"
+                  alt="ازدواج بین‌المللی"
+                  className="w-80 ml-4 block md:mr-auto"
                 />
               </motion.div>
             </div>
@@ -140,31 +158,32 @@ function Left() {
           <SwiperSlide>
             <div className="flex flex-col gap-y-4 p-4">
               <h2
-                className="text-5xl [word-spacing:0.4rem] text-white font-nozha w-full text-right"
+                className="text-5xl [word-spacing:0.4rem] text-white  w-full text-right"
                 initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
-                {t("11")}
+                <span className="font-nozha ">{t("11")}</span>
                 <br />{" "}
-                <span className="text-4xl [word-spacing:0.4rem] text-black">
+                <span className="text-2xl [word-spacing:0.4rem] text-black">
                   {t("12")}
                 </span>
                 <br />
               </h2>
-
-
-
             </div>
-            <div className="absolute  flex  -bottom-8 -left-44 md:flex">
+            <div
+              className={`absolute  flex  -bottom-8 ${
+                lang === "fa" ? "-left-44" : "-right-44"
+              } md:flex`}
+            >
               <motion.div
                 animate={{
-                  y: ["0px", "20px", "0px"] // حرکت بالا و پایین
+                  y: ["0px", "20px", "0px"]
                 }}
                 transition={{
-                  repeat: Infinity, // تکرار انیمیشن
+                  repeat: Infinity,
                   repeatType: "loop",
-                  duration: 3 // مدت زمان یک سیکل حرکت
+                  duration: 3
                 }}
               >
                 <Image
@@ -193,20 +212,21 @@ function Left() {
                 </span>
                 <br />
               </h2>
-
-
-
-
             </div>
-            <div className="absolute  flex  -bottom-8 -left-44 md:flex">
+            <div
+              className={`absolute  flex  -bottom-8 ${
+                lang === "fa" ? "-left-44" : "-right-44"
+              } md:flex`}
+            >
+              {" "}
               <motion.div
                 animate={{
-                  y: ["0px", "20px", "0px"] // حرکت بالا و پایین
+                  y: ["0px", "20px", "0px"]
                 }}
                 transition={{
-                  repeat: Infinity, // تکرار انیمیشن
+                  repeat: Infinity,
                   repeatType: "loop",
-                  duration: 3 // مدت زمان یک سیکل حرکت
+                  duration: 3
                 }}
               >
                 <Image

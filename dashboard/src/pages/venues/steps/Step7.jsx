@@ -1,33 +1,33 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import React, { useMemo } from "react";
 import { Controller } from "react-hook-form";
-import { useGetVenueAwardsQuery } from "@/services/venueAward/venueAwardApi";
-import { useGetVenueStandardsQuery } from "@/services/venueStandard/venueStandardApi";
+import { useGetAwardsQuery } from "@/services/award/awardApi";
+import { useGetStandardsQuery } from "@/services/standard/standardApi";
 
 const Step7 = ({ prevStep, nextStep, control }) => {
-  const { data: fetchVenueAwardsData } = useGetVenueAwardsQuery();
-  const { data: fetchVenueStandardsData } = useGetVenueStandardsQuery();
+  const { data: fetchAwardsData } = useGetAwardsQuery();
+  const { data: fetchStandardsData } = useGetStandardsQuery();
 
-  const venueAwards = useMemo(
+  const awards = useMemo(
     () =>
-      fetchVenueAwardsData?.data?.map((venueAward) => ({
-        id: venueAward._id,
-        title: venueAward.title,
-        description: venueAward.description,
-        thumbnail: venueAward.thumbnail
+      fetchAwardsData?.data?.map((award) => ({
+        id: award._id,
+        title: award.title,
+        description: award.description,
+        thumbnail: award.thumbnail
       })) || [],
-    [fetchVenueAwardsData]
+    [fetchAwardsData]
   );
 
-  const venueStandards = useMemo(
+  const standards = useMemo(
     () =>
-      fetchVenueStandardsData?.data?.map((venueStandard) => ({
-        id: venueStandard._id,
-        title: venueStandard.title,
-        description: venueStandard.description,
-        thumbnail: venueStandard.thumbnail
+      fetchStandardsData?.data?.map((standard) => ({
+        id: standard._id,
+        title: standard.title,
+        description: standard.description,
+        thumbnail: standard.thumbnail
       })) || [],
-    [fetchVenueStandardsData]
+    [fetchStandardsData]
   );
 
   const SelectableList = ({ name, title, items, control }) => (
@@ -81,13 +81,13 @@ const Step7 = ({ prevStep, nextStep, control }) => {
       <SelectableList
         name="selectedAwards"
         title="انتخاب جوایز"
-        items={venueAwards}
+        items={awards}
         control={control}
       />
       <SelectableList
         name="selectedStandards"
         title="انتخاب استانداردها"
-        items={venueStandards}
+        items={standards}
         control={control}
       />
        <div className="flex justify-between mt-12">

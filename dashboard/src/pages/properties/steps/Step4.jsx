@@ -51,7 +51,7 @@ console.log("propertyTypes", propertyTypes);
     }
   }, [selectedProperty, propertyTypes]);
   return (
-    <div className="w-full flex flex-col gap-y-2 max-h-[500px] overflow-y-auto">
+    <div className="w-full flex flex-col gap-y-2 h-3/4 max-h-[500px] overflow-y-auto">
       <label htmlFor="thumbnail" className="flex flex-col text-center gap-y-2">
         تصویر عنوان وبلاگ
         <ThumbnailUpload

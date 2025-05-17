@@ -1,8 +1,12 @@
 import React from "react";
 
-function Index({ searchTerm, handleSearchChange, onStatusFilterChange }) {
+function Index({ searchTerm, setSearchTerm, onStatusFilterChange }) {
+  const handleSearchInputChange = (e) => {
+    setSearchTerm(e.target.value); 
+  };
+
   return (
-    <div className="m-6 md:flex md:flex-row-reverse md:items-center md:justify-between ">
+    <div className="m-6 md:flex md:flex-row-reverse md:items-center md:justify-between">
       <div className="inline-flex overflow-hidden bg-white border rounded-lg dark:!bg-[#0a2d4d] dark:border-blue-500 rtl:flex-row">
         <button
           className="px-5 py-2 bg-gray-100 dark:bg-[#0a2d4d] text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:text-gray-300 hover:bg-gray-100 border-l dark:border-blue-500 dark:hover:bg-gray-700 focus:bg-gray-300 dark:focus:bg-gray-700"
@@ -45,7 +49,8 @@ function Index({ searchTerm, handleSearchChange, onStatusFilterChange }) {
           type="text"
           placeholder="جستجو"
           className="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          defaultValue={searchTerm} // Uncontrolled value
+          value={searchTerm} // استفاده از value به جای defaultValue
+          onChange={handleSearchInputChange} // فراخوانی متد تغییر جستجو
         />
       </div>
     </div>

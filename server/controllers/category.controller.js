@@ -25,16 +25,6 @@ exports.getCategories = async (req, res, next) => {
   }
 };
 
-/* get categories with products */
-exports.getProductCategories = async (req, res, next) => {
-  try {
-    await categoryService.getProductCategories(res);
-  } catch (error) {
-    next(error);
-  } finally {
-    console.log(`Route: ${req.url} || Method: ${req.method}`);
-  }
-};
 
 
 /* get a category */

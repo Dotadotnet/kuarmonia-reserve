@@ -1,57 +1,74 @@
-import React from "react";
-import SkeletonText from "@/components/shared/skeleton/SkeletonText";
-import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import { FaTag } from "react-icons/fa";
 import {
   FaLink,
-  FaShareAlt,
   FaTelegramPlane,
   FaWhatsapp,
   FaTwitter,
   FaLinkedin
 } from "react-icons/fa";
 import { useLocale } from "next-intl";
-
-const NewsHeader = ({ news }) => {
-  const locale = useLocale();
-  const {  publishDate, avatar, creator, tags } = news;
-
+import { getTranslations } from "next-intl/server";
+import "./Style.css";
+import TickerTape from "@/components/[locale]/tickerTape/TickerTape";
+import StatusIndicator from "../tools/StatusIndicator";
+import Image from "next/image";
+import SocialIcons from "../socialIcons";
+const NewsHeader = async ({ news, locale }) => {
+  const t = await getTranslations("News", locale);
   const { title, summary } =
     news?.translations?.find((t) => t.language === locale)?.translation
       ?.fields || {};
+  const typeTitle = news?.type?.translations?.find(
+    (t) => t?.translation?.language === locale
+  )?.translation?.fields?.title;
+
   return (
-    <header className="mx-auto max-w-screen-xl  text-center px-2">
-      {publishDate ? (
-        <p className="text-gray-500">
-          {publishDate &&
-            `منتشر شده در ${new Date(publishDate).toLocaleDateString("fa-IR", {
-              day: "numeric",
-              month: "long",
-              year: "numeric"
-            })}`}
-        </p>
-      ) : (
-        <div className="p-2">
-          <SkeletonText lines={1} className="!w-1/2 flex" />
-        </div>
-      )}
-      {title ? (
-        <h1 className="mt-2 text-3xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
+    <header className=" max-w-screen-xl flex flex-col gap-y-4 pt-8 text-center px-4">
+      <div className="flex items-center justify-start gap-6">
+        <span className=" bg-primary text-white w-fit h-fit dark:bg-blue-500 p-1  rounded-md">
+          {typeTitle}
+        </span>
+        <span className="flex items-center gap-1 justify-start">
+          <StatusIndicator />
+          {news?.publishDate &&
+            (() => {
+              const publishDate = new Date(news.publishDate);
+              const now = new Date();
+
+              const diffMs = now - publishDate;
+              const diffMinutes = Math.floor(diffMs / (1000 * 60));
+              const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+              const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+              const weekday = publishDate.toLocaleDateString(locale, {
+                weekday: "long"
+              });
+
+              if (diffDays === 0) {
+                if (diffHours >= 1) {
+                  return `${t("publishedAt")} ${t("hoursAgo", {
+                    count: diffHours
+                  })} - ${weekday}`;
+                } else {
+                  return `${t("publishedAt")} ${t("minutesAgo", {
+                    count: diffMinutes
+                  })} - ${weekday}`;
+                }
+              }
+
+              return `${t("publishedAt")} ${t("daysAgo", {
+                count: diffDays
+              })} - ${weekday}`;
+            })()}
+        </span>
+      </div>
+      {title && (
+        <h1 className=" text-3xl font-bold text-gray-900 sm:text-2xl dark:!text-gray-100 font-source-serif">
           {title}
         </h1>
-      ) : (
-        <div className="p-2">
-          <SkeletonText lines={1} />
-        </div>
       )}
-      {summary ? (
-        <h2 className="mt-6 text-lg text-gray-700 dark:text-blue-200">
-          {summary}
-        </h2>
-      ) : (
-        <div className="p-2">
-          <SkeletonText lines={1} />
-        </div>
+      {summary && (
+        <h2 className=" text-lg text-gray-700 dark:text-blue-200">{summary}</h2>
       )}
     </header>
   );
@@ -61,12 +78,12 @@ const NewsMedia = ({ news }) => {
   const { thumbnail, tags } = news;
 
   return (
-    <>
+    <div className="flex flex-col gap-y-2 max-w-screen-xl  px-4">
       <div
-        className="mt-6 flex  justify-start w-full overflow-x-hidden scroll-hide gap-2"
+        className=" flex  justify-start w-full overflow-x-hidden scroll-hide gap-2"
         aria-label="Tags"
       >
-        {tags?.length > 0 ? (
+        {tags?.length > 0 &&
           tags.map((item, index) => (
             <button
               key={index}
@@ -75,68 +92,72 @@ const NewsMedia = ({ news }) => {
               <FaTag className="w-4 h-4 text-gray-500" />
               {item.title}
             </button>
-          ))
-        ) : (
-          <div className="flex items-center w-full justify-center gap-2">
-            <SkeletonText lines={1} />
-            <SkeletonText lines={1} />
-            <SkeletonText lines={1} />
-          </div>
-        )}
+          ))}
       </div>
-      <div className="mt-2">
-        {!thumbnail ? (
-          <div className="flex justify-center items-center h-96">
-            <SkeletonImage
-              showSize={false}
-              width={200}
-              height={200}
-              className="h-96 w-full object-contain"
-            />
-          </div>
-        ) : (
-          <img
-            className="w-full object-contain"
-            src={thumbnail.url}
-            alt="Featured Image"
-          />
-        )}
+      <div className="  flex justify-center items-center w-full  overflow-hidden rounded-md article-image-container">
+        <Image
+          width={1000}
+          height={500}
+          className="w-full object-contain article-image"
+          src={thumbnail.url}
+          alt="Featured Image rounded-md "
+        />
+        <div className="image-caption"></div>
       </div>
-    </>
+    </div>
   );
 };
 
-const NewsContent = ({ news }) => {
+const NewsContent = async ({ news }) => {
   const locale = useLocale();
 
   const { content } =
     news?.translations?.find((t) => t.language === locale)?.translation
       ?.fields || {};
+  const { name, bio } =
+    news.creator?.translations.find((t) => t.language === locale)?.translation
+      .fields || {};
   return (
-    <div className="mx-auto max-w-screen-md  space-y-12 px-4 py-10  text-lg tracking-wide text-gray-700 dark:text-gray-100">
-      {content ? (
-        <div dangerouslySetInnerHTML={{ __html: content }} className="dark:!text-gray-100" />
-      ) : (
-        <SkeletonText lines={10} />
-      )}
+    <div className="px-4   text-lg tracking-wide text-gray-700 dark:text-gray-100 flex flex-col gap-y-8 max-w-screen-xl">
+      <div
+        dangerouslySetInnerHTML={{ __html: content }}
+        className="dark:!text-gray-100"
+      />
+      <div className="flex gap-x-4 bg-gray-100 p-4  dark:bg-gray-800 rounded-sm items-center">
+        <div className="!w-[115px] !h-[115px] flex-shrink-0 profile-container shine-effect rounded-full flex justify-center mb-4">
+          <Image
+            className="profile-pic !h-[100px] !w-[100px] rounded-full"
+            width={100}
+            height={100}
+            src={news.creator?.avatar?.url}
+            alt={name}
+          />
+        </div>
+        <div className="flex-1">
+          <h3>{news.creator?.name}</h3>
+          <p className="text-sm">{bio}</p>
+        </div>
+      </div>
     </div>
   );
 };
 
-const NewsFooter = ({ news }) => {
+const NewsFooter = async ({ news, locale }) => {
   const { source, shortLink, sourceLink } = news;
   const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+  const t = await getTranslations("News", locale);
 
   const encodedTitle = encodeURIComponent(news?.title || "");
   const encodedURL = encodeURIComponent(shortLink || currentUrl);
 
   return (
-    <div className="border-t mt-8 pt-6 pb-12 max-w-screen-md mx-auto px-4">
+    <div className="border-t border-2 border-gray-100   max-w-screen-md  px-4">
       <h4 className="text-lg   mb-2 text-gray-800 dark:text-gray-200"></h4>
-      {source ? (
+      {source && (
         <div className="flex gap-x-2">
           <p className="text-md text-blue-600  mb-4">
-            منبع خبر : <br />
+            {t("source")}:
+            <br />
           </p>
           <a
             href={news?.source?.link}
@@ -147,8 +168,6 @@ const NewsFooter = ({ news }) => {
             {news.source.name}{" "}
           </a>
         </div>
-      ) : (
-        <p className="text-sm text-gray-500 mb-4">منبعی ثبت نشده است.</p>
       )}
 
       <div className="flex items-center gap-2 mb-4 text-sm text-gray-700 dark:text-gray-300">
@@ -156,57 +175,18 @@ const NewsFooter = ({ news }) => {
         <span className="break-all">{shortLink || currentUrl}</span>
       </div>
 
-      <div className="flex items-center gap-4 mt-4">
-        <span className="text-gray-600 dark:text-gray-300 text-sm">
-          اشتراک‌گذاری:
-        </span>
-
-        <a
-          href={`https://t.me/share/url?url=${encodedURL}&text=${encodedTitle}`}
-          target="_blank"
-          rel="noreferrer"
-          title="اشتراک در تلگرام"
-        >
-          <FaTelegramPlane className="w-5 h-5 text-blue-500 hover:text-blue-700" />
-        </a>
-        <a
-          href={`https://wa.me/?text=${encodedTitle}%20${encodedURL}`}
-          target="_blank"
-          rel="noreferrer"
-          title="اشتراک در واتساپ"
-        >
-          <FaWhatsapp className="w-5 h-5 text-green-500 hover:text-green-600" />
-        </a>
-        <a
-          href={`https://twitter.com/intent/tweet?url=${encodedURL}&text=${encodedTitle}`}
-          target="_blank"
-          rel="noreferrer"
-          title="اشتراک در توییتر"
-        >
-          <FaTwitter className="w-5 h-5 text-sky-500 hover:text-sky-600" />
-        </a>
-        <a
-          href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodedURL}&title=${encodedTitle}`}
-          target="_blank"
-          rel="noreferrer"
-          title="اشتراک در لینکدین"
-        >
-          <FaLinkedin className="w-5 h-5 text-blue-700 hover:text-blue-900" />
-        </a>
-      </div>
+      <SocialIcons />
     </div>
   );
 };
 
-const NewsComments = ({ news }) => {
+const NewsComments = async ({ news, locale }) => {
   const { comments } = news;
-
+  const t = await getTranslations("News", locale);
   return (
     <section className="bg-gray-100 py-8 dark:bg-gray-800 dark:text-gray-100">
       <div className="mx-auto max-w-screen-md px-4">
-        <h3 className="text-xl font-semibold mb-6 text-center">
-          نظرات کاربران
-        </h3>
+        <h3 className="text-xl  mb-6 text-center">{t("userComments")}</h3>
         <div className="space-y-4">
           {!comments ? (
             <div className="space-y-4">
@@ -230,13 +210,13 @@ const NewsComments = ({ news }) => {
                   <img
                     src={comment.userAvatar || "https://via.placeholder.com/40"}
                     alt="تصویر کاربر"
-                    className="w-10 h-10 rounded-full ml-3"
+                    classNamnewse="w-10 h-10 rounded-full ml-3"
                   />
                   <div>
                     <h4 className="font-semibold">{comment.userName}</h4>
                     <p className="text-sm text-gray-500 dark:text-gray-300">
-                      ارسال شده در{" "}
-                      {new Date(comment.date).toLocaleDateString("fa-IR")}
+                      {t("share")}:
+                      {new Date(comment.date).toLocaleDateString(locale)}
                     </p>
                   </div>
                 </div>
@@ -251,34 +231,19 @@ const NewsComments = ({ news }) => {
     </section>
   );
 };
-const TickerTape = () => {
+
+const News = ({ news }) => {
+  const locale = useLocale();
+
   return (
-    <div className="bg-primary text-white py-1 overflow-hidden whitespace-nowrap relative">
-      <div className="inline-block animate-ticker pl-full">
-        🔴 BREAKING: Fusion Energy Record Set | 🌍 Climate Summit Scheduled for
-        June | 📈 Markets Respond to Energy Breakthrough | 🔬 Scientists
-        Announce Quantum Computing Milestone | 🚀 Mars Mission Set for 2026
-        Launch
-      </div>
-    </div>
-  );
-};
-const News = ({ params, news }) => {
-  return (
-    <main className="h-[650px] mt-18 overflow-y-auto dark:bg-gray-900 bg-white scrollbar-hide">
-      <article>
-        <TickerTape />
-        <div className="flex flex-col md:flex-row items-center gap-4 max-w-screen-xl mx-auto px-4 pt-4">
-          <div className="md:w-1/2 w-full order-1 md:order-2">
-            <NewsMedia news={news} />
-          </div>
-          <div className="md:w-1/2 w-full order-2 md:order-1">
-            <NewsHeader news={news} />
-          </div>
-        </div>
-        <NewsContent news={news} />
-        <NewsFooter news={news} />
-        <NewsComments news={news} />
+    <main className="shadow-lg  rounded-lg  hover:shadow-xl dark:bg-gray-900 mt-18 overflow-y-auto  bg-white scrollbar-hide">
+      <article className="flex flex-col gap-y-4">
+        <TickerTape locale={locale} />
+        <NewsHeader news={news} locale={locale} />
+        <NewsMedia news={news} />
+        <NewsContent news={news} locale={locale} />
+        <NewsFooter news={news} locale={locale} />
+        <NewsComments news={news} locale={locale} />
       </article>
     </main>
   );

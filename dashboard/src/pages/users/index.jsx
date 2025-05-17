@@ -16,14 +16,12 @@ function Users() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
-  // اطلاعات کاربران معمولی
   const {
     isLoading: userLoading,
     data: userData,
     error: userError
   } = useGetUsersQuery();
 
-  // فقط زمانی که نیاز به ادمین‌ها داریم درخواست بفرست
   const {
     isLoading: adminLoading,
     data: adminData,
