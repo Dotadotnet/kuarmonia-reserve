@@ -2,7 +2,7 @@
 
 import React from "react";
 import OpportunityCard from "@/components/shared/card/OpportunityCard";
-import OpportunityCardSkeleton from "@/components/shared/skeleton/OpportunityCardSkeleton";
+import OpportunityCardSkeleton from "@/components/shared/skeleton/opportunityCardSkeleton";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Autoplay } from "swiper/modules";
 import "swiper/css";

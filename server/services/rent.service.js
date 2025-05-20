@@ -89,6 +89,7 @@ exports.addRent = async (req, res) => {
         {
           stringFields: [
             "title",
+            "slug",
             "description",
             "summary",
             "metaTitle",

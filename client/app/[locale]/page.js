@@ -18,6 +18,7 @@ import KeyServices from "@/components/home/steps/KeyServices";
 import Destination from "@/components/home/destination/Destination";
 import TravelAvailability from "@/components/home/hero/travelAvailability/TravelAvailability";
 import Opportunity from "../../components/home/opportunities/Opportunity";
+import Rent from "@/components/home/bestSelling/rent";
 
 export default async function Home({ params }) {
   return (
@@ -27,6 +28,7 @@ export default async function Home({ params }) {
       <News params={params}  />
       <Properties params={params} />
       <Opportunity  params={params} />
+      <Rent  params={params} />
       <Gallery />
       <Testimonials />
       <FAQ />
