@@ -285,5 +285,10 @@
     "title":"Hot Opportunities",
     "more":"View All",
     "description":"Golden Opportunities for Immigration"
+  },
+  "rent":{
+    "title":"Hot Rent",
+    "more":"View All",
+    "description":"Golden Rent for Reserve"
   }
 }

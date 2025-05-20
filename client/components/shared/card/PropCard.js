@@ -244,7 +244,7 @@ function Badge({ className, children, props }) {
   return (
     <span
       className={
-        "text-xs text-gray-500 dark:text-gray-300 py-1 px-3 rounded-full " +
+        "text-[10px] text-gray-500 dark:text-gray-300 py-1 px-3 rounded-full " +
         className
       }
       {...props}

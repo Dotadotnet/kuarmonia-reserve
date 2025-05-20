@@ -18,7 +18,7 @@ const OpportunitySlider = ({ opportunity }) => {
     centeredSlides
     initialSlide={0}
     slidesPerView="auto"
-    spaceBetween={80}
+    spaceBetween={40}
     modules={[EffectCoverflow, Autoplay]}
     autoplay={{
       delay: 6000,
@@ -26,13 +26,13 @@ const OpportunitySlider = ({ opportunity }) => {
     }}
     breakpoints={{
       0: {
-        spaceBetween: 40, 
+        spaceBetween: 20, 
       },
       640: {
-        spaceBetween: 60, 
+        spaceBetween: 30, 
       },
       1024: {
-        spaceBetween: 80, 
+        spaceBetween: 40, 
       }
     }}
     coverflowEffect={{

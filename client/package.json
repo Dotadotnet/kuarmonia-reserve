@@ -11,6 +11,8 @@
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.6.1",
     "@reduxjs/toolkit": "^2.6.1",
+    "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^7.3.0",
     "@tailwindcss/forms": "^0.5.10",
     "autoprefixer": "^10.4.21",
     "crisp-sdk-web": "^1.0.25",

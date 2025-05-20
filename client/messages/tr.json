@@ -286,5 +286,10 @@
     "title": "En Sıcak Fırsatlar",
     "more": "Tümünü Gör",
     "description": "Göç İçin Altın Fırsatlar"
+  },
+  "rent": {
+    "title": "Özel Kiralıklar",
+    "more": "Tümünü Gör",
+    "description": "Rezervasyon için Altın Kiralıklar"
   }
 }

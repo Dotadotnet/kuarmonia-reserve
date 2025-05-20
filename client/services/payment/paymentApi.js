@@ -1,8 +1,8 @@
 
 
-const { travelloApi } = require("../kuarmonia");
+const { kuarmoniaApi } = require("../kuarmonia");
 
-const paymentApi = travelloApi.injectEndpoints({
+const paymentApi = kuarmoniaApi.injectEndpoints({
   endpoints: (build) => ({
     // create payment intent
     createPaymentIntent: build.mutation({

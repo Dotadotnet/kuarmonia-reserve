@@ -154,6 +154,10 @@ exports.getRents = async (req, res) => {
         path: "translations.translation",
         match: { language: req.locale }
       },
+       {
+        path: "address",
+        select: "city"
+      },
       {
         path: "creator",
         select: "name avatar"

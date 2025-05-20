@@ -1,5 +1,5 @@
 
-
+"use client"
 import React, { useEffect, useMemo, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { RiChatQuoteFill } from "react-icons/ri";

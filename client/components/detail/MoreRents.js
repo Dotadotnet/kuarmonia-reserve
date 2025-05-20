@@ -1,5 +1,5 @@
 
-
+"use client"
 import { useGetRentsQuery } from "@/services/rent/rentApi";
 import { useEffect, useMemo } from "react";
 import Container from "../shared/container/Container";

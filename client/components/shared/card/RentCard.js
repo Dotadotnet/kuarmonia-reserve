@@ -18,6 +18,7 @@ import {
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useLocale } from "next-intl";
+import Link from "next/link";
 
 const RentCard = ({ tour }) => {
   const locale = useLocale();
@@ -25,7 +26,7 @@ const RentCard = ({ tour }) => {
   console.log(locale);
   const sliderRef = useRef(null);
   const user = useSelector((state) => state?.auth);
-  const { title, summary } =
+  const { title, summary,slug } =
     tour?.translations?.find((t) => t.translation?.language === locale)
       ?.translation?.fields || {};
 
@@ -189,7 +190,8 @@ const RentCard = ({ tour }) => {
           <h2 className="line-clamp-2">{title}</h2>
           <p className="flex flex-row flex-wrap gap-y-2 justify-between mt-auto">
             <span className="text-xs flex items-center gap-x-1 text-ellipsis overflow-hidden whitespace-nowrap capitalize">
-              <MdLocationPin className="w-4 h-4 text-primary" /> {location}
+              <MdLocationPin className="w-4 h-4 text-primary" />
+              {tour?.address?.city}
             </span>
             <span className="text-xs flex items-center gap-x-1">
               <AiFillStar className="w-4 h-4 text-yellow-500" /> (
@@ -204,20 +206,9 @@ const RentCard = ({ tour }) => {
               <IoMdPricetag className="w-4 h-4 text-primary" />
               <span className="capitalize">${price}/برای هر شب</span>
             </span>
-            <Button
-              className="px-4 py-1 text-xs"
-              onClick={() =>
-                window.open(
-                  `/tours/${tour._id}?tour_title=${tour.title
-                    .replace(/[^\w\s]|[\s]+/g, "-")
-                    .replace(/-+/g, "-")
-                    .toLowerCase()}`,
-                  "_self"
-                )
-              }
-            >
-              رزور{" "}
-            </Button>
+            <Link href={`/rent/${tour?.rentId}/${slug}`}>
+              <Button className="px-4 py-1 text-xs cursor-pointer">رزرو</Button>
+            </Link>
           </div>
         </div>
         <div />

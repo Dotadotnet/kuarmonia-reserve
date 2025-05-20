@@ -8,6 +8,10 @@ const cron = require("node-cron");
 
 const rentSchema = new Schema(
   {
+     rentId: {
+      type: Number,
+      unique: true,
+    },
     translations: [
       {
         translation: { type: ObjectId, ref: "Translation", required: true },
@@ -60,7 +64,7 @@ const rentSchema = new Schema(
         ref: "Tag"
       }
     ],
-    address: [{ type: ObjectId, ref: "Address" }],
+    address: { type: ObjectId, ref: "Address" },
     ourEventSpaces: [{ type: ObjectId, ref: "EventSpace" }],
 
     creator: {
@@ -103,18 +107,28 @@ const rentSchema = new Schema(
   },
   { timestamps: true }
 );
+const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 rentSchema.pre("save", async function (next) {
   const currentDate = new Date();
 
-  if (!this.shortUrl) {
-    const counter = await Counter.findOneAndUpdate(
-      { name: "rentId" },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    );
-    const base62Code = encodeBase62(counter.seq);
-    this.shortUrl = `${process.env.API}/n/${base62Code}`;
+   try {
+    if (!this.rentId) {
+      const counter = await Counter.findOneAndUpdate(
+        { name: "rentId" },
+        { $inc: { seq: 1 } },
+        { new: true, upsert: true }
+      );
+      this.rentId = counter.seq;
+
+      const base62Code = encodeBase62(this.rentId);
+      this.shortUrl = `${defaultDomain}/n/${base62Code}`;
+    }
+
+    next();
+  } catch (err) {
+    console.error("خطا در pre-save فرصت:", err);
+    next(err);
   }
 
   if (

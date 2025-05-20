@@ -1,9 +1,8 @@
-
 import React from "react";
 
 const SkeletonCard = () => {
   return (
-    <section className="flex flex-col gap-y-5 border-b border-l border-r rounded">
+    <section className="flex flex-col gap-y-5 border-b border-gray-100 max-w-64 dark:border-gray-800 border-l border-r rounded">
       <div className="relative">
         <div className="w-full h-48 bg-gray-300 animate-pulse rounded-t"></div>
       </div>
