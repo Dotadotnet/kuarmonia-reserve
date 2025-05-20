@@ -23,7 +23,7 @@ const [countries, setCountries] = useState([]);
   const [cities, setCities] = useState([]);
   const [mapCountry, setMapCountry] = useState("Bangladesh");
   const [selectedCityLatLng, setSelectedCityLatLng] = useState(null);
-
+console.log("countries",countries)
   useEffect(() => {
     fetch("/data/countries.json")
       .then((res) => res.json())

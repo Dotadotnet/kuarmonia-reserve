@@ -25,10 +25,15 @@ const opportunitySchema = new mongoose.Schema(
         }
       }
     ],
-    type: {
+    refModel: {
       type: String,
-      enum: ["job", "study", "immigration"],
+      enum: ["JobOpportunity"],
       required: true
+    },
+    refId: {
+      type: ObjectId,
+      required: true,
+      refPath: "refModel"
     },
     thumbnail: {
       url: {
@@ -56,18 +61,19 @@ const opportunitySchema = new mongoose.Schema(
         }
       ]
     },
-    capacity: { type: number },
-    vacancy: { type: number },
-
-    citizenshipStatus: {
+    capacity: { type: Number },
+    vacancy: { type: Number },
+    category: {
       type: ObjectId,
-      ref: "CitizenshipOutcome"
+      ref: "Category",
+      required: [true, "دسته‌بندی پست الزامی است"]
     },
-    duration: { type: number },
-       gender: {
+
+    duration: { type: Number },
+    gender: {
       type: String,
       enum: ["Male", "Female", "Any"],
-      required: true
+      default: "Male"
     },
     isFeatured: { type: Boolean, default: false },
     status: {
@@ -76,12 +82,6 @@ const opportunitySchema = new mongoose.Schema(
       default: "pendingApproval"
     },
 
-    job: { type: ObjectId, ref: "JobOpportunity" },
-    study: { type: ObjectId, ref: "StudyOpportunity" },
-    immigration: {
-      type: ObjectId,
-      ref: "ImmigrationOpportunity"
-    },
     shortUrl: {
       type: String,
       unique: true
@@ -118,11 +118,37 @@ const opportunitySchema = new mongoose.Schema(
         ref: "Review"
       }
     ],
+    citizenshipOutcome: {
+      type: ObjectId,
+      ref: "CitizenshipOutcome",
+      required: true
+    },
+
+    startDate: {
+      type: Date,
+      required: true,
+      default: () => new Date()
+    },
+    endDate: {
+      type: Date,
+      required: true,
+      default: () => {
+        const date = new Date();
+        date.setMonth(date.getMonth() + 1);
+        return date;
+      }
+    },
+    country: { type: ObjectId, ref: "Country" },
+    city: { type: ObjectId, ref: "City" },
 
     views: {
       type: Number,
       default: 0,
       min: [0, "تعداد بازدید نمی‌تواند منفی باشد"]
+    },
+    creator: {
+      type: ObjectId,
+      ref: "Admin"
     },
     socialLinks: [
       {

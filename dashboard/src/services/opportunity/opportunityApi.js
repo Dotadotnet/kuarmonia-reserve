@@ -2,7 +2,7 @@ import { kuarmoniaApi } from "../kuarmonia";
 
 const opportunityApi = kuarmoniaApi.injectEndpoints({
   endpoints: (builder) => ({
-    addOpportunity: builder.mutation({
+    addJobOpportunity: builder.mutation({
       query: (body) => ({
         url: "/opportunity/add-opportunity",
         method: "POST",
@@ -17,9 +17,9 @@ const opportunityApi = kuarmoniaApi.injectEndpoints({
       ],
     }),
 
-    getOpportunitys: builder.query({
+    getOpportunities: builder.query({
       query: () => ({
-        url: `/opportunity/get-opportunitys`,
+        url: `/opportunity/get-opportunities`,
         method: "GET",
        
       }),
@@ -53,8 +53,8 @@ const opportunityApi = kuarmoniaApi.injectEndpoints({
 });
 
 export const {
-  useAddOpportunityMutation,
-  useGetOpportunitysQuery,
+  useAddJobOpportunityMutation,
+  useGetOpportunitiesQuery,
   useUpdateOpportunityMutation,
   useRemoveOpportunityMutation
 } = opportunityApi;

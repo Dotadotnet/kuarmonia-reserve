@@ -21,12 +21,11 @@ const HighlightText = ({ title, center = false }) => {
         {title}
       </motion.p>
 
-      {/* خط زیر متن */}
       <motion.span
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: dir == 'ltr' ? -1 : 1 }}
         transition={{ duration: 0.3, ease: "easeOut", delay: 0.2 }}
-        viewport={{ once: false, amount: 0.5 }} // مشابه تنظیمات بالا
+        viewport={{ once: false, amount: 0.5 }} 
         className="absolute ltr:-translate-x-[100%] rounded-[1px] top-12 right-0 w-full h-1 md:h-1.5 dark:bg-blue-500  bg-primary transform origin-right"
       />
     </div>

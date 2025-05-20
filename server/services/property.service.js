@@ -273,11 +273,11 @@ exports.getPropertyById = async (req, res) => {
   }).populate([
     {
       path: "creator",
-      select: "name avatar" // دریافت فقط name و avatar از creator
+      select: "name avatar" 
     },
     {
       path: "tags",
-      select: "title _id" // دریافت فقط title و _id از tags
+      select: "title _id" 
     }
   ]);
 

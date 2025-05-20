@@ -6940,9 +6940,11 @@
         "latitude": "37.03649890",
         "longitude": "-95.67059870"
     },
+  
     {
         "id": 872,
         "name": "Alberta",
+        "name_fa": "آلبرتا",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -6954,6 +6956,7 @@
     {
         "id": 875,
         "name": "British Columbia",
+        "name_fa": "بریتیش کلمبیا",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -6965,6 +6968,7 @@
     {
         "id": 867,
         "name": "Manitoba",
+        "name_fa": "مانیتوبا",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -6976,6 +6980,7 @@
     {
         "id": 868,
         "name": "New Brunswick",
+        "name_fa": "نیوبرانزویک",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -6987,6 +6992,7 @@
     {
         "id": 877,
         "name": "Newfoundland and Labrador",
+        "name_fa": "نوفاندلند و لابرادور",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -6998,6 +7004,7 @@
     {
         "id": 878,
         "name": "Northwest Territories",
+        "name_fa": "سرزمین‌های شمال غربی",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -7009,6 +7016,7 @@
     {
         "id": 874,
         "name": "Nova Scotia",
+        "name_fa": "نووااسکوشیا",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -7020,6 +7028,7 @@
     {
         "id": 876,
         "name": "Nunavut",
+        "name_fa": "نوناووت",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -7031,6 +7040,7 @@
     {
         "id": 866,
         "name": "Ontario",
+        "name_fa": "انتاریو",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -7042,6 +7052,7 @@
     {
         "id": 871,
         "name": "Prince Edward Island",
+        "name_fa": "جزیره پرنس ادوارد",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -7053,6 +7064,7 @@
     {
         "id": 873,
         "name": "Quebec",
+        "name_fa": "کبک",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -7064,6 +7076,7 @@
     {
         "id": 870,
         "name": "Saskatchewan",
+        "name_fa": "ساسکاچوان",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",
@@ -7075,6 +7088,7 @@
     {
         "id": 869,
         "name": "Yukon",
+        "name_fa": "یوکون",
         "country_id": 39,
         "country_code": "CA",
         "country_name": "Canada",

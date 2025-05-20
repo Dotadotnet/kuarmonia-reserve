@@ -14,7 +14,6 @@ const Property = async ({ params  }) => {
   });
   const res = await response.json();
   const property = res.data;
-  console.log("property", property);
   return (
     <Main>
       <div className="pt-28"></div>

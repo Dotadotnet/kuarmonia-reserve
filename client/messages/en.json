@@ -280,5 +280,10 @@
     "emailPlaceholder": "E-posta adresinizi girin",
     "emailRequired": "Please enter your email address.",
     "emailValid": "Please enter a valid email."
+  },
+  "opportunity":{
+    "title":"Hot Opportunities",
+    "more":"View All",
+    "description":"Golden Opportunities for Immigration"
   }
 }

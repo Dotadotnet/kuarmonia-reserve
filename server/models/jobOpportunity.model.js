@@ -5,19 +5,20 @@ const Counter = require("./counter");
 
 const jobOpportunitySchema = new mongoose.Schema({
   jobOpportunityId: { type: Number, unique: true },
+  owner: { type: ObjectId, ref: "owner", required: true },
   jobType: { type: ObjectId, ref: "JobType", required: true },
-  jobTime: [{ type: ObjectId, ref: "JobTime", required: true }],
-  jobMode: [{ type: ObjectId, ref: "JobMode", required: true }],
-  employmentType: [{ type: ObjectId, ref: "EmploymentType", required: true }],
+  jobTime: { type: ObjectId, ref: "JobTime", required: true },
+  jobMode: { type: ObjectId, ref: "JobMode", required: true },
+  employmentType: { type: ObjectId, ref: "EmploymentType", required: true },
   experienceLevel: [{ type: ObjectId, ref: "ExperienceLevel", required: true }],
-  skillsRequired: [{ type: String }],
-  targetCountry: [{ type: ObjectId, ref: "Country", required: true }],
-  targetCity: [{ type: ObjectId, ref: "City" }],
-  address: [{ type: ObjectId, ref: "Address" }],
-  employerInformationDisplay:{type:Boolean,default:false},
+  employerInformationDisplay: { type: Boolean, default: false },
   salary: {
     min: { type: Number },
     max: { type: Number }
+  },
+  currency: {
+    type: ObjectId,
+    ref: "Currency"
   }
 });
 

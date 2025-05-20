@@ -7,7 +7,7 @@ const GalleryUpload = ({
   setGallery,
   maxFiles = 5,
   register,
-  title = true,
+  title ,
   iconSize = 5,
   border = true,
 }) => {
@@ -52,7 +52,7 @@ const GalleryUpload = ({
             ${border ? "border border-green-900 cursor-pointer rounded-secondary" : "rounded-md"} dark:border-blue-900 text-green-900 dark:text-blue-900 w-fit`}
         >
           <IoCloudUploadOutline className={`h-${iconSize} w-${iconSize}`} />
-          {title && `مجاز به انتخاب ${maxFiles} فایل (عکس یا ویدئو) می‌باشید.`}
+          {title || `مجاز به انتخاب ${maxFiles} فایل (عکس یا ویدئو) می‌باشید.`}
         </button>
         <input
           type="file"

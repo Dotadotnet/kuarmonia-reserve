@@ -17,7 +17,7 @@ const Step8 = ({
 }) => {
   return (
     <>
-      <div className="w-full flex flex-col gap-y-4 p-2   ">
+      <div className="w-full flex flex-col gap-y-4 p-2   max-h-[500px]  overflow-y-auto ">
         <ArrayInput
           title="مسئولیت ها"
           values={responsibilities}

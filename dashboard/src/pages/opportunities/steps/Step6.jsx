@@ -15,7 +15,7 @@ const Step6 = ({
   setEmployerImage
 }) => {
   return (
-    <div className="flex flex-col gap-y-2">
+    <div className="flex flex-col gap-y-2 max-h-96 overflow-y-auto">
       <div className="flex flex-col items-center">
         <label
           htmlFor="employerImage"

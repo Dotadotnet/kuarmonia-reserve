@@ -17,6 +17,7 @@ import Testimonials from "@/components/home/testimonials/Testimonials";
 import KeyServices from "@/components/home/steps/KeyServices";
 import Destination from "@/components/home/destination/Destination";
 import TravelAvailability from "@/components/home/hero/travelAvailability/TravelAvailability";
+import Opportunity from "../../components/home/opportunities/Opportunity";
 
 export default async function Home({ params }) {
   return (
@@ -25,6 +26,7 @@ export default async function Home({ params }) {
       <KeyServices params={params}   />
       <News params={params}  />
       <Properties params={params} />
+      <Opportunity  params={params} />
       <Gallery />
       <Testimonials />
       <FAQ />

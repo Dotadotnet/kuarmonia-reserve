@@ -83,6 +83,8 @@ app.use("/api/service", require("./routes/service.route"));
  app.use("/api/citizenshipOutcome", require("./routes/citizenshipOutcome.route"));
  app.use("/api/institutionType", require("./routes/institutionType.route"));
  app.use("/api/institution", require("./routes/institution.route"));
+ app.use("/api/opportunity", require("./routes/opportunity.route"));
+ app.use("/api/rent", require("./routes/rent.route"));
 
 app.use(error);
 

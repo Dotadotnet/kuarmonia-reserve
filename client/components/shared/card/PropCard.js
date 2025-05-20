@@ -53,14 +53,13 @@ const PropertyCard = ({ property }) => {
   const tradeTypeTitle = property?.tradeType?.translations?.find(
     (t) => t.translation?.language === locale
   )?.translation?.fields?.title;
-  console.log("property", property);
   return (
     <Link
       key={property?._id}
       href={`/property/${property?.propertyId}/${slug}`}
       className="max-w-sm w-full  z-49 "
     >
-      <div className="relative overflow-hidden transition-all duration-150 ease-out bg-white border border-gray-100 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:bg-black ">
+      <div className="relative overflow-hidden transition-all duration-150 ease-out bg-white border border-gray-100 dark:border-gray-700 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:shadow-gray-950 dark:bg-gray-800 ">
         <span
           className={`absolute top-2 left-0 w-32 -translate-x-8 translate-y-4 -rotate-45 bg-green-500 text-white text-center text-sm z-50      ${
             property?.citizenshipStatus === "citizenship"

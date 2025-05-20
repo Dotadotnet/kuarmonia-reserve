@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import SendButton from "@/components/shared/button/SendButton";
-import { useAddOpportunityMutation } from "@/services/opportunity/opportunityApi";
+import { useAddJobOpportunityMutation } from "@/services/opportunity/opportunityApi";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
@@ -60,8 +60,8 @@ const StepAddOpportunity = ({
   cities,
   setCities
 }) => {
-  const [addOpportunity, { isLoading, data, error }] =
-    useAddOpportunityMutation();
+  const [addJobOpportunity, { isLoading, data, error }] =
+    useAddJobOpportunityMutation();
   const [completedSteps, setCompletedSteps] = useState({});
   const [invalidSteps, setInvalidSteps] = useState({});
   const [thumbnail, setThumbnail] = useState(null);
@@ -73,10 +73,11 @@ const StepAddOpportunity = ({
     const formData = new FormData();
     const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
 
-    formData.append("name", data.title);
+    formData.append("title", data.title);
     formData.append("summary", data.summary);
     formData.append("description", data.description);
     formData.append("thumbnail", thumbnail);
+    formData.append("employerImage", employerImage);
     formData.append("startDate", data.startDate);
     formData.append("endDate", data.endDate);
     formData.append("citizenshipOutcome", data.citizenshipOutcome.id);
@@ -84,7 +85,7 @@ const StepAddOpportunity = ({
       formData.append("gallery", gallery[i]);
     }
     formData.append("currency", data.currency.id);
-    console.log(data.tags)
+    console.log(data.tags);
     formData.append(
       "salary",
       JSON.stringify({
@@ -94,9 +95,9 @@ const StepAddOpportunity = ({
     );
 
     formData.append("jobTime", data.jobTime.id);
-    formData.append("experienceLevel", extractIds(data.experienceLevel));
-    formData.append("jobMode", data.jobMode.id);
     formData.append("jobType", data.jobType.id);
+    formData.append("jobMode", data.jobMode.id);
+    formData.append("experienceLevel", extractIds(data.experienceLevel));
     formData.append("employmentType", data.employmentType.id);
     formData.append("skills", JSON.stringify(skills));
     formData.append("documents", JSON.stringify(documents));
@@ -104,41 +105,45 @@ const StepAddOpportunity = ({
     formData.append("qualifications", JSON.stringify(qualifications));
     formData.append("benefits", JSON.stringify(benefits));
     formData.append("languages", JSON.stringify(languages));
-    formData.append("countries", JSON.stringify(countries));
-    formData.append("cities", JSON.stringify(cities));
+    formData.append("targetCountries", JSON.stringify(countries));
+    formData.append("targetCities", JSON.stringify(cities));
 
     formData.append(
       "company",
       JSON.stringify({
         name: data.company,
         bio: data.bio,
-        employerInformationDisplay: data.employerInformationDisplay,
-        address: {
-          country: data.country,
-          state: data.state,
-          city: data.city,
-          street: data.street,
-          plateNumber: data.plateNumber,
-          postalCode: data.postalCode,
-          phone: data.phone,
-          email: data.email,
-          location: {
-            lat: selectedLocation?.lat,
-            lng: selectedLocation?.lng
-          }
-        }
       })
     );
+
+    formData.append(
+      "address",
+      JSON.stringify({
+        country: selectedCountry,
+        state: selectedState,
+        city: selectedCity,
+        street: data.street,
+        plateNumber: data.plateNumber,
+        postalCode: data.postalCode,
+        phone: data.phone,
+        email: data.email
+      })
+    );
+    formData.append("location", JSON.stringify(selectedLocation));
+
+    formData.append("employerInformationDisplay", data.employerInformationDisplay);
     formData.append("category", data.category.id);
     formData.append("tags", extractIds(data.tags));
     formData.append("capacity", data.capacity);
     formData.append("vacancy", data.vacancy);
-    formData.append("socialLinks",JSON.stringify(socialLinksData));
+    formData.append("country", selectedCountry);
+    formData.append("city", selectedCity);
+    formData.append("socialLinks", JSON.stringify(socialLinksData));
 
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-    // addOpportunity(formData)
+    addJobOpportunity(formData);
   };
 
   const navigate = useNavigate();
@@ -148,15 +153,15 @@ const StepAddOpportunity = ({
       toast.loading("در حال افزودن ...", { id: "addOpportunity" });
     }
 
-    if (data?.success) {
-      toast.success(data?.message, { id: "addOpportunity" });
-      navigate("./");
+    if (data?.acknowledgement) {
+      toast.success(data?.description, { id: "addOpportunity" });
+      navigate(-1);
     }
-    if (data && !data?.success) {
-      toast.error(data?.message, { id: "addOpportunity" });
+    if (data && !data?.acknowledgement) {
+      toast.error(data?.description, { id: "addOpportunity" });
     }
     if (error?.data) {
-      toast.error(error?.data?.message, { id: "addOpportunity" });
+      toast.error(error?.data?.description, { id: "addOpportunity" });
     }
   }, [isLoading, data, error]);
 

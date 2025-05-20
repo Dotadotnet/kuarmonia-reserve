@@ -11,9 +11,9 @@ export const kuarmoniaApi = createApi({
       }
       headers.set("x-lang", "fa"); // ⬅️ اینو اضافه کن
       return headers;
-    },
+    }
   }),
-   
+
   tagTypes: [
     "User",
     "Admin",
@@ -59,7 +59,8 @@ export const kuarmoniaApi = createApi({
     "Institution",
     "InstitutionType",
     "Opportunity",
-    "JobMode"
+    "JobMode",
+    "Rent"
   ],
   endpoints: () => ({})
 });

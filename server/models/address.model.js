@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Counter = require("./counter");
+const { ObjectId } = mongoose.Schema.Types;
 
 const addressSchema = new mongoose.Schema(
   {
@@ -74,12 +75,16 @@ const addressSchema = new mongoose.Schema(
         lng: { type: Number, required: true }
       }
     },
+    creator: {
+      type: ObjectId,
+      ref: "Admin"
+    },
     admin: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "َAdmin"
     },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "User"
     }
   },

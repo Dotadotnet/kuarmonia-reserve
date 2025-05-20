@@ -17,7 +17,6 @@ const CartButton = ({ property }) => {
   ] = useAddToCartMutation();
 
   const handleUnitClick = (unit) => {};
-  console.log("property?.building", property?.building);
   return (
     <section className="flex flex-row items-center gap-x-4">
       <div className="flex-flex-col gap-y-8">

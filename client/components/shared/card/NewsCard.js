@@ -19,7 +19,7 @@ const NewsCard = ({ news }) => {
         pathname: `/${locale}/news/${news.newsId}/${slug}`
       }}
       key={news._id}
-      className="group relative overflow-hidden  bg-white border border-gray-100 dark:border-gray-800 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:border-blue-500  dark:hover:shadow-none dark:bg-black flex lg:flex-row flex-col gap-4 md:h-fit  w-70 md:w-[450px] p-4 delay-100  dark:text-blue-500 transition-all duration-300 ease-in-out"
+      className="group relative overflow-hidden  bg-white border border-gray-100 dark:border-gray-800 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:border-blue-500  dark:hover:shadow-none dark:bg-gray-800 flex lg:flex-row flex-col gap-4 md:h-fit  w-70 md:w-[450px] p-4 delay-100  dark:text-blue-500 transition-all duration-300 ease-in-out"
     >
       <div className="flex flex-col gap-y-2 ">
         <div className="flex w-full justify-center">

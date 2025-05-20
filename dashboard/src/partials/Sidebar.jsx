@@ -32,6 +32,7 @@ import VenueEvent from "@/components/icons/VenueEvent";
 import Venue from "@/components/icons/Venue";
 import News from "@/components/icons/News";
 import Country from "@/components/icons/Country";
+import Hotel from "@/components/icons/Hotel";
 import logo from "/logo.gif";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
@@ -99,6 +100,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     { title: "پست ها ", icon: Post, path: "/posts" },
     { title: "مجله", icon: Blog, path: "/blogs" },
     { title: "گالری", icon: Gallery, path: "/galleries" },
+    { title: "هتل ها", icon: Hotel, path: "/rents" },
     { title: "تنظیمات", icon: Setting, path: "/settings" },
     {
       title: "اخبار",

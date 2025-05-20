@@ -23,7 +23,6 @@ const customIcon = new L.Icon({
 const GeoLocation = ({ location, zoom, height, setSelectedLocation, cityLatLng }) => {
   const latlng = useGetCountryLatLng(location);
   
-  // ابتدا از cityLatLng یا latlng به عنوان position استفاده می‌کنیم
   const position = useMemo(() => {
     if (cityLatLng) {
       return {

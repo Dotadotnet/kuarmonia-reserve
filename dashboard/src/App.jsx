@@ -59,6 +59,8 @@ import NewsType from "./pages/news-types";
 import Settings from "./pages/settings";
 import Aboutus from "./pages/settings/aboutus";
 import AddMember from "./pages/settings/aboutus/add";
+import Rents from "./pages/rents";
+import AddRent from "./pages/rents/add";
 import Faqs from "./pages/settings/faqs";
 import AddFaqs from "./pages/settings/faqs/add";
 import Services from "./pages/settings/services";
@@ -146,6 +148,8 @@ function App() {
           <Route exact path="/settings/aboutus/add" element={<AddMember />} />
           <Route exact path="/settings/faqs/" element={<Faqs />} />
           <Route exact path="/settings/faqs/add" element={<AddFaqs />} />
+          <Route exact path="/rents/" element={<Rents />} />
+          <Route exact path="/rents/add" element={<AddRent />} />
           <Route exact path="/settings/services/" element={<Services />} />
           <Route exact path="/settings/services/add" element={<AddService />} />
         </Routes>

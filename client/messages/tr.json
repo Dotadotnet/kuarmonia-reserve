@@ -281,5 +281,10 @@
     "emailPlaceholder": "E-posta adresinizi girin",
     "emailRequired": "Lütfen e-posta adresinizi girin.",
     "emailValid": "Lütfen geçerli bir e-posta girin"
+  },
+  "opportunity": {
+    "title": "En Sıcak Fırsatlar",
+    "more": "Tümünü Gör",
+    "description": "Göç İçin Altın Fırsatlar"
   }
 }

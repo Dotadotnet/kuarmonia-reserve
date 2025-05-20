@@ -80,7 +80,7 @@ const Step3 = ({
   );
   return (
     <>
-<div className="flex flex-col flex-1 gap-y-1  p-2">
+<div className="flex flex-col flex-1 gap-y-1 !h-96 overflow-y-auto max-h-96  p-2">
         <label htmlFor="jobMode" className="flex flex-col gap-y-2 w-full">
           نوع فعالیت
           <Controller

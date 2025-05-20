@@ -15,7 +15,7 @@ const Step7 = ({
   errors
 }) => {
   return (
-    <div className="flex flex-col gap-y-4">
+    <div className="flex flex-col gap-y-2 max-h-[500px] p-2 overflow-y-auto">
       <ArrayInput
         title="َشرایط"
         values={qualifications}

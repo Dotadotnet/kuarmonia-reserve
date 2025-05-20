@@ -65,7 +65,7 @@ const Step9 = ({
 
   return (
     <>
-      <div className="w-full flex flex-col gap-y-4 p-2  rounded">
+      <div className="w-full flex flex-col gap-y-4 p-2 max-h-96 overflow-y-auto rounded">
         <div className="flex flex-col gap-y-2 w-full  ">
           <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
             <div className="flex flex-col flex-1">

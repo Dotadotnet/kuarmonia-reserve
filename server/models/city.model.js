@@ -6,6 +6,7 @@ const baseSchema = require("./baseSchema.model");
 const citySchema = new mongoose.Schema(
   {
     cityId: { type: Number, unique: true },
+    name: { type: String, unique: true },
 
     translations: [
       {
