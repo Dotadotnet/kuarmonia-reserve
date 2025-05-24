@@ -352,7 +352,17 @@ exports.updateAdmin = async (req, res) => {
     });
   }
 };
+
 exports.updateAdminInfo = async (req, res) => {
+  if (!req.params.id) {
+    return res.status(400).json({
+      acknowledgement: false,
+      message: "Invalid request",
+      description: "شناسه کاربری ارسال نشده است"
+    });
+  }
+  console.log(req.params);
+  console.log(req.body);
   try {
     const existingAdmin = await Admin.findById(req.params.id).populate(
       "address"
@@ -411,9 +421,10 @@ exports.updateAdminInfo = async (req, res) => {
         phone
       });
 
-      existingAdmin.address = newAddress._id;
+      await Admin.findByIdAndUpdate(existingAdmin._id, {
+        address: newAddress._id
+      });
       await newAddress.save();
-      await existingAdmin.save();
     }
     let avatar = existingAdmin.avatar;
     if (

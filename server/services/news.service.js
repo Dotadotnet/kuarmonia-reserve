@@ -162,7 +162,6 @@ exports.getAllNews = async (res, req) => {
 
 exports.getNews = async (req, res) => {
   try {
-    console.log(req.locale);
     const newsId = parseInt(req.params.id, 10);
 
     const news = await News.findOne({ newsId }).populate([

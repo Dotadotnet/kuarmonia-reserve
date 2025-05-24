@@ -15,6 +15,7 @@ const Right = ({ property }) => {
   const { title, description } =
     property?.translations?.find((t) => t.translation?.language === locale)
       ?.translation?.fields || {};
+      
   return (
     <section className="col-span-1 flex flex-col gap-y-8">
       <article className="flex flex-col gap-y-8">

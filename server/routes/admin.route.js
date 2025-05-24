@@ -45,7 +45,7 @@ router.get(
   "/get-admin/:id",
   verify,
   localeMiddleware,
-  authorize("superAdmin"),
+  authorize("superAdmin","admin"),
   adminController.getAdmin
 );
 
