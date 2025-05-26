@@ -14,13 +14,10 @@ import Link from "next/link";
 export default function OpportunityCard({ opportunity }) {
   const locale = useLocale();
 
-  const { title, summary, slug } =
+  const { title, summary, slug ,skills} =
     opportunity?.translations?.find((t) => t.translation?.language === locale)
       ?.translation?.fields || {};
-  const translation = opportunity?.translations?.find(
-    (t) => t.language === locale
-  )?.translation;
-  const skills = translation?.fields?.skills || [];
+
 
   return (
     <div className="max-w-xs min-w-[280px] m-4 p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
