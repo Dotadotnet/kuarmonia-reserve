@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import SkeletonImage from '../skeleton/SkeletonImage';
-import SkeletonText from '../skeleton/SkeletonText'; 
-import Time from '@/components/icons/Calendar';
+import React, { useState } from "react";
+import Image from "next/image";
+import SkeletonImage from "../skeleton/SkeletonImage";
+import SkeletonText from "../skeleton/SkeletonText";
+import Time from "@/components/icons/Calendar";
 
-export default function OpportunityThumbnailCard({ opportunity }) {
+export default function OpportunityThumbnailCard({ opportunity ,locale }) {
   const [showAdditionalContent, setShowAdditionalContent] = useState(false);
 
   const toggleAdditionalContent = () => {
@@ -89,20 +89,20 @@ export default function OpportunityThumbnailCard({ opportunity }) {
       <span className="flex items-center justify-center gap-1 px-2 py-1 h-7 bg-gray-100 text-gray-500 rounded-sm whitespace-nowrap">
         <span className="min-w-10 text-sm">
           {opportunity?.endDate
-            ? new Date(opportunity.endDate).toLocaleDateString('fa-IR-u-ca-persian', {
-                day: 'numeric',
-                month: 'long',
+            ? new Date(opportunity.endDate).toLocaleDateString(locale, {
+                day: "numeric",
+                month: "long"
               })
-            : ''}
+            : ""}
         </span>
         <span className="text-xs text-gray-700">
-          {' - '}
+          {" - "}
           {opportunity?.startDate
-            ? new Date(opportunity.startDate).toLocaleDateString('fa-IR-u-ca-persian', {
-                day: 'numeric',
-                month: 'long',
+            ? new Date(opportunity.startDate).toLocaleDateString(locale, {
+                day: "numeric",
+                month: "long"
               })
-            : ''}
+            : ""}
         </span>
         <Time />
       </span>

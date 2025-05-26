@@ -17,6 +17,10 @@ export default function OpportunityCard({ opportunity }) {
   const { title, summary, slug } =
     opportunity?.translations?.find((t) => t.translation?.language === locale)
       ?.translation?.fields || {};
+  const translation = opportunity?.translations?.find(
+    (t) => t.language === locale
+  )?.translation;
+  const skills = translation?.fields?.skills || [];
 
   return (
     <div className="max-w-xs min-w-[280px] m-4 p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
@@ -38,7 +42,7 @@ export default function OpportunityCard({ opportunity }) {
             <div className="flex items-center w-fit text-end gap-1 px-2 py-1 h-8  bg-red-100 text-red-500 rounded-sm ">
               <span className="min-w-10 text-red-500 text-sm flex gap-x-1">
                 <span
-                  className="text-red-500"
+                  className="text-red-500 w-5 h-5"
                   dangerouslySetInnerHTML={{
                     __html: opportunity?.refId?.jobType?.icon
                   }}
@@ -84,7 +88,7 @@ export default function OpportunityCard({ opportunity }) {
               }{" "}
             </div>
           </div>
-          <OpportunityThumbnailCard opportunity={opportunity} />
+          <OpportunityThumbnailCard opportunity={opportunity} locale={locale} />
         </div>
         <div>
           <p className="text-sm text-gray-600 mt-2 line-clamp-2 ">
@@ -130,7 +134,7 @@ export default function OpportunityCard({ opportunity }) {
           </span>
         </div>
         <div className="flex justify-start gap-x-1 mt-2 overflow-x-auto custom-scrollbar h-10">
-          {opportunity?.skills?.map((item, index) => (
+          {skills?.map((item, index) => (
             <span
               key={index}
               className="flex items-center w-fit gap-1 px-2 py-1 h-7 bg-blue-100 text-blue-500 rounded-sm whitespace-nowrap"
