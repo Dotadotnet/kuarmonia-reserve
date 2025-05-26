@@ -40,7 +40,7 @@ const OpportunitySlider = ({ opportunity }) => {
             </SwiperSlide>
           ))
         : opportunity.slice(0, 8).map((opportunityItem) => (
-            <SwiperSlide key={opportunityItem._id } className="!w-70 md:!w-[450px]">
+            <SwiperSlide key={opportunityItem._id } className="!w-fit">
               <OpportunityCard opportunity={opportunityItem}  />
             </SwiperSlide>
           ))}
