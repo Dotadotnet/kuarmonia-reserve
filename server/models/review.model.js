@@ -1,41 +1,56 @@
-
-
 /* external imports */
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 const baseSchema = require("./baseSchema.model");
+const Counter = require("./counter");
 /* create review schema */
 const reviewSchema = new mongoose.Schema(
   {
     reviewId: {
       type: Number,
-      unique: true,
+      unique: true
     },
     // for reviewer
     reviewer: {
       type: ObjectId,
-      ref: "User",
+      ref: "User"
     },
 
-    // for product
-    product: {
+    targetType: {
+      type: String,
+      required: true,
+      enum: ["property", "rent", "news","opportunity"]
+    },
+    targetId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true
+    },
+
+   parentReview: {
       type: ObjectId,
-      ref: "Product",
+      ref: "Review",
+      default: null
     },
 
-    // for rating
     rating: {
       type: Number,
-      required: [true, "Please, provide a rating"],
+      required: function () {
+        return !this.parentReview; 
+      },
       min: 1,
-      max: 5,
+      max: 5
     },
-
-    // for comment
+    guest: {
+      type: String,
+      required: function () {
+        return !this.user;
+      },
+      default: null
+    },
     comment: {
       type: String,
-      required: [true, "Please, provide a comment"],
-      maxLength: [200, "Your comment should be at most 200 characters"],
+      required: [true, "نظر فراموش نشه"],
+      maxLength: [200, "نظر نمیتون بیشتر از 200 کاراکتر باش یکم کمش کن"]
     },
     ...baseSchema.obj
   },
@@ -44,23 +59,22 @@ const reviewSchema = new mongoose.Schema(
 
 reviewSchema.pre("save", async function (next) {
   if (!this.isNew || this.reviewId) {
-    return next(); 
+    return next();
   }
 
   try {
     const counter = await Counter.findOneAndUpdate(
       { name: "reviewId" },
       { $inc: { seq: 1 } },
-      { new: true, upsert: true } 
+      { new: true, upsert: true }
     );
 
-    this.reviewId = counter.seq; 
+    this.reviewId = counter.seq;
     next();
   } catch (error) {
     next(error);
   }
-}); 
-
+});
 
 /* create review model */
 const Review = mongoose.model("Review", reviewSchema);

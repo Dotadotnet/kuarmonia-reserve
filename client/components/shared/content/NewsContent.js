@@ -13,6 +13,7 @@ import TickerTape from "@/components/[locale]/tickerTape/TickerTape";
 import StatusIndicator from "../tools/StatusIndicator";
 import Image from "next/image";
 import SocialIcons from "../socialIcons";
+import AllReviews from "@/components/detail/AllReviews";
 const NewsHeader = async ({ news, locale }) => {
   const t = await getTranslations("News", locale);
   const { title, summary } =
@@ -185,49 +186,12 @@ const NewsComments = async ({ news, locale }) => {
   const t = await getTranslations("News", locale);
   return (
     <section className="bg-gray-100 py-8 dark:bg-gray-800 dark:text-gray-100">
-      <div className="mx-auto max-w-screen-md px-4">
-        <h3 className="text-xl  mb-6 text-center">{t("userComments")}</h3>
-        <div className="space-y-4">
-          {!comments ? (
-            <div className="space-y-4">
-              {[...Array(3)].map((_, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-300 p-4 rounded-lg shadow dark:bg-gray-600 animate-pulse"
-                >
-                  <div className="h-4 bg-gray-400 rounded w-full mb-2"></div>
-                  <div className="h-4 bg-gray-400 rounded w-1/2"></div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            comments.map((comment, index) => (
-              <div
-                key={index}
-                className="bg-white p-4 rounded-lg shadow dark:bg-gray-700 dark:border dark:border-gray-600"
-              >
-                <div className="flex items-center mb-2">
-                  <img
-                    src={comment.userAvatar || "https://via.placeholder.com/40"}
-                    alt="تصویر کاربر"
-                    classNamnewse="w-10 h-10 rounded-full ml-3"
-                  />
-                  <div>
-                    <h4 className="font-semibold">{comment.userName}</h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-300">
-                      {t("share")}:
-                      {new Date(comment.date).toLocaleDateString(locale)}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-gray-700 dark:text-gray-200">
-                  {comment.text}
-                </p>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
+      <AllReviews
+        className="!px-0"
+        targetId={news._id}
+        targetType="news"
+        reviews={news.reviews}
+      />{" "}
     </section>
   );
 };

@@ -183,7 +183,9 @@ function mergeTranslationFields(doc, locale) {
     ?.translation?.fields;
 
   const fields =
-    rawFields instanceof Map ? Object.fromEntries(rawFields.entries()) : rawFields;
+    rawFields instanceof Map
+      ? Object.fromEntries(rawFields.entries())
+      : rawFields;
 
   if (fields) {
     Object.assign(doc, fields);
@@ -205,6 +207,11 @@ exports.getRent = async (req, res) => {
       {
         path: "address",
         select: "city country "
+      },
+      {
+        path: "reviews",
+        options: { sort: { updatedAt: -1 } },
+       
       }
     ]);
 

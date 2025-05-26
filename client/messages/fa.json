@@ -291,7 +291,7 @@
     "more": "مشاهده همه",
     "description": "اجاره طلایی برای رزرو",
     "Close": "بستن",
-    "BookNow":"همین الان رزور کن",
+    "BookNow": "همین الان رزور کن",
     "PayBooking": "پرداخت رزرو Travello",
     "EnterCardName": "نام روی کارت",
     "CardNamePlaceholder": "مثلاً علی رضایی",
@@ -305,6 +305,22 @@
     "PayNow": "پرداخت کن",
     "summary": "خلاصه",
     "importantInfo": "اطلاعات مهم",
-    "openTime": "زمان باز بودن"
+    "openTime": "زمان باز بودن",
+    "sameRentTitle": "هتل های مشابه",
+    "sameRentDescription": "اجاره‌های مشابه با قیمت کمتر و امکانات بهتر را همین حالا بررسی کن!",
+    "noRentsFound": "اجاره‌ای یافت نشد!"
+  },
+  "reviews": {
+    "title": "نظر",
+    "highlight": "مخطابان",
+    "subtitle": "تأثیر خدمات و محصولات ما را از زبان مخاطابن بشنوید",
+    "addReview": "ثبت نظر",
+    "noReviews": "نظری یافت نشد!",
+    "modalTitle": "نوشتن نظر شما",
+    "commentLimit": "نظر حداکثر ۵۰۰ کاراکتر باشد",
+    "starLimit": "بین ۱ تا ۵ ستاره انتخاب کنید",
+    "placeholder": "نظرت را بنویس...",
+    "submit": "ارسال نظر",
+    "addingReview": "در حال افزودن نظر"
   }
 }

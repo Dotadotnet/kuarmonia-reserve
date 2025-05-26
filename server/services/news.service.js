@@ -179,11 +179,15 @@ exports.getNews = async (req, res) => {
         select: "fields.title  language"
       },
       {
+        path: "reviews",
+        options: { sort: { updatedAt: -1 } }
+      },
+      {
         path: "creator",
-         populate: {
+        populate: {
           path: "translations.translation",
-          match: { language: req.locale },
-        },
+          match: { language: req.locale }
+        }
       },
       {
         path: "tags",

@@ -289,7 +289,7 @@
   "rent": {
     "title": "Hot Rent",
     "more": "View All",
-      "BookNow": "Book Now",
+    "BookNow": "Book Now",
     "description": "Golden Rent for Reserve",
     "Close": "Close",
     "PayBooking": "Pay Travello Booking",
@@ -305,6 +305,23 @@
     "PayNow": "Pay Now",
     "summary": "Summary",
     "importantInfo": "Important Info",
-    "openTime": "Open Time"
+    "openTime": "Open Time",
+    "sameRentTitle": "Similar Rents",
+    "sameRentDescription": "Offer you more similar rents with lower prices and better facilities!",
+    "noRentsFound": "No rents found!"
+  },
+
+  "reviews": {
+    "title": "Traveler's",
+    "highlight": "Review",
+    "subtitle": "Discover the Impact of Our Products and Services Through Their Testimonials",
+    "addReview": "Add Review",
+    "noReviews": "No reviews found!",
+    "modalTitle": "Write Your Review",
+    "commentLimit": "Comment limited to 500 characters",
+    "starLimit": "Choose stars between 1 to 5",
+    "placeholder": "Write your thoughts...",
+    "submit": "Add Review",
+    "addingReview": "Adding Review"
   }
 }

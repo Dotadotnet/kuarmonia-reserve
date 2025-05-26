@@ -4,11 +4,11 @@
 const express = require("express");
 
 /* middleware imports */
-const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
 
 /* internal import */
 const reviewController = require("../controllers/review.controller");
+const verify = require("../middleware/verify.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -18,8 +18,6 @@ const router = express.Router();
 // add to review
 router.post(
   "/add-review",
-  verify,
-  authorize("buyer"),
   reviewController.addReview
 );
 
@@ -35,6 +33,11 @@ router.patch(
   verify,
   authorize("buyer"),
   reviewController.updateReview
+);
+
+router.get(
+  "/get-reviews/:type/:id",
+  reviewController.getReviews
 );
 
 // delete review

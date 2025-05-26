@@ -30,7 +30,7 @@ export default async function Home({ params }) {
       <Opportunity  params={params} />
       <Rent  params={params} />
       <Gallery />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <FAQ />
       <Destination />
       <NewsLetter />

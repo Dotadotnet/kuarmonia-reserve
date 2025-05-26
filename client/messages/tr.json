@@ -306,6 +306,22 @@
     "PayNow": "Şimdi Öde",
     "summary": "Özet",
     "importantInfo": "Önemli Bilgiler",
-    "openTime": "Açık Saatler"
+    "openTime": "Açık Saatler",
+    "sameRentTitle": "Benzer Kiralıklar",
+    "sameRentDescription": "Daha uygun fiyatlı ve daha fazla olanaklı benzer kiralıkları hemen inceleyin!",
+    "noRentsFound": "Kiralık bulunamadı!"
+  },
+  "reviews": {
+    "title": "muhatap",
+    "highlight": "Yorumları",
+    "subtitle": "Ürün ve hizmetlerimizin etkisini kullanıcı yorumlarıyla keşfedin",
+    "addReview": "Yorum Ekle",
+    "noReviews": "Yorum bulunamadı!",
+    "modalTitle": "Yorumunuzu Yazın",
+    "commentLimit": "Yorum en fazla 500 karakter olabilir",
+    "starLimit": "1 ile 5 arasında yıldız seçin",
+    "placeholder": "Düşüncelerinizi yazın...",
+    "submit": "Yorumu Gönder",
+    "addingReview": "İnceleme ekleniyor"
   }
 }

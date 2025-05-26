@@ -1,65 +1,46 @@
-
-
 const { kuarmoniaApi } = require("../kuarmonia");
 
 const reviewApi = kuarmoniaApi.injectEndpoints({
-  endpoints: (build) => ({
-    // post a review
-    addReview: build.mutation({
+  endpoints: (builder) => ({
+    // Add Review
+    addReview: builder.mutation({
       query: (body) => ({
-        url: "/review/",
+        url: "/review/add-review",
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
         },
-        body,
+        credentials: "include",
+        body
       }),
 
-      invalidatesTags: ["Review", "User", "Rent"],
+      invalidatesTags: ["Review", "Rent", "User", "Session"]
     }),
 
-    // get all reviews
-    getAllReviews: build.query({
-      query: () => ({
-        url: "/review/",
-        method: "GET",
+    getReviews: builder.query({
+      query: ({ type, id }) => ({
+        url: `/review/get-reviews/${type}/${id}`,
+        method: "GET"
       }),
-
-      providesTags: ["Review", "User", "Rent"],
+      providesTags: ["Review", "Rent"]
     }),
-
-    // modify review
-    modifyReview: build.mutation({
-      query: ({ id, body }) => ({
-        url: `/review/${id}`,
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body,
-      }),
-
-      invalidatesTags: ["Review", "User", "Rent"],
-    }),
-
-    // delete review
-    deleteReview: build.mutation({
+    // remove review
+    removeReview: builder.mutation({
       query: (id) => ({
-        url: `/review/${id}`,
+        url: `/review/delete-review/${id}`,
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        }
       }),
 
-      invalidatesTags: ["Review", "User", "Rent"],
-    }),
-  }),
+      invalidatesTags: ["Review", "Rent", "User", "Session"]
+    })
+  })
 });
 
 export const {
   useAddReviewMutation,
-  useGetAllReviewsQuery,
-  useModifyReviewMutation,
-  useDeleteReviewMutation,
+  useRemoveReviewMutation,
+  useGetReviewsQuery
 } = reviewApi;

@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 const Counter = require("./counter");
 const baseSchema = require("./baseSchema.model");
-const {
-  encodeBase62
-} = require("../utils/translationUtils");
+const { encodeBase62 } = require("../utils/translationUtils");
 
 const newsSchema = new mongoose.Schema(
   {
@@ -71,6 +69,12 @@ const newsSchema = new mongoose.Schema(
       default: 0,
       min: [0, "تعداد بازدید نمی‌تواند منفی باشد"]
     },
+    reviews: [
+      {
+        type: ObjectId,
+        ref: "Review"
+      }
+    ],
     isFeatured: {
       type: Boolean,
       default: false
@@ -134,7 +138,6 @@ const newsSchema = new mongoose.Schema(
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 newsSchema.pre("save", async function (next) {
   try {
-   
     if (!this.newsId) {
       const counter = await Counter.findOneAndUpdate(
         { name: "newsId" },
@@ -147,7 +150,6 @@ newsSchema.pre("save", async function (next) {
       this.shortUrl = `${defaultDomain}/n/${base62Code}`;
     }
 
-   
     next();
   } catch (err) {
     console.error("خطا در pre-save خبر:", err);
