@@ -135,7 +135,7 @@ const NewsContent = async ({ news }) => {
           />
         </div>
         <div className="flex-1">
-          <h3>{news.creator?.name}</h3>
+          <h3>{name}</h3>
           <p className="text-sm">{bio}</p>
         </div>
       </div>
