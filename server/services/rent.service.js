@@ -154,7 +154,7 @@ exports.getRents = async (req, res) => {
         path: "translations.translation",
         match: { language: req.locale }
       },
-       {
+      {
         path: "address",
         select: "city"
       },
@@ -178,12 +178,39 @@ exports.getRents = async (req, res) => {
     });
   }
 };
+function mergeTranslationFields(doc, locale) {
+  const rawFields = doc.translations.find((t) => t.language === locale)
+    ?.translation?.fields;
+
+  const fields =
+    rawFields instanceof Map ? Object.fromEntries(rawFields.entries()) : rawFields;
+
+  if (fields) {
+    Object.assign(doc, fields);
+  }
+
+  return doc;
+}
 
 /* 📌 دریافت یک هتل ها  */
 exports.getRent = async (req, res) => {
   try {
-    const rent = await Rent.findById(req.params.id);
+    console.log("Rent ID from params:", req.params.id);
+    const rentId = parseInt(req.params.id, 10);
+    const rent = await Rent.findOne({ rentId }).populate([
+      {
+        path: "translations.translation",
+        match: { language: req.locale }
+      },
+      {
+        path: "address",
+        select: "city country "
+      }
+    ]);
 
+    mergeTranslationFields(rent, req.locale);
+
+    // console.log("rent:", rent);
     if (!rent) {
       return res.status(404).json({
         acknowledgement: false,
@@ -199,6 +226,8 @@ exports.getRent = async (req, res) => {
       data: rent
     });
   } catch (error) {
+    console.error("Error fetching rent:", error);
+    console.error("Error message:", error.message);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",

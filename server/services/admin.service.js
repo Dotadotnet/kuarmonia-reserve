@@ -432,6 +432,7 @@ exports.updateAdminInfo = async (req, res) => {
       req.uploadedFiles["avatar"] &&
       req.uploadedFiles["avatar"].length > 0
     ) {
+      console.log("avatar",avatar)
       await remove("avatar", existingAdmin.avatar?.public_id);
       avatar = {
         url: req.uploadedFiles["avatar"][0].url,

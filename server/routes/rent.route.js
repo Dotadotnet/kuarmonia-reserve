@@ -30,7 +30,7 @@ router.post(
 router.get("/get-rents", localeMiddleware, rentController.getRents);
 
 // get a rent
-router.get("/get-rent/:id", rentController.getRent);
+router.get("/get-rent/:id",localeMiddleware, rentController.getRent);
 
 // update rent
 router.patch(

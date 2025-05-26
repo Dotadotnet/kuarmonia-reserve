@@ -15,7 +15,7 @@ const RentSlider = ({ rent }) => {
       effect="coverflow"
       grabCursor
       centeredSlides
-      initialSlide={0}
+      initialSlide={1}
       slidesPerView="auto"
       spaceBetween={80}
       modules={[EffectCoverflow, Autoplay]}
@@ -23,34 +23,23 @@ const RentSlider = ({ rent }) => {
         delay: 6000,
         disableOnInteraction: false
       }}
-      breakpoints={{
-        0: {
-          spaceBetween: 40
-        },
-        640: {
-          spaceBetween: 60
-        },
-        1024: {
-          spaceBetween: 80
-        }
-      }}
       coverflowEffect={{
         rotate: 0,
         stretch: 0,
-        depth: 100,
+        depth: 300,
         modifier: 1,
         slideShadows: false
       }}
-      className="w-full max-w-6xl px-4"
+      className="w-full  px-4 !flex !justify-center"
     >
       {rent && rent.length === 0
         ? Array.from({ length: 8 }).map((_, index) => (
-            <SwiperSlide key={index} className="!w-70 md:!w-[450px]">
+            <SwiperSlide key={index} className="!w-fit ">
               <RentCardSkeleton />
             </SwiperSlide>
           ))
         : rent.slice(0, 8).map((rentItem) => (
-            <SwiperSlide key={rentItem._id} className="!w-70 md:!w-[450px]">
+            <SwiperSlide key={rentItem._id} className="!w-fit ">
               <RentCard tour={rentItem} />
             </SwiperSlide>
           ))}

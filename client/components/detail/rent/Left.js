@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect } from "react";
 import LoadImage from "@/components/shared/image/LoadImage";
 import { AiOutlineCalendar, AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -7,7 +7,7 @@ import { FiUsers } from "react-icons/fi";
 import { MdAttachMoney, MdOutlineAddShoppingCart } from "react-icons/md";
 import {
   useAddToCartMutation,
-  useRemoveFromCartMutation,
+  useRemoveFromCartMutation
 } from "@/services/cart/cartApi";
 import { useDispatch, useSelector } from "react-redux";
 import { IoCheckmarkSharp } from "react-icons/io5";
@@ -20,20 +20,21 @@ import {
   Elements,
   PaymentElement,
   useStripe,
-  useElements,
+  useElements
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Image from "next/image";
 import Modal from "@/components/shared/modal/Modal";
+import { useLocale, useTranslations } from "next-intl";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
-const Left = () => {
+const Left = ({ rent }) => {
+  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const user = useSelector((state) => state?.auth);
-  const tour = useSelector((state) => state?.rent);
   const { handleSubmit, control, watch, setValue } = useForm();
   const dispatch = useDispatch();
 
@@ -42,12 +43,12 @@ const Left = () => {
   const price = watch("price");
 
   useEffect(() => {
-    setValue("price", tour?.price * members);
-  }, [members, setValue, tour?.price]);
+    setValue("price", rent?.price * members);
+  }, [members, setValue, rent?.price]);
 
   const [
     addToCart,
-    { isLoading: addToCartLoading, data: addToCartData, error: addToCartError },
+    { isLoading: addToCartLoading, data: addToCartData, error: addToCartError }
   ] = useAddToCartMutation();
 
   const [
@@ -55,8 +56,8 @@ const Left = () => {
     {
       isLoading: removeFromCartLoading,
       data: removeFromCartData,
-      error: removeFromCartError,
-    },
+      error: removeFromCartError
+    }
   ] = useRemoveFromCartMutation();
 
   useEffect(() => {
@@ -78,13 +79,13 @@ const Left = () => {
 
     if (removeFromCartData) {
       toast.success(removeFromCartData?.message, {
-        id: "remove-from-cart",
+        id: "remove-from-cart"
       });
     }
 
     if (removeFromCartError?.data) {
       toast.error(removeFromCartError?.data?.message, {
-        id: "remove-from-cart",
+        id: "remove-from-cart"
       });
     }
   }, [
@@ -93,7 +94,7 @@ const Left = () => {
     addToCartError,
     removeFromCartLoading,
     removeFromCartData,
-    removeFromCartError,
+    removeFromCartError
   ]);
 
   function getColumnSpanClass(index, totalThumbnails) {
@@ -127,56 +128,59 @@ const Left = () => {
     setIsOpen(true);
     dispatch(setBooking(data));
   }
-const images = tour?.gallery || [];
+  const images = rent?.gallery || [];
 
-const leftImages = images.filter((_, i) => i % 2 === 0);
-const rightImages = images.filter((_, i) => i % 2 !== 0);
+  const leftImages = images.filter((_, i) => i % 2 === 0);
+  const rightImages = images.filter((_, i) => i % 2 !== 0);
+
+  const t = useTranslations("rent");
+
   return (
     <>
       <div className="lg:col-span-5 md:col-span-6 col-span-12 flex flex-col md:gap-y-8 gap-y-4">
         <div className="container mx-auto px-5 py-2">
-    <div className="-m-1 flex flex-wrap md:-m-2">
-      {/* Left column */}
-      <div className="flex w-1/2 flex-wrap">
-        {leftImages.map((img, index) => (
-          <div
-            key={index}
-            className={`${
-              index % 3 === 2 ? "w-full" : "w-1/2"
-            } p-1 md:p-2`}
-          >
-            <img
-              alt={img.public_id}
-              src={img.url}
-              className="block h-full w-full rounded-lg object-cover object-center"
-            />
-          </div>
-        ))}
-      </div>
+          <div className="-m-1 flex flex-wrap md:-m-2">
+            {/* Left column */}
+            <div className="flex w-1/2 flex-wrap">
+              {leftImages.map((img, index) => (
+                <div
+                  key={index}
+                  className={`${
+                    index % 3 === 2 ? "w-full" : "w-1/2"
+                  } p-1 md:p-2`}
+                >
+                  <img
+                    alt={img.public_id}
+                    src={img.url}
+                    className="block h-full w-full rounded-lg object-cover object-center"
+                  />
+                </div>
+              ))}
+            </div>
 
-      {/* Right column */}
-      <div className="flex w-1/2 flex-wrap">
-        {rightImages.map((img, index) => (
-          <div
-            key={index}
-            className={`${
-              index % 3 === 0 ? "w-full" : "w-1/2"
-            } p-1 md:p-2`}
-          >
-            <img
-              alt={img.public_id}
-              src={img.url}
-              className="block h-full w-full rounded-lg object-cover object-center"
-            />
+            {/* Right column */}
+            <div className="flex w-1/2 flex-wrap">
+              {rightImages.map((img, index) => (
+                <div
+                  key={index}
+                  className={`${
+                    index % 3 === 0 ? "w-full" : "w-1/2"
+                  } p-1 md:p-2`}
+                >
+                  <img
+                    alt={img.public_id}
+                    src={img.url}
+                    className="block h-full w-full rounded-lg object-cover object-center"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
-  </div>
+        </div>
 
         <div className="border border-secondary flex flex-col gap-y-8 lg:p-8 md:p-6 p-4 rounded w-full">
           <div className="flex flex-col gap-y-2">
-            <h2 className="text-lg"></h2>
+            <h2 className="text-lg">{t("BookNow")}</h2>
             <hr className="border-1 border-primary" />
           </div>
 
@@ -191,7 +195,7 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
                 control={control}
                 rules={{ required: true }}
                 name="duration.startDate"
-                defaultValue={formatDate(tour?.duration?.startDate)} // Set defaultValue
+                defaultValue={formatDate(rent?.duration?.startDate)} // Set defaultValue
                 render={({ field }) => (
                   <label
                     htmlFor="startDate"
@@ -207,8 +211,8 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
                       id="startDate"
                       className="rounded-secondary h-8 w-full flex-1"
                       onChange={(e) => field.onChange(e.target.value)}
-                      min={formatDate(tour?.duration?.startDate)}
-                      max={formatDate(tour?.duration?.endDate)}
+                      min={formatDate(rent?.duration?.startDate)}
+                      max={formatDate(rent?.duration?.endDate)}
                     />
                   </label>
                 )}
@@ -217,7 +221,7 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
                 control={control}
                 rules={{ required: true }}
                 name="duration.endDate"
-                defaultValue={formatDate(tour?.duration?.endDate)} // Set defaultValue
+                defaultValue={formatDate(rent?.duration?.endDate)} // Set defaultValue
                 render={({ field }) => (
                   <label
                     htmlFor="endDate"
@@ -230,8 +234,8 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
                       id="endDate"
                       className="rounded-secondary h-8 w-full flex-1"
                       onChange={(e) => field.onChange(e.target.value)}
-                      min={formatDate(tour?.duration?.startDate)}
-                      max={formatDate(tour?.duration?.endDate)}
+                      min={formatDate(rent?.duration?.startDate)}
+                      max={formatDate(rent?.duration?.endDate)}
                     />
                     <span className="h-8 w-8 rounded-secondary border border-black flex justify-center items-center p-1.5">
                       <AiOutlineCalendar className="w-6 h-6" />
@@ -245,7 +249,7 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
               <Controller
                 control={control}
                 name="members"
-                defaultValue={tour?.members || 1}
+                defaultValue={rent?.members || 1}
                 render={({ field }) => (
                   <label
                     htmlFor="members"
@@ -260,10 +264,10 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
                       name="members"
                       id="members"
                       className="rounded-secondary h-8 w-full flex-1"
-                      defaultValue={field.value || tour?.members}
+                      defaultValue={field.value || rent?.members}
                       value={field.value}
                       min="1"
-                      max={tour?.members}
+                      max={rent?.members}
                       onChange={(e) => field.onChange(parseInt(e.target.value))}
                     />
                   </label>
@@ -273,7 +277,7 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
               <Controller
                 control={control}
                 name="price"
-                defaultValue={tour?.price}
+                defaultValue={rent?.price}
                 render={({ field }) => (
                   <label
                     htmlFor="price"
@@ -286,7 +290,7 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
                       id="price"
                       className="rounded-secondary h-8 w-full flex-1"
                       placeholder="Pricing Amount"
-                      value={tour?.price * members}
+                      value={rent?.price * members}
                     />
                     <span className="h-8 w-8 rounded-secondary border border-black flex justify-center items-center p-1.5">
                       <MdAttachMoney className="w-6 h-6" />
@@ -300,13 +304,14 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
                 type="submit"
                 className="bg-primary hover:bg-secondary hover:text-primary hover:border-primary border border-transparent text-white p-1.5 rounded-primary flex justify-center items-center transition-all delay-100 text-sm w-full"
               >
+                {t("BookNow")}
               </button>
               {/* <Checkout members={members} duration={duration} /> */}
-              {user?.cart?.rents?.some((rent) => rent?._id === tour?._id) ? (
+              {user?.cart?.rents?.some((rent) => rent?._id === rent?._id) ? (
                 <button
                   type="button"
                   className="bg-primary hover:bg-secondary hover:text-primary hover:border-primary border border-transparent text-white p-1.5 rounded-primary flex justify-center items-center transition-all delay-100 text-sm"
-                  onClick={() => removeFromCart(tour?._id)}
+                  onClick={() => removeFromCart(rent?._id)}
                 >
                   {removeFromCartLoading ? (
                     <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
@@ -320,7 +325,7 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
                   className="bg-primary hover:bg-secondary hover:text-primary hover:border-primary border border-transparent text-white p-1.5 rounded-primary flex justify-center items-center transition-all delay-100 text-sm"
                   onClick={() =>
                     addToCart({
-                      rent: tour?._id,
+                      rent: rent?._id
                     })
                   }
                 >
@@ -342,7 +347,7 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
           onClose={() => setIsOpen(false)}
           className="lg:w-1/4 md:w-1/3 w-full z-50"
         >
-          <Checkout rent={tour} setIsOpen={setIsOpen} members={members} />
+          <Checkout rent={rent} setIsOpen={setIsOpen} members={members} />
         </Modal>
       )}
     </>
@@ -350,6 +355,8 @@ const rightImages = images.filter((_, i) => i % 2 !== 0);
 };
 
 function Checkout({ rent, setIsOpen, members }) {
+  const locale = useLocale();
+
   const booking = useSelector((state) => state?.booking);
   const user = useSelector((state) => state?.auth);
   const [createPaymentIntent, { isLoading, data, error }] =
@@ -357,26 +364,28 @@ function Checkout({ rent, setIsOpen, members }) {
   const { control, handleSubmit } = useForm({
     defaultValues: {
       name: user?.name,
-      email: user?.email,
-    },
+      email: user?.email
+    }
   });
-
+  const { title, summary, slug } =
+    rent?.translations?.find((t) => t.translation?.language === locale)
+      ?.translation?.fields || {};
   useEffect(() => {
     if (isLoading) {
       toast.loading("Creating Payment Intent...", {
-        id: "paymentIntent",
+        id: "paymentIntent"
       });
     }
 
     if (data) {
       toast.success(data?.message, {
-        id: "paymentIntent",
+        id: "paymentIntent"
       });
     }
 
     if (error?.data) {
       toast.error(error?.data?.message, {
-        id: "paymentIntent",
+        id: "paymentIntent"
       });
     }
   }, [data, error, isLoading]);
@@ -386,9 +395,10 @@ function Checkout({ rent, setIsOpen, members }) {
 
     createPaymentIntent({
       rent: rent?._id,
-      ...booking,
+      ...booking
     });
   }
+  const t = useTranslations("rent");
 
   return (
     <>
@@ -412,13 +422,13 @@ function Checkout({ rent, setIsOpen, members }) {
             className="py-2 px-4 text-primary bg-primary/10 border border-primary hover:bg-secondary rounded w-fit text-sm flex flex-row justify-center items-center"
             onClick={() => setIsOpen(false)}
           >
-            Close
+            {t("Close")}
           </button>
         </div>
       ) : (
         <section className="flex flex-col gap-8">
           <article className="h-full w-full flex flex-col gap-y-8">
-            <h1 className="text-xl">Pay Travello Booking</h1>
+            <h1 className="text-xl">{t("PayBooking")}</h1>
             <div className="flex flex-col gap-y-2">
               <div className="flex flex-col gap-y-1">
                 <span className="flex -space-x-4">
@@ -433,12 +443,12 @@ function Checkout({ rent, setIsOpen, members }) {
                     />
                   ))}
                 </span>
-                <h2 className="text-lg">{rent?.title}</h2>
+                <h2 className="text-lg">{title}</h2>
               </div>
-              <p className="text-sm">{rent?.summary}</p>
+              <p className="text-sm">{summary}</p>
               <p className="flex flex-row items-center justify-center gap-x-2 overflow-x-auto scrollbar-hide">
                 <span className="text-xs py-0.5 px-2 bg-indigo-50 text-indigo-800 border border-indigo-500 rounded-secondary capitalize w-fit whitespace-nowrap">
-                  {rent?.location}
+                  {rent?.address.city}
                 </span>
                 <span className="text-xs py-0.5 px-2 bg-purple-50 text-purple-800 border border-purple-500 rounded-secondary capitalize w-fit whitespace-nowrap">
                   {rent?.owner?.name}
@@ -469,7 +479,7 @@ function Checkout({ rent, setIsOpen, members }) {
                   htmlFor="name"
                   className="w-full text-sm flex flex-col gap-y-1"
                 >
-                  Enter Card Name*
+                  {t("EnterCardName")}*
                   <input
                     {...field}
                     type="text"
@@ -489,7 +499,7 @@ function Checkout({ rent, setIsOpen, members }) {
                   htmlFor="email"
                   className="w-full text-sm flex flex-col gap-y-1"
                 >
-                  Enter Card Email*
+                  {t("EnterCardEmail")}*
                   <input
                     {...field}
                     type="email"
@@ -509,7 +519,7 @@ function Checkout({ rent, setIsOpen, members }) {
                   htmlFor="card"
                   className="w-full text-sm flex flex-col gap-y-1"
                 >
-                  Enter Card Number*
+                  {t("EnterCardNumber")}*
                   <input
                     {...field}
                     type="text"
@@ -531,7 +541,7 @@ function Checkout({ rent, setIsOpen, members }) {
                   htmlFor="expiry"
                   className="w-full text-sm flex flex-col gap-y-1 flex-1"
                 >
-                  Enter Card Expiry*
+                  {t("EnterCardExpiry")}*
                   <input
                     {...field}
                     type="date"
@@ -551,7 +561,7 @@ function Checkout({ rent, setIsOpen, members }) {
                   htmlFor="cvc"
                   className="w-full text-sm flex flex-col gap-y-1 flex-1"
                 >
-                  Enter Card CVC*
+                  {t("EnterCardCVC")}*
                   <input
                     {...field}
                     type="number"
@@ -564,16 +574,16 @@ function Checkout({ rent, setIsOpen, members }) {
 
             <div className="text-sm flex flex-col gap-y-1">
               <p className="flex flex-row justify-between items-center">
-                <span className="">Cost Per Night ($)</span>
-                <span className="">{rent?.price}</span>
+                <span>{t("CostPerNight")}</span>
+                <span>{rent?.price}</span>
               </p>
               <p className="flex flex-row justify-between items-center">
-                <span className="">Overall Members</span>
+                <span>{t("OverallMembers")}</span>
                 <span className="">{members}</span>
               </p>
               <hr />
               <p className="flex flex-row justify-between items-center">
-                <span className="">Total Cost ($)</span>
+                <span>{t("TotalCost")}</span>
                 <span className="">{members * rent?.price}</span>
               </p>
             </div>
@@ -586,7 +596,7 @@ function Checkout({ rent, setIsOpen, members }) {
               {isLoading ? (
                 <AiOutlineLoading3Quarters className="animate-spin h-5 w-5" />
               ) : (
-                "Pay Now"
+                t("PayNow")
               )}
             </button>
           </form>

@@ -25,7 +25,7 @@ const NewsSlider = ({ news }) => {
     }}
     breakpoints={{
       0: {
-        spaceBetween: 40, 
+        spaceBetween: 20, 
       },
       640: {
         spaceBetween: 60, 

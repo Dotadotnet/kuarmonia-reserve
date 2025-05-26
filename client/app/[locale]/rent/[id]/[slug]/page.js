@@ -25,23 +25,19 @@ const RentPost = async ({ params }) => {
 
   const directionClass = locale === "fa" ? "rtl" : "ltr";
 
-  const { title, summary,slug } =
-    rent?.translations?.find((t) => t.translation?.language === locale)
-      ?.translation?.fields || {};
 
+console.log(rent)
   return (
     <Main>
       <div
-        className={`grid grid-cols-1  h-full md:pt-20 lg:grid-cols-3 gap-6 ${directionClass} md:px-4 pt-20`}
+        className={`  h-full md:pt-24  gap-6 ${directionClass} md:px-4 pt-20`}
       >
-        <Head>
-          <title>{}</title>
-        </Head>
-        <Container>
+      
+        <Container >
           <div className="h-full w-full flex flex-col gap-y-8">
             <div className="grid grid-cols-12 gap-8">
-              <Left />
-              <Right />
+              <Left rent={rent} />
+              <Right  rent={rent}/>
             </div>
             <AllReviews className="!px-0" />
             <MoreRents className="!px-0" />

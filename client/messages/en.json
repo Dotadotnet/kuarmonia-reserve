@@ -281,14 +281,30 @@
     "emailRequired": "Please enter your email address.",
     "emailValid": "Please enter a valid email."
   },
-  "opportunity":{
-    "title":"Hot Opportunities",
-    "more":"View All",
-    "description":"Golden Opportunities for Immigration"
+  "opportunity": {
+    "title": "Hot Opportunities",
+    "more": "View All",
+    "description": "Golden Opportunities for Immigration"
   },
-  "rent":{
-    "title":"Hot Rent",
-    "more":"View All",
-    "description":"Golden Rent for Reserve"
+  "rent": {
+    "title": "Hot Rent",
+    "more": "View All",
+      "BookNow": "Book Now",
+    "description": "Golden Rent for Reserve",
+    "Close": "Close",
+    "PayBooking": "Pay Travello Booking",
+    "EnterCardName": "Cardholder Name",
+    "CardNamePlaceholder": "e.g., John Doe",
+    "EnterCardEmail": "Card Email",
+    "EnterCardNumber": "Card Number",
+    "EnterCardExpiry": "Expiry Date",
+    "EnterCardCVC": "Card CVC",
+    "CostPerNight": "Cost Per Night",
+    "OverallMembers": "Total Members",
+    "TotalCost": "Total Cost",
+    "PayNow": "Pay Now",
+    "summary": "Summary",
+    "importantInfo": "Important Info",
+    "openTime": "Open Time"
   }
 }

@@ -12,41 +12,30 @@ const OpportunitySlider = ({ opportunity }) => {
 
   return (
     <Swiper
-    loop={true}
-    effect="coverflow"
-    grabCursor
-    centeredSlides
-    initialSlide={0}
-    slidesPerView="auto"
-    spaceBetween={40}
-    modules={[EffectCoverflow, Autoplay]}
-    autoplay={{
-      delay: 6000,
-      disableOnInteraction: false,
-    }}
-    breakpoints={{
-      0: {
-        spaceBetween: 20, 
-      },
-      640: {
-        spaceBetween: 30, 
-      },
-      1024: {
-        spaceBetween: 40, 
-      }
-    }}
-    coverflowEffect={{
-      rotate: 0,
-      stretch: 0,
-      depth: 100,
-      modifier: 1,
-      slideShadows: false,
-    }}
-    className="w-full max-w-6xl px-4"
+      loop={true}
+      effect="coverflow"
+      grabCursor
+      centeredSlides
+      initialSlide={1}
+      slidesPerView="auto"
+      spaceBetween={50}
+      modules={[EffectCoverflow, Autoplay]}
+      autoplay={{
+        delay: 6000,
+        disableOnInteraction: false,
+      }}
+      coverflowEffect={{
+        rotate: 0,
+        stretch: 0,
+        depth: 300,
+        modifier: 1,
+        slideShadows: false,
+      }}
+      className="w-full  px-4"
   >
       {opportunity && opportunity.length === 0
-        ? Array.from({ length: 4 }).map((_, index) => (
-            <SwiperSlide key={index} className="!w-70 md:!w-[450px]">
+        ? Array.from({ length: 10 }).map((_, index) => (
+            <SwiperSlide key={index} className="!w-fit">
               <OpportunityCardSkeleton />
             </SwiperSlide>
           ))

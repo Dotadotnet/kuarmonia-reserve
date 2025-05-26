@@ -289,6 +289,22 @@
   "rent": {
     "title": "رزور هتل",
     "more": "مشاهده همه",
-    "description": "اجاره طلایی برای رزرو"
+    "description": "اجاره طلایی برای رزرو",
+    "Close": "بستن",
+    "BookNow":"همین الان رزور کن",
+    "PayBooking": "پرداخت رزرو Travello",
+    "EnterCardName": "نام روی کارت",
+    "CardNamePlaceholder": "مثلاً علی رضایی",
+    "EnterCardEmail": "ایمیل کارت",
+    "EnterCardNumber": "شماره کارت",
+    "EnterCardExpiry": "تاریخ انقضا",
+    "EnterCardCVC": "کد امنیتی (CVC)",
+    "CostPerNight": "هزینه هر شب",
+    "OverallMembers": "تعداد نفرات",
+    "TotalCost": "هزینه کل",
+    "PayNow": "پرداخت کن",
+    "summary": "خلاصه",
+    "importantInfo": "اطلاعات مهم",
+    "openTime": "زمان باز بودن"
   }
 }

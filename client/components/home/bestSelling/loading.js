@@ -1,34 +1,14 @@
-import NewsCardSkeleton from "@/components/shared/skeleton/NewsCardSkeleton";
+import RentCardSkeleton from "@/components/shared/skeleton/RentCardSkeleton";
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 
-const NewsLoading = () => {
+const RebtLoading = () => {
   return (
     <>
-      <Swiper
-        modules={[Pagination, Autoplay]}
-        spaceBetween={20}
-        slidesPerView={1}
-        pagination={{ clickable: true }}
-        autoplay={{ delay: 4000 }}
-        breakpoints={{
-          0: { slidesPerView: 1.2 },
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        }}
-      >
-        {Array.from({ length: 4 }, (_, index) => (
-          <SwiperSlide key={index}>
-            <NewsCardSkeleton />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      {Array.from({ length: 4 }, (_, index) => (
+        <RentCardSkeleton key={index} />
+      ))}
     </>
   );
 };
 
-export default NewsLoading;
+export default RebtLoading;

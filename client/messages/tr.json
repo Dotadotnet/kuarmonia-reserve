@@ -290,6 +290,22 @@
   "rent": {
     "title": "Özel Kiralıklar",
     "more": "Tümünü Gör",
-    "description": "Rezervasyon için Altın Kiralıklar"
+    "description": "Rezervasyon için Altın Kiralıklar",
+    "Close": "Kapat",
+    "BookNow": "Hemen Rezervasyon Yap",
+    "PayBooking": "Travello Rezervasyonunu Öde",
+    "EnterCardName": "Kart Sahibinin Adı",
+    "CardNamePlaceholder": "ör. Ahmet Yılmaz",
+    "EnterCardEmail": "Kart E-postası",
+    "EnterCardNumber": "Kart Numarası",
+    "EnterCardExpiry": "Son Kullanma Tarihi",
+    "EnterCardCVC": "CVC Kodu",
+    "CostPerNight": "Gecelik Ücret",
+    "OverallMembers": "Toplam Kişi",
+    "TotalCost": "Toplam Ücret",
+    "PayNow": "Şimdi Öde",
+    "summary": "Özet",
+    "importantInfo": "Önemli Bilgiler",
+    "openTime": "Açık Saatler"
   }
 }
