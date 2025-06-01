@@ -37,7 +37,6 @@ import logo from "/logo.gif";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   const location = useLocation();
-  const { pathname } = location;
 
   const trigger = useRef(null);
   const sidebar = useRef(null);

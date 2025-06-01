@@ -6,31 +6,35 @@ const Counter = require("./counter");
 
 const tagSchema = new mongoose.Schema(
   {
-   
-     translations: [
-         {
-          translation: {
-             type: mongoose.Schema.Types.ObjectId,
-             ref: "Translation",
-             required: true
-           },
-           language: {
-             type: String,
-             enum: ["en", "tr", "ar"], 
-             required: true
-           }
-         }
-       ],    
-   
-  
-  
+    title: {
+      type: String,
+      required: [true, "عنوان تگ الزامی است"],
+      trim: true,
+      unique: [true, "تگ مشابه از قبل وجود دارد"],
+      maxLength: [70, "عنوان تگ نباید بیشتر از 70 کاراکتر باشد"]
+    },
+    translations: [
+      {
+        translation: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Translation",
+          required: true
+        },
+        language: {
+          type: String,
+          enum: ["en", "tr", "ar"],
+          required: true
+        }
+      }
+    ],
+
     creator: {
       type: ObjectId,
       ref: "Admin",
       required: [true, "شناسه نویسنده الزامی است"]
     },
 
-        robots: {
+    robots: {
       type: [
         {
           id: Number,
@@ -50,9 +54,7 @@ const tagSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
 tagSchema.pre("save", async function (next) {
-  
   try {
     const counter = await Counter.findOneAndUpdate(
       { name: "tagId" },

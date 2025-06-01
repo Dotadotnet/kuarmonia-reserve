@@ -8,9 +8,16 @@ const cron = require("node-cron");
 
 const rentSchema = new Schema(
   {
-     rentId: {
+    rentId: {
       type: Number,
-      unique: true,
+      unique: true
+    },
+    title: {
+      type: String,
+      required: [true, "عنوان هتل یا سوئیت الزامی است"],
+      trim: true,
+      minLength: [3, "عنوان هتل یا سوئیت باید حداقل ۳ کاراکتر باشد"],
+      maxLength: [100, "عنوان هتل یا سوئیت نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
     },
     translations: [
       {
@@ -32,7 +39,7 @@ const rentSchema = new Schema(
             default: "N/A"
           }
         }
-      ],
+      ]
     },
 
     isFeatured: {
@@ -112,7 +119,7 @@ const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 rentSchema.pre("save", async function (next) {
   const currentDate = new Date();
 
-   try {
+  try {
     if (!this.rentId) {
       const counter = await Counter.findOneAndUpdate(
         { name: "rentId" },

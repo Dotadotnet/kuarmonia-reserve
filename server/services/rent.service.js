@@ -57,6 +57,7 @@ exports.addRent = async (req, res) => {
 
     const rent = new Rent({
       ...otherInfo,
+      title,
       gallery,
       category,
       duration: parsedDuration,
