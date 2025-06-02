@@ -18,6 +18,7 @@ exports.addTag = async (req, res) => {
     }));
 
     const tag = new Tag({
+      title:title,
       creator: req.admin._id,
       robots: robotsArray
     });
