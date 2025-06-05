@@ -38,7 +38,7 @@ const RentSlider = ({ rent }) => {
               <RentCardSkeleton />
             </SwiperSlide>
           ))
-        : rent.slice(0, 8).map((rentItem) => (
+        : rent.map((rentItem) => (
             <SwiperSlide key={rentItem._id} className="!w-fit ">
               <RentCard tour={rentItem} />
             </SwiperSlide>
