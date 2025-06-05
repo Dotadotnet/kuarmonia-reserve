@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const teamMemberController = require("../controllers/teamMember.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -26,11 +27,11 @@ router.post(
 );
 
 // get all teamMembers
-router.get("/get-teamMembers", teamMemberController.getTeamMembers);
+router.get("/get-teamMembers",localeMiddleware, teamMemberController.getTeamMembers);
 
 // get teamLeader
 
-router.get("/get-leader", teamMemberController.getLeader);
+router.get("/get-leader",localeMiddleware, teamMemberController.getLeader);
 
 // get a teamMember
 router.get("/get-teamMember/:id", teamMemberController.getTeamMember);

@@ -2,25 +2,27 @@ const { kuarmoniaApi } = require("../kuarmonia");
 
 const teamMebersApi = kuarmoniaApi.injectEndpoints({
   endpoints: (builder) => ({
-    getTeamMebers: builder.query({
-      query: () => ({
+    getTeamMembers: builder.query({
+      query: ({ locale }) => ({
         url: `/teamMember/get-teamMembers`,
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "accept-language": locale || "fa"
         }
       })
     }),
     getTeamLeader: builder.query({
-      query: () => ({
-        url: `/teamMember/get-leader`, // API جدید برای دریافت رهبر تیم
+      query: ({ locale }) => ({
+        url: `/teamMember/get-leader`,
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "accept-language": locale || "fa"
         }
       })
     })
   })
 });
 
-export const { useGetTeamMebersQuery, useGetTeamLeaderQuery } = teamMebersApi;
+export const { useGetTeamMembersQuery, useGetTeamLeaderQuery } = teamMebersApi;

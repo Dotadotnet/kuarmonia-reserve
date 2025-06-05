@@ -3,19 +3,26 @@ import React, { useMemo } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useGetTeamLeaderQuery } from "@/services/teamMember/teamMemberApi";
 export default function TeamSection() {
-  const t = useTranslations("About")
-  const { data, isLoading, error } = useGetTeamLeaderQuery();
+  const t = useTranslations("About");
+  const locale = useLocale();
+
+  const { data, isLoading, error } = useGetTeamLeaderQuery({ locale });
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.2 });
   const [ref2, inView2] = useInView({ triggerOnce: true, threshold: 0.2 });
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
   };
   const leader = useMemo(() => data?.data || [], [data]);
-  console.log(leader)
+  const translation = leader[0]?.translations?.find(
+    (t) => t.language === locale && t.translationId
+  )?.translationId?.fields;
+
+  const { fullName, description } = translation || leader;
+
   return (
     <div>
       {/* Section 1 */}
@@ -39,12 +46,8 @@ export default function TeamSection() {
             </div>
             <div className="lg:pr-[100px] flex items-center text">
               <div className="data w-full">
-                <h2 className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-9 max-lg:text-center relative">
-                {t("16")}
-                </h2>
-                <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
-                {t("17")}
-                </p>
+                <h2 className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-9 max-lg:text-center relative">{fullName}</h2>
+                <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">{description}</p>
               </div>
             </div>
           </motion.div>
@@ -64,10 +67,10 @@ export default function TeamSection() {
             <div className="lg:pl-24 flex mt-4 items-center">
               <div className="data w-full">
                 <h2 className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-4 md:mb-8 max-lg:text-center relative">
-                {t("18")}
-                                </h2>
+                  {t("18")}
+                </h2>
                 <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
-                {t("19")}
+                  {t("19")}
                 </p>
               </div>
             </div>
@@ -80,8 +83,6 @@ export default function TeamSection() {
                 className="max-lg:mx-auto rounded-primary object-cover"
               />
             </div>
-
-
           </motion.div>
         </div>
       </section>

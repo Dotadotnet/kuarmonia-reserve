@@ -132,13 +132,29 @@ exports.addTeamMember = async (req, res) => {
   }
 };
 
-/* 📌 دریافت همه عضوها */
-exports.getTeamMembers = async (res) => {
+exports.getTeamMembers = async (req, res) => {
   try {
-    const teamMembers = await TeamMember.find({ isDeleted: false })
-      .populate("creator")
-      .populate("socialLinks.network");
-    console.log("teamMembers", teamMembers);
+    console.log("Locale:", req.locale);
+    const teamMembers = await TeamMember.find({
+      isDeleted: false,
+      position: { $ne: "رهبر" }
+    }).populate([
+      {
+        path: "translations.translationId",
+        match: { language: req.locale },
+        select:
+          "fields.fullName fields.description fields.department fields.position"
+      },
+      {
+        path: "socialLinks",
+        select: "network"
+      },
+      {
+        path: "creator",
+        select: "name avatar"
+      }
+    ]);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
@@ -156,17 +172,28 @@ exports.getTeamMembers = async (res) => {
   }
 };
 
-exports.getLeader = async (res) => {
+exports.getLeader = async (req, res) => {
   try {
     const leaders = await TeamMember.find({
       isDeleted: false,
-      position: "رهبر" // یا 'role' اگر نام فیلد شما این باشد
+      position: "رهبر"
     })
-      .populate("creator")
-      .populate("socialLinks.network");
-
-    console.log("leaders", leaders);
-
+      .populate([
+      {
+        path: "translations.translationId",
+        match: { language: req.locale },
+        select:
+          "fields.fullName fields.description fields.department fields.position"
+      },
+      {
+        path: "socialLinks",
+        select: "network"
+      },
+      {
+        path: "creator",
+        select: "name avatar"
+      }
+    ]);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

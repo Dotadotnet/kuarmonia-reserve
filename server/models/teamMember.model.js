@@ -35,11 +35,7 @@ const teamMemberSchema = new Schema({
       }
     }
   ],
-  description: {
-    type: String,
-    maxLength: [300, "توضیحات نمی‌تواند بیشتر از ۳۰۰ کاراکتر باشد"],
-    required: [true, "توضیحات الزامی است"]
-  },
+
   memberId: {
     type: Number,
     unique: true
@@ -48,10 +44,7 @@ const teamMemberSchema = new Schema({
     type: String,
     required: [true, "سمت عضو تیم الزامی است"]
   },
-  department: {
-    type: String,
-    required: false
-  },
+
   socialLinks: [
     {
       link: {
@@ -75,17 +68,8 @@ const teamMemberSchema = new Schema({
     type: String,
     required: false
   },
-  nationality: {
-    type: String,
-    required: false,
-    description: "ملیت فرد"
-  },
 
-  activeCountry: {
-    type: String,
-    required: false,
-    description: "کشوری که فرد در آن فعالیت می‌کند"
-  },
+
   isBoardMemberOrShareholder: {
     type: Boolean,
     default: false,

@@ -16,7 +16,7 @@ exports.addTeamMember = async (req, res, next) => {
 /* get all teamMembers */
 exports.getTeamMembers = async (req, res, next) => {
   try {
-    await teamMemberService.getTeamMembers(res);
+    await teamMemberService.getTeamMembers(req,res);
   } catch (error) {
     next(error);
   } finally {
@@ -26,9 +26,9 @@ exports.getTeamMembers = async (req, res, next) => {
 
 exports.getLeader = async (req, res, next) => {
   try {
-    await teamMemberService.getLeader(res); // فراخوانی سرویس getLeader
+    await teamMemberService.getLeader(req,res); 
   } catch (error) {
-    next(error); // ارسال ارور به میانه‌رو (middleware) برای مدیریت خطا
+    next(error); 
   } finally {
     console.log(`Route: ${req.url} || Method: ${req.method}`);
   }
