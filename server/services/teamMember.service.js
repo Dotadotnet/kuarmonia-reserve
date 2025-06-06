@@ -187,7 +187,7 @@ exports.getLeader = async (req, res) => {
       },
       {
         path: "socialLinks",
-        select: "network"
+        select: "network icon platform"
       },
       {
         path: "creator",
