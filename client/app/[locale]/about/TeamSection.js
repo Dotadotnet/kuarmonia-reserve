@@ -51,7 +51,7 @@ export default function TeamSection() {
                   {fullName}
                 </h2>
                 <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
-                  {MdDescription}
+                  {description}
                 </p>
               </div>
             </div>
