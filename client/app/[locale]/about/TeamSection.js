@@ -41,7 +41,7 @@ export default function TeamSection() {
                 alt="مدیر شرکت کارمونیا"
                 width={600}
                 height={600}
-                src={leader[0]?.thumbnail.url || "/assets/about/management.png"}
+                src={leader[0]?.avatar.url || "/assets/about/management.png"}
                 className="max-lg:mx-auto rounded-primary object-cover"
               />
             </div>
