@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useLocale, useTranslations } from "next-intl";
 import { useGetTeamLeaderQuery } from "@/services/teamMember/teamMemberApi";
+import { MdDescription } from "react-icons/md";
 export default function TeamSection() {
   const t = useTranslations("About");
   const locale = useLocale();
@@ -40,14 +41,14 @@ export default function TeamSection() {
                 alt="مدیر شرکت کارمونیا"
                 width={600}
                 height={600}
-                src="/assets/about/marjan.jpg"
+                src={leader[0]?.thumbnail.url || "/assets/about/management.png"}
                 className="max-lg:mx-auto rounded-primary object-cover"
               />
             </div>
             <div className="lg:pr-[100px] flex items-center text">
               <div className="data w-full">
                 <h2 className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-9 max-lg:text-center relative">{fullName}</h2>
-                <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">{descriptionب}</p>
+                <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">{MdDescription}</p>
               </div>
             </div>
           </motion.div>

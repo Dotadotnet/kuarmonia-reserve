@@ -146,8 +146,8 @@ exports.getTeamMembers = async (req, res) => {
           "fields.fullName fields.description fields.department fields.position"
       },
       {
-        path: "socialLinks",
-        select: "network"
+        path: "socialLinks.network",
+        select: "title icon platform"
       },
       {
         path: "creator",
@@ -177,8 +177,7 @@ exports.getLeader = async (req, res) => {
     const leaders = await TeamMember.find({
       isDeleted: false,
       position: "رهبر"
-    })
-      .populate([
+    }).populate([
       {
         path: "translations.translationId",
         match: { language: req.locale },
@@ -187,7 +186,7 @@ exports.getLeader = async (req, res) => {
       },
       {
         path: "socialLinks.network",
-    select: "title icon platform"
+        select: "title icon platform"
       },
       {
         path: "creator",
