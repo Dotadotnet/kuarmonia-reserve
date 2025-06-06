@@ -186,8 +186,8 @@ exports.getLeader = async (req, res) => {
           "fields.fullName fields.description fields.department fields.position"
       },
       {
-        path: "socialLinks",
-        select: "network icon platform"
+        path: "socialLinks.network",
+    select: "title icon platform"
       },
       {
         path: "creator",
