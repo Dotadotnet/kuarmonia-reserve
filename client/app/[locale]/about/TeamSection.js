@@ -47,9 +47,31 @@ export default function TeamSection() {
             </div>
             <div className="lg:pr-[100px] flex items-center text">
               <div className="data w-full">
-                <h2 className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-9 max-lg:text-center relative">{fullName}</h2>
-                <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">{MdDescription}</p>
+                <h2 className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-9 max-lg:text-center relative">
+                  {fullName}
+                </h2>
+                <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">
+                  {MdDescription}
+                </p>
               </div>
+            </div>
+            <div className="flex items-center gap-4 justify-center lg:justify-start max-sm:bottom-0 relative">
+              {leader[0]?.socialLinks?.map((sosial, idx) => (
+                <a
+                  key={idx}
+                  href={sosial.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cursor-pointer text-gray-900 dark:text-gray-400 hover:text-white group w-12 h-12 rounded-full flex justify-center items-center dark:bg-black bg-gray-100 transition-all duration-500 hover:bg-indigo-600"
+                >
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: sosial?.network?.icon
+                    }}
+                    className="w-7 h-7"
+                  />
+                </a>
+              ))}
             </div>
           </motion.div>
         </div>
