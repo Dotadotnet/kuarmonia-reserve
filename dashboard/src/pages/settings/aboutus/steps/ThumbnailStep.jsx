@@ -72,7 +72,7 @@ const ThumbnailStep = ({ nextStep, errors, register, setThumbnail }) => {
         <textarea
           name="description"
           id="description"
-          maxLength={160}
+          maxLength={600}
           placeholder="توضیحات مجله را وارد کنید..."
           className="p-2 rounded h-[170px]
        border w-full form-textarea"
@@ -84,7 +84,7 @@ const ThumbnailStep = ({ nextStep, errors, register, setThumbnail }) => {
               message: "توضیحات باید حداقل ۳۰ کاراکتر باشد"
             },
             maxLength: {
-              value: 225,
+              value: 600,
               message: "توضیحات نباید بیشتر از ۲۲۵ کاراکتر باشد"
             }
           })}
