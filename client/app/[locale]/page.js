@@ -23,14 +23,14 @@ import Rent from "@/components/home/bestSelling/rent";
 export default async function Home({ params }) {
   return (
     <Main >
-      <Hero  />
+ <Hero  />
       <KeyServices params={params}   />
       <News params={params}  />
       <Properties params={params} />
       <Opportunity  params={params} />
       <Rent  params={params} />
       <Gallery />
-      {/* <Testimonials /> */}
+      {/* {/* <Testimonials />  */}
       <FAQ />
       <Destination />
       <NewsLetter />

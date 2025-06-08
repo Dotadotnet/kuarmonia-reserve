@@ -22,8 +22,7 @@ import Link from "next/link";
 
 const RentCard = ({ tour }) => {
   const locale = useLocale();
-  console.log(tour);
-  console.log(locale);
+
   const sliderRef = useRef(null);
   const user = useSelector((state) => state?.auth);
   const { title, summary,slug } =
