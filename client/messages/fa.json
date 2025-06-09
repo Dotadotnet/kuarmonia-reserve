@@ -284,14 +284,15 @@
   "opportunity": {
     "title": "فرصت‌های داغ",
     "more": "مشاهده همه",
-    "description": "فرصت‌های طلایی برای مهاجرت"
+    "description": "فرصت‌های طلایی برای مهاجرت",
+    "request": "درخواست "
   },
   "rent": {
     "title": "رزور هتل",
     "more": "مشاهده همه",
     "description": "اجاره طلایی برای رزرو",
     "Close": "بستن",
-    "BookNow": "همین الان رزور کن",
+    "BookNow": "رزور کن",
     "PayBooking": "پرداخت رزرو Travello",
     "EnterCardName": "نام روی کارت",
     "CardNamePlaceholder": "مثلاً علی رضایی",

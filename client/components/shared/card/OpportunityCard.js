@@ -8,11 +8,12 @@ import OfficeBag from "@/components/icons/OfficeBag";
 import Chart from "@/components/icons/Chart";
 import Desktop from "@/components/icons/Desktop";
 import OpportunityThumbnailCard from "./OpportunityThumbnailCard";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
 export default function OpportunityCard({ opportunity }) {
   const locale = useLocale();
+  const t = useTranslations("opportunity");
 
   const { title, summary, slug ,skills} =
     opportunity?.translations?.find((t) => t.translation?.language === locale)
@@ -21,7 +22,7 @@ export default function OpportunityCard({ opportunity }) {
 
   return (
     <div className="max-w-xs min-w-[280px] m-4 p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
-      <Link href={`/opportunity/${opportunity?.opportunityId}/${slug}`}>
+      <Link href={`${locale}/opportunity/${opportunity?.opportunityId}/${slug}`}>
         <span
           className={`absolute top-0 left-1 w-32 -translate-x-12 translate-y-3 -rotate-45 bg-green-500 text-white text-center text-xs py-[1px] z-50 `}
         >
@@ -141,7 +142,7 @@ export default function OpportunityCard({ opportunity }) {
           ))}
         </div>
         <div className="max-w-xl mx-auto">
-          <label className="text-gray-400">درخواست ها</label>
+          <label className="text-gray-400"> {t("request")}</label>
           <div className="relative  max-w-sm mx-auto">
             <div className="flex mb-2 items-center justify-between">
               <div className="text-right">

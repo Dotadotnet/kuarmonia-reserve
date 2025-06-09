@@ -17,11 +17,12 @@ import {
 } from "@/services/favorite/favoriteApi";
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
 const RentCard = ({ tour }) => {
   const locale = useLocale();
+  const t = useTranslations("rent");
 
   const sliderRef = useRef(null);
   const user = useSelector((state) => state?.auth);
@@ -128,7 +129,7 @@ const RentCard = ({ tour }) => {
           </button>
         )}
         <span className="absolute -bottom-2 right-4 text-xs text-primary bg-white px-3 py-1 rounded-full shadow capitalize z-50">
-          {members} تخت
+          {members} {t("rooms")}
         </span>
         <div className="rounded-t relative group">
           <div
@@ -203,10 +204,10 @@ const RentCard = ({ tour }) => {
           <div className="flex items-center justify-between">
             <span className="text-xs flex items-center gap-x-1">
               <IoMdPricetag className="w-4 h-4 text-primary" />
-              <span className="capitalize">${price}/برای هر شب</span>
+              <span className="capitalize">${price}/ {t("CostPerNight")} </span>
             </span>
-            <Link href={`/rent/${tour?.rentId}/${slug}`}>
-              <Button className="px-4 py-1 text-xs cursor-pointer">رزرو</Button>
+            <Link href={`${locale}/rent/${tour?.rentId}/${slug}`}>
+              <Button className="px-4 py-1 text-xs cursor-pointer">{t("BookNow")}</Button>
             </Link>
           </div>
         </div>

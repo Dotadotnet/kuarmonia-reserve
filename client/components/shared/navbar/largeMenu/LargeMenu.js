@@ -7,15 +7,16 @@ import {
   IoInformationCircleOutline,
   IoCallOutline, 
 } from "react-icons/io5";
-import { useTranslations } from "next-intl";
+import {userLocale, useTranslations } from "next-intl";
 
 const LargeMenu = () => {
-  const t = useTranslations("ForAll")
+  const t = useTranslations("ForAll");
+  const locale = userLocale();
   const menuItems = [
     { id: 1, label: t("1"), icon: <IoHomeOutline size={24} />, href: "/" },
-    { id: 2, label: t("2"), icon: <IoReceiptOutline size={24} />, href: "/blog" },
-    { id: 3, label: t("3"), icon: <IoCallOutline size={24} />, href: "/contact" }, 
-    { id: 4, label: t("4"), icon: <IoInformationCircleOutline size={24} />, href: "/about" },
+    { id: 2, label: t("2"), icon: <IoReceiptOutline size={24} />, href: "/" },
+    { id: 3, label: t("3"), icon: <IoCallOutline size={24} />, href: `${locale}/contact` }, 
+    { id: 4, label: t("4"), icon: <IoInformationCircleOutline size={24} />, href:`${locale}/about` },
   ];
 
   const [selectMenu, setSelectMenu] = useState("");
