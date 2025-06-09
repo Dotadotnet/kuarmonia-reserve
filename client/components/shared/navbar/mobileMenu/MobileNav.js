@@ -7,10 +7,11 @@ import Category from "@/components/icons/Category";
 import Rules from "@/components/icons/Rules";
 import About from "@/components/icons/About";
 import Phone from "@/components/icons/Phone";
-import { useTranslations } from "next-intl";
+import {useLocale, useTranslations } from "next-intl";
 
 const MobileNav = ({ isOpen, setIsOpen }) => {
   const t = useTranslations("ForAll")
+  const locale = useLocale();
   return (
     <motion.div
       initial={{ opacity: 0, x: 200 }}
@@ -33,11 +34,11 @@ const MobileNav = ({ isOpen, setIsOpen }) => {
               {[
                 { href: "/", icon: <Home className="text-[#22b973]" />, text: t("5") },
                 { href: "/", icon: <Category />, text: t("6") },
-                { href: "/store", icon: <Shop />, text: t("7") },
-                { href: "/services", icon: <User />, text: t("8") },
-                { href: "/terms", icon: <Rules />, text: t("9") },
-                { href: "/about", icon: <About />, text: t("4") },
-                { href: "/contact", icon: <Phone />, text: t("3") },
+                { href: `${locale}/store`, icon: <Shop />, text: t("7") },
+                { href: `${locale}/services`, icon: <User />, text: t("8") },
+                { href: `${locale}/terms`, icon: <Rules />, text: t("9") },
+                { href: `${locale}/about`, icon: <About />, text: t("4") },
+                { href: `${locale}/contact`, icon: <Phone />, text: t("3") },
               ].map((item, index) => (
                 <motion.div
                   key={index}
