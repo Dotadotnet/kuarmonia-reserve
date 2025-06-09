@@ -17,6 +17,13 @@ const reviewApi = kuarmoniaApi.injectEndpoints({
       invalidatesTags: ["Review", "Rent", "User", "Session"]
     }),
 
+    getAllReviews: builder.query({
+      query: ({ type, id }) => ({
+        url: `/review/get-reviews`,
+        method: "GET"
+      }),
+      providesTags: ["Review", "Rent"]
+    }),
     getReviews: builder.query({
       query: ({ type, id }) => ({
         url: `/review/get-reviews/${type}/${id}`,
@@ -41,6 +48,7 @@ const reviewApi = kuarmoniaApi.injectEndpoints({
 
 export const {
   useAddReviewMutation,
+  useGetAllReviewsQuery,
   useRemoveReviewMutation,
   useGetReviewsQuery
 } = reviewApi;

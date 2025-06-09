@@ -3,7 +3,6 @@ import Auth from "../auth";
 import Session from "../session";
 import Providers from "../providers";
 import { Toaster } from "react-hot-toast";
-import Screen from "@/components/shared/loading/Screen";
 import language from "../language";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
@@ -88,7 +87,6 @@ export default async function RootLayout({ children, params }) {
               </body>
             </html>
             <Toaster />
-            <Screen />
           </Auth>
         </Session>
       </Providers>

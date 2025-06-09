@@ -596,3 +596,18 @@ focus {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@keyframes pingLimited {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.ping-3 {
+  animation: pingLimited 1s ease-in-out 3;
+}

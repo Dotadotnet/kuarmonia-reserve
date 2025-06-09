@@ -3,7 +3,7 @@ import { usePersistUserQuery } from "@/services/auth/userAuthApi";
 import React from "react";
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
-import Screen from "../loading/Screen";
+import Screen from "../../../app/Loading";
 import { useEffect } from "react";
 import { addUser } from "@/features/auth/authSlice";
 
