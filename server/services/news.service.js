@@ -124,9 +124,29 @@ exports.addNews = async (req, res) => {
 };
 
 /* 📌 دریافت همه اخبار */
-exports.getAllNews = async (res, req) => {
+exports.getAllNews = async (req,res) => {
   try {
-    const news = await News.find()
+    const { page = 1, limit = 5, search = "" } = req.query;
+    const skip = (page - 1) * limit;
+    let matchedCategoryIds = [];
+
+    if (search) {
+      const translations = await Translation.find({
+        language: req.locale,
+        refModel: "News",
+        "fields.title": { $regex: search, $options: "i" }
+      }).select("refId");
+
+      matchedCategoryIds = translations.map((t) => t.refId);
+    }
+
+    const query = {
+      isDeleted: false,
+      ...(search ? { _id: { $in: matchedCategoryIds } } : {})
+    };
+    const news = await News.find(query)
+      .skip(skip)
+      .limit(Number(limit))
       .sort({ createdAt: -1 })
       .populate([
         {
@@ -142,12 +162,14 @@ exports.getAllNews = async (res, req) => {
           select: "icon title _id"
         }
       ]);
+    const total = await News.countDocuments(query);
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست اخبار با موفقیت دریافت شد",
-      data: news
+      data: news,
+      total
     });
   } catch (error) {
     console.log(error);

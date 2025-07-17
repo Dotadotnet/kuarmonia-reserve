@@ -10,8 +10,10 @@ import SubscribeForm from "./Subscribe";
 const Sidebar = async ({ locale }) => {
   const t = await getTranslations("News");
 
-  const apiNews = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
-  const responseNews = await fetch(apiNews, {
+const limit = 15;
+const page = 1; 
+const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${limit}`;
+  const responseNews = await fetch(api, {
     cache: "no-store",
     next: { tags: ["news"] },
     headers: {

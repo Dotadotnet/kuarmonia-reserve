@@ -32,8 +32,8 @@ const MobileNav = ({ isOpen, setIsOpen }) => {
 
             <div className="flex absolute overflow-y-auto overflow-x-hidden w-2/3 h-2/3 items-center rounded-lg bg-white justify-start dark:bg-gray-900 gap-10 flex-col top-1/2 left-5  rtl:right-5 transform pt-8 -translate-y-1/2">
               {[
-                { href: "/", icon: <Home className="text-[#22b973]" />, text: t("5") },
-                { href: "/", icon: <Category />, text: t("6") },
+                { href: `${locale}/`, icon: <Home className="text-[#22b973]" />, text: t("5") },
+                { href: `${locale}`, icon: <Category />, text: t("6") },
                 { href: `${locale}/store`, icon: <Shop />, text: t("7") },
                 { href: `${locale}/services`, icon: <User />, text: t("8") },
                 { href: `${locale}/terms`, icon: <Rules />, text: t("9") },

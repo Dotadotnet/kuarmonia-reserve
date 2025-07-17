@@ -1,9 +1,12 @@
 // seoUtils.js
+const { translate } = require("google-translate-api-x");
 
 
 async function generateSlug(title = "") {
   try {
-    return title
+    const res = await translate(title, { to: "en", client: "gtx" });
+    const translatedTitle = res.text; 
+    return translatedTitle
       .toString()
       .trim()
       .toLowerCase()

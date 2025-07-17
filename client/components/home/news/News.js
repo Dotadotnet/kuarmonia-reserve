@@ -7,7 +7,9 @@ import { getTranslations } from "next-intl/server";
 
 const News = async ({ params }) => {
   const { locale } = await params;
-  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
+const limit = 15;
+const page = 1; 
+const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${limit}`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["news"] },

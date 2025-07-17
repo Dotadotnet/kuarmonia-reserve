@@ -67,7 +67,7 @@ const ListNews = () => {
   return (
     <>
       <ControlPanel>
-        <Search searchTerm={searchTerm} />
+        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <AddButton link={"./add"} />
         <div className="mt-8 w-full grid grid-cols-12 text-slate-400 px-4 ">
           <div className="col-span-11 lg:col-span-4  text-sm">

@@ -18,8 +18,8 @@ const newsApi = kuarmoniaApi.injectEndpoints({
     }),
 
     getNews: builder.query({
-      query: () => ({
-        url: `/news/get-news`,
+      query: ({ page = 1, limit = 7, search = "" } = {}) => ({
+        url: `/news/get-news/?page=${page}&limit=${limit}&search=${search}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
