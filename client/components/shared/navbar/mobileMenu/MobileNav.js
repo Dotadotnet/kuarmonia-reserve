@@ -35,7 +35,7 @@ const MobileNav = ({ isOpen, setIsOpen }) => {
                 { href: `/${locale}/`, icon: <Home className="text-[#22b973]" />, text: t("5") },
                 { href: `/${locale}`, icon: <Category />, text: t("6") },
                 { href: `/${locale}/store`, icon: <Shop />, text: t("7") },
-                { href: `/${locale}/services`, icon: <User />, text: t("8") },
+                { href: `/${locale}/auth/signin`, icon: <User />, text: t("8") },
                 { href: `/${locale}/terms`, icon: <Rules />, text: t("9") },
                 { href: `/${locale}/about`, icon: <About />, text: t("4") },
                 { href: `/${locale}/contact`, icon: <Phone />, text: t("3") },
