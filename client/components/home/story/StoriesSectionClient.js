@@ -96,7 +96,7 @@ export default function StoriesSectionClient({ banners }) {
   return (
     <section className="pt-24 overflow-auto">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex py-2 gap-6 overflow-x-auto flex-nowrap px-2 sm:justify-center no-scrollbar">
+        <div className="flex py-2 gap-6 overflow-x-auto scrollbar-hide flex-nowrap px-2 sm:justify-center no-scrollbar">
           {banners.map((banner) => {
             const randomGradient =
               gradientClasses[Math.floor(Math.random() * gradientClasses.length)];
