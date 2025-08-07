@@ -60,27 +60,38 @@ export default function StoriesSectionClient({ banners }) {
     }
   };
 
-  const getTranslation = (translations, field) => {
+  const getTranslation = (translations, field, fallback = "") => {
     const translation = translations?.find((t) => t.language === lang)?.translation?.fields?.[field];
-    return translation || "";
+    return translation || fallback;
   };
 
   // مدیریت نوار پیشرفت
   useEffect(() => {
     let timer;
-    if (selectedBanner && isPlaying && selectedBanner.stories[currentStoryIndex].media.type !== "video") {
+    if (
+      selectedBanner &&
+      isPlaying &&
+      selectedBanner.stories[currentStoryIndex]?.media.type !== "video"
+    ) {
       timer = setInterval(() => {
         setProgress((prev) => {
           if (prev >= 100) {
             nextStory();
             return 0;
           }
-          return prev + (100 / (5 * 60)); // 5 ثانیه برای پر شدن نوار (60 فریم در ثانیه)
+          return prev + (100 / (10 * 60)); // 10 ثانیه برای پر شدن نوار (60 فریم در ثانیه)
         });
       }, 1000 / 60); // به‌روزرسانی هر 16.67 میلی‌ثانیه برای انیمیشن روان
     }
     return () => clearInterval(timer);
   }, [selectedBanner, currentStoryIndex, isPlaying]);
+
+  // مدیریت توقف پخش هنگام بستن یا تغییر استوری
+  useEffect(() => {
+    if (!selectedBanner) {
+      setProgress(0);
+    }
+  }, [selectedBanner]);
 
   return (
     <section className="pt-24 overflow-auto">
@@ -116,7 +127,7 @@ export default function StoriesSectionClient({ banners }) {
                 </div>
 
                 <span className="text-sm font-medium text-gray-700 mt-2 max-w-20 truncate text-center">
-                  {getTranslation(banner.translations, "title")}
+                  {getTranslation(banner.translations, "title", banner.creator.name)}
                 </span>
               </div>
             );
@@ -134,7 +145,7 @@ export default function StoriesSectionClient({ banners }) {
                     className="flex-1 h-1 bg-gray-500/50 rounded-full overflow-hidden"
                   >
                     <div
-                      className="h-full bg-white transition-all duration-[5000ms] ease-linear"
+                      className="h-full bg-white transition-all duration-[10000ms] ease-linear"
                       style={{
                         width: `${
                           index === currentStoryIndex
@@ -155,13 +166,17 @@ export default function StoriesSectionClient({ banners }) {
                   <Image
                     width={150}
                     height={150}
-                    src={selectedBanner.creator.avatar.url}
-                    alt={selectedBanner.creator.name}
+                    src={selectedBanner.stories[currentStoryIndex].creator.avatar.url}
+                    alt={"author"}
                     className="w-10 h-10 rounded-full border-2 border-white object-cover"
                   />
                   <div>
                     <p className="text-white font-semibold text-sm">
-                      {getTranslation(selectedBanner.creator.translations, "name") }
+                      {getTranslation(
+                        selectedBanner.stories[currentStoryIndex].creator.translations,
+                        "name",
+                        selectedBanner.stories[currentStoryIndex].creator.name
+                      )}
                     </p>
                   </div>
                 </div>
@@ -217,20 +232,20 @@ export default function StoriesSectionClient({ banners }) {
               {/* ناوبری */}
               <button
                 onClick={prevStory}
-                className={`absolute ${isRtl ? "right-0" : "left-0"} top-0 w-1/3 h-full z-10 flex items-center ${isRtl ? "justify-end" : "justify-start"} opacity-0 hover:opacity-100`}
+                className={`absolute rtl:right-4 ltr:left-4 top-0 w-1/3 h-full z-10 flex items-center rtl:justify-start ltr:justify-end opacity-0 hover:opacity-100`}
                 disabled={currentStoryIndex === 0}
               >
                 <FaChevronRight
-                  className={`h-8 w-8 text-white bg-black/50 rounded-full p-1 ${isRtl ? "" : "rotate-180"}`}
+                  className={`h-8 w-8 text-white bg-black/50 rounded-full p-1 rtl:rotate-180`}
                 />
               </button>
 
               <button
                 onClick={nextStory}
-                className={`absolute ${isRtl ? "left-0" : "right-0"} top-0 w-1/3 h-full z-10 flex items-center ${isRtl ? "justify-start" : "justify-end"} opacity-0 hover:opacity-100`}
+                className={`absolute rtl:right-4 ltr:left-4  top-0 w-1/3 h-full z-10 flex items-center rtl:justify-start ltr:justify-end opacity-0 hover:opacity-100`}
               >
                 <FaChevronLeft
-                  className={`h-8 w-8 text-white bg-black/50 rounded-full p-1 ${isRtl ? "" : "rotate-180"}`}
+                  className={`h-8 w-8 text-white bg-black/50 rounded-full p-1 rtl:rotate-180 `}
                 />
               </button>
             </div>

@@ -116,7 +116,7 @@ exports.getbanners = async (req, res) => {
             },
             {
               path: "creator",
-              select: "name avatar translations",
+              select: "avatar translations",
               populate: {
                 path: "translations.translation",
                 match: { language: req.locale },
