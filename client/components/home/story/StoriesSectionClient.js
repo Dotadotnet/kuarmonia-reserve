@@ -107,7 +107,7 @@ export default function StoriesSectionClient({ banners }) {
                 onClick={() => openStories(banner)}
                 className="flex flex-col items-center cursor-pointer group"
               >
-                <div className="relative w-24 h-24 group">
+                <div className="relative w-16 h-16 group">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div
                       className={`w-full h-full rounded-full bg-gradient-to-tr ${randomGradient} transition-transform duration-500 group-hover:scale-[1.04]`}
