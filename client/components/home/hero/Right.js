@@ -12,7 +12,7 @@ function Right() {
     <div className="col-span-2 h-full flex flex-col  ">
       {" "}
       <div
-        className="w-full  md:mt-5 h-full rounded-primary relative flex flex-col md:gap-y-8 lg:px-2 lg:py-10 md:pt-4 pb-0"
+        className="w-full  h-full rounded-primary relative flex flex-col md:gap-y-8 lg:px-2 lg:py-10 md:pt-4 pb-0"
         style={{
           backgroundImage:
             "url(/assets/home-page/banner/dots.svg), linear-gradient(to top right, #34D399, #3B82F6)",

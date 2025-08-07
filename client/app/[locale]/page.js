@@ -19,10 +19,12 @@ import Destination from "@/components/home/destination/Destination";
 import TravelAvailability from "@/components/home/hero/travelAvailability/TravelAvailability";
 import Opportunity from "../../components/home/opportunities/Opportunity";
 import Rent from "@/components/home/bestSelling/rent";
+import StoriesSectionServer from "@/components/home/story/page";
 
 export default async function Home({ params }) {
   return (
     <Main >
+      <StoriesSectionServer params={params} />
  <Hero  />
       <KeyServices params={params}   />
       <News params={params}  />
