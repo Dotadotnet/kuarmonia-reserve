@@ -77,12 +77,12 @@ const MobileNav = ({ isOpen, setIsOpen }) => {
                   </Link>
                 </motion.div>
               ))}
-              <div className="flex items-center p-4 justify-around absolute bottom-0 w-full">
+              {/* <div className="flex items-center p-4 justify-around absolute bottom-0 w-full">
                 <Search forToolbar={true} />
 
                 <ThemeToggle />
                 <Auth />
-              </div>
+              </div> */}
             </div>
           ) : (
             ""
