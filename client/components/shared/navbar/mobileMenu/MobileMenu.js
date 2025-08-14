@@ -3,9 +3,6 @@ import { motion } from "framer-motion";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { CgClose } from "react-icons/cg";
 import LanguageSwitcher from "../languageSwitch/page";
-import Search from "../searchTrio/Search";
-import ThemeToggle from "../ThemeToggle/ThemeToggle";
-import Auth from "../auth/Auth";
 
 const MobileMenu = ({ isOpen, setIsOpen }) => {
   return (

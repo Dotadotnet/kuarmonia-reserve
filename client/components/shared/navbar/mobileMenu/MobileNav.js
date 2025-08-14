@@ -8,7 +8,6 @@ import Rules from "@/components/icons/Rules";
 import About from "@/components/icons/About";
 import Phone from "@/components/icons/Phone";
 import { useLocale, useTranslations } from "next-intl";
-import SearchFilter from "../searchTrio/SearchFilter";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import Auth from "../auth/Auth";
 import Search from "../searchTrio/Search";
@@ -77,12 +76,12 @@ const MobileNav = ({ isOpen, setIsOpen }) => {
                   </Link>
                 </motion.div>
               ))}
-              {/* <div className="flex items-center p-4 justify-around absolute bottom-0 w-full">
+              <div className="flex items-center bg-gray-200 dark:bg-gray-700 rounded-md z-[99999999] p-4 justify-around absolute bottom-0 w-full">
                 <Search forToolbar={true} />
 
                 <ThemeToggle />
                 <Auth />
-              </div> */}
+              </div>
             </div>
           ) : (
             ""
