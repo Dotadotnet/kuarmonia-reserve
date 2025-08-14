@@ -31,9 +31,6 @@ export default async function Home({ params }) {
       <Properties params={params} />
       <Opportunity  params={params} />
       <Rent  params={params} />
-      <Gallery />
-      {/* {/* <Testimonials />  */}
-      <FAQ />
       <Destination />
       <NewsLetter />
     </Main>

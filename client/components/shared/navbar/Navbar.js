@@ -47,7 +47,6 @@ const Navbar = () => {
           </nav>
         </Container>
       </header>
-      <ToolBar />
     </>
   );
 };

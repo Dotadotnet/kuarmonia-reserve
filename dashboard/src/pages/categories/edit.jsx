@@ -63,7 +63,6 @@ console.log(requestData);
         className="line-clamp-1 cursor-pointer rounded-full border border-green-500/5 bg-green-500/5 p-2 text-green-500 transition-colors hover:border-green-500/10 hover:bg-green-500/10 hover:!opacity-100 group-hover:opacity-70"
         onClick={() => setIsOpen(true)}
       >
-        <Edit className="w-5 h-5" />
       </span>
       {isOpen && (
         <Modal

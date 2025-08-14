@@ -324,5 +324,12 @@
     "placeholder": "Düşüncelerinizi yazın...",
     "submit": "Yorumu Gönder",
     "addingReview": "İnceleme ekleniyor"
-  }
+  },
+  
+  "whatsapp": {
+    "accountName": "Marjan Qara Gizli",
+    "chatMessage": "Merhaba 😊 Ben Marjan, size yardımcı olmaktan mutluluk duyarım, herhangi bir sorunuz olursa sorabilirsiniz."
+  
+}
+
 }

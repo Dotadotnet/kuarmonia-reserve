@@ -325,5 +325,12 @@
     "placeholder": "Write your thoughts...",
     "submit": "Add Review",
     "addingReview": "Adding Review"
-  }
+  },
+  
+  "whatsapp": {
+    "accountName": "Marjan Qara Gizli",
+    "chatMessage": "Hi 😊 I'm Marjan, happy to help you, feel free to ask any questions."
+  
+}
+
 }
