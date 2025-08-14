@@ -13,7 +13,7 @@ function WhatsAppWidget() {
         phoneNumber="+14376675933"
         chatMessage={t("chatMessage")}
         allowEsc
-        allowClickAway
+    
         notification
         notificationSound
         avatar="/assets/marjan.jpg"
