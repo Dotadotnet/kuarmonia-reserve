@@ -16,28 +16,31 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const getPages = () => {
     const delta = 2; // تعداد صفحات قبل و بعد از صفحه فعلی
     const range = [];
-    const rangeWithDots = [];
-    let l;
 
-    for (let i = 1; i <= totalPages; i++) {
-      if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
-        range.push(i);
-      }
+    // اضافه کردن صفحه اول
+    range.push(1);
+
+    // اضافه کردن نقاط اگر فاصله بین صفحه اول و صفحه فعلی بیشتر از delta + 1 باشد
+    if (currentPage - delta > 2) {
+      range.push('...');
     }
 
-    for (let i of range) {
-      if (l) {
-        if (i - l === 2) {
-          rangeWithDots.push(l + 1);
-        } else if (i - l > 2) {
-          rangeWithDots.push('...');
-        }
-      }
-      rangeWithDots.push(i);
-      l = i;
+    // اضافه کردن صفحات نزدیک به صفحه فعلی
+    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
+      range.push(i);
     }
 
-    return rangeWithDots;
+    // اضافه کردن نقاط اگر فاصله بین صفحه فعلی و صفحه آخر بیشتر از delta + 1 باشد
+    if (currentPage + delta < totalPages - 1) {
+      range.push('...');
+    }
+
+    // اضافه کردن صفحه آخر
+    if (totalPages > 1) {
+      range.push(totalPages);
+    }
+
+    return range;
   };
 
   return (
