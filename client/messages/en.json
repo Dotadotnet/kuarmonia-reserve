@@ -177,7 +177,7 @@
     "14": "Our company, with a long experience in immigration and investment, offers reliable and professional solutions to start life and invest in Turkey and Canada.",
     "15": "Start",
     "16": "Team leader",
-    "17": "Karmmonia, led by Marjan Ghare Gizli, a specialist in immigration and investment, has provided professional services in these areas. ",
+    "17": "Kuarmonia, led by Marjan Ghare Gizli, a specialist in immigration and investment, has provided professional services in these areas. ",
     "18": "Our team",
     "19": "The Kuarmonia team consists of people with different specialties in immigration and investment. ",
     "20": "The result of our efforts",
@@ -326,24 +326,38 @@
     "addingReview": "Adding Review"
   },
   "Rss": {
-    "blogTitle": "Kuarmonia.com website blogs Feeds",
+    "blogTitle": "kuarmonia.com website blogs Feeds",
     "blogDis": "Feeds all Blogs of kuarmonia website easy access to all articles",
-    "mediaTitle": "Kuarmonia.com Website Media Feeds",
+    "mediaTitle": "kuarmonia.com Website Media Feeds",
     "mediaDis": "Feeds of all media kuarmonia website Easy Access to All Videos",
-    "newsTitle": "Kuarmonia.com website news Feeds",
+    "newsTitle": "kuarmonia.com website news Feeds",
     "newsDis": "Feeds all the news of kuarmonia website easy access to all the news",
-    "opportunityTitle": "Kuarmonia.com website's job opportunities Feeds",
+    "opportunityTitle": "kuarmonia.com website's job opportunities Feeds",
     "opportunityDis": "Feeds all the opportunities of kuarmonia website easy access to all job opportunities",
-    "propertyTitle": "Kuarmonia.com Real Estate Feeds",
+    "propertyTitle": "kuarmonia.com Real Estate Feeds",
     "propertyDis": "Feeds of all kuarmonia website property easy access to all real estate",
-    "rentTitle": "Kuarmonia.com hotel Feeds",
+    "rentTitle": "kuarmonia.com hotel Feeds",
     "rentDis": "Feeds of all hotels on kuarmonia website easy access to all accommodation",
-    "serviceTitle": "Kuarmonia.com website services Feeds",
+    "serviceTitle": "kuarmonia.com website services Feeds",
     "serviceDis": "Feeds of all kuarmonia website services easy access to all services"
   }
 ,
 "whatsapp": {
   "accountName": "Marjan Qara Gizli",
   "chatMessage": "Hi 😊 I'm Marjan, happy to help you, feel free to ask any questions."
-}
+},
+"Seo": {
+    "siteName": "Kuarmonia",
+    "defaultTitle": "Immigration and Tourism with Carmenia Way to the Better Future",
+    "defaultDis": "With complete information on immigration, marriage, and living in Türkiye and Canada. ",
+    "defaultKeywords": "Immigration, Visa, Residence, Türkiye, Canada",
+    "siteDis": "Kuarmonia Company is active in visa and international immigration basin",
+    "toronto": "Toronto",
+    "pageContactTitle": "Contact us ",
+    "pageContactDis": "Phone number, email and address of Karmania Company and free consultation on our experts. ",
+    "pageAboutTitle": "About us | ",
+    "pageAboutDis": "Karmania Company is active in visa and international immigration basin. ",
+    "ForFirstFree": "Free initial advice",
+    "TagName": "Tag"
+  }
 }
