@@ -15,7 +15,6 @@ function ToolBar() {
         <div className=" p-2 rounded-2xl flex items-center justify-between">
           <Search forToolbar={true} />
 
-          <Cart forToolbar={true} />
 
           <div className="flex flex-col items-center  hover:text-blue-400 ">
             <div className="absolute bottom-8  text-center flex items-center justify-center rounded-full border-4 text-3xl  border-white dark:border-gray-900 bg-white dark:bg-gray-900  w-[68px] h-[68px] p-2 text-white transition ease-in duration-200 ">

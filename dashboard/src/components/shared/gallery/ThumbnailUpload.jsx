@@ -9,7 +9,8 @@ const ThumbnailUpload = ({
   iconSize = 5,
   border = true,
   title="انتخاب یک فایل (عکس یا ویدئو)",
-  name="thumbnail"
+  name="thumbnail",
+    accept = "image/*",
 }) => {
   const handleThumbnailPreview = (e) => {
     setThumbnail(e.target.files[0]);
@@ -40,7 +41,7 @@ const ThumbnailUpload = ({
           type="file"
           name={name}
           id={name}
-          accept="image/*"
+          accept={accept}
           className="absolute top-0 left-0 h-full w-full opacity-0 cursor-pointer"
           {...register}
           multiple={false}

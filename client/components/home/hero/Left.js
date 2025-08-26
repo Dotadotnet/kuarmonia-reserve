@@ -57,7 +57,7 @@ function Left() {
         </div>
       </div>
       <div
-        className="w-full relative h-full rounded-primary md:rounded-primary mt-6 flex flex-col "
+        className="w-full relative h-full rounded-primary md:rounded-primary  flex flex-col "
         style={{
           backgroundImage:
             "url(/assets/home-page/banner/dots.svg), linear-gradient(to bottom right, #2DD4BF, #2563EB)",

@@ -33,6 +33,8 @@ import Venue from "@/components/icons/Venue";
 import News from "@/components/icons/News";
 import Country from "@/components/icons/Country";
 import Hotel from "@/components/icons/Hotel";
+import Story from "@/components/icons/Story";
+import Banner from "@/components/icons/Banner";
 import logo from "/logo.gif";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
@@ -108,6 +110,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "لیست اخبار", icon: News, path: "/news" },
         { title: "کشور خبر", icon: Country, path: "/news-countries" },
         { title: "نوع خبر", icon: PSale, path: "/news-types" },
+      ]
+    },
+     {
+      title: "بنرها",
+      icon: Banner,
+      subItems: [
+        { title: " بنر معرفی", icon: Banner, path: "/banners" },
+        { title: "استوری", icon: Story, path: "/stories" },
       ]
     },
     {

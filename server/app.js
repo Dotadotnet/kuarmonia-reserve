@@ -85,7 +85,8 @@ app.use("/api/service", require("./routes/service.route"));
  app.use("/api/institution", require("./routes/institution.route"));
  app.use("/api/opportunity", require("./routes/opportunity.route"));
  app.use("/api/rent", require("./routes/rent.route"));
-
+ app.use("/api/story", require("./routes/story.route"));
+ app.use("/api/banner", require("./routes/promoBanner.route"));
 app.use(error);
 
 module.exports = app;

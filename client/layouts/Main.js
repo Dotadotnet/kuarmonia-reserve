@@ -1,9 +1,8 @@
 import Footer from "@/components/shared/footer/Footer";
 import Navbar from "@/components/shared/navbar/Navbar";
 import RouteLoadingIndicator from "@/components/shared/RouteLoadingIndicator";
-import TickerTape from "@/components/[locale]/tickerTape/TickerTape";
 import CurrencyRates from "@/hooks/useExchangeRatesToIRR";
-import Chat from "@/components/shared/chat/Chat";
+import Chat from "@/components/shared/chat/page";
 import Schema from "@/components/shared/seo/schema";
 
 const Main = ({ children , schema = {} }) => {

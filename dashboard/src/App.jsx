@@ -64,7 +64,10 @@ import AddRent from "./pages/rents/add";
 import Faqs from "./pages/settings/faqs";
 import AddFaqs from "./pages/settings/faqs/add";
 import Services from "./pages/settings/services";
+import Banners from "./pages/banners";
+import Stories from "./pages/stories";
 import AddService from "./pages/settings/services/add";
+import AddStory from "./pages/stories/add";
 
 function App() {
   const location = useLocation();
@@ -93,6 +96,9 @@ function App() {
           <Route exact path="/posts/add" element={<AddPost />} />
           <Route exact path="/blogs" element={<Blogs />} />
           <Route exact path="/blogs/add" element={<AddBlog />} />
+          <Route exact path="/stories/add" element={<AddStory />} />
+          <Route exact path="/stories" element={<Stories />} />
+          <Route exact path="/banners" element={<Banners />} />
           <Route exact path="/galleries" element={<Galleries />} />
           <Route exact path="/categories/add" element={<AddCategory />} />
           <Route path="/posts/info/:id" element={<PostInfo />} />

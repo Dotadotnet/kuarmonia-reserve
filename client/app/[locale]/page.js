@@ -33,6 +33,7 @@ export async function generateMetadata() {
   return metadata
 }
 
+import StoriesSectionServer from "@/components/home/story/page";
 
 export default async function Home({ params }) {
   const host = process.env.NEXT_PUBLIC_BASE_URL;
@@ -40,7 +41,7 @@ export default async function Home({ params }) {
   const locale = await getLocale();
   const class_language = new language(locale);
   const lang = class_language.getInfo()
-  const hostLang = host + ( locale == "fa" ? "" : "/" + locale )  ;
+  const hostLang = host + (locale == "fa" ? "" : "/" + locale);
   const websiteSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -59,7 +60,7 @@ export default async function Home({ params }) {
         "@type": "Organization",
         "@id": hostLang + "/#organization",
         "name": seoTranslations("siteName"),
-        "url": hostLang ,
+        "url": hostLang,
         "logo": {
           "@type": "ImageObject",
           "url": host + "/logo2.png",
@@ -130,7 +131,8 @@ export default async function Home({ params }) {
   }
 
   return (
-    <Main schema={websiteSchema}  >
+    <Main schema={websiteSchema} >
+      <StoriesSectionServer params={params} />
       <Hero />
       <KeyServices params={params} />
       <News params={params} />

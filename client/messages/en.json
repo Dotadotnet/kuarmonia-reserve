@@ -291,6 +291,7 @@
     "title": "Hot Rent",
     "more": "View All",
     "BookNow": "Book Now",
+    "rooms": "اتاق ها",
     "description": "Golden Rent for Reserve",
     "Close": "Close",
     "PayBooking": "Pay Travello Booking",
@@ -340,4 +341,9 @@
     "serviceTitle": "Kuarmonia.com website services Feeds",
     "serviceDis": "Feeds of all kuarmonia website services easy access to all services"
   }
+,
+"whatsapp": {
+  "accountName": "Marjan Qara Gizli",
+  "chatMessage": "Hi 😊 I'm Marjan, happy to help you, feel free to ask any questions."
+}
 }

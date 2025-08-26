@@ -325,6 +325,12 @@
     "submit": "Yorumu Gönder",
     "addingReview": "İnceleme ekleniyor"
   },
+  
+  "whatsapp": {
+    "accountName": "Marjan Qara Gizli",
+    "chatMessage": "Merhaba 😊 Ben Marjan, size yardımcı olmaktan mutluluk duyarım, herhangi bir sorunuz olursa sorabilirsiniz."
+  
+},
   "Rss": {
     "blogTitle": "Kuarmonia.com Web Sitesi Blogları Beslemeler",
     "blogDis": "Kuarmonia Web Sitesinin Tüm Blogları Tüm Makalelere Kolay Erişim",
