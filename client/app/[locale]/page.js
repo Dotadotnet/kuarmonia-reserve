@@ -19,16 +19,124 @@ import Destination from "@/components/home/destination/Destination";
 import TravelAvailability from "@/components/home/hero/travelAvailability/TravelAvailability";
 import Opportunity from "../../components/home/opportunities/Opportunity";
 import Rent from "@/components/home/bestSelling/rent";
+import canonicalUrl from "@/components/shared/seo/canonical";
+import { getLocale, getTranslations } from "next-intl/server";
+import language from "../language";
+
+
+export async function generateMetadata() {
+  const canonical = await canonicalUrl()
+  const metadata = {
+    alternates: canonical
+  };
+
+  return metadata
+}
+
 
 export default async function Home({ params }) {
+  const host = process.env.NEXT_PUBLIC_BASE_URL;
+  const seoTranslations = await getTranslations('Seo');
+  const locale = await getLocale();
+  const class_language = new language(locale);
+  const lang = class_language.getInfo()
+  const hostLang = host + ( locale == "fa" ? "" : "/" + locale )  ;
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": hostLang + "/#website",
+        "url": hostLang,
+        "name": seoTranslations("siteName"),
+        "description": seoTranslations("siteDis"),
+        "publisher": {
+          "@id": hostLang + "/#organization"
+        },
+        "inLanguage": lang.lang + "-" + lang.loc
+      },
+      {
+        "@type": "Organization",
+        "@id": hostLang + "/#organization",
+        "name": seoTranslations("siteName"),
+        "url": hostLang ,
+        "logo": {
+          "@type": "ImageObject",
+          "url": host + "/logo2.png",
+          "width": 765,
+          "height": 700
+        },
+        "image": {
+          "@type": "ImageObject",
+          "url": host + "/banners/1.jpg",
+          "width": 1200,
+          "height": 400
+        },
+        "email": "info@kuarmonia.com",
+        "founder": {
+          "@type": "Person",
+          "name": "marjan gharegoozloo"
+        },
+        "location": [
+          {
+            "@type": "Place",
+            "name": "Head Office",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "St Lillian 65",
+              "addressLocality": "Toronto",
+              "addressRegion": "Toronto",
+              "addressCountry": "CA"
+            },
+          },
+          {
+            "@type": "Place",
+            "name": "Turkey Branch",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Gaziosmanpaşa kazım Özalp mahallesi kuleli Sokak no 14 / 15",
+              "addressLocality": "istanbul",
+              "addressRegion": "istanbul",
+              "addressCountry": "TR"
+            },
+          }
+        ],
+        "telephone": "+905433575933",
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+905433575933",
+            "contactType": "customer service",
+            "areaServed": "CA",
+            "availableLanguage": ["fa", "en", "tr"]
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+14376675933",
+            "contactType": "customer service",
+            "areaServed": "CA",
+            "availableLanguage": ["fa", "en", "tr"]
+          }
+        ]
+        ,
+        "sameAs": [
+          "https://www.facebook.com/kuarmonia",
+          "https://www.instagram.com/kuarmonia",
+          "https://t.me/kuarmonia",
+          "https://wa.me/905433575933"
+        ]
+      }
+    ]
+  }
+
   return (
-    <Main >
- <Hero  />
-      <KeyServices params={params}   />
-      <News params={params}  />
+    <Main schema={websiteSchema}  >
+      <Hero />
+      <KeyServices params={params} />
+      <News params={params} />
       <Properties params={params} />
-      <Opportunity  params={params} />
-      <Rent  params={params} />
+      <Opportunity params={params} />
+      <Rent params={params} />
       <Gallery />
       {/* {/* <Testimonials />  */}
       <FAQ />

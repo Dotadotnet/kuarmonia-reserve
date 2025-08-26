@@ -2,6 +2,7 @@ import React from "react";
 import { useLocale } from "next-intl";
 import Check from "@/components/icons/Check";
 import ShieldCheck from "@/components/icons/ShieldCheck";
+import TagBox from "@/components/shared/utils/TagBox";
 
 const ListSection = ({ title, items, fallback }) => (
   <section>
@@ -31,9 +32,7 @@ const ListSection = ({ title, items, fallback }) => (
 
 const Description = ({ opportunity }) => {
   const locale = useLocale();
-  const translation = opportunity?.translations?.find(
-    (t) => t.language === locale
-  )?.translation;
+
 
   return (
     <div className="p-4 flex flex-col gap-y-4" dir="rtl">
@@ -50,33 +49,33 @@ const Description = ({ opportunity }) => {
         </div>
         <div>
           <p className="text-justify leading-8">
-            {translation?.fields?.description || "بدون توضیحات"}
+            {opportunity.description || "بدون توضیحات"}
           </p>
         </div>
       </section>
 
       <ListSection
         title="مزایا"
-        items={translation?.fields?.benefits}
+        items={opportunity.benefits}
         fallback="بدون مزایا"
       />
       <ListSection
         title="مسئولیت‌ها"
-        items={translation?.fields?.responsibilities}
+        items={opportunity.responsibilities}
         fallback="بدون مسئولیت‌ها"
       />
       <ListSection
         title="شرایط"
-        items={translation?.fields?.qualifications}
+        items={opportunity.qualifications}
         fallback="بدون شرایط"
       />
       <ListSection
         title="مدارک"
-        items={translation?.fields?.documents}
+        items={opportunity.documents}
         fallback="بدون مدارک"
       />
 
-      {opportunity?.tags?.length > 0 && translation?.fields?.skills && (
+      {opportunity?.tags?.length > 0 && opportunity.skills && (
         <section>
           <div
             className="text-white gap-[6px] items-center flex rounded-full p-0.5 pl-1.5 max-w-[fit-content] bg-gray-500 justify-start text-sm text-nowrap"
@@ -88,16 +87,7 @@ const Description = ({ opportunity }) => {
               <span id="tags-heading">برچسب‌ها</span>
             </h4>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {opportunity.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="bg-gray-200 text-gray-700 px-2 py-1 rounded text-sm"
-              >
-                {translation.fields.skills[index] || tag}
-              </span>
-            ))}
-          </div>
+         <TagBox tags={opportunity.tags} />
         </section>
       )}
     </div>

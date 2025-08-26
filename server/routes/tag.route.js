@@ -40,6 +40,9 @@ router.patch(
   tagController.updateTag
 );
 
+router.get("/get-items/:page/:name", tagController.getItem);
+
+
 // delete tag
 router.delete(
   "/delete-tag/:id",

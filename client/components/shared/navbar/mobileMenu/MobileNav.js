@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Shop from "@/components/icons/Shop";
 import Home from "@/components/icons/Home";
 import User from "@/components/icons/User";

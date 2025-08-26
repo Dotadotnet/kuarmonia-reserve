@@ -128,16 +128,16 @@ const HeaderSection = () => {
               <SwiperSlide key={index}>
                 <div className="headline pera-content  text-center">
                   <div className="flex flex-col gap-2 justify-center">
-                    <h1 className="text-3xl rounded-sm  bg-cyan-300 text-white w-fit py-2 text-right px-6  bg-opacity-70	 ">
+                    <p className="text-3xl rounded-sm  bg-cyan-300 text-white w-fit py-2 text-right px-6  bg-opacity-70	 ">
                       {t("1")}
-                    </h1>
-
-                    <h1 className=" text-4xl md:text-6xl rounded-sm bg-cyan-300 text-white  md:w-[550px] py-4 text-right px-2 font-bold bg-opacity-70	w-[350px] ">
-                      {slide.title}
-                    </h1>
-                    <p className=" text-md md:text-lg rounded-sm bg-cyan-300 text-white  md:w-[550px] py-4 mb-8 text-right px-2  bg-opacity-70	w-fit ">
-                      {slide.description}
                     </p>
+
+                    <h2 className=" text-4xl md:text-6xl rounded-sm bg-cyan-300 text-white  md:w-[550px] py-4 text-right px-2 font-bold bg-opacity-70	w-[350px] ">
+                      {slide.title}
+                    </h2>
+                    <h3 className=" text-md md:text-lg rounded-sm bg-cyan-300 text-white  md:w-[550px] py-4 mb-8 text-right px-2  bg-opacity-70	w-fit ">
+                      {slide.description}
+                    </h3>
                   </div>
                 </div>
               </SwiperSlide>

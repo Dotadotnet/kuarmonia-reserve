@@ -3,30 +3,16 @@ import { useLocale } from "next-intl";
 
 export default function Option({ opportunity }) {
   const locale = useLocale();
+  const skills = opportunity?.skills || [];
 
-  const translation = opportunity?.translations?.find(
-    (t) => t.language === locale
-  )?.translation;
 
-  const skills = translation?.fields?.skills || [];
-
-  const getTranslatedValue = (item, field = "title") => {
-    const trans = item?.translations?.find((t) => t.language === locale)
-      ?.translation?.fields?.[field];
-    return (
-      trans ||
-      item?.translations?.find((t) => t.language === "en")?.translation
-        ?.fields?.[field] ||
-      "N/A"
-    );
-  };
 
   const formatDate = (date) =>
     date
       ? new Date(date).toLocaleDateString("fa-IR-u-ca-persian", {
-          day: "numeric",
-          month: "long",
-        })
+        day: "numeric",
+        month: "long",
+      })
       : "N/A";
 
   return (
@@ -54,7 +40,7 @@ export default function Option({ opportunity }) {
               <span className="w-6 h-6 rounded-full overflow-hidden bg-white flex p-1 justify-center items-center">
                 💼
               </span>
-              {getTranslatedValue(opportunity?.refId?.employmentType)}
+              {opportunity.refId.employmentType.title}
             </span>
 
             <span
@@ -81,7 +67,7 @@ export default function Option({ opportunity }) {
               <span className="w-6 h-6 rounded-full overflow-hidden bg-white flex p-1 justify-center items-center">
                 ⏰
               </span>
-              {getTranslatedValue(opportunity?.refId?.jobTime)}
+              {opportunity?.refId?.jobTime.title}
             </span>
 
             <span
@@ -101,7 +87,7 @@ export default function Option({ opportunity }) {
               <span className="w-6 h-6 rounded-full overflow-hidden bg-white flex p-1 justify-center items-center">
                 💻
               </span>
-              {getTranslatedValue(opportunity?.refId?.jobMode)}
+              {opportunity?.refId?.jobMode.title}
             </span>
 
             <span
@@ -122,8 +108,8 @@ export default function Option({ opportunity }) {
               <span className="w-6 h-6 rounded-full overflow-hidden bg-white flex p-1 justify-center items-center">
                 📈
               </span>
-              {opportunity?.refId?.experienceLevel
-                ?.map((item) => getTranslatedValue(item))
+              {opportunity.refId.experienceLevel.title
+                ?.map((item) => item)
                 .join(" - ") || "N/A"}
             </span>
 
@@ -133,7 +119,7 @@ export default function Option({ opportunity }) {
               <span className="w-6 h-6 rounded-full overflow-hidden bg-white flex p-1 justify-center items-center">
                 🌐
               </span>
-              {translation?.fields?.languages?.join(" - ") || "N/A"}
+              {opportunity.languages.join(" - ")}
             </span>
           </div>
         </div>

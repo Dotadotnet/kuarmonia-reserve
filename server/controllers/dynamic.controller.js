@@ -25,6 +25,37 @@ exports.update = async (req, res, next) => {
   }
 };
 
+exports.getByID = async (req, res, next) => {
+  try {
+    await dynamicService.getByID(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+exports.getOne = async (req, res, next) => {
+  try {
+    await dynamicService.getOne(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+exports.getAll = async (req, res, next) => {
+  try {
+    await dynamicService.getAll(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+
 /* delete dynamic */
 exports.delete = async (req, res, next) => {
   try {

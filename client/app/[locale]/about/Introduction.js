@@ -694,10 +694,10 @@ const Introduction = () => {
                               }
                               transition={{ duration: 0.5, ease: "easeOut" }}
                             >
-                              <h1 className="md:text-6xl  flex justify-center md:justify-start text-2xl ">{t("12")}</h1>
+                              <h2 className="md:text-6xl  flex justify-center md:justify-start text-2xl ">{t("12")}</h2>
                             </motion.span>
 
-                            <motion.h2
+                            <motion.h1
                               className="mb-5 md:text-3xl text-lg text-right flex justify-center md:justify-start  text-dark dark:text-white sm:text-[40px]/[48px]"
                               initial={{ opacity: 0, x: -20 }}
                               animate={
@@ -708,7 +708,7 @@ const Introduction = () => {
                               transition={{ duration: 0.6, ease: "easeOut" }}
                             >
                               {t("13")}
-                            </motion.h2>
+                            </motion.h1>
 
                             <motion.p
                               className="mb-5 flex justify-center md:justify-start text-base text-body-color dark:text-dark-6"

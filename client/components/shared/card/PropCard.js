@@ -1,7 +1,7 @@
 import React from "react";
 import Square from "@/components/icons/Square";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { useTranslations } from "next-intl";
 import { FaBed, FaRegCalendarAlt, FaBath } from "react-icons/fa";

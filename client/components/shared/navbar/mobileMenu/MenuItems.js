@@ -1,6 +1,6 @@
 
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import React from "react";
 import OutsideClick from "../../outsideClick/OutsideClick";
 import { useSelector } from "react-redux";

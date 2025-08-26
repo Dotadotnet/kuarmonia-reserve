@@ -58,12 +58,7 @@ const Description = ({ property }) => {
           {property?.amenities
             ?.filter((amenity) => amenity)
             .map((amenity, index) => {
-              const translation = amenity.translations.find(
-                (t) => t.language === locale && t.translation
-              );
-
-              const title =
-                translation?.translation?.fields?.title || "بدون عنوان";
+              const title = amenity.title
 
               return (
                 <div
@@ -89,12 +84,7 @@ const Description = ({ property }) => {
           <hr className="w-full" />
         </div>
         <div className="flex flex-col gap-y-4">
-          {property?.translations
-            ?.find(
-              (translation) =>
-                translation.language === locale && translation.translation
-            )
-            ?.translation?.fields?.features?.map((feature, index) => (
+          {property.features?.map((feature, index) => (
               <DetailCard
                 key={index}
                 title={feature?.title}

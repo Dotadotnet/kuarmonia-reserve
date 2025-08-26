@@ -3,7 +3,7 @@ import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import React from "react";
 import Tooltip from "@/components/shared/tooltip/Tooltip";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
 
 const NewsCard = ({ news }) => {
@@ -16,7 +16,7 @@ const NewsCard = ({ news }) => {
   return (
     <Link
       href={{
-        pathname: `/${locale}/news/${news.newsId}/${slug}`
+        pathname: `/news/${news.newsId}/${slug}`
       }}
       key={news._id}
       className="group relative overflow-hidden  bg-white border border-gray-100 dark:border-gray-800 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:border-blue-500  dark:hover:shadow-none dark:bg-gray-800 flex lg:flex-row flex-col gap-4 md:h-fit  w-70 md:w-[450px] p-4 delay-100  dark:text-blue-500 transition-all duration-300 ease-in-out"

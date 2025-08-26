@@ -1,7 +1,7 @@
 import React from "react";
 import { AiTwotoneFire } from "react-icons/ai";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 
 function Right() {
@@ -67,17 +67,18 @@ function Right() {
         <div className="md:grid md:grid-cols-12 md:py-4 md:gap-4">
           <div className="md:col-span-6 hidden md:flex "></div>
           <div className="md:col-span-6 flex flex-col gap-4 p-8 md:p-4">
-            <motion.h1
-              className="md:text-6xl text-white font-bold   text-5xl w-full text-right"
+            <motion.p
+            style={{ color : "white"}}
+              className="md:text-6xl dark:text-white text-white font-bold   text-5xl w-full text-right"
               initial={{ x: -200, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
               {t("heroTitle")}
-            </motion.h1>
-            <h2 className="md:text-4xl  text-5xl font-bold !text-black">
+            </motion.p>
+            <h1 className="md:text-4xl  text-5xl font-bold !text-black">
               {t("heroSubtitle")}
-            </h2>
+            </h1>
 
             <motion.p
               className="md:text-3xl font-nozha text-4xl w-full text-right"

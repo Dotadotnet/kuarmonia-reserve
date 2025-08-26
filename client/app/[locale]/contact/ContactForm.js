@@ -104,9 +104,9 @@ const ContactForm = () => {
   transition={{ duration: 0.8 }}
   viewport={{ once: false, amount: 0.5 }}
 >
-  <h2 className="text-indigo-600 font-manrope text-4xl font-semibold leading-10 mb-11">
+  <h1 className="text-indigo-600 font-manrope text-4xl font-semibold leading-10 mb-11">
     {t("1")}
-  </h2>
+  </h1>
   <motion.input
     type="text"
     placeholder={t("2")}

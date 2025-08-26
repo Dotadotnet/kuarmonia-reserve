@@ -26,9 +26,9 @@ export default function CompanyResults() {
         <section className="py-20 rounded-primary bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-800 dark:to-gray-900 dark:bg-gray-900 mt-8">
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <h2 className="text-4xl text-center text-gray-700 font-extrabold mb-14 dark:text-gray-100">
+                <p className="text-4xl text-center text-gray-700 font-extrabold mb-14 dark:text-gray-100">
                     {t("20")}
-                </h2>
+                </p>
                 <div className="flex flex-col gap-5 xl:gap-8 lg:flex-row lg:justify-between">
                     {cardsData.map((card, index) => (
                         <Card key={index} card={card} delay={index * 0.2} />

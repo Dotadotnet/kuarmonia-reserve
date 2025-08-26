@@ -8,11 +8,9 @@ import Location from "../Location";
 
 const Right = ({ rent }) => {
   const locale = useLocale();
-  const { title, summary, slug } =
-    rent?.translations?.find((t) => t.translation?.language === locale)
-      ?.translation?.fields || {};
-            const t = useTranslations("rent");
-      
+  const { title, summary, slug } = rent;
+  const t = useTranslations("rent");
+
   return (
     <div className="lg:col-span-7 md:col-span-6 col-span-12 flex flex-col gap-y-4">
       <article className="flex flex-col gap-y-8">
@@ -40,12 +38,7 @@ const Right = ({ rent }) => {
           <div className="flex flex-col gap-y-1.5">
             <h2 className="md:text-xl text-lg">{t("importantInfo")}</h2>
             <div className="flex flex-col gap-y-1">
-              {rent?.translations
-                ?.find(
-                  (translation) =>
-                    translation.language === locale && translation.translation
-                )
-                ?.translation?.fields?.information?.map((feature, index) => (
+              {rent.information.map((feature, index) => (
                   <p
                     key={index}
                     className="flex flex-row gap-x-2 items-start text-sm"

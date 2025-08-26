@@ -311,7 +311,6 @@
     "sameRentDescription": "Offer you more similar rents with lower prices and better facilities!",
     "noRentsFound": "No rents found!"
   },
-
   "reviews": {
     "title": "Traveler's",
     "highlight": "Review",
@@ -324,5 +323,21 @@
     "placeholder": "Write your thoughts...",
     "submit": "Add Review",
     "addingReview": "Adding Review"
+  },
+  "Rss": {
+    "blogTitle": "Kuarmonia.com website blogs Feeds",
+    "blogDis": "Feeds all Blogs of kuarmonia website easy access to all articles",
+    "mediaTitle": "Kuarmonia.com Website Media Feeds",
+    "mediaDis": "Feeds of all media kuarmonia website Easy Access to All Videos",
+    "newsTitle": "Kuarmonia.com website news Feeds",
+    "newsDis": "Feeds all the news of kuarmonia website easy access to all the news",
+    "opportunityTitle": "Kuarmonia.com website's job opportunities Feeds",
+    "opportunityDis": "Feeds all the opportunities of kuarmonia website easy access to all job opportunities",
+    "propertyTitle": "Kuarmonia.com Real Estate Feeds",
+    "propertyDis": "Feeds of all kuarmonia website property easy access to all real estate",
+    "rentTitle": "Kuarmonia.com hotel Feeds",
+    "rentDis": "Feeds of all hotels on kuarmonia website easy access to all accommodation",
+    "serviceTitle": "Kuarmonia.com website services Feeds",
+    "serviceDis": "Feeds of all kuarmonia website services easy access to all services"
   }
 }

@@ -14,14 +14,11 @@ import StatusIndicator from "../tools/StatusIndicator";
 import Image from "next/image";
 import SocialIcons from "../socialIcons";
 import AllReviews from "@/components/detail/AllReviews";
+import TagBox from "../utils/TagBox";
 const NewsHeader = async ({ news, locale }) => {
   const t = await getTranslations("News", locale);
-  const { title, summary } =
-    news?.translations?.find((t) => t.language === locale)?.translation
-      ?.fields || {};
-  const typeTitle = news?.type?.translations?.find(
-    (t) => t?.translation?.language === locale
-  )?.translation?.fields?.title;
+  const { title, summary } = news;
+  const typeTitle = news.type.title
 
   return (
     <header className=" max-w-screen-xl flex flex-col gap-y-4 pt-8 text-center px-4">
@@ -80,21 +77,6 @@ const NewsMedia = ({ news }) => {
 
   return (
     <div className="flex flex-col gap-y-2 max-w-screen-xl  px-4">
-      <div
-        className=" flex  justify-start w-full overflow-x-hidden scroll-hide gap-2"
-        aria-label="Tags"
-      >
-        {tags?.length > 0 &&
-          tags.map((item, index) => (
-            <button
-              key={index}
-              className="rounded-lg px-1 flex justify-center items-center gap-x-2 bg-gray-100 py-1 text-xs text-gray-600  cursor-pointer dark:text-gray-300 dark:bg-black"
-            >
-              <FaTag className="w-4 h-4 text-gray-500" />
-              {item.title}
-            </button>
-          ))}
-      </div>
       <div className="  flex justify-center items-center w-full  overflow-hidden rounded-md article-image-container">
         <Image
           width={1000}
@@ -111,19 +93,16 @@ const NewsMedia = ({ news }) => {
 
 const NewsContent = async ({ news }) => {
   const locale = useLocale();
-
-  const { content } =
-    news?.translations?.find((t) => t.language === locale)?.translation
-      ?.fields || {};
-  const { name, bio } =
-    news.creator?.translations.find((t) => t.language === locale)?.translation
-      .fields || {};
+  const { name, bio } = news.creator;
   return (
     <div className="px-4   text-lg tracking-wide text-gray-700 dark:text-gray-100 flex flex-col gap-y-8 max-w-screen-xl">
       <div
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{ __html: news.content }}
         className="dark:!text-gray-100"
       />
+      <br />
+      <TagBox tags={news.tags} />
+      <br />
       <div className="flex gap-x-4 bg-gray-100 p-4  dark:bg-gray-800 rounded-sm items-center">
         <div className="!w-[115px] !h-[115px] flex-shrink-0 profile-container shine-effect rounded-full flex justify-center mb-4">
           <Image
@@ -190,8 +169,9 @@ const NewsComments = async ({ news, locale }) => {
         className="!px-0"
         targetId={news._id}
         targetType="news"
-        reviews={news.reviews}
-      />{" "}
+        reviews={Array.isArray(news.reviews) ? news.reviews : [news.reviews]}
+      />
+
     </section>
   );
 };

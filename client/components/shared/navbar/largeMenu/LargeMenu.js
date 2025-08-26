@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import {
   IoHomeOutline,
   IoNewspaperOutline,
   IoReceiptOutline,
   IoInformationCircleOutline,
-  IoCallOutline, 
+  IoCallOutline,
 } from "react-icons/io5";
-import {useLocale, useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const LargeMenu = () => {
   const t = useTranslations("ForAll");
@@ -15,18 +15,18 @@ const LargeMenu = () => {
   const menuItems = [
     { id: 1, label: t("1"), icon: <IoHomeOutline size={24} />, href: "/" },
     { id: 2, label: t("2"), icon: <IoReceiptOutline size={24} />, href: "/" },
-    { id: 3, label: t("3"), icon: <IoCallOutline size={24} />, href: `${locale}/contact` }, 
-    { id: 4, label: t("4"), icon: <IoInformationCircleOutline size={24} />, href:`${locale}/about` },
+    { id: 3, label: t("3"), icon: <IoCallOutline size={24} />, href: `/contact` },
+    { id: 4, label: t("4"), icon: <IoInformationCircleOutline size={24} />, href: `/about` },
   ];
 
   const [selectMenu, setSelectMenu] = useState("");
 
   useEffect(() => {
-    const currentMenu = menuItems.find((item) => item.href === window.location.pathname);
+    const currentMenu = menuItems.find((item) => ("/" + locale + item.href).includes(window.location.pathname));
     if (currentMenu) {
       setSelectMenu(currentMenu.label);
     }
-  }, []); 
+  }, []);
 
   return (
     <nav className=" col-span-9 justify-center rounded-primary hidden md:flex w-full">
@@ -34,17 +34,17 @@ const LargeMenu = () => {
         <div className="flex flex-row justify-center gap-x-4 overflow-x-auto">
           <div className="flex flex-row justify-center gap-x-4  p-1 rounded-secondary bg-white border border-gray-200 dark:border-gray-600  dark:bg-gray-800 overflow-x-auto scrollbar-hide">
             {menuItems.map((menuItem) => (
-              <Link key={menuItem.id} href={menuItem.href}>
+              <Link className="cursor-pointer" key={menuItem.id} href={menuItem.href}>
                 <button
                   className={
-                    "text-sm text-black dark:text-gray-100 w-44 text-center h-10 flex flex-row ltr:flex-row-reverse items-center gap-x-1 px-8 py-2 justify-center rounded-secondary border border-transparent" +
+                    "text-sm text-black cursor-pointer  dark:text-gray-100 w-44 text-center h-10 flex flex-row ltr:flex-row-reverse items-center gap-x-1 px-8 py-2 justify-center rounded-secondary border border-transparent" +
                     (selectMenu === menuItem.label ? " bg-black text-white" : "")
                   }
                   onClick={() => setSelectMenu(menuItem.label)}
                 >
                   {menuItem.icon}
                   <span className="flex h-full items-center">
-                  {menuItem.label}
+                    {menuItem.label}
                   </span>
                 </button>
               </Link>

@@ -7,14 +7,12 @@ import { useLocale } from "next-intl";
 const OpportunityHeader = ({ opportunity }) => {
   const [showAdditionalContent, setShowAdditionalContent] = useState(false);
   const locale = useLocale();
-
   const toggleAdditionalContent = () => {
     setShowAdditionalContent(!showAdditionalContent);
   };
 
   const thumbnailUrl =
     opportunity?.thumbnail.url || opportunity?.jobType?.thumbnail?.url;
-  console.log("opportunity", opportunity);
   return (
       <div className="flex items-center gap-x-2 p-4 space-x-4">
         <div>
@@ -69,19 +67,13 @@ const OpportunityHeader = ({ opportunity }) => {
 
         <div className="flex flex-col">
           <h3 className="text-2xl">
-            {
-              opportunity?.translations?.find(
-                (t) => t.translation?.language === locale
-              )?.translation?.fields.title
-            }
+            { opportunity.title }
           </h3>
           <div className="text-sm flex gap-2 flex-wrap text-gray-500">
             <span className="w-full flex items-center gap-x-1">
               <Location />
               {
-                opportunity?.city?.translations?.find(
-                  (t) => t.translation?.language === locale
-                )?.translation?.fields.city
+                opportunity?.city?.city
               }{" "}
             </span>
           </div>

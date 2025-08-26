@@ -2,7 +2,12 @@
 const Blog = require("../models/blog.model");
 const remove = require("../utils/remove.util");
 const { translate } = require("google-translate-api-x");
+const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
+const Catagory = require("../models/category.model");
+const translateFields = require("../utils/translateFields");
 const Translation = require("../models/translation.model");
+const replaceRef = require("../utils/replaceRef");
+const Category = require("../models/category.model");
 /* add new blog */
 exports.addBlog = async (req, res) => {
   try {
@@ -12,71 +17,13 @@ exports.addBlog = async (req, res) => {
       title,
       description,
       content,
-      visibility ,
+      category,
+      visibility,
       ...otherInformation
     } = req.body;
     let thumbnail = null;
     let gallery = [];
-    let translatedTitle = "";
-    let translatedSummary = "";
-    let translatedContent = "";
-    let translatedTitleTr = "";
-    let translatedSummaryTr = "";
-    let translatedContentTr = "";
-    try {
-      console.log("Translating title to English...");
-      const resultTitleEn = await translate(title, { to: "en", client: "gtx" });
-      translatedTitle = resultTitleEn.text;
-      console.log("Translated Title (EN):", translatedTitle);
 
-      console.log("Translating description to English...");
-      const resultSummaryEn = await translate(description, {
-        to: "en",
-        client: "gtx"
-      });
-      translatedSummary = resultSummaryEn.text;
-      console.log("Translated Summary (EN):", translatedSummary);
-
-      console.log("Translating content to English...");
-      const resultContentEn = await translate(content, {
-        to: "en",
-        client: "gtx",
-        forceBatch: false
-      });
-      translatedContent = resultContentEn.text;
-      console.log("Translated Content (EN):", translatedContent);
-
-      console.log("Translating title to Turkish...");
-      const resultTitleTr = await translate(title, { to: "tr", client: "gtx" });
-      translatedTitleTr = resultTitleTr.text;
-      console.log("Translated Title (TR):", translatedTitleTr);
-
-      console.log("Translating description to Turkish...");
-      const resultSummaryTr = await translate(description, {
-        to: "tr",
-        client: "gtx"
-      });
-      translatedSummaryTr = resultSummaryTr.text;
-      console.log("Translated Summary (TR):", translatedSummaryTr);
-
-      console.log("Translating content to Turkish...");
-      const resultContentTr = await translate(content, {
-        to: "tr",
-        client: "gtx",
-        forceBatch: false
-      });
-      translatedContentTr = resultContentTr.text;
-      console.log("Translated Content (TR):", translatedContentTr);
-    } catch (err) {
-      console.error("خطا در ترجمه:", err);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطایی در فرآیند ترجمه رخ داد",
-        error: err.message
-      });
-    }
- 
     if (req.uploadedFiles["thumbnail"].length) {
       thumbnail = {
         url: req.uploadedFiles["thumbnail"][0].url,
@@ -93,75 +40,71 @@ exports.addBlog = async (req, res) => {
         public_id: file.key
       }));
     }
+
+
     const blog = await Blog.create({
       ...otherInformation,
       creator: req.admin._id,
       thumbnail,
       gallery,
-      title,
-      content,
-      description,
+      category,
       tags: JSON.parse(tags),
       socialLinks: JSON.parse(socialLinks),
-      visibility: visibility ? "public" : "private"
+      visibility: visibility ? "public" : "private",
     });
-    const { metaTitle, metaDescription } = blog;
 
-    const [translatedMetaTitleEn, translatedMetaDescriptionEn] =
-      await Promise.all([
-        translate(metaTitle, { to: "en", client: "gtx" }),
-        translate(metaDescription, { to: "en", client: "gtx" })
-      ]);
 
-    const [translatedMetaTitleTr, translatedMetaDescriptionTr] =
-      await Promise.all([
-        translate(metaTitle, { to: "tr", client: "gtx" }),
-        translate(metaDescription, { to: "tr", client: "gtx" })
-      ]);
-    const translationData = [
+    const slug = title.replaceAll(" ","-");
+    const categoryObj = await Category.findById(category).lean()
+    const replaceRefClass = new replaceRef(categoryObj, req);
+    const replaceRefData = await replaceRefClass.getRefFields()
+    const { metaTitle, metaDescription } = generateSeoFields({
+      title,
+      summary: description,
+      categoryTitle: replaceRefData.translations.fa.title
+    });
+
+    const translations = await translateFields(
       {
-        language: "en",
-        refModel: "Blog",
-        refId: blog._id,
-        fields: {
-          title: translatedTitle,
-          description: translatedSummary,
-          content: translatedContent,
-          metaTitle: translatedMetaTitleEn.text,
-          metaDescription: translatedMetaDescriptionEn.text
-        }
+        title,
+        description,
+        slug,
+        metaTitle,
+        metaDescription,
+        content
       },
       {
-        language: "tr",
+        stringFields: [
+          "title",
+          "description",
+          "slug",
+          "metaTitle",
+          "metaDescription"
+        ],
+        longTextFields: ["content"]
+      }
+    );
+    const translationDocs = Object.entries(translations).map(
+      ([lang, { fields }]) => ({
+        language: lang,
         refModel: "Blog",
         refId: blog._id,
-        fields: {
-          title: translatedTitleTr,
-          description: translatedSummaryTr,
-          content: translatedContentTr,
-          metaTitle: translatedMetaTitleTr.text,
-          metaDescription: translatedMetaDescriptionTr.text
-        }
-      }
-    ];
+        fields
+      })
+    );
 
-    try {
-      const savedTranslations = await Translation.insertMany(translationData);
-      const translationIds = savedTranslations.map((t) => t._id);
-      await Blog.findByIdAndUpdate(blog._id, {
-        $set: { translations: translationIds }
-      });
-    
-    } catch (translationError) {
-      await Blog.findByIdAndDelete(blog._id);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. پست بلاگ حذف شد.",
-        error: translationError.message
-      });
-    }
-    
+    const savedTranslations = await Translation.insertMany(translationDocs);
+
+    const translationInfos = savedTranslations.map((t) => ({
+      translation: t._id,
+      language: t.language
+    }));
+
+
+    await Blog.findByIdAndUpdate(blog._id, {
+      $set: { translations: translationInfos }
+    });
+
     res.status(201).json({
       acknowledgement: true,
       message: "Created",

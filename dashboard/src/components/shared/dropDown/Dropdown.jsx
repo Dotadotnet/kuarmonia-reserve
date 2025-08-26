@@ -96,7 +96,7 @@ const Dropdown = ({
         )}
       </button>
       {isOpen && (
-         <ul className="absolute mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 !z-50 dark:border-gray-700 rounded-md shadow-lg  p-2">
+         <ul className="absolute h-96 overflow-y-auto mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 !z-50 dark:border-gray-700 rounded-md shadow-lg  p-2">
           {filteredItems.map((item) => (
             <div
               key={item.id}

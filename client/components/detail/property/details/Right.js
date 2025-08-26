@@ -12,9 +12,7 @@ const GeoLocation = dynamic(() => import("./Location"), {
 const Right = ({ property }) => {
   const locale = useLocale();
 
-  const { title, description } =
-    property?.translations?.find((t) => t.translation?.language === locale)
-      ?.translation?.fields || {};
+  const { title, description } = property;
       
   return (
     <section className="col-span-1 flex flex-col gap-y-8">

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import OutsideClick from "../../outsideClick/OutsideClick";
 import Image from "next/image";
 import Logout from "@/components/icons/Logout";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useUserLogoutMutation } from "@/services/auth/authApi";
 import toast from "react-hot-toast";
 import UserNav from "@/components/icons/UserNav";

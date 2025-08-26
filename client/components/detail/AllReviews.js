@@ -30,6 +30,7 @@ const AllReviews = ({
   const locale = useLocale();
   const { handleSubmit, control, reset } = useForm();
   const [isOpen, setIsOpen] = useState(false);
+  const [reviewList, setReviewList] = useState(reviews);
   const user = useSelector((state) => state?.user);
   const [addReview, { isLoading, data, error }] = useAddReviewMutation();
   const getRandomAvatar = () => {
@@ -49,6 +50,9 @@ const AllReviews = ({
         id: "add-review"
       });
       setIsOpen(false);
+      console.log(data);
+      
+      setReviewList([...reviewList,data.data])
       reset();
     }
 
@@ -97,8 +101,6 @@ const AllReviews = ({
     addReview({ ...data, targetId, targetType });
   };
 
-  const reviewList = useMemo(() => reviews || [], [reviews]);
-
   return (
     <section className="h-full col-span-12 py-12">
       <Container>
@@ -135,13 +137,13 @@ const AllReviews = ({
               ))}
             </div>
           ) : (
-            <div ref={sliderRef} className="keen-slider flex gap-x-2">
+            <div ref={sliderRef} className="keen-slider flex gap-2">
               {reviewList.map((review, index) => (
                 <article
                   key={index}
-                  className="group relative flex flex-col gap-y-4 border border-gray-200 hover:border-primary transition-colors ease-linear p-4 rounded keen-slider__slide"
+                  className="group relative flex flex-col  gap-y-4 border border-gray-200 hover:border-primary transition-colors ease-linear p-4 rounded keen-slider__slide"
                 >
-                  <div className="flex flex-row gap-x-2.5 items-end">
+                  <div className="flex flex-row items-end">
                     <LoadImage
                       src={review?.reviewer?.avatar?.url || getRandomAvatar()}
                       alt={review?.reviewer?.avatar?.public_id || "avatar"}
@@ -255,9 +257,8 @@ const AllReviews = ({
                       <button
                         key={star}
                         type="button"
-                        className={`cursor-pointer ${
-                          star <= field.value ? "text-[#F9BC1D]" : ""
-                        }`}
+                        className={`cursor-pointer ${star <= field.value ? "text-[#F9BC1D]" : ""
+                          }`}
                         onClick={() => field.onChange(star)}
                       >
                         {star <= field.value ? (
@@ -276,7 +277,7 @@ const AllReviews = ({
                 className="px-8 mx-auto py-2 border border-primary rounded-secondary bg-primary hover:bg-primary/90 text-white transition-colors drop-shadow w-fit flex flex-row gap-x-2 items-center"
               >
                 {isLoading ? <Spinner /> : <>{t("submit")}</>}
-                
+
               </button>
             </form>
           </section>

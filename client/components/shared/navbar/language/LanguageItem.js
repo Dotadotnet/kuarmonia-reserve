@@ -1,4 +1,4 @@
-// import Link from "next/link";
+// import { Link } from "@/i18n/navigation";
 // import { useRouter } from "next/router";
 // import React, { useState } from "react";
 // import { useLanguage } from "../../../hooks/useLanguage";

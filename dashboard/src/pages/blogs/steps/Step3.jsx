@@ -20,36 +20,52 @@ const Step3 = ({
   register,
   control
 }) => {
+
   const {
     isLoading: fetchingTags,
     data: fetchTagsData,
     error: fetchTagsError
-  } = useGetTagsQuery();
+  } = useGetTagsQuery({
+    page: 1,
+    limit: Infinity,
+    status: "all",
+    search: ""
+  });
+
   const {
     isLoading: fetchingCategories,
     data: fetchCategoriesData,
     error: fetchCategoriesError
-  } = useGetCategoriesQuery();
-  const tags = useMemo(
-    () =>
-      fetchTagsData?.data?.map((tag) => ({
-        id: tag._id,
-        value: tag.title,
-        label: tag.title,
-        description: tag.description
-      })) || [],
-    [fetchTagsData]
-  );
-  const categories = useMemo(
-    () =>
-      fetchCategoriesData?.data?.map((category) => ({
-        id: category._id,
-        value: category.title,
-        label: category.title,
-        description: category.description
-      })) || [],
-    [fetchCategoriesData]
-  );
+  } = useGetCategoriesQuery({
+    page: 1,
+    limit: Infinity,
+    status: "all",
+    search: ""
+  });
+
+ 
+   const categories = useMemo(
+     () =>
+       fetchCategoriesData?.data?.map((category) => ({
+         id: category._id,
+         value: category.translations[0].translation?.fields.title,
+         label: category.title,
+         icon: category.icon
+       })) || [],
+     [fetchCategoriesData]
+   );
+
+   const tags = useMemo(
+     () =>
+       fetchTagsData?.data?.map((tag) => ({
+         id: tag._id,
+         value: tag.translations[0].translation?.fields.title,
+         label: tag.title,
+       })),
+     [fetchTagsData]
+   );
+
+
   const handleOptionsChange = (newSelectedOptions) => {
     setSelectedTags(newSelectedOptions);
   };
@@ -88,6 +104,7 @@ const Step3 = ({
       });
     }
   }, [fetchCategoriesData, fetchCategoriesData, fetchCategoriesError]);
+
 
   return (
     <>

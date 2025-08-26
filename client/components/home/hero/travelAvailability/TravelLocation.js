@@ -26,7 +26,7 @@ const TravelLocation = () => {
   };
 
   // function toBase64(str) {
-  //   return btoa(unescape(encodeURIComponent(str)));
+  //   return btoa(unescape(encodeURIComponentComponent(str)));
   // }
 
   // function shimmer(width, height) {

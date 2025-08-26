@@ -324,5 +324,21 @@
     "placeholder": "Düşüncelerinizi yazın...",
     "submit": "Yorumu Gönder",
     "addingReview": "İnceleme ekleniyor"
+  },
+  "Rss": {
+    "blogTitle": "Kuarmonia.com Web Sitesi Blogları Beslemeler",
+    "blogDis": "Kuarmonia Web Sitesinin Tüm Blogları Tüm Makalelere Kolay Erişim",
+    "mediaTitle": "Kuarmonia.com Web sitesi medya beslemeleri",
+    "mediaDis": "Tüm Medya Kuarmonia Web Sitesi Beslemeleri Tüm Videolara Kolay Erişim",
+    "newsTitle": "Kuarmonia.com Web Sitesi Haber Beslemeleri",
+    "newsDis": "Kuarmonia web sitesinin tüm haberlerini besler Tüm haberlere kolay erişim",
+    "opportunityTitle": "Kuarmonia.com Web Sitesinin İş Fırsatları Beslemeleri",
+    "opportunityDis": "Kuarmonia web sitesinin tüm fırsatlarını besler Tüm iş fırsatlarına kolay erişim",
+    "propertyTitle": "Kuarmonia.com Gayrimenkul Beslemeleri",
+    "propertyDis": "Tüm Kuarmonia web sitesinin yemleri mülkiyet tüm gayrimenkullere kolay erişim",
+    "rentTitle": "Kuarmonia.com Otel Yemleri",
+    "rentDis": "Kuarmonia web sitesindeki tüm otellerin yemleri tüm konaklamalara kolay erişim",
+    "serviceTitle": "Kuarmonia.com Web sitesi hizmetleri beslemeleri",
+    "serviceDis": "Tüm Kuarmonia Web Sitesi Hizmetlerinin Beslemeleri Tüm Hizmetlere Kolay Erişim"
   }
 }

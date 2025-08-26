@@ -19,7 +19,7 @@ const blogApi = kuarmoniaApi.injectEndpoints({
     // get all blogs
     getBlogs: builder.query({
       query: () => ({
-        url: "/blog/get-blogs",
+        url: "/dynamic/get-all/blog",
         method: "GET",
       }),
 

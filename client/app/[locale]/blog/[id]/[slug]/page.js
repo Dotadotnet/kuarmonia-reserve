@@ -1,0 +1,136 @@
+import Content from "@/components/shared/content/Content";
+import LeftSidebar from "./leftSidebar";
+import Main from "@/layouts/Main";
+import RightSidebar from "./rightSidebar";
+import Api from "@/utils/api";
+import canonicalUrl from "@/components/shared/seo/canonical";
+import { getTranslations } from "next-intl/server";
+import language from "@/app/language";
+import RedirectBlog from "../page";
+// import { permanentRedirect } from 'next/navigation';
+
+export async function generateMetadata({ params }) {
+  const { id, locale, slug } = params;
+  const blog = await Api(`/dynamic/get-one/blog/blogId/${id}`);
+  const canonical = await canonicalUrl()
+  const seoTranslations = await getTranslations('Seo');
+  const class_language = new language(locale);
+  const lang = class_language.getInfo()
+  const metadata = {
+    title: blog.metaTitle,
+    description: blog.metaDescription,
+    category: blog.category.title,
+    creator: blog.creator.name,
+    keywords: Array.isArray(blog.tags) ? blog.tags.map(tag => { return tag.title }).join(" , ") : blog.tags.keynotes.map(tag => { return tag }).join(" , "),
+    openGraph: {
+      title: blog.title,
+      description: blog.description,
+      url: canonical.canonical,
+      siteName: seoTranslations("siteName"),
+      images: blog.thumbnail.url,
+      locale: lang.lang + "-" + lang.loc,
+      type: "article"
+    },
+    alternates: canonical
+  };
+  return metadata
+}
+
+
+const BlogContent = async ({ params }) => {
+  const { id, locale, slug } = params;
+  const blog = await Api(`/dynamic/get-one/blog/blogId/${id}`);
+  const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (locale == "fa" ? "" : "/" + locale);
+  const seoTranslations = await getTranslations('Seo');
+  const canonical = await canonicalUrl()
+
+  if (encodeURIComponent(blog.translations.en.slug) !== slug) {
+    return <RedirectBlog params={params} />
+  }
+
+  if (!Array.isArray(blog.reviews)) {
+    blog["reviews"] = [blog.reviews]
+  }
+
+  let reviewCount = 0;
+  let reviewPoint = 0;
+  blog.reviews.forEach(review => {
+    reviewCount++;
+    reviewPoint += review.rating
+  });
+
+  const directionClass = locale === "fa" ? "rtl" : "ltr";
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": canonical.canonical + "#main" ,
+    "url": canonical.canonical ,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonical.canonical
+    },
+    "headline": blog.title ,
+    "alternativeHeadline": blog.metaDescription,
+    "description": blog.description,
+    "image": {
+      "@type": "ImageObject",
+      "url": blog.thumbnail.url
+    },
+    "author": {
+      "@type": "Person",
+      "name": blog.creator.name
+    },
+    "editor": blog.creator.name ,
+    "genre": blog.category.title ,
+    "keywords": Array.isArray(blog.tags) ? blog.tags.map(tag => { return tag.title }).join(" , ") : blog.tags.keynotes.map(tag => { return tag }).join(" , "),
+    "publisher": {
+      "@type": "Organization",
+      "@id": hostLang + "/#organization"
+    },
+    "datePublished": blog.publishDate ,
+    "dateModified": blog.updatedAt,
+    "isAccessibleForFree": true,
+    "commentCount": reviewCount,
+    "interactionStatistic": {
+      "@type": "InteractionCounter",
+      "interactionType": "https://schema.org/CommentAction",
+      "userInteractionCount": reviewCount
+    },
+   
+    "articleBody": blog.content,
+     "review": blog.reviews.map((review) => {
+      return ({
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": review.guest
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": review.rating,
+          "bestRating": "5"
+        },
+        "reviewBody": review.comment
+      })
+    })
+    ,
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": reviewPoint / reviewCount,
+      "reviewCount": reviewCount
+    }
+  }
+  return (
+    <main>
+      <Main schema={schema}>
+        <div className="grid grid-cols-1 md:grid-cols-20 gap-4 dark:bg-gray-900 p-4 relative mt-2">
+          <LeftSidebar />
+          <Content data={blog} />
+          <RightSidebar />
+        </div>
+      </Main>
+    </main>
+  );
+};
+
+export default BlogContent;

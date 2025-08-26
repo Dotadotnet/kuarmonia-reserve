@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
-const Category = require("./category.model");
+const NewsType = require("./newsType.model");
 const Counter = require("./counter");
 const baseSchema = require("./baseSchema.model");
 
@@ -16,28 +16,12 @@ const blogSchema = new mongoose.Schema(
       type: Number,
       unique: true
     },
-    title: {
-      type: String,
-      required: [true, "عنوان پست الزامی است"],
-      trim: true,
-      minLength: [3, "عنوان پست باید حداقل ۳ کاراکتر باشد"],
-      maxLength: [100, "عنوان پست نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد"]
-    },
-    slug: {
-      type: String,
-      unique: true
-    },
-    translations: [
+    reviews: [
       {
         type: ObjectId,
-        ref: "Translation"
+        ref: "Review"
       }
     ],
-    description: {
-      type: String,
-      maxLength: [300, "توضیحات نمی‌تواند بیشتر از ۳۰۰ کاراکتر باشد"],
-      required: [true, "توضیحات الزامی است"]
-    },
     thumbnail: {
       url: {
         type: String,
@@ -49,21 +33,6 @@ const blogSchema = new mongoose.Schema(
         default: "N/A"
       }
     },
-    content: {
-      type: String,
-      required: [true, "محتوا الزامی است"]
-    },
-    metaTitle: {
-      type: String,
-      maxLength: [60, "متا تایتل نمی‌تواند بیشتر از ۶۰ کاراکتر باشد"],
-      default: ""
-    },
-    metaDescription: {
-      type: String,
-      maxLength: [160, "متا توضیحات نمی‌تواند بیشتر از ۱۶۰ کاراکتر باشد"],
-      default: ""
-    },
-
     canonicalUrl: {
       type: String,
       required: false,
@@ -132,7 +101,20 @@ const blogSchema = new mongoose.Schema(
       ref: "Admin",
       required: [true, "شناسه نویسنده الزامی است"]
     },
-
+    translations: [
+      {
+        translation: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Translation",
+          required: true
+        },
+        language: {
+          type: String,
+          enum: ["fa", "en", "tr"],
+          required: true
+        }
+      }
+    ],
     views: {
       type: Number,
       default: 0,
@@ -163,25 +145,7 @@ blogSchema.pre("save", async function (next) {
       { $inc: { seq: 1 } },
       { new: true, upsert: true }
     );
-
     this.blogId = counter.seq;
-    if (!this.metaTitle || !this.metaDescription) {
-      const category = await NewsType.findById(this.type);
-      const seo = generateSeoFields({
-        title: this.title,
-        summary: this.summary,
-        categoryTitle: category?.title || "عمومی"
-      });
-
-      if (!this.metaTitle) this.metaTitle = seo.metaTitle;
-      if (!this.metaDescription) this.metaDescription = seo.metaDescription;
-    }
-    const base62Code = encodeBase62(this.newsId);
-    this.shortUrl = `${defaultDomain}/s/${base62Code}`;
-    if (!this.canonicalUrl) {
-      this.canonicalUrl = `${defaultDomain}/news/${this.slug}`;
-    }
-
     next();
   } catch (error) {
     console.error(

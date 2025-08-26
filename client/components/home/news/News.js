@@ -7,9 +7,9 @@ import { getTranslations } from "next-intl/server";
 
 const News = async ({ params }) => {
   const { locale } = await params;
-const limit = 15;
-const page = 1; 
-const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${limit}`;
+  const limit = 15;
+  const page = 1;
+  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${limit}`;
   const response = await fetch(api, {
     cache: "no-store",
     next: { tags: ["news"] },
@@ -50,7 +50,7 @@ const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${l
           </div>
           <p className="text-base">{t("18")}</p>
 
-          <NewsSlider news={news}  />
+          <NewsSlider news={news} />
         </div>
       </Container>
     </section>

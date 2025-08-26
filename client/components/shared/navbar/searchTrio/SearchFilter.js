@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useGetRentsQuery } from "@/services/rent/rentApi";
 import { toast } from "react-hot-toast";
 import { useTranslations } from 'next-intl';
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 const SearchFilter = ({ setIsModalOpen }) => {
   const [searchTerm, setSearchTerm] = useState("");

@@ -6,8 +6,10 @@ const modelsMap = {
   property: require("../models/property.model"),
   rent: require("../models/rent.model"),
   news: require("../models/news.model"),
-  opportunity:require("../models/opportunity.model")
+  opportunity: require("../models/opportunity.model")
 };
+const dynamicImportModel = require("../utils/dynamicImportModel")
+
 exports.addReview = async (req, res) => {
   const user = await User.findById(req?.user?._id);
   const guest = await Session.findOne({ sessionId: req.sessionID });
@@ -22,7 +24,7 @@ exports.addReview = async (req, res) => {
     });
   }
 
-  const TargetModel = modelsMap[targetType];
+  const TargetModel = dynamicImportModel(targetType);
 
   if (!TargetModel) {
     return res.status(400).json({
@@ -33,10 +35,11 @@ exports.addReview = async (req, res) => {
   }
 
   // بررسی وجود هدف (مثلاً محصول یا رنت)
+
   const exists = await TargetModel.exists({
     _id: targetId,
-    ...(user ? { buyers: user._id } : {})
   });
+
 
   if (!exists) {
     return res.status(400).json({
@@ -48,7 +51,7 @@ exports.addReview = async (req, res) => {
 
   const review = await Review.create({
     reviewer: user?._id || null,
-    guest: guest?.userId || req.sessionID,
+    guest: guest?.userId || req.sessionID ,
     targetId,
     targetType,
     rating,
@@ -73,7 +76,8 @@ exports.addReview = async (req, res) => {
   res.status(201).json({
     acknowledgement: true,
     message: "Ok",
-    description: "نظر با موفقیت ثبت شد"
+    description: "نظر با موفقیت ثبت شد",
+    data: review
   });
 };
 

@@ -18,7 +18,7 @@ import {
 import { toast } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 const RentCard = ({ tour }) => {
   const locale = useLocale();
@@ -206,7 +206,7 @@ const RentCard = ({ tour }) => {
               <IoMdPricetag className="w-4 h-4 text-primary" />
               <span className="capitalize">${price}/ {t("CostPerNight")} </span>
             </span>
-            <Link href={`${locale}/rent/${tour?.rentId}/${slug}`}>
+            <Link href={`/rent/${tour?.rentId}/${slug}`}>
               <Button className="px-4 py-1 text-xs cursor-pointer">{t("BookNow")}</Button>
             </Link>
           </div>

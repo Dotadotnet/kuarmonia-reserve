@@ -75,7 +75,7 @@ function Add() {
       <div className="w-full h-full flex flex-col ">
         <CustomProgressBar currentStep={currentStep} totalSteps={totalSteps} />
         <div className="grid grid-cols-1  md:grid-cols-3 gap-4">
-          <div className="w-full flex justify-center bg-white h-[550px] relative r dark:bg-gray-900 z-50  flex-col gap-y-4  p-2 rounded-primary shadow-lg">
+          <div className="w-full flex justify-center pb-24 bg-white h-[550px] relative r dark:bg-gray-900 z-50  flex-col gap-y-4  p-2 rounded-primary shadow-lg">
             <AddBlog
               currentStep={currentStep}
               totalSteps={totalSteps}

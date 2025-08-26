@@ -5,20 +5,28 @@ import { useLocale } from "next-intl";
 import language from "@/app/language";
 import { usePathname } from "next/navigation";
 const LanguageSwitcher = () => {
-  const pathname = usePathname().split("/");
-  const [isOpen, setIsOpen] = useState(false);
+   const [isOpen, setIsOpen] = useState(false);
   const t = useLocale();
   const class_lang = new language(t);
   const lang_now = class_lang.getInfo();
   const langs = class_lang.info;
   const langs_result = [];
+
+  const pathname = usePathname().split("/");
+
   langs.forEach((lang) => {
-    pathname[1] = lang.lang;
+    let newPath = [...pathname];
+    if (t === "fa") {
+      newPath.unshift(lang.lang);
+      newPath.unshift("");
+    } else {
+      newPath[1] = lang.lang;
+    }
     langs_result.push({
       lang: lang.lang,
       img: lang.img,
       name: lang.name,
-      link: pathname.join("/"),
+      link: newPath.join("/").replace("//", "/"),
       loc: lang.loc,
       dir: lang.dir
     });

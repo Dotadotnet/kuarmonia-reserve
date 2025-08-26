@@ -1,7 +1,5 @@
 import React from "react";
 import Container from "@/components/shared/container/Container";
-
-import Link from "next/link";
 import {
   Marriege,
   Investment,
@@ -11,6 +9,7 @@ import {
   Tourism
 } from "@/utils/SaveIcon";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 
 const KeyServices = async ({ params }) => {
   const { locale } = await params;
@@ -46,7 +45,7 @@ const KeyServices = async ({ params }) => {
             <Link
               key={service._id}
               href={{
-                pathname: `/${locale}/service/${service.serviceId}/${slug}`
+                pathname: `/service/${service.serviceId}/${slug}`
               }}
             >
               <div

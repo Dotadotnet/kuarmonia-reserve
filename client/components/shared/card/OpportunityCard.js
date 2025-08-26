@@ -9,7 +9,7 @@ import Chart from "@/components/icons/Chart";
 import Desktop from "@/components/icons/Desktop";
 import OpportunityThumbnailCard from "./OpportunityThumbnailCard";
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 
 export default function OpportunityCard({ opportunity }) {
   const locale = useLocale();
@@ -22,7 +22,7 @@ export default function OpportunityCard({ opportunity }) {
 
   return (
     <div className="max-w-xs min-w-[280px] m-4 p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
-      <Link href={`${locale}/opportunity/${opportunity?.opportunityId}/${slug}`}>
+      <Link href={`/opportunity/${opportunity?.opportunityId}/${slug}`}>
         <span
           className={`absolute top-0 left-1 w-32 -translate-x-12 translate-y-3 -rotate-45 bg-green-500 text-white text-center text-xs py-[1px] z-50 `}
         >

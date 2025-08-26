@@ -133,12 +133,12 @@ exports.getTags = async (req, res) => {
       ]);
 
     const total = await Tag.countDocuments(query);
-
+     
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "تگ‌ها با موفقیت دریافت شدند",
-      data: tags,
+      data: tags ,
       total
     });
   } catch (error) {
@@ -297,6 +297,36 @@ exports.updateTag = async (req, res) => {
       error: error.message
     });
   }
+};
+
+exports.getItem = async (req, res) => {
+  let { page, name } = req.params;
+  const tag = await Tag.find({ title : name });
+  const id =  tag[0]._id;
+  const Products = await Product.find();
+  const Posts = await Post.find();
+  const Blogs = await Blog.find();
+
+  const items = [].concat(Products, Posts, Blogs);
+  const result = [];
+
+  items.forEach(item => {
+    if (item.tags.includes(id)) {
+      result.push(item)
+    }
+  });
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "تگ‌ها با موفقیت دریافت شدند",
+    data: {
+      total: result.length,
+      data: result.splice(page - 1, page * 10),
+      tag: tag[0]
+    },
+  });
+
+
 };
 
 /* delete tag */

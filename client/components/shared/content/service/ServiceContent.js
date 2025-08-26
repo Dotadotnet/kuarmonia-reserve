@@ -5,12 +5,11 @@ import Timeline from "./growth-timeline";
 import ServiceFaqs from "./ServiceFaqs";
 import { useLocale } from "next-intl";
 import Image from "next/image";
+import TagBox from "../../utils/TagBox";
 
 export default function ServiceContent({ service }) {
   const locale = useLocale();
-  const { title, content, summary, roadmap, faqs } =
-    service.translations.find((t) => t.language === locale)?.translation
-      .fields || {};
+  const { title, content, summary, roadmap, faqs } = service ;
   return (
     <div className="bg-gray-100 dark:bg-gray-800  z-40 relative scrollbar-hide h-screen overflow-y-auto">
       <main>
@@ -41,18 +40,7 @@ export default function ServiceContent({ service }) {
               {title}
             </h1>
             <p className="mt-6 text- text-center text-gray-700">{summary}</p>
-            <div className="mt-6 px-8 w-full overflow-x-auto scrollbar-hide flex justify-center gap-2">
-              {service?.tags?.length > 0 &&
-                service?.tags.map((item) => (
-                  <button
-                    key={item.id}
-                    className="rounded-lg px-1 flex justify-center items-center gap-x-2 bg-gray-100  py-1 text-xs text-gray-600 hover:bg-gray-200 dark:text-gray-300 dark:bg-black"
-                  >
-                    <FaTag className="w-4 h-4 text-gray-500" />
-                    {item.value}
-                  </button>
-                ))}
-            </div>
+           <TagBox tags={service.tags} />
             {service?.thumbnail && (
               <Image
                 width={1200}

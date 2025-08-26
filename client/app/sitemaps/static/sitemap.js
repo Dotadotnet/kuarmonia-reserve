@@ -1,6 +1,7 @@
+import setLangSitemap from "@/utils/setLangSitemap";
+
 export default async function sitemap() {
- 
-  return [
+  const sitemap = [
     {
       url: process.env.HOST,
       lastModified: new Date(),
@@ -32,9 +33,11 @@ export default async function sitemap() {
     {
       url: process.env.HOST + '/contact',
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       images: [ process.env.HOST + '/banners/1.jpg' ],
       priority: 0.8,
     },
-  ]
+  ];
+   setLangSitemap(sitemap);    
+  return sitemap ;
 }

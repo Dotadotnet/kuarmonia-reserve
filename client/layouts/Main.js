@@ -4,9 +4,12 @@ import RouteLoadingIndicator from "@/components/shared/RouteLoadingIndicator";
 import TickerTape from "@/components/[locale]/tickerTape/TickerTape";
 import CurrencyRates from "@/hooks/useExchangeRatesToIRR";
 import Chat from "@/components/shared/chat/Chat";
+import Schema from "@/components/shared/seo/schema";
 
-const Main = ({ children }) => {
+const Main = ({ children , schema = {} }) => {
   return (
+    <>
+    <Schema object={schema} />
     <div className="dark:bg-gray-900">
       <CurrencyRates />
       {children}
@@ -15,6 +18,7 @@ const Main = ({ children }) => {
       <Navbar />
       <Footer />
     </div>
+    </>
   );
 };
 

@@ -290,7 +290,7 @@ const Left = ({ rent }) => {
                       id="price"
                       className="rounded-secondary h-8 w-full flex-1"
                       placeholder="Pricing Amount"
-                      value={rent?.price * members}
+                      value={rent.price * members}
                     />
                     <span className="h-8 w-8 rounded-secondary border border-black flex justify-center items-center p-1.5">
                       <MdAttachMoney className="w-6 h-6" />
@@ -367,9 +367,7 @@ function Checkout({ rent, setIsOpen, members }) {
       email: user?.email
     }
   });
-  const { title, summary, slug } =
-    rent?.translations?.find((t) => t.translation?.language === locale)
-      ?.translation?.fields || {};
+  const { title, summary, slug } = rent ;
   useEffect(() => {
     if (isLoading) {
       toast.loading("Creating Payment Intent...", {
