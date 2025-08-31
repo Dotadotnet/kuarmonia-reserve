@@ -26,11 +26,9 @@ const RentCard = ({ tour }) => {
 
   const sliderRef = useRef(null);
   const user = useSelector((state) => state?.auth);
-  const { title, summary,slug } =
-    tour?.translations?.find((t) => t.translation?.language === locale)
-      ?.translation?.fields || {};
-
-  const { status, gallery, members, location, price, _id } = tour || {};
+  const { title, summary,slug } = tour ; 
+  const { status, gallery, members, location, price, _id } = tour ;
+  
   const [
     addToFavorite,
     {
@@ -206,7 +204,7 @@ const RentCard = ({ tour }) => {
               <IoMdPricetag className="w-4 h-4 text-primary" />
               <span className="capitalize">${price}/ {t("CostPerNight")} </span>
             </span>
-            <Link href={`/rent/${tour?.rentId}/${slug}`}>
+            <Link href={`/rent/${tour?.rentId}/${encodeURIComponent(tour.translations.en.slug.trim())}`}>
               <Button className="px-4 py-1 text-xs cursor-pointer">{t("BookNow")}</Button>
             </Link>
           </div>

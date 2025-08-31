@@ -1,18 +1,13 @@
 import BlogsClient from "./BlogsClient";
-import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
 import { getTranslations } from "next-intl/server";
+import Api from "@/utils/api";
+import { Link } from "@/i18n/navigation";
 const BlogsServer = async () => {
-  const api = `${process.env.NEXT_PUBLIC_API}/blog/get-blogs`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["blogs"] }
-  });
-  const res = await response.json();
-  const blogs = res.data;
-const t = await getTranslations('HomePage')
+  const blogs = await Api("/dynamic/get-all/blog?page=1");
+  const t = await getTranslations('HomePage')
   return (
     <section
       id="blogs"
@@ -32,10 +27,10 @@ const t = await getTranslations('HomePage')
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
-                href="/news"
+                href="/all/blog"
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >
-                {t("19")} <BiRightArrowAlt />
+                {t("19")} <BiRightArrowAlt className="rtl:rotate-180" />
               </Link>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { NextIcon, PrevIcon } from "@/utils/SaveIcon";
+import { MdNavigateNext } from "react-icons/md";
+import { GrFormPrevious } from "react-icons/gr";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   totalPages = totalPages && totalPages > 0 ? totalPages : 1;
@@ -22,10 +23,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     <div className="flex justify-center mt-4 gap-x-2">
       <span
         className="custom-button"
-        onClick={handlePrevious}
+        onClick={() => { handlePrevious() }}
         disabled={currentPage === 1}
       >
-        <NextIcon className="h-6 w-6 transition-transform duration-300 transform group-hover:translate-x-1 group-focus:translate-x-1" />
+        <MdNavigateNext className="h-6 w-6 transition-transform duration-300 transform group-hover:translate-x-1 group-focus:translate-x-1" />
       </span>
 
       {pages.map((page) => (
@@ -39,10 +40,10 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       ))}
       <span
         className="custom-button"
-        onClick={handleNext}
+        onClick={() => { handleNext() }}
         disabled={currentPage === totalPages}
       >
-        <PrevIcon className="h-6 w-6 transition-transform duration-300 transform group-hover:-translate-x-1 group-focus:-translate-x-1" />
+        <GrFormPrevious className="h-6 w-6 transition-transform duration-300 transform group-hover:-translate-x-1 group-focus:-translate-x-1" />
       </span>
     </div>
   );

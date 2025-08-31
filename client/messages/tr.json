@@ -360,5 +360,36 @@
     "pageAboutDis": "Karmania Company vize ve uluslararası göçmen havzasında aktiftir. Ve her gün size göç ve tavsiye vermeye hazırız",
     "ForFirstFree": "Ücretsiz İlk Tavsiye",
     "TagName": "Etiket"
+  },
+  "Model": {
+    "news": "Haberler",
+    "service": "Hizmet",
+    "property": "Mülk",
+    "blog": "Madde",
+    "rent": "Otel",
+    "opportunity": "İş fırsatı"
+  },
+  "ModelPageAllTitle": {
+    "news": "Tüm haberler",
+    "service": "Hizmetimiz",
+    "property": "Tüm gayrimenkul ve daireler",
+    "blog": "Tüm Makaleler",
+    "rent": "Tüm oteller",
+    "opportunity": "Tüm iş fırsatları"
+  },
+  "ModelPageAllDis": {
+    "news": "ABD ve Avrupa ve Dünya Günü'ndeki göç ve ikametgah hakkında en son bilgileri Carmenia'nın web sitesinde siyaset, göç, etkinlikler hakkında haberler alın.",
+    "service": "Karmania Company, göçmen havzasında aktiftir ve vizeler, ülkede işe alma, konut vb.",
+    "property": "Carmenia Company ile her türlü gayrimenkul, ticari, yurtdışında ve İran'ın içi satın alma ve satım güvenli ve güvenli",
+    "blog": "Adımlar, koşullar ve göç etmek için ihtiyacınız olan makalelerimizle öğrenin",
+    "rent": "Carmonia Company'de çok çeşitli fiyatlar ve tesislerle dünya çapında doğrudan ve kolay otel rezervasyonu",
+    "opportunity": "Çalışma vizesi, dünya çapında göç etmenin ve ikamet etmenin en iyi ve en bilinen yollarından biridir."
+  },
+  "SearchPage": {
+    "Search": "Aramak",
+    "SearchAction": "Aramak",
+    "ResultSearch": "Arama Sonuçları",
+    "NotFound": "Sonuç,",
+    "Similer": "Demek istiyorsun"
   }
 }

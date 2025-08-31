@@ -56,6 +56,7 @@ function Auth() {
           <Link
             className="p-2 rounded-secondary flex items-center hover:bg-slate-200 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors"
             href="/auth/signin"
+            rel="nofollow"
           >
             <UserNav className="h-6 w-6" />
           </Link>

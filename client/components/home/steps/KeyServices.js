@@ -10,42 +10,25 @@ import {
 } from "@/utils/SaveIcon";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import Api from "@/utils/api";
 
 const KeyServices = async ({ params }) => {
-  const { locale } = await params;
-  const api = `${process.env.NEXT_PUBLIC_API}/service/get-services`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["service"] },
-    headers: {
-      "Accept-Language": locale
-    }
-  });
-
-  const res = await response.json();
-  const services = res.data;
-  const t = await getTranslations("HomePage", locale);
-
+  const services = await Api("/dynamic/get-all/service");
+  const t = await getTranslations("HomePage");
   return (
     <Container>
-      <div className="relative grid grid-cols-2 pt-8 lg:grid-cols-6 gap-5 sm:gap-16 xl:gap-10">
-        <picture className="hidden md:block absolute inset-x-0 top-5">
+      <div className="relative flex mt-6 justify-around flex-wrap">
+        <picture className="hidden md:block absolute inset-x-0 top-10">
           <source srcSet="/assets/home/steps/step-bg.svg" type="image/svg" />
           <img src="/assets/home-page/keyservice/step-bg.svg" alt="vector" />
         </picture>
         {services.map((service) => {
-          const matchedTranslation =
-            service.translations.find(
-              (t) => t.translation?.language === locale
-            ) || service.translations[0]; 
-
-          const { title, slug } = matchedTranslation?.translation?.fields;
-
           return (
             <Link
+              className="m-5"
               key={service._id}
               href={{
-                pathname: `/service/${service.serviceId}/${slug}`
+                pathname: `/service/${service.serviceId}/${encodeURIComponent(service.translations.en.slug.trim())}`
               }}
             >
               <div
@@ -57,7 +40,7 @@ const KeyServices = async ({ params }) => {
                 </div>
                 <div className="flex flex-col gap-y-8 items-center justify-center">
                   <h2 className="text-sm text-center lg:text-base mt-4">
-                    {title}
+                    {service.title}
                   </h2>
                 </div>
               </div>

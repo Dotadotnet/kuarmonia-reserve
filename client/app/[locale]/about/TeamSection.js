@@ -47,7 +47,7 @@ export default function TeamSection() {
             </div>
             <div className="lg:pr-[100px] flex items-center text">
               <div className="data w-full">
-                <p className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl text-black mb-9 max-lg:text-center relative">
+                <p className="font-manrope items-center flex justify-center md:justify-start font-bold md:text-4xl text-2xl lg:text-5xl mb-9 max-lg:text-center relative">
                   {fullName}
                 </p>
                 <p className="md:text-xl items-center flex justify-center md:justify-start text-md leading-8 text-gray-500 max-lg:text-center max-w-2xl mx-auto">

@@ -9,9 +9,9 @@ import { FaBed, FaRegCalendarAlt, FaBath } from "react-icons/fa";
 const PropertyCard = ({ property }) => {
   const locale = useLocale();
   const t = useTranslations("Property");
-  let updatedFinalPrice = property?.finalPrice;
-  let updatedFinalPriceLabel = property?.finalPriceLabel;
-  if (property?.tradeType && property?.variants) {
+  let updatedFinalPrice = property.finalPrice;
+  let updatedFinalPriceLabel = property.finalPriceLabel;
+  if (property.tradeType && property.variants) {
     const deposit = property?.variants?.find(
       (variant) => variant?.type === "deposit"
     )?.value;
@@ -39,24 +39,18 @@ const PropertyCard = ({ property }) => {
       updatedFinalPrice = installmentAmount;
     }
   }
-  const { title, summary, slug } =
-    property?.translations?.find((t) => t.translation?.language === locale)
-      ?.translation?.fields || {};
-  const typeTitle = property?.type?.translations?.find(
-    (t) => t.translation?.language === locale
-  )?.translation?.fields?.title;
+  const { title, summary, slug } = property ;
+  const typeTitle = property.type.title;
 
-  const saleTypeTitle = property?.saleType?.translations?.find(
-    (t) => t.translation?.language === locale
-  )?.translation?.fields?.title;
+  const saleTypeTitle = property.saleType.title;
 
-  const tradeTypeTitle = property?.tradeType?.translations?.find(
-    (t) => t.translation?.language === locale
-  )?.translation?.fields?.title;
+  const tradeTypeTitle = property.tradeType.title;
+
+  
   return (
     <Link
       key={property?._id}
-      href={`/property/${property?.propertyId}/${slug}`}
+      href={`/property/${property?.propertyId}/${encodeURIComponent(property.translations.en.slug.trim())}`}
       className="max-w-sm w-full  z-49 "
     >
       <div className="relative overflow-hidden transition-all duration-150 ease-out bg-white border border-gray-100 dark:border-gray-700 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:shadow-gray-950 dark:bg-gray-800 ">
@@ -140,7 +134,7 @@ const PropertyCard = ({ property }) => {
               </div>
             )}
             <div className="flex items-end text-gray-500">
-              <p className="text-sm  ">{property?.address[0].city}</p>
+              <p className="text-sm  ">{Array.isArray(property.address) ? property.address[0].city : property.address.city }</p>
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

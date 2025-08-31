@@ -359,5 +359,36 @@
     "pageAboutDis": "Karmania Company is active in visa and international immigration basin. ",
     "ForFirstFree": "Free initial advice",
     "TagName": "Tag"
+  },
+  "Model": {
+    "news": "News",
+    "service": "Services",
+    "property": "Property",
+    "blog": "Article",
+    "rent": "Hotel",
+    "opportunity": "Job Opportunity"
+  },
+  "ModelPageAllTitle": {
+    "news": "All the news",
+    "service": "Our service",
+    "property": "All real estate and apartments",
+    "blog": "All articles",
+    "rent": "All hotels",
+    "opportunity": "All job opportunities"
+  },
+  "ModelPageAllDis": {
+    "news": "Receive the latest information on immigration and residence in the US and Europe and the world's day -to -day news on Carmenia's website about politics, immigration, events.",
+    "service": "Karmania Company is active in the Immigration Basin and all of our services, including visas, hiring in the country, residence, etc., and we will accompany you with free advice by the end of your stay.",
+    "property": "Buying and selling all kinds of real estate, commercial, residential abroad and inside Iran with Carmenia Company safe and secure",
+    "blog": "Find out with our articles about the steps, conditions, and whatever you need to migrate",
+    "rent": "Hotel reservation worldwide directly and easy with a high variety of prices and facilities at Carmonia Company",
+    "opportunity": "Working Visa is one of the best and most well -known ways to migrate and obtain a residence around the world."
+  },
+  "SearchPage": {
+    "Search": "Search",
+    "SearchAction": "Search",
+    "ResultSearch": "Search results",
+    "NotFound": "The result was not found to search for your",
+    "Similer": "Do you mean"
   }
 }

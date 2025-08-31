@@ -20,7 +20,7 @@ export async function generateMetadata({ params }) {
     title: service.metaTitle,
     description: service.metaDescription,
     category: service.category.title,
-    keywords: service.tags.map(tag => { return tag.title }).join(" , "),
+    keywords: Array.isArray(service.tags) ? service.tags.map(tag => { return tag.title }).join(" , ") : service.tags.keynotes.map(tag => { return tag }).join(" , "),
     creator: service.creator.name,
     openGraph: {
       title: service.title,
@@ -43,15 +43,15 @@ const ServicePost = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl()
 
-  if (encodeURIComponent(service.translations.en.slug) !== slug) {
+  if (!service || encodeURIComponent(service.translations.en.slug) !== slug) {
     return <RedirectService params={params} />
   }
   const schema = {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": service.title,
-    "@id" : canonical.canonical + "#main" ,
-    "url" : canonical.canonical ,
+    "@id": canonical.canonical + "#main",
+    "url": canonical.canonical,
     "description": service.summary,
     "keywords": service.tags.map(tag => { return tag.title }).join(" , "),
     "serviceType": service.category.title,

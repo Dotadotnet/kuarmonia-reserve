@@ -7,6 +7,7 @@ import canonicalUrl from "@/components/shared/seo/canonical";
 import { getTranslations } from "next-intl/server";
 import language from "@/app/language";
 import RedirectNews from "../page";
+import analizeComments from "@/components/shared/seo/analizeComments";
 // import { permanentRedirect } from 'next/navigation';
 
 
@@ -47,19 +48,10 @@ const NewsPost = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl()
 
-  if (encodeURIComponent(news.translations.en.slug) !== slug) {
+  if (!news || encodeURIComponent(news.translations.en.slug) !== slug) {
     return <RedirectNews params={params} />
   }
-
-  let reviewCount = 0;
-  let reviewPoint = 0;
-  if (!Array.isArray(news.reviews)) {
-    news["reviews"] = [news.reviews]
-  }
-  news.reviews.forEach(review => {
-    reviewCount++;
-    reviewPoint += review.rating
-  });
+  const { reviews, reviewCount, reviewPoint } = analizeComments(news);
 
   const directionClass = locale === "fa" ? "rtl" : "ltr";
   const schema = {
@@ -96,7 +88,7 @@ const NewsPost = async ({ params }) => {
     },
     "url": canonical.canonical,
     "articleBody": news.content,
-    "review": news.reviews.map((review) => {
+    "review": reviews.map((review) => {
       return ({
         "@type": "Review",
         "author": {

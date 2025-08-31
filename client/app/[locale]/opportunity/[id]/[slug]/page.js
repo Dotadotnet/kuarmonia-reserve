@@ -45,7 +45,7 @@ const OpportunityPost = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl();
 
-  if (encodeURIComponent(opportunity.translations.en.slug) !== slug) {
+  if (!opportunity || encodeURIComponent(opportunity.translations.en.slug) !== slug) {
     return <RedirectOpportunity params={params} />
   }
 

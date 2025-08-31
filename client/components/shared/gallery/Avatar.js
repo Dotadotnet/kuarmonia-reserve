@@ -32,8 +32,8 @@ const Avatar = ({ avatarUrl, onAvatarClick, loading }) => {
             ) : (
               <a
                 href={avatarUrl}
+                rel="nofollow"
                 target="_blank"
-                rel="noopener noreferrer"
                 className="sm:h-7 h-6 p-1.5 rounded-full bg-white bg-opacity-20 fill-main-white hover:bg-green hover:fill-main-black"
                 title="Download avatar image"
               >

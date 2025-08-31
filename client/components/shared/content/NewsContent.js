@@ -154,7 +154,6 @@ const NewsFooter = async ({ news, locale }) => {
         <FaLink />
         <span className="break-all">{shortLink || currentUrl}</span>
       </div>
-
       <SocialIcons />
     </div>
   );
@@ -169,7 +168,7 @@ const NewsComments = async ({ news, locale }) => {
         className="!px-0"
         targetId={news._id}
         targetType="news"
-        reviews={Array.isArray(news.reviews) ? news.reviews : [news.reviews]}
+        reviews={Array.isArray(news.reviews) ? news.reviews : typeof news.reviews == "object" ? [news.reviews] : []}
       />
 
     </section>

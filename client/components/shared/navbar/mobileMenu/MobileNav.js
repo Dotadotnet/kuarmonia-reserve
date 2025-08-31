@@ -69,6 +69,7 @@ const MobileNav = ({ isOpen, setIsOpen }) => {
                   <Link
                     onClick={() => setIsOpen(false)} // Close the menu when a link is clicked
                     href={item.href}
+                    rel="nofollow"
                     className="flex items-center text-base text-textColor cursor-pointer hover:text-headingColor w-full px-5 gap-3 duration-100 transition-all ease-in-out"
                   >
                     {item.icon}

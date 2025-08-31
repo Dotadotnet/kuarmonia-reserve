@@ -4,27 +4,18 @@ import HighlightText from "@/components/shared/highlightText/HighlightText";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import Api from "@/utils/api";
 
 const PropertiesServer = async ({ params }) => {
-  const { locale } = await params;
 
-  const api = `${process.env.NEXT_PUBLIC_API}/property/get-properties`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["properties"] },
-    headers: {
-      "Accept-Language": locale
-    }
-  });
-  const res = await response.json();
-  const properties = res.data;
+  const properties = await Api("/dynamic/get-all/property?page=1");
   const t = await getTranslations("HomePage")
   return (
     <Container>
       <div
         id="properties"
         className="bg-clip-border h-full pt-12 dark:bg-gray-900"
-     
+
       >
         <div className="w-full h-full flex flex-col gap-y-2">
           <div className="flex flex-row justify-between items-center">
@@ -33,15 +24,15 @@ const PropertiesServer = async ({ params }) => {
                 <HighlightText title={t("20")} />
               </h2>
               <p className="text-sm">
-              {t("101")}
+                {t("101")}
               </p>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
-                href="/news"
+                href="/all/property"
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap mt-4"
               >
-                {t("19")} <BiRightArrowAlt />
+                {t("19")} <BiRightArrowAlt className="rotate-0 rtl:rotate-180" />
               </Link>
             </div>
           </div>

@@ -10,13 +10,13 @@ const NewsCard = ({ news }) => {
   const t = useTranslations("News");
 
   const locale = useLocale();
-  const { title, summary, slug } =
-    news?.translations?.find((t) => t.language === locale)?.translation
-      ?.fields || {};
+  const { title, summary, slug } = news ;
+  const categories = Array.isArray(news.categories) ? news.categories : [news.categories]
+  
   return (
     <Link
       href={{
-        pathname: `/news/${news.newsId}/${slug}`
+        pathname: `/news/${news.newsId}/${encodeURIComponent(news.translations.en.slug.trim())}`
       }}
       key={news._id}
       className="group relative overflow-hidden  bg-white border border-gray-100 dark:border-gray-800 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:border-blue-500  dark:hover:shadow-none dark:bg-gray-800 flex lg:flex-row flex-col gap-4 md:h-fit  w-70 md:w-[450px] p-4 delay-100  dark:text-blue-500 transition-all duration-300 ease-in-out"
@@ -47,7 +47,7 @@ const NewsCard = ({ news }) => {
           </div>
         </div>
         <div className="flex flex-row justify-center gap-x-2">
-          {news?.categories?.map((item) => (
+          {categories.map((item) => (
             <Tooltip
               position={"bottom"}
               key={item._id}

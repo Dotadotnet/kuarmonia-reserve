@@ -2,14 +2,21 @@ const mongoose = require("mongoose");
 const dynamicImportModel = require("../utils/dynamicImportModel")
 const Translation = require("../models/translation.model");
 
-module.exports = class autoTranslation {
+function paginateArray(array, pageNumber, itemsPerPage) {
+    const startIndex = (pageNumber - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return array.slice(startIndex, endIndex);
+}
+
+module.exports = class replaceRef {
     targetFild = "translations";
     DatabaseNames = mongoose.modelNames();
     models = {};
     idModels = [];
     dataAllModels = {};
     fieldsSkip = ["targetId"]
-    constructor(data, req) {
+    constructor(data, req, setting = {}) {
+        this.setting = setting;
         this.data = data;
         this.req = req;
         this.lang = this.req.headers.lang ? this.req.headers.lang : "fa";
@@ -25,6 +32,13 @@ module.exports = class autoTranslation {
 
     async getRefFields() {
         let result = this.data;
+        let page = this.req.query.page;
+        let scope = this.req.query.scope ? this.req.query.scope : 10;
+        if (this.setting.pagination !== false) {
+            if (page && Array.isArray(result)) {
+                result = paginateArray(result, page, scope)
+            }
+        }
         for (const modelName of this.DatabaseNames) {
             const Model = dynamicImportModel(modelName);
             this.models[modelName] = Model;
@@ -59,7 +73,7 @@ module.exports = class autoTranslation {
                     if (data[this.targetFild] && data[this.targetFild][0]) {
                         for (let i = 0; i < data[this.targetFild].length; i++) {
                             let translated = this.getRecordObjectId(data[this.targetFild][i]["translation"]);
-                            
+
                             object_translate[translated.language] = translated.fields;
                         }
                     }

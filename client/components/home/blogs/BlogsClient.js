@@ -28,9 +28,9 @@ const BlogsClient = ({ blogs }) => {
               <BlogCardSkeleton />
             </SwiperSlide>
           ))
-        : blogs.slice(0, 8).map((blogsItem) => (
-            <SwiperSlide key={blogsItem._id}>
-              <BlogCard blog={blogsItem} />
+        : blogs.slice(0, 8).map((blogItem) => (
+            <SwiperSlide key={blogItem._id}>
+              <BlogCard data={blogItem} />
             </SwiperSlide>
           ))}
     </Swiper>

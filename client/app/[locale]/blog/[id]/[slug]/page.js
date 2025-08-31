@@ -7,6 +7,7 @@ import canonicalUrl from "@/components/shared/seo/canonical";
 import { getTranslations } from "next-intl/server";
 import language from "@/app/language";
 import RedirectBlog from "../page";
+import analizeComments from "@/components/shared/seo/analizeComments";
 // import { permanentRedirect } from 'next/navigation';
 
 export async function generateMetadata({ params }) {
@@ -44,20 +45,10 @@ const BlogContent = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl()
 
-  if (encodeURIComponent(blog.translations.en.slug) !== slug) {
+  if (!blog || encodeURIComponent(blog.translations.en.slug) !== slug) {
     return <RedirectBlog params={params} />
   }
-
-  if (!Array.isArray(blog.reviews)) {
-    blog["reviews"] = [blog.reviews]
-  }
-
-  let reviewCount = 0;
-  let reviewPoint = 0;
-  blog.reviews.forEach(review => {
-    reviewCount++;
-    reviewPoint += review.rating
-  });
+    const { reviews, reviewCount, reviewPoint } = analizeComments(blog);
 
   const directionClass = locale === "fa" ? "rtl" : "ltr";
   const schema = {
@@ -98,7 +89,7 @@ const BlogContent = async ({ params }) => {
     },
    
     "articleBody": blog.content,
-     "review": blog.reviews.map((review) => {
+     "review": reviews.map((review) => {
       return ({
         "@type": "Review",
         "author": {

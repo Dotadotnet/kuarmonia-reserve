@@ -1,26 +1,14 @@
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
-import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 import NewsSlider from "./NewsSlider";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import Api from "@/utils/api";
 
 const News = async ({ params }) => {
-  const { locale } = await params;
-  const limit = 15;
-  const page = 1;
-  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${limit}`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["news"] },
-    headers: {
-      "Accept-Language": locale
-    }
-  });
-
-  const res = await response.json();
-  const news = res.data;
-  const t = await getTranslations("HomePage", locale);
+  const news = await Api("/dynamic/get-all/news?page=1");
+  const t = await getTranslations("HomePage");
 
   return (
     <section
@@ -41,15 +29,14 @@ const News = async ({ params }) => {
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
-                href={`/${locale}/news`}
+                href={`/all/news`}
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >
-                {t("19")} <BiRightArrowAlt />
+                {t("19")} <BiRightArrowAlt className="rotate-0 rtl:rotate-180" />
               </Link>
             </div>
           </div>
           <p className="text-base">{t("18")}</p>
-
           <NewsSlider news={news} />
         </div>
       </Container>
