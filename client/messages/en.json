@@ -339,14 +339,15 @@
     "rentTitle": "kuarmonia.com hotel Feeds",
     "rentDis": "Feeds of all hotels on kuarmonia website easy access to all accommodation",
     "serviceTitle": "kuarmonia.com website services Feeds",
-    "serviceDis": "Feeds of all kuarmonia website services easy access to all services"
-  }
-,
-"whatsapp": {
-  "accountName": "Marjan Qara Gizli",
-  "chatMessage": "Hi 😊 I'm Marjan, happy to help you, feel free to ask any questions."
-},
-"Seo": {
+    "serviceDis": "Feeds of all kuarmonia website services easy access to all services",
+    "tagTitle": "kuarmonia.com website tags",
+    "tagDis": "Fid of all Kuarmonia site tags easy access to all tags"
+  },
+  "whatsapp": {
+    "accountName": "Marjan Qara Gizli",
+    "chatMessage": "Hi 😊 I'm Marjan, happy to help you, feel free to ask any questions."
+  },
+  "Seo": {
     "siteName": "Kuarmonia",
     "defaultTitle": "Immigration and Tourism with Carmenia Way to the Better Future",
     "defaultDis": "With complete information on immigration, marriage, and living in Türkiye and Canada. ",

@@ -251,7 +251,6 @@
   "Service": {
     "faqs": "Sıkça Sorulan Sorular"
   },
-
   "notFound": {
     "title": "404 - Sayfa Bulunamadı",
     "message": "İstediğiniz sayfa mevcut değil.",
@@ -325,12 +324,10 @@
     "submit": "Yorumu Gönder",
     "addingReview": "İnceleme ekleniyor"
   },
-  
   "whatsapp": {
     "accountName": "Marjan Qara Gizli",
     "chatMessage": "Merhaba 😊 Ben Marjan, size yardımcı olmaktan mutluluk duyarım, herhangi bir sorunuz olursa sorabilirsiniz."
-  
-},
+  },
   "Rss": {
     "blogTitle": "kuarmonia.com Web Sitesi Blogları Beslemeler",
     "blogDis": "Kuarmonia Web Sitesinin Tüm Blogları Tüm Makalelere Kolay Erişim",
@@ -345,7 +342,9 @@
     "rentTitle": "kuarmonia.com Otel Yemleri",
     "rentDis": "Kuarmonia web sitesindeki tüm otellerin yemleri tüm konaklamalara kolay erişim",
     "serviceTitle": "kuarmonia.com Web sitesi hizmetleri beslemeleri",
-    "serviceDis": "Tüm Kuarmonia Web Sitesi Hizmetlerinin Beslemeleri Tüm Hizmetlere Kolay Erişim"
+    "serviceDis": "Tüm Kuarmonia Web Sitesi Hizmetlerinin Beslemeleri Tüm Hizmetlere Kolay Erişim",
+    "tagTitle": "Kuarmonia.com web sitesi etiketleri",
+    "tagDis": "Tüm Kuarmonia site etiketlerinin FID'si tüm etiketlere kolay erişim"
   },
   "Seo": {
     "siteName": "Kuarmonia",
