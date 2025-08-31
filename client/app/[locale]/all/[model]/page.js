@@ -58,8 +58,8 @@ export default async function Page({ params, searchParams }) {
     const transitionModel = await getTranslations("Model");
     const transitionModelPageAllTitle = await getTranslations("ModelPageAllTitle");
     const transitionModelPageAllDis = await getTranslations("ModelPageAllDis");
-    const dataRes = await Api(`http://localhost:8080/api/dynamic/get-all/${model}?page=${(page ? page : 1)}`);
-    const totalTag = await Api(`http://localhost:8080/api/dynamic/count-all/${model}`);
+    const dataRes = await Api(`/dynamic/get-all/${model}?page=${(page ? page : 1)}`);
+    const totalTag = await Api(`/dynamic/count-all/${model}`);
     const data = await DynamicModelData(dataRes)
     const title = transitionModelPageAllTitle(model);
     const description = transitionModelPageAllDis(model)
