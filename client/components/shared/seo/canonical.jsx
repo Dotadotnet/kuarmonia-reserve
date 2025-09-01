@@ -5,13 +5,15 @@ import { headers } from "next/headers";
 import { redirect } from 'next/navigation'
 export default async function canonicalUrl(urlDynaimc) {
     const langs_result = [];
-    const host = process.env.NEXT_PUBLIC_BASE_URL;
+    const host = "https://localhost:3000";
     const headersList = await headers()
     var pageUrl = headersList.get("url");
     if (pageUrl[pageUrl.length - 1] == "/") {
         pageUrl.slice(0, -1)
     }
-    const url = urlDynaimc ? urlDynaimc.includes(host) ? urlDynaimc : host + urlDynaimc : pageUrl;    
+    console.log("host : ", host);
+    console.log("url : ", pageUrl);
+    const url = urlDynaimc ? urlDynaimc.includes(host) ? urlDynaimc : host + urlDynaimc : pageUrl;
     const lang = await getLocale();
     const class_lang = new language(lang);
     const lang_now = class_lang.getInfo();

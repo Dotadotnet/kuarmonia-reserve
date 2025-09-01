@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
     alternates: canonical
   };
   return metadata
-}
+} 
 
 
 const BlogContent = async ({ params }) => {
