@@ -33,14 +33,14 @@ export default async function sitemap() {
       url: host + "/properties",
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 8,
+      priority: 0.1,
       images: [host + '/assets/slide/property/1.webp'],
     },
     {
       url: host + "/tours",
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 8,
+      priority: 0.1,
       images: [host + '/assets/slide/1.jpg'],
     },
     {
