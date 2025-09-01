@@ -46,6 +46,7 @@ const ServicePost = async ({ params }) => {
   if (!service || encodeURIComponent(service.translations.en.slug) !== slug) {
     return <RedirectService params={params} />
   }
+  
   const schema = {
     "@context": "https://schema.org",
     "@type": "Service",

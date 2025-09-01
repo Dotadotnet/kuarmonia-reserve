@@ -107,7 +107,7 @@ const BlogContent = async ({ params }) => {
     ,
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": reviewPoint / reviewCount,
+      "ratingValue": reviewCount ? reviewPoint / reviewCount : 0,
       "reviewCount": reviewCount
     }
   }

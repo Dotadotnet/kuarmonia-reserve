@@ -107,12 +107,12 @@ const RentPost = async ({ params }) => {
     ,
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": reviewPoint / reviewCount,
+      "ratingValue": reviewCount ? reviewPoint / reviewCount : 0,
       "reviewCount": reviewCount
     },
     "starRating": {
       "@type": "Rating",
-      "ratingValue": Math.ceil(reviewPoint / reviewCount),
+      "ratingValue": Math.ceil(reviewCount ? reviewPoint / reviewCount : 0),
       "bestRating": "5"
     }
   };
