@@ -30,24 +30,10 @@ export default async function sitemap() {
       images: [host + '/banners/1.jpg'],
     },
     {
-      url: host + "/properties",
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 8,
-      images: [host + '/assets/slide/property/1.webp'],
-    },
-    {
-      url: host + "/tours",
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 8,
-      images: [host + '/assets/slide/1.jpg'],
-    },
-    {
       url: host + '/about',
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 0.9,
+      priority: 0.7,
       images: [host + '/banners/1.jpg'],
     },
     {
