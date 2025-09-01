@@ -150,7 +150,7 @@ export default async function Home({ params }) {
   return (
     <Main schema={websiteSchema} >
       <StoriesSectionServer params={params} />
-      <Hero />
+      {/* <Hero /> */}
       <KeyServices params={params} />
       <BlogsServer params={params} />
       <News params={params} />
