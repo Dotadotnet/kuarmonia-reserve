@@ -92,11 +92,11 @@ const FooterItems = () => {
       <div className="grid lg:grid-cols-3 md:grid-cols-2 dark:text-gray-100 grid-cols-1 gap-4">
         {items.map(({ id, name, href }) => (
           <div key={id} className="flex flex-col gap-y-2">
-            <h2 className="text-lg">{name}</h2>
+            <p className="text-lg">{name}</p>
             <ul className="text-sm flex flex-col gap-y-1">
               {href.map(({ id, name, href }) => (
                 <li key={id} className="font-light">
-                  <Link href={href}>{name}</Link>
+                  <Link rel="nofollow" href={href}>{name}</Link>
                 </li>
               ))}
             </ul>

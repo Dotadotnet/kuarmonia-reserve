@@ -32,6 +32,7 @@ const PostsServer = async () => {
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
+                rel="nofollow"
                 href="/medias"
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >
@@ -40,7 +41,7 @@ const PostsServer = async () => {
             </div>
           </div>
           <p className="text-base">
-          {t("74")}
+            {t("74")}
           </p>
           <PostsClient posts={posts} />
         </section>

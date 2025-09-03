@@ -34,6 +34,7 @@ const MobileMenu = () => {
         {menuItems.map((item) => (
           <a
             key={item.id}
+            rel="nofollow"
             onClick={(e) => {
               e.preventDefault();
               router.push(item.href);

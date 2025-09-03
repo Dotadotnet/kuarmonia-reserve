@@ -11,6 +11,7 @@ import canonicalUrl from "@/components/shared/seo/canonical";
 import { getTranslations } from "next-intl/server";
 import language from "@/app/language";
 import RedirectRent from "../page";
+import analizeComments from "@/components/shared/seo/analizeComments";
 
 
 export async function generateMetadata({ params }) {
@@ -46,17 +47,12 @@ const RentPost = async ({ params }) => {
   const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (locale == "fa" ? "" : "/" + locale);
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl();
-  if (!Array.isArray(rent.reviews)) {
-    rent["reviews"] = [rent.reviews]
-  }
-  let reviewCount = 0;
-  let reviewPoint = 0;
-  rent.reviews.forEach(review => {
-    reviewCount++;
-    reviewPoint += review.rating
-  });
 
-  if (encodeURIComponent(rent.translations.en.slug) !== slug) {
+    const { reviews, reviewCount, reviewPoint } = analizeComments(rent);
+  
+
+
+  if (!rent || encodeURIComponent(rent.translations.en.slug) !== slug) {
     return <RedirectRent params={params} />
   }
   const directionClass = locale === "fa" ? "rtl" : "ltr";
@@ -93,7 +89,7 @@ const RentPost = async ({ params }) => {
     "email": rent.address.email,
     "amenityFeature": rent.information.map((item) => { return { "@type": "LocationFeatureSpecification", "name": item, "value": true } }),
     "priceRange": `$${rent.price} - $${rent.price * rent.members}`,
-    "review": rent.reviews.map((review) => {
+    "review": reviews.map((review) => {
       return ({
         "@type": "Review",
         "author": {
@@ -111,12 +107,12 @@ const RentPost = async ({ params }) => {
     ,
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": reviewPoint / reviewCount,
+      "ratingValue": reviewCount ? reviewPoint / reviewCount : 0,
       "reviewCount": reviewCount
     },
     "starRating": {
       "@type": "Rating",
-      "ratingValue": Math.ceil(reviewPoint / reviewCount),
+      "ratingValue": Math.ceil(reviewCount ? reviewPoint / reviewCount : 0),
       "bestRating": "5"
     }
   };

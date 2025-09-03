@@ -68,7 +68,7 @@ const FooterSocial = () => {
             className="border border-primary/20 dark:border-gray-500 dark:hover:text-blue-500 dark:text-gray-500 hover:border-primary dark:hover:border-blue-500 rounded p-1 h-fit w-fit"
           >
             <Tooltip text={item.name} txtColor="text-white">
-              <Link href={item.href} title={item.name}>
+              <Link rel="nofollow" href={item.href} title={item.name}>
                 {item.icon}
               </Link>
             </Tooltip>

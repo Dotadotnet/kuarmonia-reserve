@@ -41,7 +41,7 @@ const LargeDevice = () => {
     <section>
       <div className="flex flex-row gap-x-4">
         {items.map(({ id, name, href }) => (
-          <Link key={id} href={href} className="text-sm">
+          <Link rel="nofollow" key={id} href={href} className="text-sm">
             {name}
           </Link>
         ))}

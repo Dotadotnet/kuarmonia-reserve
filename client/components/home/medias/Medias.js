@@ -28,6 +28,7 @@ const MediasServer = async () => {
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <Link
+              rel="nofollow"
                 href="/medias"
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >

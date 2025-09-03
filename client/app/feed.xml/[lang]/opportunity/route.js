@@ -12,12 +12,12 @@ export async function GET(request) {
     const lang_class = new language(lang_string);
     const lang = lang_class.getInfo()
     const t = await getTranslations({ locale: lang.lang, namespace: 'Rss' });
-
+    const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (lang.lang !== "fa" ? "/" + lang.lang : '');
     const feed = new RSS({
         title: t("opportunityTitle"),
         description: t("opportunityDis"),
         feed_url: current_url,
-        site_url: host,
+        site_url: hostLang + "/all/" + "opportunity" ,
         image_url: host + "/banners/1.jpg",
         language: lang.lang + "-" + lang.loc.trim().toLocaleLowerCase(),
         pubDate: new Date().toUTCString(),
@@ -30,7 +30,7 @@ export async function GET(request) {
             title: item.translations[lang.lang].title,
             description: item.translations[lang.lang].description,
             guid: item.opportunityId,
-            url: process.env.NEXT_PUBLIC_BASE_URL + ( lang.lang !== "fa" ? "/" +  lang.lang : '' ) + "/opportunity/" + item.opportunityId + "/" + encodeURIComponent(item.translations.en.slug),
+            url: hostLang + "/opportunity/" + item.opportunityId + "/" + encodeURIComponent(item.translations.en.slug),
             categories: typeof item.refId.jobType == "object" ? [item.refId.jobType.translations[lang.lang].title] : [],
             date: item.createdAt,
             author: typeof item.creator == "object" ? item.creator.name : "",

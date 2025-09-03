@@ -41,7 +41,7 @@ const FooterPayment = () => {
   return (
     <section>
       <div className="flex flex-col gap-y-2">
-        <h2 className="text-lg">{t("10")}</h2>
+        <p className="text-lg">{t("10")}</p>
         <div className="flex flex-row flex-wrap gap-1.5">
           {methods.map(({ id, name, logo }) => (
             <span key={id}>

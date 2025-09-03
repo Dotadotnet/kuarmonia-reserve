@@ -15,7 +15,7 @@ const TimelineItem = ({ data }) => {
             href={link.url}
             className="text-sm text-[rgb(160,160,160)] underline after:mr-0.5 after:hidden after:text-xs after:content-['►'] md:no-underline md:after:inline-block"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="nofollow"
           >
             {link.text}
           </a>

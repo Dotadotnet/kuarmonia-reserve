@@ -14,6 +14,26 @@ exports.get = async (req, res, next) => {
 
 
 
+exports.count = async (req, res, next) => {
+  try {
+    await dynamicService.count(req,res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+exports.countAll = async (req, res, next) => {
+  try {
+    await dynamicService.countAll(req,res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* update dynamic */
 exports.update = async (req, res, next) => {
   try {

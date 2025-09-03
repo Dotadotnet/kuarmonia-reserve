@@ -9,7 +9,7 @@ import TagBox from "../../utils/TagBox";
 
 export default function ServiceContent({ service }) {
   const locale = useLocale();
-  const { title, content, summary, roadmap, faqs } = service ;
+  const { title, content, summary, roadmap, faqs } = service;
   return (
     <div className="bg-gray-100 dark:bg-gray-800  z-40 relative scrollbar-hide h-screen overflow-y-auto">
       <main>
@@ -19,6 +19,7 @@ export default function ServiceContent({ service }) {
               <div className="text-gray-700 mt-6 md:mt-0 text-center">
                 <a
                   href="#"
+                  rel="nofollow"
                   className="text-indigo-600  font-medium hover:text-gray-900 transition text-center duration-500 ease-in-out dark:text-gray-300"
                 >
                   <span className="text-2xl text-center">
@@ -40,7 +41,7 @@ export default function ServiceContent({ service }) {
               {title}
             </h1>
             <p className="mt-6 text- text-center text-gray-700">{summary}</p>
-           <TagBox tags={service.tags} />
+            <TagBox tags={service.tags} />
             {service?.thumbnail && (
               <Image
                 width={1200}
@@ -112,6 +113,7 @@ export default function ServiceContent({ service }) {
             <article className="flex flex-col items-center gap-4 md:flex-row lg:gap-6">
               <a
                 href="#"
+                rel="nofollow"
                 className="group shrink-0 relative block h-56 w-full self-start overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-24 md:w-24 lg:h-40 lg:w-40"
               >
                 <img
@@ -128,6 +130,7 @@ export default function ServiceContent({ service }) {
                 <h2 className="text-xl font-bold text-gray-800">
                   <a
                     href="#"
+                    rel="nofollow"
                     className="active:text-rose-600 transition duration-100 hover:text-rose-500"
                   >
                     راهنمای کامل مهاجرت به کشورهای اروپایی
@@ -142,6 +145,7 @@ export default function ServiceContent({ service }) {
                 <div>
                   <a
                     href="#"
+                    rel="nofollow"
                     className="active:text-rose-700 font-semibold text-rose-500 transition duration-100 hover:text-rose-600"
                   >
                     مطالعه بیشتر
@@ -153,6 +157,7 @@ export default function ServiceContent({ service }) {
             <article className="flex flex-col items-center gap-4 md:flex-row lg:gap-6">
               <a
                 href="#"
+                rel="nofollow"
                 className="group shrink-0 relative block h-56 w-full self-start overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-24 md:w-24 lg:h-40 lg:w-40"
               >
                 <img
@@ -169,6 +174,7 @@ export default function ServiceContent({ service }) {
                 <h2 className="text-xl font-bold text-gray-800">
                   <a
                     href="#"
+                    rel="nofollow"
                     className="active:text-rose-600 transition duration-100 hover:text-rose-500"
                   >
                     چالش‌ها و فرصت‌های زندگی در کانادا
@@ -183,6 +189,7 @@ export default function ServiceContent({ service }) {
                 <div>
                   <a
                     href="#"
+                    rel="nofollow"
                     className="active:text-rose-700 font-semibold text-rose-500 transition duration-100 hover:text-rose-600"
                   >
                     مطالعه بیشتر
@@ -194,6 +201,7 @@ export default function ServiceContent({ service }) {
             <article className="flex flex-col items-center gap-4 md:flex-row lg:gap-6">
               <a
                 href="#"
+                rel="nofollow"
                 className="group shrink-0 relative block h-56 w-full self-start overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-24 md:w-24 lg:h-40 lg:w-40"
               >
                 <img
@@ -210,6 +218,7 @@ export default function ServiceContent({ service }) {
                 <h2 className="text-xl font-bold text-gray-800">
                   <a
                     href="#"
+                    rel="nofollow"
                     className="active:text-rose-600 transition duration-100 hover:text-rose-500"
                   >
                     راهنمای مهاجرت تحصیلی و بورس‌های بین‌المللی
@@ -224,6 +233,7 @@ export default function ServiceContent({ service }) {
                 <div>
                   <a
                     href="#"
+                    rel="nofollow"
                     className="active:text-rose-700 font-semibold text-rose-500 transition duration-100 hover:text-rose-600"
                   >
                     مطالعه بیشتر
@@ -235,6 +245,7 @@ export default function ServiceContent({ service }) {
             <article className="flex flex-col items-center gap-4 md:flex-row lg:gap-6">
               <a
                 href="#"
+                rel="nofollow"
                 className="group shrink-0 relative block h-56 w-full self-start overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-24 md:w-24 lg:h-40 lg:w-40"
               >
                 <img
@@ -251,6 +262,7 @@ export default function ServiceContent({ service }) {
                 <h2 className="text-xl font-bold text-gray-800">
                   <a
                     href="#"
+                    rel="nofollow"
                     className="active:text-rose-600 transition duration-100 hover:text-rose-500"
                   >
                     فرصت‌های مهاجرت کاری در کشورهای مختلف
@@ -264,6 +276,7 @@ export default function ServiceContent({ service }) {
                 <div>
                   <a
                     href="#"
+                    rel="nofollow"
                     className="active:text-rose-700 font-semibold text-rose-500 transition duration-100 hover:text-rose-600"
                   >
                     مطالعه بیشتر

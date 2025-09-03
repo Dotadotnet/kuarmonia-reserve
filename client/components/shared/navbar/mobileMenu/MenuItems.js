@@ -45,6 +45,7 @@ const MenuItems = ({ isOpen, setIsOpen }) => {
                       <Link
                         key={id}
                         href={href}
+                        rel="nofollow"
                         className="flex justify-between group text-sm"
                       >
                         {name}{" "}
@@ -78,6 +79,7 @@ const MenuItems = ({ isOpen, setIsOpen }) => {
                     <Link
                       key={id}
                       href={href}
+                      rel="nofollow"
                       className="flex justify-between group text-sm"
                     >
                       {name}{" "}

@@ -22,7 +22,9 @@ import Rent from "@/components/home/bestSelling/rent";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import { getLocale, getTranslations } from "next-intl/server";
 import language from "../language";
-
+import StoriesSectionServer from "@/components/home/story/page";
+import Api from "@/utils/api";
+import BlogsServer from "@/components/home/blogs/Blogs";
 
 export async function generateMetadata() {
   const canonical = await canonicalUrl()
@@ -33,8 +35,7 @@ export async function generateMetadata() {
   return metadata
 }
 
-import StoriesSectionServer from "@/components/home/story/page";
-import Visa from "@/components/home/vias/page";
+
 
 export default async function Home({ params }) {
   const host = process.env.NEXT_PUBLIC_BASE_URL;
@@ -43,6 +44,7 @@ export default async function Home({ params }) {
   const class_language = new language(locale);
   const lang = class_language.getInfo()
   const hostLang = host + (locale == "fa" ? "" : "/" + locale);
+  const services = await Api('/dynamic/get-all/service');
   const websiteSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -55,7 +57,21 @@ export default async function Home({ params }) {
         "publisher": {
           "@id": hostLang + "/#organization"
         },
-        "inLanguage": lang.lang + "-" + lang.loc
+        "inLanguage": lang.lang + "-" + lang.loc,
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": hostLang + "/search/{search_term_string}",
+          "query-input": "required name=search_term_string"
+        },
+        "mainEntity": services.map((service) => {
+          return (
+            {
+              "@type": "SiteNavigationElement",
+              "name": service.title,
+              "url": hostLang + "/service/" + service.serviceId + "/" + encodeURIComponent(service.translations.en.slug)
+            }
+          )
+        })
       },
       {
         "@type": "Organization",
@@ -134,8 +150,9 @@ export default async function Home({ params }) {
   return (
     <Main schema={websiteSchema} >
       <StoriesSectionServer params={params} />
-      <Hero />
+      {/* <Hero /> */}
       <KeyServices params={params} />
+      <BlogsServer params={params} />
       <News params={params} />
       <Properties params={params} />
       <Opportunity params={params} />

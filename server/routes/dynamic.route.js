@@ -19,8 +19,8 @@ const router = express.Router();
 router.get("/get-one/:model/:key/:value", dynamicController.getOne);
 router.get("/get-by-id/:model/:id", dynamicController.getByID);
 router.get("/get-all/:model", dynamicController.getAll);
-
-
+router.get("/count-all/:model", dynamicController.countAll);
+router.get("/count/:model/:key/:value", dynamicController.count);
 router.get("/get/:model/:key/:value", dynamicController.get);
 router.patch("/update/:model/:key/:value/:field/:newvalue", verify, authorize("superAdmin", "admin"), dynamicController.update);
 router.get("/delete/:model/:key/:value", verify, authorize("superAdmin", "admin"), dynamicController.delete);

@@ -4,6 +4,8 @@ const dynamicImportModel = require("../utils/dynamicImportModel")
 const replaceRef = require("../utils/replaceRef")
 const autoTranslation = require("../utils/autoTranslation")
 
+
+
 function concatParams(keysString, valuesString) {
   const keys = keysString.split(',')
   const values = valuesString.split(",")
@@ -90,5 +92,29 @@ exports.delete = async (req, res) => {
     acknowledgement: true,
     message: "Ok",
     description: "Data deleted successfully",
+  });
+};
+
+
+exports.count = async (req, res) => {
+  const Model = dynamicImportModel(req.params.model);
+  let query = concatParams(req.params.key, req.params.value);
+  const data = await Model.countDocuments(query);
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Data fetched successfully",
+    data: data
+  });
+};
+
+exports.countAll = async (req, res) => {
+  const Model = dynamicImportModel(req.params.model);
+  const data = await Model.countDocuments();
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "Data fetched successfully",
+    data: data
   });
 };

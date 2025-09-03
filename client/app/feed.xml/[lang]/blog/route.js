@@ -12,11 +12,12 @@ export async function GET(request) {
     const lang_class = new language(lang_string);
     const lang = lang_class.getInfo()
     const t = await getTranslations({ locale: lang.lang, namespace: 'Rss' });
+    const hostLang = process.env.NEXT_PUBLIC_BASE_URL + ( lang.lang !== "fa" ? "/" +  lang.lang : '' ) ;
     const feed = new RSS({
         title: t("blogTitle"),
         description: t("blogDis"),
         feed_url: current_url,
-        site_url: host,
+        site_url: hostLang + "/all/" + "blog",
         image_url: host + "/banners/1.jpg",
         language: lang.lang + "-" + lang.loc.trim().toLocaleLowerCase(),
         pubDate: new Date().toUTCString(),
@@ -28,7 +29,7 @@ export async function GET(request) {
             title: item.title,
             description: item.description,
             guid: item.blogId,
-            url: process.env.NEXT_PUBLIC_BASE_URL + ( lang.lang !== "fa" ? "/" +  lang.lang : '' ) + "/blog/" + item.blogId + "/" + encodeURIComponent(item.translations.en.slug),
+            url: hostLang + "/blog/" + item.blogId + "/" + encodeURIComponent(item.translations.en.slug),
             categories: typeof item.category == "object" ? [item.category.title] : [],
             date: item.createdAt,
             author: typeof item.authorId == "object" ? item.authorId.name : "",

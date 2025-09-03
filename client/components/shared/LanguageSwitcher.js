@@ -22,6 +22,7 @@ export default function LanguageSwitcher() {
       {locales.map(({ code, label }) => (
         <Link
           key={code}
+          rel="nofollow"
           href={`/${code}/${restOfPath}`}
           style={{
             fontWeight: code === currentLocale ? 'bold' : 'normal',

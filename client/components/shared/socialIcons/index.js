@@ -5,7 +5,7 @@ const SocialIcons = () => {
     <div className="col-span-4 sm:col-span-2 md:col-span-2 lg:col-span-1 xl:col-span-1">
       <ul className="mb-4 -ml-2 flex md:order-1 md:mb-0">
         <li>
-          <a href="#" aria-label="Twitter" className="text-muted inline-flex items-center rounded-lg p-2.5 text-sm hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+          <a href="#" rel="nofollow" aria-label="Twitter" className="text-muted inline-flex items-center rounded-lg p-2.5 text-sm hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
             {/* Twitter Icon */}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
               stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -14,7 +14,7 @@ const SocialIcons = () => {
           </a>
         </li>
         <li>
-          <a href="#" aria-label="Instagram" className="text-muted inline-flex items-center rounded-lg p-2.5 text-sm hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+          <a href="#" rel="nofollow" aria-label="Instagram" className="text-muted inline-flex items-center rounded-lg p-2.5 text-sm hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
             {/* Instagram Icon */}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
               stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -25,7 +25,7 @@ const SocialIcons = () => {
           </a>
         </li>
         <li>
-          <a href="https://github.com/onwidget/tailnext" aria-label="Github" className="text-muted inline-flex items-center rounded-lg p-2.5 text-sm hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+          <a href="https://github.com/onwidget/tailnext" rel="nofollow" aria-label="Github" className="text-muted inline-flex items-center rounded-lg p-2.5 text-sm hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
             {/* Github Icon */}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
               stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">

@@ -12,11 +12,12 @@ export async function GET(request) {
     const lang_class = new language(lang_string);
     const lang = lang_class.getInfo()
     const t = await getTranslations({ locale: lang.lang, namespace: 'Rss' });
+    const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (lang.lang !== "fa" ? "/" + lang.lang : '');
     const feed = new RSS({
         title: t("mediaTitle"),
         description: t("mediaDis"),
         feed_url: current_url,
-        site_url: host,
+        site_url: hostLang + "/all/" + "media" ,
         image_url: host + "/banners/1.jpg",
         language: lang.lang + "-" + lang.loc.trim().toLocaleLowerCase(),
         pubDate: new Date().toUTCString(),
@@ -29,7 +30,7 @@ export async function GET(request) {
             title: item.title,
             description: item.description,
             guid: item.mediaId,
-            url: process.env.NEXT_PUBLIC_BASE_URL + ( lang.lang !== "fa" ? "/" +  lang.lang : '' )+ "/media/" + item.mediaId + "/" + encodeURIComponent(item.slug),
+            url: hostLang + "/media/" + item.mediaId + "/" + encodeURIComponent(item.slug),
             categories: typeof item.category == "object" ? [item.category.title] : [],
             date: item.createdAt,
             author: typeof item.authorId == "object" ? item.authorId.name : "",
@@ -37,7 +38,7 @@ export async function GET(request) {
 
         });
     });
-    
+
     return new Response(feed.xml({ indent: true }), {
         headers: {
             'Content-Type': 'application/rss+xml; charset=utf-8',

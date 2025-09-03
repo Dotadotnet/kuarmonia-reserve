@@ -99,7 +99,7 @@ const Content = ({ data }) => {
                 href="https://instagram.com"
                 className="flex items-center mb-2"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow"
               >
                 <FaInstagram className="text-pink-500 w-5 h-5" />
               </a>
@@ -107,7 +107,7 @@ const Content = ({ data }) => {
                 href="https://twitter.com"
                 className="flex items-center mb-2"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow"
               >
                 <FaTwitter className="text-blue-500 w-5 h-5" />
               </a>
@@ -115,7 +115,7 @@ const Content = ({ data }) => {
                 href="https://telegram.org"
                 className="flex items-center"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow"
               >
                 <FaTelegramPlane className="text-blue-600 w-5 h-5" />
               </a>

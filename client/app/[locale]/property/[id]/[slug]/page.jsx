@@ -44,7 +44,7 @@ const Property = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl();
 
-  if (encodeURIComponent(property.translations.en.slug) !== slug) {
+  if (!property || encodeURIComponent(property.translations.en.slug) !== slug) {
     return <RedirectProperty params={params} />
   }
 

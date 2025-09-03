@@ -14,22 +14,17 @@ import { Link } from "@/i18n/navigation";
 export default function OpportunityCard({ opportunity }) {
   const locale = useLocale();
   const t = useTranslations("opportunity");
-
-  const { title, summary, slug ,skills} =
-    opportunity?.translations?.find((t) => t.translation?.language === locale)
-      ?.translation?.fields || {};
-
+  const { title, summary, slug, skills } = opportunity;
+  const experienceLevel = typeof opportunity?.refId?.experienceLevel == "object" ? Array.isArray(opportunity?.refId?.experienceLevel) ? opportunity?.refId.experienceLevel : [opportunity?.refId.experienceLevel] : []
 
   return (
     <div className="max-w-xs min-w-[280px] m-4 p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
-      <Link href={`/opportunity/${opportunity?.opportunityId}/${slug}`}>
+      <Link href={`/opportunity/${opportunity?.opportunityId}/${encodeURIComponent(opportunity.translations.en.slug.trim())}`}>
         <span
           className={`absolute top-0 left-1 w-32 -translate-x-12 translate-y-3 -rotate-45 bg-green-500 text-white text-center text-xs py-[1px] z-50 `}
         >
           {
-            opportunity?.citizenshipOutcome?.translations?.find(
-              (t) => t.translation?.language === locale
-            )?.translation?.fields.title
+            opportunity.citizenshipOutcome.title
           }
         </span>
         <div className="grid grid-cols-2">
@@ -47,9 +42,7 @@ export default function OpportunityCard({ opportunity }) {
                 />
                 <span className="text-red-500">
                   {
-                    opportunity?.refId?.jobType?.translations?.find(
-                      (t) => t.translation?.language === locale
-                    )?.translation?.fields.title
+                    opportunity?.refId?.jobType?.translations.title
                   }
                 </span>
               </span>
@@ -58,9 +51,7 @@ export default function OpportunityCard({ opportunity }) {
               <Bag />
               <span className="min-w-10 text-green-500 text-sm">
                 {
-                  opportunity?.refId?.employmentType?.translations?.find(
-                    (t) => t.translation?.language === locale
-                  )?.translation?.fields.title
+                  opportunity?.refId?.employmentType?.title
                 }
               </span>
             </div>
@@ -80,9 +71,7 @@ export default function OpportunityCard({ opportunity }) {
             <div className="flex items-center w-fit text-end gap-1 px-2 py-1 h-8  bg-gray-100 text-gray-500 text-sm rounded-sm ">
               <Location />
               {
-                opportunity?.city?.translations?.find(
-                  (t) => t.translation?.language === locale
-                )?.translation?.fields.city
+                opportunity?.city?.city
               }{" "}
             </div>
           </div>
@@ -100,21 +89,17 @@ export default function OpportunityCard({ opportunity }) {
             <OfficeBag />
             <span className="min-w-10 text-cyan-500 text-sm">
               {
-                opportunity?.refId?.jobTime?.translations?.find(
-                  (t) => t.translation?.language === locale
-                )?.translation?.fields.title
+                opportunity?.refId?.jobTime?.title
               }{" "}
             </span>
           </span>
           <span className="flex items-center gap-1 px-2 py-1 h-7 bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap">
             <Chart />
             <span className="min-w-10">
-              {opportunity?.refId.experienceLevel?.map((item, index) => (
+              {experienceLevel?.map((item, index) => (
                 <span key={index} className="mr-1 text-sm text-sky-500">
                   {
-                    item?.translations?.find(
-                      (t) => t.translation?.language === locale
-                    )?.translation?.fields.title
+                    item?.title
                   }{" "}
                 </span>
               ))}
@@ -124,9 +109,7 @@ export default function OpportunityCard({ opportunity }) {
             <Desktop />
             <span className="min-w-10 text-sm text-cyan-500">
               {
-                opportunity?.refId?.jobMode?.translations?.find(
-                  (t) => t.translation?.language === locale
-                )?.translation?.fields.title
+                opportunity?.refId?.jobMode?.title
               }{" "}
             </span>
           </span>

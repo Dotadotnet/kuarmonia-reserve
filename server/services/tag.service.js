@@ -1,8 +1,16 @@
 /* internal import */
 const Tag = require("../models/tag.model");
 const Translation = require("../models/translation.model");
+const dynamicImportModel = require("../utils/dynamicImportModel");
 const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
 const translateFields = require("../utils/translateFields");
+const replaceRef = require("../utils/replaceRef")
+
+function paginateArray(array, pageNumber, itemsPerPage) {
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  return array.slice(startIndex, endIndex);
+}
 
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 exports.addTag = async (req, res) => {
@@ -18,7 +26,7 @@ exports.addTag = async (req, res) => {
     }));
 
     const tag = new Tag({
-      title:title,
+      title: title,
       creator: req.admin._id,
       robots: robotsArray
     });
@@ -133,12 +141,12 @@ exports.getTags = async (req, res) => {
       ]);
 
     const total = await Tag.countDocuments(query);
-     
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "تگ‌ها با موفقیت دریافت شدند",
-      data: tags ,
+      data: tags,
       total
     });
   } catch (error) {
@@ -300,32 +308,36 @@ exports.updateTag = async (req, res) => {
 };
 
 exports.getItem = async (req, res) => {
-  let { page, name } = req.params;
-  const tag = await Tag.find({ title : name });
-  const id =  tag[0]._id;
-  const Products = await Product.find();
-  const Posts = await Post.find();
-  const Blogs = await Blog.find();
-
-  const items = [].concat(Products, Posts, Blogs);
-  const result = [];
-
-  items.forEach(item => {
-    if (item.tags.includes(id)) {
-      result.push(item)
-    }
-  });
+  let { page, id } = req.params;
+  // مهم
+  const modelsNames = ["service", "property", "rent", "opportunity", "news", "blog"]
+  // مهم
+  let items = [];
+  for (let i = 0; i < modelsNames.length; i++) {
+    const modelsName = modelsNames[i];
+    const Model = dynamicImportModel(modelsName);
+    const FieldsModel = await Model.find({ tags: id }).lean();
+    FieldsModel.forEach(FieldModel => {
+      items.push(FieldModel);
+    });
+  }
+  
+  const total = items.length;
+  items = paginateArray(items, page, 10);
+  if(req.query.scope){
+    items = [items[0]]
+  }
+  const replaceRefClass = new replaceRef(items, req);
+  const result = await replaceRefClass.getRefFields();
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
     description: "تگ‌ها با موفقیت دریافت شدند",
     data: {
-      total: result.length,
-      data: result.splice(page - 1, page * 10),
-      tag: tag[0]
+      total: total,
+      data: result,
     },
   });
-
 
 };
 
