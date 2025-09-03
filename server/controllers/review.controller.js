@@ -3,7 +3,7 @@
 const reviewService = require("../services/review.service");
 
 /* add to review */
-exports.addReview = async (req, res) => {
+exports.addReview = async (req, res,next) => {
   try {
     await reviewService.addReview(req, res);
   } catch (error) {

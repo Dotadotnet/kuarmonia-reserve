@@ -25,6 +25,7 @@ import language from "../language";
 import StoriesSectionServer from "@/components/home/story/page";
 import Api from "@/utils/api";
 import BlogsServer from "@/components/home/blogs/Blogs";
+import Visa from "@/components/home/vias/page";
 
 export async function generateMetadata() {
   const canonical = await canonicalUrl()

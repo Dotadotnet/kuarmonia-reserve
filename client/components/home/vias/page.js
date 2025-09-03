@@ -18,7 +18,6 @@ const Visa = async ({ params }) => {
 
   const res = await response.json();
   const visa = res.data;
-  console.log("visa",visa)
   const t = await getTranslations("visa", locale);
   return (
     <section

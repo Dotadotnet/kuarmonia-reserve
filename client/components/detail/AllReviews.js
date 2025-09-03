@@ -51,8 +51,8 @@ const AllReviews = ({
       });
       setIsOpen(false);
       console.log(data);
-      
-      setReviewList([...reviewList,data.data])
+
+      setReviewList([...reviewList, data.data]);
       reset();
     }
 
@@ -117,11 +117,11 @@ const AllReviews = ({
             </div>
           </div>
           {reviewList?.length === 0 ? (
-            <div className="flex gap-x-2">
-              {[...Array(3)].map((_, index) => (
+            <div ref={sliderRef} className="keen-slider ">
+              {[...Array(4)].map((_, index) => (
                 <div
                   key={index}
-                  className="animate-pulse flex flex-col gap-y-4 border border-gray-200 p-4 rounded w-96 h-40"
+      className="keen-slider__slide animate-pulse  flex flex-col gap-y-4 border border-gray-200 p-4 rounded h-40"
                 >
                   <div className="flex gap-x-2 items-center">
                     <div className="bg-gray-300 rounded-full h-10 w-10" />
@@ -158,7 +158,7 @@ const AllReviews = ({
                       <div className="flex flex-col items-end">
                         <p className="flex flex-row justify-center items-center gap-x-1 text-[#F9BC1D]">
                           {[1, 2, 3, 4, 5].map((star) =>
-                            star <= review.rating ? (
+                            star <= review?.rating ? (
                               <IoIosStar key={star} className="h-5 w-5" />
                             ) : (
                               <IoIosStarOutline
@@ -201,7 +201,7 @@ const AllReviews = ({
                   </div>
                   <p className="text-sm line-clamp-4">
                     <RiChatQuoteFill className="absolute top-2 left-2 w-6 h-6 text-primary z-10 opacity-0 group-hover:opacity-100 transition-opacity ease-linear delay-100" />
-                    {review.comment}
+                    {review?.comment}
                   </p>
                 </article>
               ))}
@@ -257,8 +257,9 @@ const AllReviews = ({
                       <button
                         key={star}
                         type="button"
-                        className={`cursor-pointer ${star <= field.value ? "text-[#F9BC1D]" : ""
-                          }`}
+                        className={`cursor-pointer ${
+                          star <= field.value ? "text-[#F9BC1D]" : ""
+                        }`}
                         onClick={() => field.onChange(star)}
                       >
                         {star <= field.value ? (
@@ -277,7 +278,6 @@ const AllReviews = ({
                 className="px-8 mx-auto py-2 border border-primary rounded-secondary bg-primary hover:bg-primary/90 text-white transition-colors drop-shadow w-fit flex flex-row gap-x-2 items-center"
               >
                 {isLoading ? <Spinner /> : <>{t("submit")}</>}
-
               </button>
             </form>
           </section>

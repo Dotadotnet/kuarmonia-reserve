@@ -4,103 +4,105 @@
 @plugin "@tailwindcss/forms";
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Poppins:wght@400;600;700&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
-
-@font-face {
-  font-family:"vazir";
-  src:url("../public/fonts/vazir/Vazir.ttf");
-  font-weight:normal;
-  font-style:normal;
-}
-
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
 
 @font-face {
-  font-family:"nozha";
-  src:url("../public/fonts/DigiNozha/DigiNozha2Bold.ttf");
-  font-weight:400;
-  font-style:normal;
+  font-family: "vazir";
+  src: url("../public/fonts/vazir/Vazir.ttf");
+  font-weight: normal;
+  font-style: normal;
 }
 
-.font-vazir{
-  font-family: 'vazir';
+@font-face {
+  font-family: "nozha";
+  src: url("../public/fonts/DigiNozha/DigiNozha2Bold.ttf");
+  font-weight: 400;
+  font-style: normal;
 }
-.font-nozha{
-  font-family: 'nozha';
+
+.font-vazir {
+  font-family: "vazir";
+}
+.font-nozha {
+  font-family: "nozha";
 }
 
 @theme {
-  --font-nozha: "nozha"; 
-  --font-vazir: "vazir"; 
-  --color-primary:#01BC1F;
-  --color-neutral:#515151;
-  --color-secondary:#E4FFEA;
-  --color-light:#edf2f9;
-  --color-dark:#152e4d;
-  --color-darker:#12263f;
-  --text-color : white ;
+  --font-nozha: "nozha";
+  --font-vazir: "vazir";
+  --color-primary: #01bc1f;
+  --color-neutral: #515151;
+  --color-secondary: #e4ffea;
+  --color-light: #edf2f9;
+  --color-dark: #152e4d;
+  --color-darker: #12263f;
+  --text-color: white;
   --radius: 10px;
   --radius-primary: 1.5rem;
   --radius-secondary: 9999px;
-  --padding-primary:1rem;
-  --padding-secondary:1.5rem;
-  --spacing-116:28rem;
-  --spacing-128:32rem;
-  --gridTemplateColumns-16:repeat(16, minmax(0, 1fr));
-  --gridTemplateColumns-20:repeat(20, minmax(0, 1fr));
-  --gridTemplateColumns-24:repeat(24, minmax(0, 1fr));
-  --font-heading: 'Source Serif Pro', Georgia, serif;
+  --padding-primary: 1rem;
+  --padding-secondary: 1.5rem;
+  --spacing-116: 28rem;
+  --spacing-128: 32rem;
+  --gradient-overlay: linear-gradient(
+    180deg,
+    hsl(0 0% 0% / 0) 0%,
+    hsl(0 0% 0% / 0.8) 100%
+  );
+  --gridTemplateColumns-16: repeat(16, minmax(0, 1fr));
+  --gridTemplateColumns-20: repeat(20, minmax(0, 1fr));
+  --gridTemplateColumns-24: repeat(24, minmax(0, 1fr));
+  --font-heading: "Source Serif Pro", Georgia, serif;
 }
 :root[dir="rtl"] {
-  --font-heading: 'vazir', Georgia, serif;
+  --font-heading: "vazir", Georgia, serif;
   --direction: rtl;
 }
 
 html {
-  scroll-behavior:smooth;  
+  scroll-behavior: smooth;
 }
 
-html[dir=rtl] {
-  font-family:"Vazir", "Poppins", sans-serif !important;
-  direction:rtl;
+html[dir="rtl"] {
+  font-family: "Vazir", "Poppins", sans-serif !important;
+  direction: rtl;
   overflow-x: hidden;
 }
 
-html[dir=ltr] {
+html[dir="ltr"] {
   font-family: "Roboto", sans-serif !important;
-  direction:ltr;
+  direction: ltr;
   overflow-x: hidden;
 }
 
-html[dir=rtl] * {
+html[dir="rtl"] * {
   @apply text-right;
   direction: rtl;
 }
 
-
-html[dir=ltr] * {
+html[dir="ltr"] * {
   @apply text-left;
-  direction: ltr; 
+  direction: ltr;
 }
 
-.text-center{
+.text-center {
   text-align: center !important;
 }
 
 .font-vazir {
-  font-family:"Vazir";
+  font-family: "Vazir";
 }
 
 h1,
 h2 {
-  font-family:"Vazir";
+  font-family: "Vazir";
   @apply dark:text-gray-100;
 }
 
-
 .color-cyan {
-  background-color:#152e4d;
+  background-color: #152e4d;
 }
 
 ::selection {
@@ -108,48 +110,48 @@ h2 {
 }
 
 body::-webkit-scrollbar {
-  display:none;
+  display: none;
   /* مخفی کردن نوار اسکرول */
 }
 
 /* Width and height */
 ::-webkit-scrollbar {
-  width:10px;
-  height:10px;
+  width: 10px;
+  height: 10px;
 }
 
 /* Chrome, Safari, Edge, Opera */
 input.hide-arrow::-webkit-outer-spin-button,
 input.hide-arrow::-webkit-inner-spin-button {
-  -webkit-appearance:none;
-  margin:0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* Firefox */
 input.hide-arrow[type="number"] {
-  -moz-appearance:textfield;
+  -moz-appearance: textfield;
 }
 
 a:has(> svg.fa-whatsapp) {
-  display:none;
+  display: none;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  height: 4px; 
-  width: 4px;  
+  height: 4px;
+  width: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent; 
+  background: transparent;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #a0aec0; 
+  background-color: #a0aec0;
   border-radius: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: #718096; 
+  background-color: #718096;
 }
 .scroll-topbar {
   direction: rtl; /* برای اینکه اسکرول به سمت بالا بیاد */
@@ -184,28 +186,27 @@ blockquote::before {
   opacity: 0.3;
 }
 
-
 ::-webkit-scrollbar-track {
-  background-color:transparent;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color:rgb(1 188 31 / 0.8);
-  border-radius:10px;
+  background-color: rgb(1 188 31 / 0.8);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color:rgb(1 188 31 / 0.5);
+  background-color: rgb(1 188 31 / 0.5);
 }
 
 /* Corner */
 ::-webkit-scrollbar-corner {
-  background-color:#f1f1f1;
+  background-color: #f1f1f1;
 }
 
 /* Resizer */
 ::-webkit-scrollbar-resizer {
-  background-color:#ddd;
+  background-color: #ddd;
 }
 
 input[type="radio"] {
@@ -277,70 +278,70 @@ blockquote {
 
 .slide-in-ul::before {
   @apply absolute before:transition-all before:mt-2 before:h-2 before:rounded-xl before:bg-primary dark:before:bg-blue-500;
-  content:"";
-  left:50%;
-  right:50%;
-  bottom:-4px;
-  height:2px;
-  background-color:currentColor;
-  transition:all 0.3s ease-in-out;
+  content: "";
+  left: 50%;
+  right: 50%;
+  bottom: -4px;
+  height: 2px;
+  background-color: currentColor;
+  transition: all 0.3s ease-in-out;
 }
 
 .slide-in-ul:hover::before {
-  left:0;
-  right:0;
-  top:2;
+  left: 0;
+  right: 0;
+  top: 2;
 }
 
 .fullscreen-editor {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  z-index:9999;
-  background-color:white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: white;
 }
 
 @keyframes spin-slow {
   0% {
-    transform:rotate(0deg);
+    transform: rotate(0deg);
   }
 
   100% {
-    transform:rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 .element {
-  overflow:hidden;
+  overflow: hidden;
   /* اسکرول بار را مخفی می‌کند */
 }
 
 .element::-webkit-scrollbar {
-  display:none;
+  display: none;
   /* مخفی کردن اسکرول بار در مرورگرهای Webkit مانند Chrome و Safari */
 }
 
 .animate-spin-slow {
-  animation:spin-slow 30s linear infinite;
+  animation: spin-slow 30s linear infinite;
 }
 
 .table {
-  border-collapse:collapse;
+  border-collapse: collapse;
   /* برای کنار هم قرار گرفتن مرزها */
 }
 
 .table td,
 .table th {
-  border:2px solid #3490dc;
+  border: 2px solid #3490dc;
   /* رنگ و ضخامت مرز سلول‌ها */
-  padding:8px;
+  padding: 8px;
   /* فاصله داخلی سلول‌ها */
 }
 
 .table th {
-  background-color:#f4f4f4;
+  background-color: #f4f4f4;
   /* رنگ پس‌زمینه هدر */
 }
 
@@ -349,242 +350,242 @@ blockquote {
 } */
 
 .profile-container {
-  position:relative;
-  width:150px;
-  height:150px;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  border:2px solid rgba(220, 233, 245, 1);
-  background:rgba(220, 233, 245, 0.8);
+  position: relative;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid rgba(220, 233, 245, 1);
+  background: rgba(220, 233, 245, 0.8);
 }
 
 .dark .profile-container {
-  border:1px solid rgba(255, 255, 255, 0.8);
-  background:rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .profile-pic {
-  width:92%;
-  height:92%;
-  object-fit:cover;
-  border-radius:50%;
-  background:rgba(255, 255, 255, 0.5);
-  box-shadow:0 0 1px rgba(255, 255, 255, 0.6);
+  width: 92%;
+  height: 92%;
+  object-fit: cover;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
 .shine-effect::before,
 .shine-effect::after {
-  content:"";
-  position:absolute;
-  top:0;
-  width:20%;
-  height:100%;
-  background:rgba(220, 233, 245, 0.4);
-  transform:skewX(-45deg);
-  border:2px solid rgba(220, 233, 245, 0.8);
-  animation:shine 3s infinite;
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 20%;
+  height: 100%;
+  background: rgba(220, 233, 245, 0.4);
+  transform: skewX(-45deg);
+  border: 2px solid rgba(220, 233, 245, 0.8);
+  animation: shine 3s infinite;
 }
 
 .dark .shine-effect::before {
-  background:rgba(255, 255, 255, 0.5);
-  border:2px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.8);
 }
 
 @keyframes shine {
   0% {
-    left:-100%;
+    left: -100%;
   }
 
   100% {
-    left:200%;
+    left: 200%;
     /* خروج کامل از تصویر */
   }
 }
 
 .wave {
-  opacity:0.8;
-  position:absolute;
-  bottom:40%;
-  left:50%;
-  width:6000px;
-  height:6000px;
-  background-color:rgba(0, 135, 113, 0.08);
-  margin-left:-3000px;
-  transform-origin:50% 48%;
-  border-radius:46%;
-  pointer-events:none;
-  transform:rotate(100deg);
+  opacity: 0.8;
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+  width: 6000px;
+  height: 6000px;
+  background-color: rgba(0, 135, 113, 0.08);
+  margin-left: -3000px;
+  transform-origin: 50% 48%;
+  border-radius: 46%;
+  pointer-events: none;
+  transform: rotate(100deg);
 }
 
 .wave2 {
-  opacity:0.8;
-  transform:rotate(70deg);
+  opacity: 0.8;
+  transform: rotate(70deg);
 }
 
 .wave3 {
-  opacity:0.6;
-  transform:rotate(80deg);
+  opacity: 0.6;
+  transform: rotate(80deg);
 }
 
 .dark .wave {
-  background:rgba(14, 73, 181, 0.2);
+  background: rgba(14, 73, 181, 0.2);
 }
 
 .dark .wave {
-  background:rgba(14, 73, 181, 0.2);
+  background: rgba(14, 73, 181, 0.2);
 }
 
 @keyframes spin-slow {
   from {
-    transform:rotate(0deg);
+    transform: rotate(0deg);
   }
 
   to {
-    transform:rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
 .animate-spin-slow:hover,
 focus {
-  animation:spin-slow 5s linear infinite;
+  animation: spin-slow 5s linear infinite;
 }
 
 .sliderBox {
-  height:auto;
-  width:auto;
+  height: auto;
+  width: auto;
 }
 
 .tab-item.active {
-  background-color:#3b82f6;
+  background-color: #3b82f6;
   /* رنگ پس‌زمینه فعال */
-  color:white;
+  color: white;
   /* رنگ متن فعال */
-  box-shadow:0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   /* سایه برای تب فعال */
-  border-radius:8px;
+  border-radius: 8px;
   /* گوشه‌های گرد برای تب فعال */
 }
 
 .navForSlider .swiper-slide img {
-  border:2px solid transparent;
-  border-radius:10px;
+  border: 2px solid transparent;
+  border-radius: 10px;
 }
 
 .navForSlider .swiper-slide-thumb-active img {
-  border-color:rgb(79 70 229);
+  border-color: rgb(79 70 229);
 }
 
 .floating {
-  position:fixed;
-  width:60px;
-  height:60px;
-  bottom:80px;
-  right:10px;
-  background-color:#25d366;
-  color:#fff;
-  border-radius:50px;
-  text-align:center;
-  font-size:30px;
-  box-shadow:2px 2px 3px #999;
-  z-index:100;
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 80px;
+  right: 10px;
+  background-color: #25d366;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 100;
 }
 
 .dark .floating {
-  box-shadow:none;
+  box-shadow: none;
 }
 
 .swiper-pagination {
-  position:absolute;
-  bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:10;
-  display:flex;
-  align-items:flex-end;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
 }
 
 .custom-pagination-dot {
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  background-color:#ccc;
-  margin:0 5px;
-  transition:background-color 0.3s;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin: 0 5px;
+  transition: background-color 0.3s;
 }
 
 .custom-pagination-dot.swiper-pagination-bullet-active {
-  background-color:#e29a14;
+  background-color: #e29a14;
 }
 
 .swiper-initialized {
-  height:100%;
+  height: 100%;
 }
 
-
 .swiper {
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
 }
 
 .swiper-slide {
-  text-align:center;
-  font-size:18px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  text-align: center;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .autoplay-progress {
-  position:absolute;
-  right:16px;
-  bottom:16px;
-  z-index:10;
-  width:48px;
-  height:48px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-  color:orange;
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: orange;
 }
 
 .autoplay-progress svg {
-  --progress:0;
-  position:absolute;
-  left:0;
-  top:0px;
-  z-index:10;
-  width:100%;
-  height:100%;
-  stroke-width:4px;
-  stroke:orange;
-  fill:none;
-  stroke-dashoffset:calc(125.6px * (1 - var(--progress)));
-  stroke-dasharray:125.6;
-  transform:rotate(-90deg);
+  --progress: 0;
+  position: absolute;
+  left: 0;
+  top: 0px;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  stroke-width: 4px;
+  stroke: orange;
+  fill: none;
+  stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
+  stroke-dasharray: 125.6;
+  transform: rotate(-90deg);
 }
 
 .swiper-pagination {
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
 }
 
 .swiper-pagination span {
-  background-color:orange;
+  background-color: orange;
 }
 
 @keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
-.swiper-wrapper{
+.swiper-wrapper {
   margin-bottom: 30px !important;
-
 }
-
-
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
@@ -600,7 +601,8 @@ focus {
     transform: scale(1);
     opacity: 1;
   }
-  75%, 100% {
+  75%,
+  100% {
     transform: scale(2);
     opacity: 0;
   }
@@ -611,13 +613,32 @@ focus {
 }
 
 .shadow-title {
-  text-shadow: 0px 2px 4px rgb(0,0,0,0.8) ;
+  text-shadow: 0px 2px 4px rgb(0, 0, 0, 0.8);
 }
 
-.dark .shadow-title{
-    text-shadow: 0px 2px 4px rgb(255,255,255,0.8) ;
+.dark .shadow-title {
+  text-shadow: 0px 2px 4px rgb(255, 255, 255, 0.8);
 }
 
-input#search::-webkit-search-cancel-button{
-   display: none;
+input#search::-webkit-search-cancel-button {
+  display: none;
+}
+
+.rtl-scrollbar::-webkit-scrollbar {
+  height: 6px; /* ارتفاع scrollbar افقی */
+}
+
+.rtl-scrollbar::-webkit-scrollbar-track {
+  background: #f0f0f0; /* پس‌زمینه track */
+}
+
+.rtl-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #dc2626; /* رنگ قرمز thumb */
+  border-radius: 10px; /* گرد بودن thumb */
+}
+
+/* برای Firefox */
+.rtl-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #dc2626 #f0f0f0;
 }
