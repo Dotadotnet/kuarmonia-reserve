@@ -13,7 +13,7 @@ const SidebarItem = ({ item ,sidebarExpanded}) => {
   };
 
   return (
-    <li className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 ${isActive ? "bg-violet-500/[0.12]" : ""} ${isOpen ?'bg-violet-500/[0.12]':''}`}>
+    <li className={`pl-4 pr-3 py-2 overflow-y-auto max-h-screen rounded-lg mb-0.5 last:mb-0 ${isActive ? "bg-violet-500/[0.12]" : ""} ${isOpen ?'bg-violet-500/[0.12]':''}`}>
       <div 
         onClick={item.subItems ? handleToggle : undefined} 
         className={`flex justify-between items-center cursor-pointer`}

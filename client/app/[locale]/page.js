@@ -34,6 +34,7 @@ export async function generateMetadata() {
 }
 
 import StoriesSectionServer from "@/components/home/story/page";
+import Visa from "@/components/home/vias/page";
 
 export default async function Home({ params }) {
   const host = process.env.NEXT_PUBLIC_BASE_URL;
@@ -139,6 +140,7 @@ export default async function Home({ params }) {
       <Properties params={params} />
       <Opportunity params={params} />
       <Rent params={params} />
+      <Visa params={params} />
       <NewsLetter />
     </Main>
   );

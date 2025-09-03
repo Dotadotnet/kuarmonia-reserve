@@ -35,6 +35,8 @@ import Country from "@/components/icons/Country";
 import Hotel from "@/components/icons/Hotel";
 import Story from "@/components/icons/Story";
 import Banner from "@/components/icons/Banner";
+import Visa from "@/components/icons/Visa";
+import Passport from "@/components/icons/Passport";
 import logo from "/logo.gif";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
@@ -118,6 +120,14 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       subItems: [
         { title: " بنر معرفی", icon: Banner, path: "/banners" },
         { title: "استوری", icon: Story, path: "/stories" },
+      ]
+    },
+      {
+      title: "ویزا",
+      icon: Visa,
+      subItems: [
+        { title: " لیست ویزا", icon: Visa, path: "/visas" },
+        { title: "انواع ویزا", icon: Passport, path: "/visa-types" },
       ]
     },
     {
@@ -232,7 +242,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                 صفحات
               </span>
             </h3>
-            <ul className="mt-3">
+<ul className="mt-3 max-h-[calc(100vh-18rem)] overflow-y-auto">
               {sidebarItems.map((item, index) => (
                 <SidebarItem key={index} item={item} sidebarExpanded={sidebarExpanded} />
               ))}

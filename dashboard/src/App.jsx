@@ -64,10 +64,14 @@ import AddRent from "./pages/rents/add";
 import Faqs from "./pages/settings/faqs";
 import AddFaqs from "./pages/settings/faqs/add";
 import Services from "./pages/settings/services";
+import AddService from "./pages/settings/services/add";
 import Banners from "./pages/banners";
 import Stories from "./pages/stories";
-import AddService from "./pages/settings/services/add";
 import AddStory from "./pages/stories/add";
+import VisaTypes from "./pages/visa-types";
+import AddVisaType from "./pages/visa-types/add";
+import Visas from "./pages/visas";
+import AddVisa from "./pages/visas/add";
 
 function App() {
   const location = useLocation();
@@ -114,6 +118,10 @@ function App() {
           <Route exact path="/venues" element={<Venues />} />
           <Route exact path="/venues/add" element={<AddVenue />} />
           <Route exact path="/venue-types" element={<VenueType />} />
+          <Route exact path="/visa-types/add" element={<AddVisaType />} />
+          <Route exact path="/visa-types" element={<VisaTypes />} />
+          <Route exact path="/visas/add" element={<AddVisa />} />
+          <Route exact path="/visas" element={<Visas />} />
           <Route exact path="/venue-services" element={<VenueService />} />
           <Route exact path="/venue-amenities" element={<VenueAmenities />} />
           <Route exact path="/venue-settings" element={<VenueSetting />} />

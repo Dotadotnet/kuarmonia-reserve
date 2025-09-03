@@ -20,6 +20,17 @@ async function generateSlug(title = "") {
     return "";
   }
 }
+async function translateToEnglish(title = "") {
+  try {
+    const res = await translate(title, { to: "en", client: "gtx" });
+    const translatedTitle = res.text;
+    return translatedTitle;
+  } catch (error) {
+    console.error("Error in translateToEnglish:", error);
+    return translatedTitle;
+  }
+}
+
 
 function generateSeoFields({ title = "", summary = "", categoryTitle = "عمومی" }) {
   let metaTitle = `${title} | ${categoryTitle}`;
@@ -48,4 +59,4 @@ async function generateTranslationFields(fields, lang) {
   };
 }
 
-module.exports = { generateSlug, generateSeoFields, generateTranslationFields };
+module.exports = { generateSlug, generateSeoFields,translateToEnglish, generateTranslationFields };
