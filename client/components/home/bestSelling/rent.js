@@ -6,8 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Api from "@/utils/api";
 
-const Rent = async ({ params }) => {
-  const rent = await Api("/dynamic/get-all/rent?page=1");
+const Rent = async ({ rent }) => {
   const t = await getTranslations("rent");
   return (
     <section

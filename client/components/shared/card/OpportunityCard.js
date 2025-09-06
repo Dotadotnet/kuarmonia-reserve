@@ -19,7 +19,7 @@ export default function OpportunityCard({ opportunity }) {
 
   return (
     <div className="max-w-xs min-w-[280px] m-4 p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
-      <Link href={`/opportunity/${opportunity?.opportunityId}/${encodeURIComponent(opportunity.translations.en.slug.trim())}`}>
+      <Link href={`/opportunity/${opportunity?.opportunityId}/${encodeURIComponent(opportunity.slug.trim())}`}>
         <span
           className={`absolute top-0 left-1 w-32 -translate-x-12 translate-y-3 -rotate-45 bg-green-500 text-white text-center text-xs py-[1px] z-50 `}
         >

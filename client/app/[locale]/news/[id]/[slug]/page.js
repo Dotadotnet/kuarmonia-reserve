@@ -32,7 +32,7 @@ export async function generateMetadata({ params }) {
       siteName: seoTranslations("siteName"),
       images: news.thumbnail.url,
       locale: lang.lang + "-" + lang.loc,
-      type: "article"
+      type: "website"
     },
     alternates: canonical
   };

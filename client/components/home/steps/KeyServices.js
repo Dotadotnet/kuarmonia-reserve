@@ -12,8 +12,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Api from "@/utils/api";
 
-const KeyServices = async ({ params }) => {
-  const services = await Api("/dynamic/get-all/service");
+const KeyServices = async ({ services }) => {
   const t = await getTranslations("HomePage");
   return (
     <Container>
@@ -28,7 +27,7 @@ const KeyServices = async ({ params }) => {
               className="m-5"
               key={service._id}
               href={{
-                pathname: `/service/${service.serviceId}/${encodeURIComponent(service.translations.en.slug.trim())}`
+                pathname: `/service/${service.serviceId}/${encodeURIComponent(service.slug.trim())}`
               }}
             >
               <div

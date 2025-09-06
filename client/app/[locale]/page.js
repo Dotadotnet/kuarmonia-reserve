@@ -1,35 +1,40 @@
-import FAQ from "@/components/home/faqs/FAQWrapper";
-import Advantage from "@/components/home/advantage/Advantage";
 import News from "@/components/home/news/News";
-import Blogs from "@/components/home/blogs/Blogs";
-import Gallery from "@/components/home/gallery/Gallery";
-import Banner1 from "@/components/home/hero/Banner1";
 import Hero from "@/components/home/hero/Hero";
 import NewsLetter from "@/components/home/news-letter/NewsLetter";
-import PopularDestination from "@/components/home/popular-destination/PopularDestination";
-import Posts from "@/components/home/posts/Posts";
 import Properties from "@/components/home/properties/Properties";
-import Steps from "@/components/home/steps/Steps";
-import Medias from "@/components/home/medias/Medias";
-import Reviews from "@/components/shared/review/Reviews";
 import Main from "@/layouts/Main";
-import Testimonials from "@/components/home/testimonials/Testimonials";
 import KeyServices from "@/components/home/steps/KeyServices";
-import Destination from "@/components/home/destination/Destination";
-import TravelAvailability from "@/components/home/hero/travelAvailability/TravelAvailability";
 import Opportunity from "../../components/home/opportunities/Opportunity";
 import Rent from "@/components/home/bestSelling/rent";
 import canonicalUrl from "@/components/shared/seo/canonical";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import language from "../language";
 import StoriesSectionServer from "@/components/home/story/page";
 import Api from "@/utils/api";
 import BlogsServer from "@/components/home/blogs/Blogs";
 import Visa from "@/components/home/vias/page";
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
+  const { locale } = params;
+  const host = process.env.NEXT_PUBLIC_BASE_URL;
   const canonical = await canonicalUrl()
+  const class_lang = new language(locale);
+  const lang = class_lang.getInfo();
+  const hostLang = host + (locale == "fa" ? "" : "/" + locale);
+  const seoTranslations = await getTranslations('Seo');
   const metadata = {
+    title: seoTranslations("defaultTitle"),
+    description: seoTranslations("defaultDis"),
+    keywords: seoTranslations("defaultKeywords"),
+    openGraph: {
+      title: seoTranslations("defaultTitle"),
+      description: seoTranslations("defaultDis"),
+      url: canonical.canonical,
+      siteName: seoTranslations("siteName"),
+      images: host + "/banners/1.jpg",
+      locale: lang.lang + "-" + lang.loc,
+      type: "website"
+    },
     alternates: canonical
   };
 
@@ -39,13 +44,13 @@ export async function generateMetadata() {
 
 
 export default async function Home({ params }) {
+  const { locale } = params;
   const host = process.env.NEXT_PUBLIC_BASE_URL;
   const seoTranslations = await getTranslations('Seo');
-  const locale = await getLocale();
   const class_language = new language(locale);
   const lang = class_language.getInfo()
   const hostLang = host + (locale == "fa" ? "" : "/" + locale);
-  const services = await Api('/dynamic/get-all/service');
+  const { service , rent , opportunity , news , blog , property } = await Api('/page/home');
   const websiteSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -64,12 +69,12 @@ export default async function Home({ params }) {
           "target": hostLang + "/search/{search_term_string}",
           "query-input": "required name=search_term_string"
         },
-        "mainEntity": services.map((service) => {
+        "mainEntity": service.map((serviceItem) => {
           return (
             {
               "@type": "SiteNavigationElement",
-              "name": service.title,
-              "url": hostLang + "/service/" + service.serviceId + "/" + encodeURIComponent(service.translations.en.slug)
+              "name": serviceItem.title,
+              "url": hostLang + "/service/" + serviceItem.serviceId + "/" + encodeURIComponent(serviceItem.slug)
             }
           )
         })
@@ -148,18 +153,21 @@ export default async function Home({ params }) {
     ]
   }
 
+
   return (
     <Main schema={websiteSchema} >
+    <>
       <StoriesSectionServer params={params} />
-      {/* <Hero /> */}
-      <KeyServices params={params} />
-      <BlogsServer params={params} />
-      <News params={params} />
-      <Properties params={params} />
-      <Opportunity params={params} />
-      <Rent params={params} />
+      <Hero />
+      <KeyServices services={service} />
+      <BlogsServer blogs={blog} />
+      <News news={news} />
+      <Properties properties={property} />
+      <Opportunity opportunity={opportunity} />
+      <Rent rent={rent} />
       <Visa params={params} />
       <NewsLetter />
-    </Main>
+    </>
+    </Main> 
   );
 }

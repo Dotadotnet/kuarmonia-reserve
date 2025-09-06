@@ -204,7 +204,7 @@ const RentCard = ({ tour }) => {
               <IoMdPricetag className="w-4 h-4 text-primary" />
               <span className="capitalize">${price}/ {t("CostPerNight")} </span>
             </span>
-            <Link href={`/rent/${tour?.rentId}/${encodeURIComponent(tour.translations.en.slug.trim())}`}>
+            <Link href={`/rent/${tour?.rentId}/${encodeURIComponent(tour.slug.trim())}`}>
               <Button className="px-4 py-1 text-xs cursor-pointer">{t("BookNow")}</Button>
             </Link>
           </div>

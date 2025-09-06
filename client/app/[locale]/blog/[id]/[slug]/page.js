@@ -30,7 +30,7 @@ export async function generateMetadata({ params }) {
       siteName: seoTranslations("siteName"),
       images: blog.thumbnail.url,
       locale: lang.lang + "-" + lang.loc,
-      type: "article"
+      type: "website"
     },
     alternates: canonical
   };

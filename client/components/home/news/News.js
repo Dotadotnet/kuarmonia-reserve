@@ -6,8 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import Api from "@/utils/api";
 
-const News = async ({ params }) => {
-  const news = await Api("/dynamic/get-all/news?page=1");
+const News = async ({ news }) => {
   const t = await getTranslations("HomePage");
 
   return (
@@ -24,11 +23,11 @@ const News = async ({ params }) => {
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText title={t("17")} />
+                {/* <HighlightText title={t("17")} /> */}
               </h2>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
-              <Link
+              <Link 
                 href={`/all/news`}
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >

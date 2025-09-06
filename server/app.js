@@ -56,6 +56,7 @@ app.use("/api/tradeType", require("./routes/tradeType.route"));
 app.use("/api/saleType", require("./routes/saleType.route"));
 app.use("/api/propType", require("./routes/propType.route"));
 app.use("/api/award", require("./routes/award.route"));
+app.use("/api/page", require("./routes/page.route"));
 app.use("/api/standard", require("./routes/standard.route"));
 app.use("/api/media", require("./routes/media.route"));
 app.use("/api/dynamic", require("./routes/dynamic.route"));

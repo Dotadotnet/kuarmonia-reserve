@@ -7,8 +7,7 @@ import { Link } from "@/i18n/navigation";
 import Api from "@/utils/api";
 
 
-const Opportunity = async ({ params }) => {
-  const opportunity = await Api("/dynamic/get-all/opportunity?page=1");
+const Opportunity = async ({ opportunity }) => {
   const t = await getTranslations("opportunity");
   return (
     <section

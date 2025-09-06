@@ -6,9 +6,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import Api from "@/utils/api";
 
-const PropertiesServer = async ({ params }) => {
-
-  const properties = await Api("/dynamic/get-all/property?page=1");
+const PropertiesServer = async ({ properties }) => {
   const t = await getTranslations("HomePage")
   return (
     <Container>

@@ -5,8 +5,7 @@ import HighlightText from "@/components/shared/highlightText/HighlightText";
 import { getTranslations } from "next-intl/server";
 import Api from "@/utils/api";
 import { Link } from "@/i18n/navigation";
-const BlogsServer = async () => {
-  const blogs = await Api("/dynamic/get-all/blog?page=1");
+const BlogsServer = async ({ blogs }) => {
   const t = await getTranslations('HomePage')
   return (
     <section

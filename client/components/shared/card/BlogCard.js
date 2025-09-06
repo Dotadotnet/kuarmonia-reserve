@@ -25,11 +25,10 @@ const BlogCard = ({ data }) => {
   const locale = useLocale();
   const host = process.env.NEXT_PUBLIC_BASE_URL;
   const hostLang = host + (locale == "fa" ? "" : "/" + locale);
-  const url = hostLang + "/blog/" + data.blogId + "/" + encodeURIComponent(data.translations.en.slug.trim())
+  const url = hostLang + "/blog/" + data.blogId + "/" + encodeURIComponent(data.slug.trim())
   const { reviews, reviewCount, reviewPoint } = analizeComments(data);
   const class_language = new language(locale);
   const lang = class_language.getInfo()
-
   return (
     <Link href={url}>
       <div

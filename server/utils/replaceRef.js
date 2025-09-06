@@ -34,7 +34,13 @@ module.exports = class replaceRef {
         let result = this.data;
         let page = this.req.query.page;
         let scope = this.req.query.scope ? this.req.query.scope : 10;
+        this.fields = this.req.query.fields ? [...this.req.query.fields.split(",")] : null;
         if (this.setting.pagination !== false) {
+            // آیا پیجینیشن از ریکویست خوانده شود یا نه ؟
+            if (this.req.query.page == "last") {
+                let count_last_page = result.length % scope ? result.length % scope : scope;
+                page = (result.length - count_last_page) / scope;
+            }
             if (page && Array.isArray(result)) {
                 result = paginateArray(result, page, scope)
             }
@@ -48,8 +54,32 @@ module.exports = class replaceRef {
                 this.dataAllModels[record._id.toString()] = record;
             });
         }
-        if (result)
+        if (result) {
             this.visit(result)
+        }
+        // برسی فیلد های لازم
+        let resultIsArray = Array.isArray(result);
+        let resultToArray = resultIsArray ? result : [result];
+        if (this.fields) {
+            resultToArray.forEach(item => {
+                for (const [key, value] of Object.entries(item)) {
+                    if (this.fields.includes(key)) {
+                        if (this.targetFild == key) {
+                            Object.values(item[key]).forEach(fieldsTrans => {
+                                for (const [fieldTransKey, fieldTransValue] of Object.entries(fieldsTrans)) {
+                                    if (!this.fields.includes(fieldTransKey)) {
+                                        delete fieldsTrans[fieldTransKey]
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        delete item[key];
+                    }
+                }
+            });
+        }
+        // برسی فیلد های لازم
         return result;
     }
 
@@ -73,18 +103,20 @@ module.exports = class replaceRef {
                     if (data[this.targetFild] && data[this.targetFild][0]) {
                         for (let i = 0; i < data[this.targetFild].length; i++) {
                             let translated = this.getRecordObjectId(data[this.targetFild][i]["translation"]);
-
                             object_translate[translated.language] = translated.fields;
                         }
                     }
                     if (Object.keys(object_translate).length) {
                         for (const [key, value] of Object.entries(object_translate[this.lang])) {
-                            data[key] = value
+                            if (key == "slug") {
+                                data["slug"] = object_translate.en.slug
+                            } else {
+                                data[key] = value
+                            }
                         }
                         data[this.targetFild] = object_translate;
                     }
                 }
-
             }
         }
     }

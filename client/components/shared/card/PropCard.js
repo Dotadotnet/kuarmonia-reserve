@@ -50,7 +50,7 @@ const PropertyCard = ({ property }) => {
   return (
     <Link
       key={property?._id}
-      href={`/property/${property?.propertyId}/${encodeURIComponent(property.translations.en.slug.trim())}`}
+      href={`/property/${property?.propertyId}/${encodeURIComponent(property.slug.trim())}`}
       className="max-w-sm w-full  z-49 "
     >
       <div className="relative overflow-hidden transition-all duration-150 ease-out bg-white border border-gray-100 dark:border-gray-700 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:shadow-gray-950 dark:bg-gray-800 ">

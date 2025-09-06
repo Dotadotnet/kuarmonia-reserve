@@ -35,13 +35,9 @@ exports.get = async (req, res) => {
 };
 
 exports.getOne = async (req, res) => {
-  console.log("req params in get one", req.params);
   const Model = dynamicImportModel(req.params.model);
-  console.log("Modle",Model)
   let query = concatParams(req.params.key, req.params.value);
-  console.log("query in get one", query);
   const data = await Model.findOne(query).lean();
-  console.log("data in get one", data);
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
