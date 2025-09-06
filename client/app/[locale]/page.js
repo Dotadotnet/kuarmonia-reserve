@@ -35,6 +35,13 @@ export async function generateMetadata({ params }) {
       locale: lang.lang + "-" + lang.loc,
       type: "website"
     },
+    twitter: {
+      card: "summary_large_image",
+      site: "@kuarmonia",
+      title: seoTranslations("defaultTitle"),
+      description: seoTranslations("defaultDis"),
+      image: host + "/banners/1.jpg"
+    },
     alternates: canonical
   };
 
@@ -50,7 +57,7 @@ export default async function Home({ params }) {
   const class_language = new language(locale);
   const lang = class_language.getInfo()
   const hostLang = host + (locale == "fa" ? "" : "/" + locale);
-  const { service , rent , opportunity , news , blog , property } = await Api('/page/home');
+  const { service, rent, opportunity, news, blog, property } = await Api('/page/home');
   const websiteSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -156,18 +163,18 @@ export default async function Home({ params }) {
 
   return (
     <Main schema={websiteSchema} >
-    <>
-      <StoriesSectionServer params={params} />
-      <Hero />
-      <KeyServices services={service} />
-      <BlogsServer blogs={blog} />
-      <News news={news} />
-      <Properties properties={property} />
-      <Opportunity opportunity={opportunity} />
-      <Rent rent={rent} />
-      <Visa params={params} />
-      <NewsLetter />
-    </>
-    </Main> 
+      <>
+        <StoriesSectionServer params={params} />
+        <Hero />
+        <KeyServices services={service} />
+        <BlogsServer blogs={blog} />
+        <News news={news} />
+        <Properties properties={property} />
+        <Opportunity opportunity={opportunity} />
+        <Rent rent={rent} />
+        <Visa params={params} />
+        <NewsLetter />
+      </>
+    </Main>
   );
 }

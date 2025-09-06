@@ -25,7 +25,7 @@ const KeyServices = async ({ services }) => {
           return (
             <Link
               className="m-5"
-              key={service._id}
+              key={service.serviceId}
               href={{
                 pathname: `/service/${service.serviceId}/${encodeURIComponent(service.slug.trim())}`
               }}

@@ -36,14 +36,8 @@ export async function generateMetadata() {
         'max-snippet': -1,
       },
     }
-    // twitter: {
-    //   card: "summary_large_image",
-    //   site: "@kuarmonia",
-    //   title: "مهاجرت و ازدواج در ترکیه و کانادا",
-    //   description: "راهنمای جامع برای مهاجرت و ازدواج در ترکیه و کانادا با نکات کلیدی و خدمات مشاوره.",
-    //   image: "https://s3-console.kuarmonia.com/main/84a10727-61b7-4199-91bf-12989c4e575a.webp" // لینک تصویر
-    // }
   };
+
   return metadata
 }
 export default async function RootLayout({ children, params }) {
@@ -53,7 +47,7 @@ export default async function RootLayout({ children, params }) {
   }
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
-  const lang = class_language.getInfo()
+  const lang = class_language.getInfo();
   const RssTranslated = await getTranslations('Rss');
   const rssFiles = feeds.map(async (feed) => {
     return (

@@ -20,7 +20,6 @@ function TeamMembers() {
   const { data, isLoading, error } = useGetTeamMembersQuery({ locale });
   const members = useMemo(() => data?.data || [], [data]);
 
-  console.log("members", members);
   return (
     <section className="py-14 lg:py-24 relative mt-8 ">
       <div className="mx-auto max-w-7xl ">
