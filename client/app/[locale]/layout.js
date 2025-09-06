@@ -20,8 +20,6 @@ export async function generateMetadata() {
   const lang_now = class_lang.getInfo();
   const seoTranslations = await getTranslations('Seo');
   const metadata = {
-    title: seoTranslations("defaultTitle"),
-    description: seoTranslations("defaultDis"),
     keywords: seoTranslations("defaultKeywords"),
     robots: {
       index: true,
