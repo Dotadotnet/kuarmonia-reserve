@@ -18,11 +18,11 @@ const ContactForm = () => {
             <div className="absolute top-1/2 md:right-64 md:translate-x-0 left-24 bg-white shadow-xl lg:p-6 p-4 rounded-2xl w-80 rtl">
               <div className="space-y-4" style={{ direction: 'ltr' }}>
                 {/* شماره‌های تماس */}
-                <a href="tel:+14376675933" className="flex items-center space-x-3">
+                <a href="tel:+14376675933" className="flex items-center space-x-3 ltr" dir="ltr">
                   <FaPhone className="text-gray-700" size={20} />
-                  <h5 className="text-black text-base font-normal">+1-437-667-5933</h5>
+                  <h5 className="text-black text-base font-normal ltr" dir="ltr">+1-437-667-5933</h5>
                 </a>
-                <a href="tel:+905433575933" className="flex items-center space-x-3">
+                <a dir="ltr" href="tel:+905433575933" className="flex items-center space-x-3 ltr">
                   <FaPhone className="text-gray-700" size={20} />
                   <h5 className="text-black text-base font-normal">+90-543-357-5933</h5>
                 </a>
