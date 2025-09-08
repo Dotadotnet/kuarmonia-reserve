@@ -162,7 +162,7 @@ export default async function Home({ params }) {
 
 
   return (
-    <Main schema={websiteSchema} >
+    // <Main schema={websiteSchema} >
       <>
         <StoriesSectionServer params={params} />
         <Hero />
@@ -175,6 +175,6 @@ export default async function Home({ params }) {
         <Visa params={params} />
         <NewsLetter />
       </>
-    </Main>
+    // </Main>
   );
 }

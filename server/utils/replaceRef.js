@@ -94,6 +94,7 @@ module.exports = class replaceRef {
                     } else if (record === undefined) {
 
                     }
+
                     if (data[key]) {
                         this.visit(data[key]);
                     }
@@ -103,7 +104,8 @@ module.exports = class replaceRef {
                     if (data[this.targetFild] && data[this.targetFild][0]) {
                         for (let i = 0; i < data[this.targetFild].length; i++) {
                             let translated = this.getRecordObjectId(data[this.targetFild][i]["translation"]);
-                            object_translate[translated.language] = translated.fields;
+                            if (translated.language)
+                                object_translate[translated.language] = translated.fields;
                         }
                     }
                     if (Object.keys(object_translate).length) {
