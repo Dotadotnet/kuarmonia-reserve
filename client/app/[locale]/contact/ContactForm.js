@@ -15,7 +15,7 @@ const ContactForm = () => {
         <div className="grid lg:grid-cols-2 grid-cols-1 gap-8">
           {/* بخش تصویر و اطلاعات تماس */}
           <div className="h-fit relative">
-            <div className="absolute top-1/2 md:right-64 md:translate-x-0 translate-x-72 left-24 bg-white shadow-xl lg:p-6 p-4 rounded-2xl w-80 rtl">
+            <div className="absolute top-1/2 md:right-64 md:translate-x-0 left-24 bg-white shadow-xl lg:p-6 p-4 rounded-2xl w-80 rtl">
               <div className="space-y-4" style={{ direction: 'ltr' }}>
                 {/* شماره‌های تماس */}
                 <a href="tel:+14376675933" className="flex items-center space-x-3">
@@ -57,7 +57,7 @@ const ContactForm = () => {
               alt="📞 تماس با ما"
               height={609}
               width={348}
-              className="md:w-2/3 md:h-1/2 w-full h-full lg:rounded-r-2xl rounded-2xl object-cover"
+              className="w-full h-full lg:rounded-r-2xl rounded-2xl object-cover"
               priority
             />
           </div>
