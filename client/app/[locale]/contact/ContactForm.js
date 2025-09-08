@@ -55,9 +55,10 @@ const ContactForm = () => {
             <Image
               src="https://s3-console.kuarmonia.com/contact/c5aa2fd0-5ef3-4b96-8133-2576f8ca95d5.webp"
               alt="📞 تماس با ما"
-              height={600}
-              width={400}
+              height={609}
+              width={348}
               className="md:w-2/3 md:h-1/2 w-full h-full lg:rounded-r-2xl rounded-2xl object-cover"
+              priority
             />
           </div>
 
