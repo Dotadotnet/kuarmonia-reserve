@@ -55,15 +55,7 @@ export default async function RootLayout({ children, params }) {
     )
   })
   return (
-    <>
-      <head>
-        <meta httpEquiv="Content-Language" content={lang.lang + "-" + lang.loc} />
-        {rssFiles}
-        <meta name="expires" content="never" />
-        <meta name="publisher" content={seoTranslations("siteName")} />
-        <meta name="dc.publisher" content={seoTranslations("pageAboutDis")} />
-        <meta name="language" content={lang.lang} />
-      </head>
+    <>    
       <NextIntlClientProvider>
         <Providers>
           <Session>
