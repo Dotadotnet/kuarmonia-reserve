@@ -3,6 +3,7 @@ import { useLocale } from "next-intl";
 import Check from "@/components/icons/Check";
 import ShieldCheck from "@/components/icons/ShieldCheck";
 import TagBox from "@/components/shared/utils/TagBox";
+import React from "react";
 
 const ListSection = ({ title, items, fallback }) => (
   <section>

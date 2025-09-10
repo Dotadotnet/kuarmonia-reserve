@@ -4,14 +4,13 @@ import Link from "next/link";
 import Button from "@/components/shared/button/Button";
 import MediaCard from "@/components/shared/card/MediaCard";
 import SkeletonCard from "@/components/shared/card/SkeletonCard";
-import SubscribeForm from "./Subscribe";
 
 const Sidebar = async ({ locale }) => {
   const t = await getTranslations("News");
 
-const limit = 15;
-const page = 1; 
-const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${limit}`;
+  const limit = 15;
+  const page = 1;
+  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${limit}`;
   const responseNews = await fetch(api, {
     cache: "no-store",
     next: { tags: ["news"] },
@@ -133,15 +132,16 @@ const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${l
           <p className="p-4 text-gray-500">{t("noNews")}</p>
         )}
       </div>
-
+      {/*
       <div className="shadow-lg rounded-lg">
         <h2 className="bg-primary dark:bg-blue-500 text-white px-4 py-3 rounded-t-lg shadow-md text-lg">
           {t("subscribe")}
         </h2>
         <div className="p-4 flex flex-col gap-y-2">
-          <SubscribeForm />
+           <SubscribeForm /> 
         </div>
       </div>
+      */}
 
       <div className="shadow-lg rounded-lg">
         <h2 className="bg-primary dark:bg-blue-500 text-white px-4 py-3 rounded-t-lg shadow-md text-lg">
@@ -150,11 +150,11 @@ const api = `${process.env.NEXT_PUBLIC_API}/news/get-news?page=${page}&limit=${l
         <div className="p-4 flex flex-col gap-y-2">
           {medias.length === 0
             ? Array.from({ length: 3 }).map((_, index) => (
-                <SkeletonCard key={index} />
-              ))
+              <SkeletonCard key={index} />
+            ))
             : medias
-                .slice(0, 8)
-                .map((media) => <MediaCard key={media.id} media={media} />)}
+              .slice(0, 8)
+              .map((media) => <MediaCard key={media.id} media={media} />)}
         </div>
       </div>
     </aside>

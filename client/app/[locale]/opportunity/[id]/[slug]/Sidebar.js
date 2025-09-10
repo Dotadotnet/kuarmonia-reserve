@@ -135,7 +135,7 @@ const Sidebar = async ({ locale }) => {
           {t("subscribe")}
         </h2>
         <div className="p-4 flex flex-col gap-y-2">
-          <SubscribeForm />
+          {/* <SubscribeForm /> */}
         </div>
       </div>
 

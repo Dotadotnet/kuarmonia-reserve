@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLocale } from "next-intl";
 import { useTranslations } from "next-intl";

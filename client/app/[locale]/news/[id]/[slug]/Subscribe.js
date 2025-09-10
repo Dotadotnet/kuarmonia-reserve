@@ -8,9 +8,9 @@ export default function SubscribeForm() {
   const t = useTranslations("News");
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  // const onSubmit = (data) => {
-  //   console.log("Email submitted:", data.email);
-  // };
+  const onSubmit = (data) => {
+    console.log("Email submitted:", data.email);
+  };
 
   return (
     <form

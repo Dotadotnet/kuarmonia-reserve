@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import DetailCard from "./DetailCard";
 import Image from "next/image";
 import { useAddReviewMutation } from "@/services/review/reviewApi";

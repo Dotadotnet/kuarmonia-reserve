@@ -1,10 +1,10 @@
 "use client";
 
-
+import { useState } from "react";
 import { BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
 
 const DetailCard = ({ title, content }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <section className="relative flex flex-col gap-y-2.5">
