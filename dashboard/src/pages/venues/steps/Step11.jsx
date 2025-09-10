@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import FeatureListInput from "@/components/shared/input/FeatureListInput";
 import SocialLinksInput from "@/components/shared/input/SocialLinksInput";
 

@@ -1,6 +1,6 @@
 // components/signup/steps/NameStep.jsx
 
-import React from "react";
+
 import NavigationButton from "@/components/shared/button/NavigationButton";
 
 const TitleStep = ({ register, errors, prevStep, nextStep }) => {

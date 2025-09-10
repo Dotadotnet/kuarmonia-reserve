@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const ShieldAlert = (props) => {
   return (

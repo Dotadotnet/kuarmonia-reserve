@@ -1,7 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
 import { useAddTradeTypeMutation } from "@/services/tradeType/tradeTypeApi";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
 import MultiSelect from "@/components/shared/dropDown/MultiSelect";

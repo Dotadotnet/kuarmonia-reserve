@@ -1,4 +1,4 @@
-import React from "react";
+
 import dynamic from "next/dynamic";
 import { AiFillStar } from "react-icons/ai";
 import CartButton from "./CartButton";

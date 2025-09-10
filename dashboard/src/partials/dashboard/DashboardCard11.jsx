@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 import BarChart from '../../charts/BarChart03';
 
 // Import utilities

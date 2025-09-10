@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import SkeletonPropCard from "@/components/shared/card/PropCardSkeleton";
 import { useGetFilteredRentsMutation } from "@/services/rent/rentApi";
 import { useSelector } from "react-redux";

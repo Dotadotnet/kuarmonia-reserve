@@ -1,5 +1,5 @@
 // Step4.js
-import React from "react";
+
 import {  Controller } from "react-hook-form";
 import { useGetCategoriesQuery } from "@/services/category/categoryApi";
 import { useGetTagsQuery } from "@/services/tag/tagApi";

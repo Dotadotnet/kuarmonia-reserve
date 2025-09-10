@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import OutsideClick from "@/components/shared/outsideClick/OutsideClick"; // Make sure to provide the correct import path here
 
 const IconOnlyDropdown = ({ options = [], value, onChange, theme = "light" }) => {

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { useGetAllPostsQuery } from "@/services/post/postApi";
 import Image from "next/image";
 const leftSidebar = () => {
@@ -7,7 +7,6 @@ const leftSidebar = () => {
     limit: 10
   });
   const posts = useMemo(() => data?.data || [], [data]);
-  console.log(posts);
   return (
     <div
       className={`col-span-1 md:mt-128 md:col-span-5 flex flex-col gap-4 order-2 md:order-1`}

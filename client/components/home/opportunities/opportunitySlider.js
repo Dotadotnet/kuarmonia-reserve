@@ -1,6 +1,6 @@
 'use client'
 
-import React from "react";
+
 import OpportunityCard from "@/components/shared/card/OpportunityCard";
 import OpportunityCardSkeleton from "@/components/shared/skeleton/opportunityCardSkeleton";
 import { Swiper, SwiperSlide } from "swiper/react";

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+ 
 import Image from 'next/image';
 
 const CommentsSection = ({ comments, isLoading, onSubmit }) => {
@@ -100,10 +100,7 @@ const CommentsSection = ({ comments, isLoading, onSubmit }) => {
         onSubmit={(e) => {
           e.preventDefault();
           const formData = new FormData(e.target);
-          console.log({
-            name: formData.get("name"),
-            comment: formData.get("comment"),
-          });
+        
           // ارسال داده‌ها به API یا پردازش بیشتر
         }}
       >

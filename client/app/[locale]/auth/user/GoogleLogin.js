@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { motion } from "framer-motion";
 import { signIn } from 'next-auth/react';

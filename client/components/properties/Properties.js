@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+
 import FilterSidebar from "./FilterSidebar";
 import Container from "../shared/container/Container";
 import FilteredTours from "./FilteredProperties";

@@ -1,5 +1,5 @@
 // components/Alert.js
-import React from "react";
+
 
 const Alert = ({ type = "green", message, onClose }) => {
   // انتخاب رنگ‌ها و آیکون‌ها براساس نوع

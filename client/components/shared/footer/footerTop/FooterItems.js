@@ -1,8 +1,6 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import React from "react";
-
 const FooterItems = () => {
   const t = useTranslations('ForAll')
   const items = [

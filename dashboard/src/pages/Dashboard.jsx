@@ -1,4 +1,4 @@
-import React from "react";
+
 import ControlPanel from "./ControlPanel";
 import FilterButton from "../components/DropdownFilter";
 import Datepicker from "../components/Datepicker";

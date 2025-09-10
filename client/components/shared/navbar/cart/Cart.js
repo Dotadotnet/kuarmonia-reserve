@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../modal/Modal";
 import Image from "next/image";
 import {
-  useGetCartQuery,
   useRemoveFromCartMutation
 } from "@/services/cart/cartApi";
 import { useSelector } from "react-redux";

@@ -1,5 +1,5 @@
 import ControlPanel from "../ControlPanel";
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useGetTagsQuery, useDeleteTagMutation } from "@/services/tag/tagApi";
 import { toast } from "react-hot-toast";
 import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";

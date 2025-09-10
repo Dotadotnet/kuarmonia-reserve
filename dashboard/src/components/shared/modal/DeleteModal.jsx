@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import MoonLoader from "@/components/shared/loading/MoonLoaderLoading";
 import Apply from "@/components/icons/Apply";

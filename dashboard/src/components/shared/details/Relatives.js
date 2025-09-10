@@ -2,7 +2,7 @@
 
 
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Container from "../shared/Container";
 import Card from "../shared/Card";
 import { useRouter } from "next/navigation";

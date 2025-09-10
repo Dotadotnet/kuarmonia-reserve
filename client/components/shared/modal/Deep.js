@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Deep = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null; // اگر مدال باز نیست، چیزی نمایش نده

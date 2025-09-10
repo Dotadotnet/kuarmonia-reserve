@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";

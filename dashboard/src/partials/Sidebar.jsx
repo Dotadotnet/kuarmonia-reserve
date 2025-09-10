@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
 import Currency from "@/components/icons/Currency";

@@ -1,7 +1,7 @@
 "use client";
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { RiChatQuoteFill } from "react-icons/ri";
 import { useKeenSlider } from "keen-slider/react";

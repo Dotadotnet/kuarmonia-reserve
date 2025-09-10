@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Shop = ({ className = "", size = 24, color = "#22b973", ...props }) => {
   return (

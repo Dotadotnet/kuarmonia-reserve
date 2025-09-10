@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 import Price from "@/components/icons/Price";
 import Hero from "@/components/icons/Hero";
 import Location from "@/components/icons/Location";

@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 import Content from '@/components/icons/Content';
 import Gallery from '@/components/icons/Gallery';
 import Branch from '@/components/icons/Branch';

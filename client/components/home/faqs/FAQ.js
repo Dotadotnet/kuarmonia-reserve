@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
 const FAQ = ({ faqs }) => {

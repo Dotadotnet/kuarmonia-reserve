@@ -1,4 +1,3 @@
-import React from "react";
 import Instagram from "./Instagram";
 import Telegram from "./Telegram";
 import WhatsApp from "./WhatsApp";

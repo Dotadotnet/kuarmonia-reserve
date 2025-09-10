@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDeleteCurrencyMutation, useGetCurrencyQuery } from "@/services/currency/currencyApi";
 import { toast } from "react-hot-toast";
 import DeleteModal from "@/components/shared/modal/DeleteModal";

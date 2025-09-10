@@ -1,4 +1,4 @@
-import React from "react";
+
 import NavigationButton from "@/components/shared/button/NavigationButton";
 
 const Step1 = ({ nextStep, errors, register ,watch }) => {

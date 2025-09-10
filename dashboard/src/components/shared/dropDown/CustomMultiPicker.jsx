@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // آیکون جستجو (SVG)
 const SearchIcon = ({ color = "black", size = 20 }) => (

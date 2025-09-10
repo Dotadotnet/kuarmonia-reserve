@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const InfoTable = ({ data, fields }) => {
   const filteredFields = fields.filter((field) => !field.ignore);

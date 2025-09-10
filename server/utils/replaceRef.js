@@ -104,11 +104,12 @@ module.exports = class replaceRef {
                     if (data[this.targetFild] && data[this.targetFild][0]) {
                         for (let i = 0; i < data[this.targetFild].length; i++) {
                             let translated = this.getRecordObjectId(data[this.targetFild][i]["translation"]);
-                            if (translated.language)
+                            if (translated){
                                 object_translate[translated.language] = translated.fields;
+                            }
                         }
                     }
-                    if (Object.keys(object_translate).length) {
+                    if (Object.keys(object_translate).length && object_translate[this.lang]) {
                         for (const [key, value] of Object.entries(object_translate[this.lang])) {
                             if (key == "slug") {
                                 data["slug"] = object_translate.en.slug

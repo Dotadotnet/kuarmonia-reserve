@@ -24,8 +24,8 @@ function SearchInput({ defaultText, url = null }) {
         }
     }
     return (
-        <label htmlFor="search" className="items-center mt-5 md:mt-0 flex-row-reverse md:justify-end justify-end flex">
-            <button onClick={() => { handleSearch() }} type="button" class="text-white rtl:mr-3 ml-3 cursor-pointer bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 flex justify-center items-center h-9 text-center ">
+        <label htmlFor="search" className="items-center mt-5 md:mt-0 flex-wrap-reverse gap-3 flex-row-reverse md:justify-center justify-center flex">
+            <button onClick={() => { handleSearch() }} type="button" class="text-white text-nowrap rtl:mr-3 ml-3 cursor-pointer bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-3 flex justify-center items-center h-9 text-center ">
                 {
                     searching ?
                         <PulseLoader color="#ffffff"  />
@@ -53,6 +53,7 @@ function SearchInput({ defaultText, url = null }) {
                 <input
                     type="search"
                     id="search"
+                    autocomplete="off" 
                     onKeyUp={(event) => {
                         if (event.keyCode === 13) {
                             handleSearch()

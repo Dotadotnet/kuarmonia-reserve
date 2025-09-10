@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Clock,
   Calendar,
@@ -42,7 +42,6 @@ const VisaContent = ({ visa, locale, related }) => {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
-  console.log(" visas", visa);
   return (
     <>
       <div className="relative">
@@ -406,7 +405,6 @@ const VisaContent = ({ visa, locale, related }) => {
                     otherVisa?.translations?.find(
                       (t) => t.translation?.language === locale
                     )?.translation?.fields || {};
-                  console.log("otherVisa", otherVisa);
                   return (
                     <Link
                       href={`/${locale}/visas/${otherVisa.visaId}/${otherVisa.slug_en}`}
@@ -472,7 +470,6 @@ const VisaContent = ({ visa, locale, related }) => {
                   otherVisa?.translations?.find(
                     (t) => t.translation?.language === locale
                   )?.translation?.fields || {};
-                console.log("otherVisa", otherVisa);
                 return (
                   <Link
                     href={`/${locale}/visas/${otherVisa.visaId}/${otherVisa.slug_en}`}

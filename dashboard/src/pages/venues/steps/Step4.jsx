@@ -1,5 +1,5 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import GeoLocation from "@/components/detail/GeoLocation";
 
 const Step4 = ({

@@ -1,5 +1,5 @@
 // components/signup/steps/PasswordStep.jsx
-import React from "react";
+
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import  OutlineEye  from "@/components/icons/OutlineEye";
 import  OutlineEyeInvisible  from "@/components/icons/OutlineEyeInvisible";

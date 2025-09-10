@@ -5,7 +5,7 @@ import {
 } from "@/services/gallery/galleryApi";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Edit from "@/components/icons/Edit";
 import { useDispatch } from "react-redux";
 import { setGallery } from "@/features/gallery/gallerySlice";

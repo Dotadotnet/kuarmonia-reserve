@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const Square = ({ className, ...props }) => {
   return (

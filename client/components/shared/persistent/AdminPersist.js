@@ -1,7 +1,7 @@
 
 
 import { usePersistAdminQuery } from "@/services/auth/adminAuthApi";
-import React from "react";
+
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import Screen from "../../../app/Loading";

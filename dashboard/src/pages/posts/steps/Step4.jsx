@@ -1,5 +1,5 @@
 // Step3.js
-import React, { useMemo, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 import { Controller } from "react-hook-form";
 import Plus from "@/components/icons/Plus";
 import Tag from "@/components/icons/Tag";

@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import SkeletonImage from "../skeleton/SkeletonImage";
 import SkeletonText from "../skeleton/SkeletonText";
 import Time from "@/components/icons/Calendar";
 
-export default function OpportunityThumbnailCard({ opportunity ,locale }) {
+export default function OpportunityThumbnailCard({ opportunity, locale }) {
   const [showAdditionalContent, setShowAdditionalContent] = useState(false);
 
   const toggleAdditionalContent = () => {
@@ -20,7 +20,8 @@ export default function OpportunityThumbnailCard({ opportunity ,locale }) {
           <div className="w-32 h-32 rounded-full relative">
             <Image
               src={opportunity.jobType.thumbnail.url}
-              alt="feature tour"
+              quality={1}
+              priority={false}
               width={128}
               height={128}
               className="object-cover rounded-full"
@@ -90,18 +91,18 @@ export default function OpportunityThumbnailCard({ opportunity ,locale }) {
         <span className="min-w-10 text-sm">
           {opportunity?.endDate
             ? new Date(opportunity.endDate).toLocaleDateString(locale, {
-                day: "numeric",
-                month: "long"
-              })
+              day: "numeric",
+              month: "long"
+            })
             : ""}
         </span>
         <span className="text-xs text-gray-700">
           {" - "}
           {opportunity?.startDate
             ? new Date(opportunity.startDate).toLocaleDateString(locale, {
-                day: "numeric",
-                month: "long"
-              })
+              day: "numeric",
+              month: "long"
+            })
             : ""}
         </span>
         <Time />

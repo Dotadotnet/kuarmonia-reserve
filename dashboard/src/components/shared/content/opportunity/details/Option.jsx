@@ -1,4 +1,4 @@
-import React from "react";
+
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import Dollar from "@/components/icons/Dollars";
 import Location from "@/components/icons/Location";

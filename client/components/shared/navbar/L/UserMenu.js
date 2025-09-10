@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 import Search from "../searchTrio/Search";
 import Cart from "../cart/Cart";
 import Auth from "../auth/Auth";

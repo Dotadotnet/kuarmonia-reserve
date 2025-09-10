@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const ShieldCheck = (props) => {
   return (

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -37,7 +37,7 @@ function Left() {
           className={
             prev +
             " " +
-            "hover:scale-125 transition-all  ltr:right-1 rtl:-right-5 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer text-gray-700 w-8 h-8 bg-white dark:bg-gray-700 border-white dark:border-gray-900 -lg text-lg"
+            "hover:scale-125 transition-all  ltr:right-1 rtl:-right-5 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer text-gray-700 w-8 h-8 bg-gray-200 dark:bg-gray-700 border-white dark:border-gray-900 -lg text-lg"
           }
         >
           <span>
@@ -48,7 +48,7 @@ function Left() {
           className={
             next +
             " " +
-            " hover:scale-125 transition-all ltr:-left-5 rtl:left-1 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-100 border-white  text-lg dark:bg-gray-700"
+            " hover:scale-125 transition-all ltr:-left-5 rtl:left-1 absolute flex justify-center items-center p-4 border-4 rounded-full cursor-pointer dark:border-gray-900 text-gray-700 w-8 h-8 bg-gray-200 border-white  text-lg dark:bg-gray-700"
           }
         >
           <span>
@@ -86,7 +86,7 @@ function Left() {
         >
           <SwiperSlide>
             <div className="flex flex-col gap-y-4 justify-start items-center p-4 text-right ">
-          <h2
+              <h2
                 className="text-5xl  text-white  w-full text-right"
                 initial={{ x: -200, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
@@ -102,9 +102,8 @@ function Left() {
             </div>
 
             <div
-              className={`absolute  flex  -bottom-8 ${
-                lang === "fa" ? "left-44" : "right-44"
-              } md:flex`}
+              className={`absolute  flex  -bottom-8 ${lang === "fa" ? "left-44" : "right-44"
+                } md:flex`}
             >
               {" "}
               <motion.div
@@ -121,17 +120,16 @@ function Left() {
                   src="/assets/home-page/banner/building1.webp"
                   height={872}
                   width={500}
-                  alt="سرمایه گذاری"
+                  priority={false}
+                  quality={10}
                   className="w-40 block md:mr-auto"
                   style={{ aspectRatio: "500 / 872" }}
-                  priority
                 />
               </motion.div>
             </div>
             <div
-              className={`absolute  flex  -bottom-8 ${
-                lang === "fa" ? "-left-60" : "-right-44"
-              } md:flex`}
+              className={`absolute  flex  -bottom-8 ${lang === "fa" ? "-left-60" : "-right-44"
+                } md:flex`}
             >
               {" "}
               <motion.div
@@ -148,7 +146,8 @@ function Left() {
                   src="/assets/home-page/banner/marriage1.webp"
                   height={500}
                   width={500}
-                  alt="ازدواج بین‌المللی"
+                  priority={false}
+                  quality={10}
                   className="w-80 ml-4 block md:mr-auto"
                 />
               </motion.div>
@@ -172,9 +171,8 @@ function Left() {
               </h2>
             </div>
             <div
-              className={`absolute  flex  -bottom-8 ${
-                lang === "fa" ? "-left-44" : "-right-44"
-              } md:flex`}
+              className={`absolute  flex  -bottom-8 ${lang === "fa" ? "-left-44" : "-right-44"
+                } md:flex`}
             >
               <motion.div
                 animate={{
@@ -190,7 +188,8 @@ function Left() {
                   src="/assets/home-page/banner/marriage2.webp"
                   height={872}
                   width={500}
-                  alt="ازدواج بین االمللی"
+                  priority={false}
+                  quality={10}
                   className="w-80  ml-4 block md:mr-auto"
                 />
               </motion.div>
@@ -214,9 +213,8 @@ function Left() {
               </h2>
             </div>
             <div
-              className={`absolute  flex  -bottom-8 ${
-                lang === "fa" ? "-left-44" : "-right-44"
-              } md:flex`}
+              className={`absolute  flex  -bottom-8 ${lang === "fa" ? "-left-44" : "-right-44"
+                } md:flex`}
             >
               {" "}
               <motion.div
@@ -233,7 +231,8 @@ function Left() {
                   src="/assets/home-page/banner/tourism.webp"
                   height={872}
                   width={500}
-                  alt="'گردشگری و تفریحی"
+                  priority={false}
+                  quality={10}
                   className="  ml-4 block md:mr-auto"
                 />
               </motion.div>

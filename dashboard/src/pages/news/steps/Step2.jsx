@@ -1,5 +1,5 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useGetTagsQuery } from "@/services/tag/tagApi";
 import MultiSelect from "@/components/shared/dropDown/MultiSelect";
 import { Controller } from "react-hook-form";

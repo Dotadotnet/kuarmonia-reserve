@@ -2,7 +2,7 @@
 
 import OutsideClick from "@/components/shared/outsideClick/OutsideClick";
 import { addTravelAvailability } from "@/features/travelAvailability/travelAvailabilitySlice";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { MdDateRange } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";

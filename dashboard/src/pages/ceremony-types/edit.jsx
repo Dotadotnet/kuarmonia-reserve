@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
 import { useUpdateCeremonyTypeMutation, useGetCeremonyTypeQuery } from "@/services/ceremonyType/ceremonyTypeApi";
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
 import EditButton from "@/components/shared/button/EditButton";

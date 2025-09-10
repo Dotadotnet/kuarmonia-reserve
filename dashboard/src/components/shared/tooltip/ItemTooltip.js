@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const ItemTooltip = ({ children, tooltipText, portal }) => {
   const [isHovered, setIsHovered] = useState(false);

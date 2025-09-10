@@ -1,5 +1,5 @@
 // components/signup/steps/EmailStep.jsx
-import React from "react";
+
 import NavigationButton from "@/components/shared/button/NavigationButton";
 
 const EmailStep = ({ register, errors, prevStep, nextStep }) => {

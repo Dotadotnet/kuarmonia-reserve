@@ -1,6 +1,6 @@
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
-import React from "react";
+
 
 const NewsCardSkeleton = () => {
   return (

@@ -1,6 +1,6 @@
 // components/signup/steps/NameStep.jsx
 
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useGetTagsQuery } from "@/services/tag/tagApi";
 import MultiSelect from "@/components/shared/dropDown/MultiSelect";
 import { Controller } from "react-hook-form";

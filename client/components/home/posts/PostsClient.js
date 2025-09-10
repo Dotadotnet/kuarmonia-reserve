@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 import PostCard from "@/components/shared/card/PostCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";

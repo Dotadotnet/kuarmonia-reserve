@@ -1,5 +1,5 @@
 
-import React, {  useState } from "react";
+import {  useState } from "react";
 import Bag from "../icons/Bag";
 import Spinner from "../shared/Spinner";
 import OutlinePlus from "../icons/OutlinePlus";

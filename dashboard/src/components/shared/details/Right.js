@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import CartButton from "./CartButton";
 import Description from "./Description";

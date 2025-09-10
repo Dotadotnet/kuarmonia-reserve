@@ -1,4 +1,4 @@
-import React from "react";
+
 import { toPersianNumbers } from "@/utils/convertNumbers";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import Calendar from "@/components/icons/Calendar";

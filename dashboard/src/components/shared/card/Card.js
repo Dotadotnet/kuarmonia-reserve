@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { AiFillStar, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoMdPricetag } from "react-icons/io";
 import {

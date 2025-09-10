@@ -1,4 +1,4 @@
-import React from "react";
+
 import GalleryUpload from "@/components/shared/gallery/GalleryUpload";
 import DisplayImages from "@/components/shared/gallery/DisplayImages";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";

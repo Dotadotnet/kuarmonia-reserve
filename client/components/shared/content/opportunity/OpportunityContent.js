@@ -13,7 +13,6 @@ const OpportunityDetail = ({ opportunity, isMobile }) => {
       (1000 * 60 * 60 * 24)
     )
     : null;
-  console.log(opportunity);
 
   return (
     <div className="relative h-full overflow-y-auto scrollbar-hide p-4">

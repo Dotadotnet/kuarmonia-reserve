@@ -1,5 +1,4 @@
 // app/components/Sidebar.jsx
-import React from "react";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import Button from "@/components/shared/button/Button";

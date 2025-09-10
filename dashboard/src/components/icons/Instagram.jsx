@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const Instagram = ({className,...props }) => {
   return (

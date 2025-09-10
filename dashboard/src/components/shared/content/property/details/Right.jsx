@@ -1,4 +1,4 @@
-import React from "react";
+
 import CartButton from "./CartButton";
 import Description from "./Description";
 import {toPersianNumbers} from "@/utils/convertNumbers";

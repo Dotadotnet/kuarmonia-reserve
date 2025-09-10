@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import SearchInput from "../../search/input";
 
-const SearchFilter = ({ setIsModalOpen }) => {
+const SearchFilter = () => {
   const locale = useLocale();
   const host = process.env.NEXT_PUBLIC_BASE_URL;
   const hostLang = host + (locale == "fa" ? "" : "/" + locale);

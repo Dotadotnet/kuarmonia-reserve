@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Discount from "../icons/Discount";
 import SoldOut from "../icons/SoldOut";
 import Arrival from "../icons/Arrival";

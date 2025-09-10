@@ -1,6 +1,6 @@
 // components/signup/steps/PasswordStep.jsx
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Modal from "@/components/shared/modal/Modal";
 import Apply from "@/components/icons/Apply";
 import TextEditor from "@/components/shared/textEditor/TextEditor";

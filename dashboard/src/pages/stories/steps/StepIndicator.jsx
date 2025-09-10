@@ -1,6 +1,7 @@
-import React from "react";
+
 import ShieldCheck from "@/components/icons/ShieldCheck";
 import ShieldAlert from "@/components/icons/ShieldAlert";
+import React from "react";
 
 const StepIndicator = ({ currentStep, totalSteps, onStepClick, completedSteps, invalidSteps }) => {
   return (

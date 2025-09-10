@@ -1,7 +1,4 @@
-import React from "react";
-
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
-import Cart from "../cart/Cart";
 import Search from "../searchTrio/Search";
 import Auth from "../auth/Auth";
 import WhatsAppLink from "../../button/WhatsAppLink";

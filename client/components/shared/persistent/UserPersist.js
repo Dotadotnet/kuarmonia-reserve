@@ -1,6 +1,6 @@
 'use client'
 import { usePersistUserQuery } from "@/services/auth/userAuthApi";
-import React from "react";
+
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import Screen from "../../../app/Loading";

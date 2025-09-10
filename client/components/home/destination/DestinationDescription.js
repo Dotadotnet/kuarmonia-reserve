@@ -1,5 +1,5 @@
 import HighlightText from "@/components/shared/highlightText/HighlightText";
-import React from "react";
+
 import Image from 'next/image'
 
 const DestinationDescription = () => {

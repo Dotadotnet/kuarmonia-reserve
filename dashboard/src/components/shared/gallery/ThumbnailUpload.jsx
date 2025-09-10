@@ -1,4 +1,4 @@
-import React from "react";
+
 import CloudUpload from "@/components/icons/CloudUpload";
 
 const ThumbnailUpload = ({

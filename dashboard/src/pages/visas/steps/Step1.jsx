@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import Modal from "@/components/shared/modal/Modal";
 import Apply from "@/components/icons/Apply";

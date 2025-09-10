@@ -1,4 +1,4 @@
-import React from "react";
+
 import { AiTwotoneFire } from "react-icons/ai";
 import Image from "next/image";
 import { color, motion } from "framer-motion";
@@ -51,69 +51,60 @@ function Right() {
             <Image
               src="/assets/home-page/banner/model1.webp"
               alt="model"
+              priority={false}
+              quality={10}
               height={872}
               width={500}
               className="lg:w-[400px] ltr:-scale-x-100 hidden md:block lg:ml-0 md:ml-auto"
             />
-            <Image
+            {/* <Image
               src="/assets/home-page/banner/model2.webp"
               alt="model"
-              height={872}
+              priority={false}
+              quality={10}
+              height={302}
               width={500}
               className="lg:w-[400px] lg:ml-0 md:hidden block md:ml-auto"
-            />
+            /> */}
           </motion.div>
         </motion.div>
         <div className="md:grid md:grid-cols-12 md:py-4 md:gap-4">
           <div className="md:col-span-6 hidden md:flex "></div>
           <div className="md:col-span-6 flex flex-col gap-4 p-8 md:p-4">
-            <motion.p
-            style={{ color : "white"}}
+            <p
+              style={{ color: "white" }}
               className="md:text-6xl dark:text-white text-white font-bold   text-5xl w-full text-right"
-              initial={{ x: -200, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.3 }}
             >
               {t("heroTitle")}
-            </motion.p>
-            <h1 className="md:text-4xl  text-5xl font-bold !text-black">
+            </p>
+            <h1 className="md:text-4xl  text-2xl font-bold !text-black">
               {t("heroSubtitle")}
             </h1>
 
-            <motion.p
+            <p
               className="md:text-3xl font-nozha text-4xl w-full text-right"
-              initial={{ x: -200, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.4 }}
             >
               <span className="text-white  [word-spacing:0.4rem]">
                 {t("heroSlogan")}
               </span>
-            </motion.p>
+            </p>
 
-            <motion.p
+            <p
               className="flex flex-row gap-x-0.5 items-center text-right justify-start md:text-md text-black"
-              initial={{ x: -200, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6 }}
             >
               {t("heroDescription")}
               <AiTwotoneFire
                 className="text-[#ffa384] w-12 h-12 drop-shadow"
                 aria-hidden="true"
               />
-            </motion.p>
+            </p>
 
-            <motion.button
+            <button
               className="px-8 py-4 border border-black justify-start rounded-secondary bg-black hover:bg-black/90 text-white transition-colors drop-shadow w-fit mt-4"
               onClick={() => router.push("/tours")}
-              aria-label="مشاهده تورهای مهاجرت و سرمایه‌گذاری"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 100, damping: 15 }}
             >
               {t("heroButton")}
-            </motion.button>
+            </button>
           </div>
         </div>
       </div>

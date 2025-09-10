@@ -1,4 +1,4 @@
-import React from "react";
+
 
 import ShieldAlert from "@/components/icons/ShieldAlert"
 import ShieldCheck from "@/components/icons/ShieldCheck"

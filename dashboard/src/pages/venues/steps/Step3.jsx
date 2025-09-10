@@ -1,6 +1,6 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import { useGetCurrenciesQuery } from "@/services/currency/currencyApi";
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Dropdown from "@/components/shared/dropDown/Dropdown";

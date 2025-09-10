@@ -1,4 +1,4 @@
-// import React, { useState, useEffect, forwardRef } from 'react';
+// import { useState, useEffect, forwardRef } from 'react';
 // import './ckeditor-dark.css'; // اطمینان حاصل کنید که مسیر صحیح است
 
 // const RTEditor = forwardRef(({ value, onChange, ...props }, ref) => {

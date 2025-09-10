@@ -1,4 +1,3 @@
-import React from "react";
 import Logo from "../../logo/Logo";
 import FooterPayment from "./FooterPayment";
 import { useTranslations } from "next-intl";

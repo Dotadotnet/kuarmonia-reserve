@@ -1,5 +1,5 @@
 import RentCardSkeleton from "@/components/shared/skeleton/RentCardSkeleton";
-import React from "react";
+
 
 const RebtLoading = () => {
   return (

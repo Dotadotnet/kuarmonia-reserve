@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const SkeletonText = ({ lines = 5, className ,color="gray" }) => {
   return (

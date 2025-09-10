@@ -1,4 +1,4 @@
-import React from "react";
+
 import SocialLinksInput from "@/components/shared/input/SocialLinksInput";
 
 const InformationStep = ({

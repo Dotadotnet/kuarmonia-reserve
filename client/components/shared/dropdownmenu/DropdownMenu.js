@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 import Popover from '@/components/shared/modal/Popover';
 
 const DropdownMenu = ({ isOpen, position, onClose, items }) => {

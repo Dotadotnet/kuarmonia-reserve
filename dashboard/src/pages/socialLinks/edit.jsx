@@ -5,7 +5,7 @@ import {
   useUpdateSocialLinkMutation,
   useGetSocialLinkQuery
 } from "@/services/socialLink/socialLinkApi";
-import React, { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
 import Edit from "@/components/icons/Edit";

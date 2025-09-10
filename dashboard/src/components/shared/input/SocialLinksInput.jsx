@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useGetSosialLinksQuery } from "@/services/socialLink/socialLinkApi";
 import toast from "react-hot-toast";
 import IconOnlyDropdown from "@/components/shared/dropDown/IconOnlyDropdown";

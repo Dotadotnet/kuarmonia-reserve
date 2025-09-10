@@ -1,5 +1,5 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Dropdown from "@/components/shared/dropDown/Dropdown";
 import { useGetJobModesQuery } from "@/services/jobMode/jobModeApi";
 import { Controller } from "react-hook-form";

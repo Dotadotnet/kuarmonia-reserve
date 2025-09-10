@@ -1,6 +1,6 @@
 
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { AiOutlineCalendar, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BiCodeAlt } from "react-icons/bi";
 import { FiUsers } from "react-icons/fi";
@@ -123,7 +123,6 @@ const Left = () => {
   }
 
   function handleIntegratePurchase(data) {
-    console.log(data);
     setIsOpen(true);
     dispatch(setBooking(data));
   }
@@ -356,8 +355,6 @@ function Checkout({ rent, setIsOpen, members }) {
   }, [data, error, isLoading]);
 
   function handleIntegratePurchase(data) {
-    console.log(data);
-
     createPaymentIntent({
       rent: rent?._id,
       ...booking,

@@ -1,6 +1,6 @@
 // components/GallerySkeleton.jsx
 
-import React from "react";
+
 
 const SkeletonBox = ({ height = "h-32", width = "w-1/2" }) => (
   <div className={`p-1 md:p-2 ${width}`}>

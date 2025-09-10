@@ -1,7 +1,7 @@
 
 
 import { Link } from "@/i18n/navigation";
-import React from "react";
+
 import OutsideClick from "../../outsideClick/OutsideClick";
 import { useSelector } from "react-redux";
 
@@ -35,7 +35,7 @@ const MenuItems = ({ isOpen, setIsOpen }) => {
   return (
     isOpen && (
       <OutsideClick onOutsideClick={handleOutsideClick}>
-        <section className="absolute top-full right-0 w-40 mt-2 z-50">
+        <section className="absolute  top-full right-0 w-40 mt-2 z-50">
           <div className="w-full h-full bg-secondary dark:bg-gray-700 shadow rounded border border-primary/20 dark:border-blue-500">
             <div className="flex flex-col gap-y-3 py-primary">
               {Object.keys(admin).length > 0 && (
@@ -93,7 +93,7 @@ const MenuItems = ({ isOpen, setIsOpen }) => {
             </div>
           </div>
         </section>
-      </OutsideClick>
+       </OutsideClick>
     )
   );
 };

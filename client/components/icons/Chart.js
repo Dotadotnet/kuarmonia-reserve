@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Chart = ({ className, ...props }) => {
   return (

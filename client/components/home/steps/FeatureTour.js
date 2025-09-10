@@ -2,7 +2,7 @@
 import Button from "@/components/shared/button/Button";
 import OutsideClick from "@/components/shared/outsideClick/OutsideClick";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { useState } from "react";
 import { AiFillCar } from "react-icons/ai";
 import { BiMap } from "react-icons/bi";
 import { FaPlaneDeparture } from "react-icons/fa";

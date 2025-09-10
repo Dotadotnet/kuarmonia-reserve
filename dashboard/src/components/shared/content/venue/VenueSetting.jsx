@@ -1,4 +1,4 @@
-import React from "react";
+
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 
 function VenueSetting({ venue }) {

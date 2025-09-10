@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Star } from "@/utils/SaveIcon";
 import { useRouter } from "next/navigation";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";

@@ -1,5 +1,5 @@
 import ControlPanel from "../ControlPanel";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useGetGalleriesQuery } from "@/services/gallery/galleryApi";
 import AddGallery from "./add";
 import DeleteModal from "@/components/shared/modal/DeleteModal";

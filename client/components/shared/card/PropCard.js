@@ -1,4 +1,4 @@
-import React from "react";
+
 import Square from "@/components/icons/Square";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
@@ -86,9 +86,10 @@ const PropertyCard = ({ property }) => {
           <Image
             src={property?.thumbnail?.url || "/placeholder.png"}
             height={600}
+            quality={2}
+            priority={false}
             width={600}
             className="w-full h-full object-cover"
-            alt="تصویر ملک"
           />
         </div>
 

@@ -1,10 +1,6 @@
 
-import React from "react";
 import Main from "@/layouts/Main";
-import Head from "next/head";
 import Container from "@/components/shared/container/Container";
-import { motion } from "framer-motion";
-import Image from "next/image";
 import Introduction from "./Introduction";
 import HeaderSection from "./HeaderSection";
 import TeamSection from "./TeamSection";
@@ -15,7 +11,6 @@ import NewsLetter from "@/components/home/news-letter/NewsLetter";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import { getLocale, getTranslations } from "next-intl/server";
 import language from "@/app/language";
-import { headers } from "next/headers";
 
 export async function generateMetadata() {
   const canonical = await canonicalUrl()

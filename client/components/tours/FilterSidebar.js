@@ -1,7 +1,7 @@
 'use client'
 import migrationMethods from "@/data/migrationMethods";
 import useGetCountries from "@/hooks/useGetCountries";
-import React, { useState } from "react";
+import { useState } from "react";
 // import { AiOutlineReload } from "react-icons/ai";
 // import { BiSolidStar } from "react-icons/bi";
 import { useDispatch } from "react-redux";

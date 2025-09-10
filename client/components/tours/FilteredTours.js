@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Card from "../shared/card/Card";
 import SkeletonCard from "../shared/card/SkeletonCard";
 import { useGetFilteredRentsMutation } from "@/services/rent/rentApi";

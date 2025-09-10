@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import SocialLinksInput from "@/components/shared/input/SocialLinksInput";
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
 import { Controller } from "react-hook-form";

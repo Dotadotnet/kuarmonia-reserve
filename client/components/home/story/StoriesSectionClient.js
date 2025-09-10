@@ -96,7 +96,7 @@ export default function StoriesSectionClient({ banners }) {
   return (
     <section className="pt-24 overflow-auto">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex py-2 gap-6 overflow-x-auto scrollbar-hide flex-nowrap px-2 sm:justify-center no-scrollbar">
+        <div className="flex py-2 gap-6 overflow-x-auto scrollbar-hide flex-nowrap px-2 justify-center no-scrollbar">
           {banners.map((banner) => {
             const randomGradient =
               gradientClasses[Math.floor(Math.random() * gradientClasses.length)];
@@ -119,14 +119,15 @@ export default function StoriesSectionClient({ banners }) {
                         width={200}
                         height={200}
                         src={banner.thumbnail.url}
-                        alt={banner.creator.name}
+                        priority={false}
+                        quality={2}
                         className="w-full h-full object-cover"
                       />
                     </div>
                   </div>
                 </div>
 
-                <span className="text-sm font-medium text-gray-700 mt-2 max-w-20 truncate text-center">
+                <span className="text-sm font-medium text-gray-900 font-bold dark:text-white mt-2 max-w-20 truncate text-center">
                   {getTranslation(banner.translations, "title", banner.creator.name)}
                 </span>
               </div>

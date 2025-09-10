@@ -1,7 +1,7 @@
-import React from "react";
+
 import Image from "next/image";
 
-const LoadImage = ({ src, alt, height, width, ...rest }) => {
+const LoadImage = ({ src, alt, height , quality = 100 , priority = true  , width, ...rest }) => {
 
 
   function toBase64(str) {
@@ -13,13 +13,12 @@ const LoadImage = ({ src, alt, height, width, ...rest }) => {
   }
 
   return (
-    <Image  
+    <Image
       src={src}
-      alt={alt}
+      quality={quality}
+      priority={priority}
       height={height}
       width={width}
-      placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(20, 10))}`}
-      blurDataURL={`data:image/svg+xml;base64,${toBase64(shimmer(20, 10))}`}
       {...rest}
     />
   );

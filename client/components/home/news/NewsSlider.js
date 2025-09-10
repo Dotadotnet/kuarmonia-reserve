@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import NewsCard from "@/components/shared/card/NewsCard";
 import NewsCardSkeleton from "@/components/shared/skeleton/NewsCardSkeleton";
 import { Swiper, SwiperSlide } from "swiper/react";

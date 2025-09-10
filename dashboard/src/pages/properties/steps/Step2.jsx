@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ModalPortal from "@/components/shared/modal/ModalPortal";
 import Modal from "@/components/shared/modal/Modal";
 import { Controller } from "react-hook-form";

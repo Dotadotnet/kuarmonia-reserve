@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
 import { useAddCategoryMutation } from "@/services/category/categoryApi";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
 import AddButton from "@/components/shared/button/AddButton";

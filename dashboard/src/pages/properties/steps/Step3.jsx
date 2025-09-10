@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ArrayInput from "@/components/shared/tools/ArrayInput";
 const Step3 = ({ register, errors }) => {
   const [activeTab, setActiveTab] = useState("unit");

@@ -1,6 +1,6 @@
 import Modal from "@/components/shared/modal/Modal";
 import Avatar from "./Avatar";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import  CloudUpload  from "@/components/icons/CloudUpload";
 
 const ProfileImageSelector = ({ onImageSelect }) => {

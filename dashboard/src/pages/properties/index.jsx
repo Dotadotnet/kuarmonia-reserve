@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useGetPropertiesQuery } from "@/services/property/propertyApi";
 import { toast } from "react-hot-toast";
 import Metrics from "@/components/shared/tools/Metrics";

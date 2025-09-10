@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 import Shipping from "../icons/Shipping";
 import Return from "../icons/Return";
 import Delivery from "../icons/Delivery";

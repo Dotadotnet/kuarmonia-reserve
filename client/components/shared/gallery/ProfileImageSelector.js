@@ -1,6 +1,6 @@
 import Modal from "@/components/shared/modal/Modal"; // مطمئن شوید که مسیر درست است
 import Avatar from "./Avatar"; // مطمئن شوید که مسیر درست است
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
 const ProfileImageSelector = ({ onImageSelect }) => {

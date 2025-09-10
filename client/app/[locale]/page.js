@@ -173,7 +173,7 @@ export default async function Home({ params }) {
         <Opportunity opportunity={opportunity} />
         <Rent rent={rent} />
         <Visa params={params} />
-        <NewsLetter />
+        {/* <NewsLetter /> */}
       </>
    </Main>
   );

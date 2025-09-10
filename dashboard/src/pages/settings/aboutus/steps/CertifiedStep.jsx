@@ -1,6 +1,6 @@
 // components/signup/steps/PasswordStep.jsx
 
-import React from "react";
+
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
 import SocialLinksInput from "@/components/shared/input/SocialLinksInput";
 

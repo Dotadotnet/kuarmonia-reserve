@@ -1,5 +1,5 @@
 import ControlPanel from "../ControlPanel";
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import AddButton from "@/components/shared/button/AddButton";
 import {
   useGetPostsQuery

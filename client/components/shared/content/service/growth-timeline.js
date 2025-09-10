@@ -1,4 +1,4 @@
-import React from "react";
+
 import TimelineItem from "./timeline-item";
 
 const Timeline = ({ items }) => {

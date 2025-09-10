@@ -1,7 +1,7 @@
 
 
 
-import React from "react";
+
 import ChevronUp from "../icons/ChevronUp";
 import ChevronDown from "../icons/ChevronDown";
 import ChevronRight from "../icons/ChevronRight";

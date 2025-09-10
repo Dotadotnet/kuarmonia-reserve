@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const PSale = ({ className, ...props }) => {
   return (

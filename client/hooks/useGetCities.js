@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 export default function useGetCities(country, state) {
   const [cities, setCities] = useState([]);
-console.log(country)
   useEffect(() => {
     if (!country || !state) return;
 

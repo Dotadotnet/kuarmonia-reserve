@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDeleteGalleryMutation, useGetGalleryQuery } from "@/services/gallery/galleryApi";
 import { toast } from "react-hot-toast";
 import DeleteModal from "@/components/shared/modal/DeleteModal";

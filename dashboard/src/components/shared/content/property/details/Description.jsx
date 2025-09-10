@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DetailCard from "./DetailCard";
 import { toast } from "react-hot-toast";
 import Inform from "@/components/icons/Inform";

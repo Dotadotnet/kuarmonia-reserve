@@ -1,11 +1,10 @@
-import Head from 'next/head';
 import "../globals.css";
 import Auth from "../auth";
 import Session from "../session";
 import Providers from "../providers";
 import { Toaster } from "react-hot-toast";
 import language from "../language";
-import { NextIntlClientProvider, hasLocale, useLocale } from 'next-intl';
+import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { getLocale, getTranslations } from 'next-intl/server';

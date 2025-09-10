@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 
 const ProgressBar = ({ currentStep, totalSteps }) => {
   const percentage = (currentStep / totalSteps) * 100;

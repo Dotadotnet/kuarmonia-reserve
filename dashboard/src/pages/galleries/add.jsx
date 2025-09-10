@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/shared/button/Button";
 import { useAddGalleryMutation } from "@/services/gallery/galleryApi";
 import { toast } from "react-hot-toast";

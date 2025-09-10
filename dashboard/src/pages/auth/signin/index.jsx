@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Spinner from "@/components/shared/Spinner";
 import { NavLink } from "react-router-dom";
 import { useSignInMutation } from "@/services/auth/authApi";

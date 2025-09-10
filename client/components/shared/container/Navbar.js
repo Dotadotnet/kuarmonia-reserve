@@ -1,9 +1,8 @@
-import React from 'react';
+import React from 'react'; 
 import { RxCross2 } from 'react-icons/rx';
 import { HiMenuAlt4 } from 'react-icons/hi';
 import ToggleThemeButton from "@/components/shared/theme/ToggleThemeButton";
 import {SettingPannelIcon,SearchPannelIcon,NotificationPannelIcon} from "@/utils/SaveIcon";
-
 const Navbar = ({ router, open, setOpen }) => {
     return (
         <div className="2xl:mx-auto">

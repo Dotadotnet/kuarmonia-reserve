@@ -1,4 +1,4 @@
-import React from "react";
+
 import { motion } from "framer-motion";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { CgClose } from "react-icons/cg";

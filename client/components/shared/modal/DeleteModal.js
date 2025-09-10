@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Apply, Reject } from "@/utils/SaveIcon";
 import { FiTrash } from "react-icons/fi";
 

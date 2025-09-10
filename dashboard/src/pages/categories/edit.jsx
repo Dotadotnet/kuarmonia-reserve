@@ -5,7 +5,7 @@ import {
   useUpdateCategoryMutation,
   useGetCategoryQuery
 } from "@/services/category/categoryApi";
-import React, { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
 import Edit from "@/components/icons/Edit";

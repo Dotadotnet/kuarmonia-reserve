@@ -1,7 +1,7 @@
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import Button from "@/components/shared/button/Button";
-import React, { useState } from "react";
+import { useState } from "react";
 import OutsideClick from "@/components/OutsideClick";
 import Tooltip from "@/components/shared/tooltip/Tooltip";
 const ProductCard = ({ venue }) => {

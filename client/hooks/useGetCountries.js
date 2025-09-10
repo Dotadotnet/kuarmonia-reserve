@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import countryNamesFa from "./countryNamesFa.json"; // ایمپورت ترجمه‌ها
 
 export default function useGetCountries() {
   const [countries, setCountries] = useState([]);

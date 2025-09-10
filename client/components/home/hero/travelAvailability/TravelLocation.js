@@ -4,7 +4,7 @@
 import OutsideClick from "@/components/shared/outsideClick/OutsideClick";
 import { addTravelAvailability } from "@/features/travelAvailability/travelAvailabilitySlice";
 import useGetCountries from "@/hooks/useGetCountries";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BiChevronDown, BiMap } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import Image from 'next/image'

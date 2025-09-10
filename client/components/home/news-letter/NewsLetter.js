@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/shared/button/Button";
 import Container from "@/components/shared/container/Container";
-import React, { useState } from "react";
+import { useState } from "react";
 import { BiHotel } from "react-icons/bi";
 import Image from 'next/image';
 import { useTranslations } from "next-intl";

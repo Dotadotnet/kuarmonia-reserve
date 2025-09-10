@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 import Next from "@/components/icons/Next";
 import Prev from "@/components/icons/Prev";
 

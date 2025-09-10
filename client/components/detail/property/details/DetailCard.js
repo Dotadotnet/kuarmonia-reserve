@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 import { BiChevronDown, BiChevronRight, BiChevronUp } from "react-icons/bi";
 
 const DetailCard = ({ title, content }) => {

@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Container from "../shared/container/Container";
 import HighlightText from "../shared/highlightText/HighlightText";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";

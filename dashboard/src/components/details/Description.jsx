@@ -1,4 +1,4 @@
-import React from "react";
+
 import DetailCard from "./DetailCard";
 const Description = ({ product }) => {
   return (

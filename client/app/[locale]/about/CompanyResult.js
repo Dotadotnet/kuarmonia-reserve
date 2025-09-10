@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { useInView } from "react-intersection-observer";
 import { useTranslations } from "next-intl";
 export default function CompanyResults() {

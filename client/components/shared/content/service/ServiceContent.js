@@ -1,4 +1,4 @@
-import React from "react";
+
 
 import { FaTag } from "react-icons/fa";
 import Timeline from "./growth-timeline";

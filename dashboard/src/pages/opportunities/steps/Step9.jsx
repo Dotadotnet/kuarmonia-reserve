@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import Plus from "@/components/icons/Plus";
 import Minus from "@/components/icons/Minus";

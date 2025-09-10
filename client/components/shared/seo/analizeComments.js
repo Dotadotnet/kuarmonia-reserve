@@ -16,8 +16,6 @@ export default function analizeComments(objectModel) {
     reviews.forEach(review => {
         reviewCount++;
         reviewPoint += review.rating
-    });
-       console.log({ reviews, reviewCount, reviewPoint });
-       
+    });       
     return { reviews, reviewCount, reviewPoint }
 }

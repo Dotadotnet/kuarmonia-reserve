@@ -1,4 +1,4 @@
-import React from "react";
+
 import VenueTags from "./VenueTags";
 import VenueGallery from "./VenueGallery";
 import VenueHeader from "./VenueHeader";

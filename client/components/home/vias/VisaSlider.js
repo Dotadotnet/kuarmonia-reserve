@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 import VisaCard from "@/components/shared/card/VisaCard";
 import VisaCardSkeleton from "@/components/shared/skeleton/VisaCardSkeleton";
 import { Swiper, SwiperSlide } from "swiper/react";

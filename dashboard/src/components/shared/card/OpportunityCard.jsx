@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import User from "../../icons/User";

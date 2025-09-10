@@ -1,4 +1,4 @@
-import React from "react";
+
 import Minus from "@/components/icons/Minus";
 import Plus from "@/components/icons/Plus";
 

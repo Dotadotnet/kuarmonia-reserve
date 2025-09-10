@@ -1,4 +1,3 @@
-import React from 'react';
 import { BiErrorCircle } from 'react-icons/bi';
 import Link from 'next/link';
 import { useTranslations } from "next-intl";

@@ -1,18 +1,11 @@
 
 
 import JWT from "@/utils/jwt.util";
-import { Link } from "@/i18n/navigation";
-import React from "react";
+
 import { useSelector } from "react-redux";
-import { PiSignInLight } from "react-icons/pi";
 import Tooltip from "../../tooltip/Tooltip";
 import { CiUser } from "react-icons/ci";
-import { FaUserLock } from "react-icons/fa";
-import { FaHouseUser } from "react-icons/fa6";
 import { FaUserCog } from "react-icons/fa";
-
-import { BiSearch } from "react-icons/bi";
-
 
 const LargeDevice = () => {
   const admin = useSelector((state) => state?.auth);

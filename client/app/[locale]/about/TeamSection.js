@@ -1,11 +1,10 @@
 "use client";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useLocale, useTranslations } from "next-intl";
 import { useGetTeamLeaderQuery } from "@/services/teamMember/teamMemberApi";
-import { MdDescription } from "react-icons/md";
 export default function TeamSection() {
   const t = useTranslations("About");
   const locale = useLocale();

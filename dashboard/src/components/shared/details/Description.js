@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DetailCard from "./DetailCard";
 import Modal from "../shared/Modal";
 import { useAddReviewMutation } from "@/services/review/reviewApi";

@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Investment = ({ className, ...props }) => {
   return (

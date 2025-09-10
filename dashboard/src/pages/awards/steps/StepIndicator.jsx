@@ -1,8 +1,9 @@
 
-import React from "react";
+
 
 import ShieldAlert from "@/components/icons/ShieldAlert"
 import ShieldCheck from "@/components/icons/ShieldCheck"
+import React from "react";
 const StepIndicator = ({ currentStep, totalSteps, onStepClick, completedSteps, invalidSteps }) => {
   return (
     <div className="flex items-center justify-between mb-6 w-full">

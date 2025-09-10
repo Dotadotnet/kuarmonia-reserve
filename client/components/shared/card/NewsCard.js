@@ -1,6 +1,6 @@
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
-import React from "react";
+
 import Tooltip from "@/components/shared/tooltip/Tooltip";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
@@ -37,6 +37,8 @@ const NewsCard = ({ news }) => {
               <Image
                 src={news.thumbnail?.url}
                 alt="feature tour"
+                priority={false}
+                quality={2}
                 width={600}
                 height={144}
                 className="object-cover h-full w-full  rounded"
@@ -44,7 +46,8 @@ const NewsCard = ({ news }) => {
             )}
           </div>
         </div>
-        <div className="flex flex-row justify-center gap-x-2">
+        {/* <div className="flex flex-row justify-center gap-x-2">
+        
           {categories.map((item) => (
             <Tooltip
               position={"bottom"}
@@ -62,7 +65,7 @@ const NewsCard = ({ news }) => {
               </div>
             </Tooltip>
           ))}
-        </div>
+        </div> */}
       </div>
 
       <article className="flex flex-col gap-y-2.5 items-center dark:text-white w-full md:items-start">

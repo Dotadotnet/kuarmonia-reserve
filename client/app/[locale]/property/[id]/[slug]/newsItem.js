@@ -1,5 +1,4 @@
 // components/NewsItem.js
-import React from 'react';
 
 const NewsItem = ({ image, date, title }) => {
   return (

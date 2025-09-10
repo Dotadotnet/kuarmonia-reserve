@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const Modal = ({ isOpen, onClose, children, className }) => {
   if (!isOpen) return null;

@@ -1,4 +1,4 @@
-import React from "react";
+
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import ArrayInput from "@/components/shared/tools/ArrayInput";
 

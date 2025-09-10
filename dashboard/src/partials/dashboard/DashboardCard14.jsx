@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 import LineChart from '../../charts/LineChart03';
 
 import { tailwindConfig } from '../../utils/Utils';

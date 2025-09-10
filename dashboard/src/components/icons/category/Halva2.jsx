@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Halva2 = ({ className, ...props }) => {
   return (

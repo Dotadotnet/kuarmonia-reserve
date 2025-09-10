@@ -1,4 +1,4 @@
-import React from "react";
+
 import DynamicListInput from "@/components/shared/tools/DynamicListInput";
 
 const Step6 = ({ errors, faqs, setFaqs, costs, setCosts, durations, setDurations, documents, setDocuments }) => {

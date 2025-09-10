@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Controller } from "react-hook-form";
 import { useGetSaleTypesQuery } from "@/services/saleType/saleTypeApi";
 import { useGetTradeTypesQuery } from "@/services/tradeType/tradeTypeApi";

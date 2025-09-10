@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 
 import MediaCard from "@/components/shared/card/MediaCard";
 import { Swiper, SwiperSlide } from "swiper/react";

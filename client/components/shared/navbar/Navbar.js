@@ -1,17 +1,21 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Logo from "../logo/Logo";
 import Container from "../container/Container";
 import UserMenu from "./userMenu/UserMenu";
 import LargeMenu from "./largeMenu/LargeMenu";
 import ProgressBar from "@/components/shared/loading/ProgressBar";
 import MobileMenu from "@/components/shared/navbar/mobileMenu/MobileMenu";
-import ToolBar from "./mobileMenu/ToolBar";
 import MobileNav from "./mobileMenu/MobileNav";
+import { useTranslations } from "next-intl";
+import Modal from "../modal/Modal";
+import SearchFilter from "./searchTrio/SearchFilter";
 
 const Navbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setSearchIsOpen] = useState(false);
+  const t = useTranslations("HomePage");
   useEffect(() => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 800);
@@ -19,13 +23,25 @@ const Navbar = () => {
 
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
-
+    const whatsAppLogo = document.querySelector("div.floating-whatsapp");
+    if (isOpen) {
+      document.documentElement.classList.add('overflow-hidden');
+      if (whatsAppLogo) {
+        whatsAppLogo.style.display = "none"
+      }
+    } else {
+      document.documentElement.classList.remove('overflow-hidden');
+      if (whatsAppLogo) {
+        whatsAppLogo.style.display = "inline-block"
+      }
+    }
     return () => window.removeEventListener("resize", checkScreenSize);
   });
 
+
   return (
     <>
-      {isMobile && <MobileNav isOpen={isOpen} setIsOpen={setIsOpen} />}
+      {isMobile && <MobileNav setSearchIsOpen={setSearchIsOpen} isSearchOpen={isSearchOpen} isOpen={isOpen} setIsOpen={setIsOpen} />}
 
       <header>
         <Container>
@@ -37,12 +53,25 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <UserMenu />
+                <UserMenu setSearchIsOpen={setSearchIsOpen} isSearchOpen={isSearchOpen} />
 
                 <LargeMenu />
               </>
             )}
-           
+
+            <Modal
+              isOpen={isSearchOpen}
+              onClose={() => {
+                setSearchIsOpen(false)
+              }}
+              className="z-50"
+            >
+              <div className="flex flex-col gap-y-4 h-full">
+                <p className="text-2xl drop-shadow">{t("search.title")}</p>
+                <SearchFilter />
+              </div>
+            </Modal>
+
             <Logo justify="end" />
           </nav>
         </Container>

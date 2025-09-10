@@ -1,6 +1,3 @@
-
-
-import React from "react";
 import LargeDevice from "./LargeDevice";
 
 const TravelMenu = () => {

@@ -1,6 +1,6 @@
 "use client";
 import WhatsApp from "@/app/[locale]/contact/WhatsApp";
-import React from "react";
+
 
 export default function WhatsAppLink() {
   const whatsappUrl = "https://wa.me/905433575933";

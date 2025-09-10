@@ -1,4 +1,4 @@
-import React from 'react';
+ 
 import DoughnutChart from '../../charts/DoughnutChart';
 
 // Import utilities

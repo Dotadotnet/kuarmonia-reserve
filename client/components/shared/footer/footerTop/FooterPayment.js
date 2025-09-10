@@ -1,6 +1,5 @@
 
 // import Image from "next/image";
-import React from "react";
 import Tooltip from "../../tooltip/Tooltip";
 import Image from 'next/image'
 import { useTranslations } from "next-intl";
@@ -50,15 +49,17 @@ const FooterPayment = () => {
                   src={logo}
                   alt={name}
                   width={50}
+                  priority={false}
+                  quality={2}
                   height={29}
                   style={{
                     maxWidth: "100%",
                     height: "auto",
                   }}
-                  // placeholder="blur"
-                  // blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                  //   shimmer(50, 29)
-                  // )}`}
+                // placeholder="blur"
+                // blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                //   shimmer(50, 29)
+                // )}`}
                 />
               </Tooltip>
             </span>

@@ -1,6 +1,6 @@
 "use client";
 import GalleryUpload from "@/components/shared/gallery/GalleryUpload";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
 
@@ -25,7 +25,6 @@ export default function FormRequest() {
       ...data,
       gallery
     };
-    console.log("ارسال فرم:", finalData);
     // ارسال به سرور (مثلاً با fetch یا RTK Query)
     reset();
     setGallery(null);

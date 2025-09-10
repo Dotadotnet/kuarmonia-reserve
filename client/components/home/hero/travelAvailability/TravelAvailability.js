@@ -1,6 +1,6 @@
 
 "use client"
-import React from "react";
+
 import TravelTab from "./TravelTab";
 import TravelLocation from "./TravelLocation";
 import TravelDate from "./TravelDate";

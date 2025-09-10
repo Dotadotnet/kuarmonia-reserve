@@ -8,7 +8,7 @@
 // import Navbar from "@/components/shared/navbar/Navbar";
 // import Head from "next/head";
 // import { useRouter } from "next/router";
- import React, { useEffect, useMemo } from "react";
+ import { useEffect, useMemo } from "react";
 // import { useGetRentQuery } from "@/services/rent/rentApi";
 // import { toast } from "react-hot-toast";
 // import { useDispatch } from "react-redux";

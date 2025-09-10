@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const Send = (props) => {
   return (

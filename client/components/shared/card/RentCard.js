@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { AiFillStar, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { IoMdPricetag } from "react-icons/io";
 import {
@@ -103,7 +103,7 @@ const RentCard = ({ tour }) => {
         >
           {status}
         </span>
-        {user?.favorite?.rents.some((rent) => rent?._id === _id) ? (
+        {/* {user?.favorite?.rents.some((rent) => rent?._id === _id) ? (
           <button
             className="absolute top-4 right-4 p-1.5 border rounded-full border-secondary bg-white hover:bg-primary hover:text-white duration-100 z-50 opacity-0 group-hover:opacity-100 transition-opacity ease-linear delay-100"
             onClick={() => deleteFromFavorite(_id)}
@@ -125,7 +125,7 @@ const RentCard = ({ tour }) => {
               <MdOutlineFavoriteBorder />
             )}
           </button>
-        )}
+        )} */}
         <span className="absolute -bottom-2 right-4 text-xs text-primary bg-white px-3 py-1 rounded-full shadow capitalize z-50">
           {members} {t("rooms")}
         </span>
@@ -136,6 +136,8 @@ const RentCard = ({ tour }) => {
           >
             {gallery?.map((thumbnail, index) => (
               <LoadImage
+                quality={1}
+                priority={false} 
                 key={index}
                 src={thumbnail?.url}
                 alt={thumbnail?.public_id}
@@ -204,8 +206,9 @@ const RentCard = ({ tour }) => {
               <IoMdPricetag className="w-4 h-4 text-primary" />
               <span className="capitalize">${price}/ {t("CostPerNight")} </span>
             </span>
-            <Link href={`/rent/${tour?.rentId}/${encodeURIComponent(tour.slug.trim())}`}>
-              <Button className="px-4 py-1 text-xs cursor-pointer">{t("BookNow")}</Button>
+            <Link className="text-sm px-4 py-1 cursor-pointer bg-primary/80 dark:bg-blue-500/80 text-white rounded-secondary border-primary dark:border-blue-500  border-b-[5px] border-solid  hover:bg-primary dark:hover:bg-blue-500  transition-all delay-100"
+             href={`/rent/${tour?.rentId}/${encodeURIComponent(tour.slug.trim())}`}>
+               {t("BookNow")}
             </Link>
           </div>
         </div>

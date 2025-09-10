@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import AddPost from "./steps/AddPost";
 import ThemeToggle from "@/components/ThemeToggle";
 import CustomProgressBar from "./steps/CustomProgressBar";

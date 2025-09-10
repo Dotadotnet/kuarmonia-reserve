@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import { RiChatQuoteFill } from "react-icons/ri";
 import { useKeenSlider } from "keen-slider/react";
@@ -50,8 +50,6 @@ const AllReviews = ({
         id: "add-review"
       });
       setIsOpen(false);
-      console.log(data);
-
       setReviewList([...reviewList, data.data]);
       reset();
     }

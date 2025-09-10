@@ -1,5 +1,4 @@
 import { NavLink } from "react-router-dom";
-import React from  "react";
 import ThemeToggle from "@/components/ThemeToggle";
 import StepSignUp from "./steps/StepSignUp";
 const Signup = () => {

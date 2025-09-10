@@ -1,5 +1,5 @@
 
-import React from "react";
+
 import StepAddTeamMember from "./steps/StepAddTeamMember";
 import Logo from "@/components/shared/logo/Logo";
 import ToggleThemeButton from "@/components/ThemeToggle";

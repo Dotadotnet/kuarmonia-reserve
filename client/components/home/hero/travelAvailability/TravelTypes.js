@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import OutsideClick from "@/components/shared/outsideClick/OutsideClick"; // Make sure to provide the correct import path here
 import { useDispatch, useSelector } from "react-redux";
 import { addTravelAvailability } from "@/features/travelAvailability/travelAvailabilitySlice";

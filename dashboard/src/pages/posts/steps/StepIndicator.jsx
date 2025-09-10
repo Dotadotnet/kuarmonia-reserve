@@ -1,5 +1,5 @@
 // StepIndicator.js
-import React from 'react';
+ 
 
 const StepIndicator = ({ currentStep, totalSteps }) => {
   const steps = [

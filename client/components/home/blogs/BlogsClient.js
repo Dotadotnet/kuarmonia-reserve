@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 import BlogCard from "@/components/shared/card/BlogCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";

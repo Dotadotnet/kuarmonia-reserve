@@ -1,5 +1,5 @@
 'use client'
-import React, { useMemo } from "react";
+import  { useMemo } from "react";
 import { useGetAllPostsQuery } from "@/services/post/postApi";
 import Image from 'next/image';
 const leftSidebar = () => {

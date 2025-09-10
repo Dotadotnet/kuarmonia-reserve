@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useLocale } from "next-intl";
 import Check from "@/components/icons/Check";
 import ShieldCheck from "@/components/icons/ShieldCheck";

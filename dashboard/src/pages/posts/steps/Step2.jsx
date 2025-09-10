@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Controller } from "react-hook-form";
 import Modal from "@/components/shared/modal/Modal";
 import NavigationButton from "@/components/shared/button/NavigationButton";

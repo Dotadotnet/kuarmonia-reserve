@@ -1,7 +1,7 @@
 // import Image from "next/image";
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import VideoCard from "@/components/shared/card/MediaCard"; 
 import Pagination from "@/components/shared/pagination/Pagination";

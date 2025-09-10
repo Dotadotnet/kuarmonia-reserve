@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import StepAddVisaType from "./steps/StepAddVisaType";
 import ToggleThemeButton from "@/components/ThemeToggle";
 import BackButton from "@/components/shared/button/BackButton";

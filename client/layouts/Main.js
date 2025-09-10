@@ -12,7 +12,7 @@ const Main = ({ children , schema = {} }) => {
     <div className="dark:bg-gray-900">
       <CurrencyRates />
       {children}
-      {/* <Chat /> */}
+      <Chat />
       <Navbar />
       <Footer />
     </div>

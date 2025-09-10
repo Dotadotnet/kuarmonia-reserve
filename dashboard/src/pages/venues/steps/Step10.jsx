@@ -1,5 +1,5 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Controller } from "react-hook-form";
 import { useGetVenueVendorsQuery } from "@/services/venueVendor/venueVendorApi";
 

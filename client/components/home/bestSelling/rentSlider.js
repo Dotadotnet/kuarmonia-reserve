@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 import RentCard from "@/components/shared/card/RentCard";
 import RentCardSkeleton from "@/components/shared/skeleton/RentCardSkeleton";
 import { Swiper, SwiperSlide } from "swiper/react";

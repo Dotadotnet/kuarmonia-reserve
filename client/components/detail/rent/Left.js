@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import LoadImage from "@/components/shared/image/LoadImage";
 import { AiOutlineCalendar, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { BiCodeAlt } from "react-icons/bi";
@@ -124,7 +124,6 @@ const Left = ({ rent }) => {
   }
 
   function handleIntegratePurchase(data) {
-    console.log(data);
     setIsOpen(true);
     dispatch(setBooking(data));
   }
@@ -389,8 +388,6 @@ function Checkout({ rent, setIsOpen, members }) {
   }, [data, error, isLoading]);
 
   function handleIntegratePurchase(data) {
-    console.log(data);
-
     createPaymentIntent({
       rent: rent?._id,
       ...booking

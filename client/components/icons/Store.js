@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const Store = ({ className, ...props }) => {
   return (

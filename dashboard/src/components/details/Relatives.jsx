@@ -2,7 +2,7 @@
 
 
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Card from "../shared/Card";
 import { useRouter } from "next/navigation";
 import { useGetProductsQuery } from "@/services/product/productApi";

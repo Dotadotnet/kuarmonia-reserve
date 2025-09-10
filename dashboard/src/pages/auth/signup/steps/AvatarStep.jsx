@@ -1,4 +1,4 @@
-import React from "react";
+
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import ProfileImageSelector from "@/components/shared/gallery/ProfileImageSelector";
 import NavigationButton from "@/components/shared/button/NavigationButton";

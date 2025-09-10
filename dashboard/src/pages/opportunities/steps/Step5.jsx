@@ -1,5 +1,5 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
-import React from "react";
+
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
 
 const Step5 = ({ register, errors, prevStep, nextStep }) => {

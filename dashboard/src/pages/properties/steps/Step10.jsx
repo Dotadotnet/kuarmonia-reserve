@@ -1,4 +1,4 @@
-import React from "react";
+
 import SocialLinksInput from "@/components/shared/input/SocialLinksInput"; // ایمپورت کامپوننت جدید
 
 const Step10 = ({ register, errors, control, setSocialLinksData, socialLinksData }) => {

@@ -5,7 +5,7 @@ import Spinner from "@/components/shared/Spinner";
 import { useForgotPasswordMutation } from "@/services/auth/authApi";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 const ResetPassword = () => {

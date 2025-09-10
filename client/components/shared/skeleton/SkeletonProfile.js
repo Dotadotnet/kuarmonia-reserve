@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const SkeletonProfile = ({ size = "w-32 h-32" }) => {
   return (

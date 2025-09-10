@@ -1,5 +1,5 @@
 // components/signup/steps/BioStep.jsx
-import React from "react";
+
 import NavigationButton from "@/components/shared/button/NavigationButton";
 
 const BioStep = ({ register, errors, prevStep, nextStep }) => {

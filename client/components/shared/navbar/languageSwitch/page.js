@@ -4,6 +4,7 @@ import OutsideClick from "../../outsideClick/OutsideClick";
 import { useLocale } from "next-intl";
 import language from "@/app/language";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 const LanguageSwitcher = () => {
   const [isOpen, setIsOpen] = useState(false);
   const t = useLocale();
@@ -35,13 +36,17 @@ const LanguageSwitcher = () => {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
+
         className=" cursor-pointer rounded-secondary flex px-4 py-1 md:p-0 items-center justify-center gap-x-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors md:w-10 md:h-10"
       >
         <span className="md:hidden flex ">{lang_now.name}</span>
-        <img
+        <Image
+          width={28}
+          height={28}
           src={lang_now.img}
-          alt={lang_now.name}
-          className="w-7 h-7 rounded-full "
+          priority={false}
+          quality={20}
+          className="rounded-full "
         />
       </button>
 
@@ -58,10 +63,13 @@ const LanguageSwitcher = () => {
               key={lang.lang}
               className="flex items-center gap-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded w-full text-right"
             >
-              <img
+              <Image
                 src={lang.img}
-                alt={lang.name}
-                className="w-5 h-5 rounded-full"
+                width={20}
+                height={20}
+                priority={false}
+                quality={2}
+                className="rounded-full"
               />
               <span className="text-sm font-vazir">{lang.name}</span>
             </a>

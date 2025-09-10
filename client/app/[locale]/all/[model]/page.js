@@ -7,7 +7,7 @@ import Main from "@/layouts/Main";
 import { modelsInfo } from "@/components/shared/dynamic/modelInfo";
 import Api from "@/utils/api";
 import { getTranslations } from "next-intl/server";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params , searchParams }) {
     const host = process.env.NEXT_PUBLIC_BASE_URL;

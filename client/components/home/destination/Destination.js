@@ -1,7 +1,7 @@
 
 
 import Container from "@/components/shared/container/Container";
-import React from "react";
+
 import DestinationDescription from "./DestinationDescription";
 import DestinationSlider from "./DestinationSlider";
 

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import OutsideClick from "@/components/shared/outsideClick/OutsideClick";
 import { BiChevronDown } from "react-icons/bi";
 import { IoMdPricetags } from "react-icons/io";

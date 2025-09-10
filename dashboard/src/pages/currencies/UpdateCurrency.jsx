@@ -3,7 +3,7 @@ import Button from "@/components/shared/button/Button";
 import { useGetCurrencyQuery, useUpdateCurrencyMutation } from "@/services/currency/currencyApi";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
-import React, { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import Edit from "@/components/icons/Edit";
 import { useDispatch } from "react-redux";
 import { setCurrency } from "@/features/currency/currencySlice";

@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Buildings = ({ className, ...props }) => {
   return (

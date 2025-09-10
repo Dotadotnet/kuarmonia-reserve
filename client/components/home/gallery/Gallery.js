@@ -1,6 +1,6 @@
 "use client";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { BiDownArrowAlt, BiUpArrowAlt } from "react-icons/bi";
 import {
   useGetFirstGalleryQuery,

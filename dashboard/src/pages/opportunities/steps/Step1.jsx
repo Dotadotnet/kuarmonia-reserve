@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
 import { useGetCitizenshipOutcomesQuery } from "@/services/citizenshipOutcome/citizenshipOutcomeApi";

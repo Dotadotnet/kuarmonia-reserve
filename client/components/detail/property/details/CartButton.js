@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import Bag from "@/components/icons/Bag";
 import Spinner from "@/components/shared/spinner/Spinner";

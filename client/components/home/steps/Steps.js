@@ -1,6 +1,6 @@
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
-import React from "react";
+
 import BreakdownArticle from "./BreakdownArticle";
 import FeatureTour from "./FeatureTour";
 import { useTranslations } from "next-intl";

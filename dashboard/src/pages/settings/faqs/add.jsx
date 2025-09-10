@@ -2,7 +2,7 @@
 import { Controller, useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
 import { useAddFaqMutation } from "@/services/faq/faqApi";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
 import AddButton from "@/components/shared/button/AddButton";

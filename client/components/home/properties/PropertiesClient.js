@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+
 import PropCard from "@/components/shared/card/PropCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, FreeMode, Autoplay } from "swiper/modules";

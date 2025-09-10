@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ControlPanel from "../ControlPanel";
 import Modal from "@/components/shared/modal/Modal";
 import { useGetUsersQuery } from "@/services/user/userApi";

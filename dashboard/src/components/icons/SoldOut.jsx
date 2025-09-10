@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const SoldOut = ({ className, ...props }) => {
   return (

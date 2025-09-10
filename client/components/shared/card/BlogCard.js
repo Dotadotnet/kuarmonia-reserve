@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import { TfiHeart } from "react-icons/tfi";
@@ -41,6 +41,8 @@ const BlogCard = ({ data }) => {
             alt="Blog Image"
             width={1150}
             height={500}
+            priority={false}
+            quality={2}
             className="w-full h-64 object-cover object-center rounded-xl"
           />
           <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
@@ -90,10 +92,10 @@ const BlogCard = ({ data }) => {
                   {reviewPoint / reviewCount}
                 </span>
               </p>
-               <p className="flex flex-row-reverse items-center text-black  dark:text-white  text-base font-normal l ml-1">
+              <p className="flex flex-row-reverse items-center text-black  dark:text-white  text-base font-normal l ml-1">
                 <BiSolidCommentDetail className="text-blue-600" />
                 <span className="flex mx-1 font-sans items-center">
-                  { reviewCount }
+                  {reviewCount}
                 </span>
               </p>
               {/* عکس نویسنده */}

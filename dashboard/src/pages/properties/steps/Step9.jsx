@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Step9 = ({ register, errors }) => {
   return (

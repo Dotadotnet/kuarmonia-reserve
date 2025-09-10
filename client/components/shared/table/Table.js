@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Tooltip from "@/components/shared/tooltip/Tooltip";
 import Popover from "@/components/shared/modal/Popover";
 import { AiTwotoneDelete, AiTwotoneEdit } from "react-icons/ai";

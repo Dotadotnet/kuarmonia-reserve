@@ -1,9 +1,7 @@
 
 
-import React from "react";
 import FooterSocial from "./FooterSocial";
 import FooterCopyright from "./FooterCopyright";
-import FooterCredit from "./FooterCredit";
 
 const FooterBottom = () => {
   return (

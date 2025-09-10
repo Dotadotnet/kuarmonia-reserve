@@ -1,4 +1,4 @@
-import React, { useState,useEffect  } from "react";
+import { useState,useEffect  } from "react";
 
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import Step1 from "./Step1";

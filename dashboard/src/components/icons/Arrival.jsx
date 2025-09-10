@@ -1,6 +1,6 @@
 
 
-import React from "react";
+
 
 const Arrival = ({ className, ...props }) => {
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+
 import StepAddVendor from "./steps/StepAddVendor";
 import Logo from "@/components/shared/logo/Logo";
 import ToggleThemeButton from "@/components/ThemeToggle"

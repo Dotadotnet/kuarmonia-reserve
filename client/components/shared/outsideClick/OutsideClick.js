@@ -8,7 +8,9 @@ const OutsideClick = ({ children, onOutsideClick, className }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        onOutsideClick();
+        setTimeout(() =>{
+          onOutsideClick(); 
+        },350)
       }
     };
 

@@ -1,5 +1,6 @@
-
 import React from "react";
+
+
 
 const StepIndicator = ({ currentStep, totalSteps, onStepClick, completedSteps, invalidSteps }) => {
   return (

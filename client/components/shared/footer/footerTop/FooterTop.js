@@ -1,6 +1,3 @@
-
-
-import React from "react";
 import FooterLogo from "./FooterLogo";
 import FooterItems from "./FooterItems";
 import FooterPayment from "./FooterPayment";

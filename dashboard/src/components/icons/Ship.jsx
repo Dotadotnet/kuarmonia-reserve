@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Ship = ({ className, ...props }) => {
   return (

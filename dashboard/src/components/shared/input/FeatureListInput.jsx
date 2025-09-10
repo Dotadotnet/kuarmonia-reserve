@@ -1,4 +1,4 @@
-import React from "react";
+
 import Plus from "@/components/icons/Plus";
 import Minus from "@/components/icons/Minus";
 const FeatureListInput = ({ features, setFeatures, register, errors }) => {

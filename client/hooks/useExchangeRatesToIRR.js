@@ -4,11 +4,10 @@ import Image from "next/image";
 import Gold from "@/components/icons/Gold";
 import BTC from "@/components/icons/BTC";
 import ETH from "@/components/icons/ETH";
-import "swiper/css";
-import "swiper/css/autoplay";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-
+import "swiper/css";
+import "swiper/css/autoplay";
 const API_KEY = "FreeQj1qTYP36STO4Oj7g3dSuAVfiGAv";
 const BASE_URL = `https://BrsApi.ir/Api/Market/Gold_Currency.php?key=${API_KEY}`;
 
@@ -24,10 +23,10 @@ const fallbackRates = {
 
 // مسیر پرچم‌ها روی سرور خودتون
 const currencyToVisual = {
-  USD: <Image src="/flags/us.svg" width={20} height={20} alt="USD" />,
-  EUR: <Image src="/flags/eu.svg" width={20} height={20} alt="EUR" />,
-  TRY: <Image src="/flags/tr.svg" width={20} height={20} alt="TRY" />,
-  CAD: <Image src="/flags/ca.svg" width={20} height={20} alt="CAD" />,
+  USD: <Image priority={false} quality={2} src="/flags/us.svg" width={20} height={20} alt="USD" />,
+  EUR: <Image priority={false} quality={2} src="/flags/eu.svg" width={20} height={20} alt="EUR" />,
+  TRY: <Image priority={false} quality={2} src="/flags/tr.svg" width={20} height={20} alt="TRY" />,
+  CAD: <Image priority={false} quality={2} src="/flags/ca.svg" width={20} height={20} alt="CAD" />,
   BTC: <BTC />,
   ETH: <ETH />,
   "18K Gold": <Gold />
@@ -110,7 +109,7 @@ export default function CurrencyRates() {
           { flag: "/flags/ir.svg", city: "tehran", time: time.tehran }
         ].map(({ flag, city, time }) => (
           <div key={city} className="flex justify-center items-center gap-x-2">
-            <Image src={flag} width={24} height={24} alt={city} className="border-1 rounded-full border-white bg-white backdrop-blur-md" />
+            <Image priority={false} quality={2} src={flag} width={24} height={24} alt={city} className="border-1 rounded-full border-white bg-white backdrop-blur-md" />
             <p className="!text-white">{time}</p>
           </div>
         ))}
@@ -120,10 +119,8 @@ export default function CurrencyRates() {
         <Swiper
           loop
           direction="vertical"
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          autoplay={{ delay: 3000 }}
           speed={1000}
-          slidesPerView={1}
-          spaceBetween={1}
           modules={[Autoplay]}
           className="h-full !flex !justify-end"
         >

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { useGetFaqsQuery, useDeleteFaqMutation } from "@/services/faq/faqApi";
 import AddFaq from "./add";

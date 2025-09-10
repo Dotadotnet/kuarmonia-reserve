@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback } from "react";
 
 const OutsideClick = ({ children, onOutsideClick, className }) => {
   const wrapperRef = useRef(null);
