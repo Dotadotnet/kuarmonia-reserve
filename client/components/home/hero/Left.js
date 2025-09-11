@@ -122,7 +122,7 @@ function Left() {
                   height={872}
                   width={500}
                   priority={false}
-                  quality={10}
+                  quality={1}
                   className="w-40 block md:mr-auto"
                   style={{ aspectRatio: "500 / 872" }}
                 />
@@ -149,7 +149,7 @@ function Left() {
                   height={500}
                   width={500}
                   priority={false}
-                  quality={10}
+                  quality={1}
                   className="w-80 ml-4 block md:mr-auto"
                 />
               </motion.div>
@@ -192,7 +192,7 @@ function Left() {
                   height={872}
                   width={500}
                   priority={false}
-                  quality={10}
+                  quality={1}
                   className="w-80  ml-4 block md:mr-auto"
                 />
               </motion.div>
@@ -236,7 +236,7 @@ function Left() {
                   height={872}
                   width={500}
                   priority={false}
-                  quality={10}
+                  quality={1}
                   className="  ml-4 block md:mr-auto"
                 />
               </motion.div>

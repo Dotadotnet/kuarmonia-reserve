@@ -3,6 +3,7 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig = {
   // reactStrictMode: true,
   output: 'standalone',
+  unstable_runtimeJS: false,
   images: {
     domains: ['s3-console.kuarmonia.com', 'storage.kuarmonia.com', 'localhost'],
     remotePatterns: [
