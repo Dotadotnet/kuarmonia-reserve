@@ -147,15 +147,13 @@ const RentCard = ({ tour }) => {
             ))}
           </div>
           <div className="absolute left-2 bottom-4 flex flex-row gap-x-2 z-50 ">
-            <button
-              type="button"
+            <span
               className="h-6 w-6 cursor-pointer bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
               id={"prev-rent-" + tour.rentId}
               onClick={() => {
                 {
                   const slider = sliderRef.current;
                   const scrollAmount = 280;
-
                   slider.scrollBy({
                     left: scrollAmount,
                     behavior: "smooth"
@@ -164,9 +162,8 @@ const RentCard = ({ tour }) => {
               }}
             >
               <MdKeyboardArrowRight className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
+            </span>
+            <span
               id={"next-rent-" + tour.rentId}
               className="h-6 w-6 cursor-pointer bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
               onClick={() => {
@@ -182,7 +179,7 @@ const RentCard = ({ tour }) => {
               }}
             >
               <MdKeyboardArrowLeft className="h-5 w-5" />
-            </button>
+            </span>
           </div>
         </div>
       </div>

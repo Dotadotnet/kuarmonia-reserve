@@ -121,7 +121,7 @@ export default function StoriesSectionClient({ banners }) {
                         alt={getTranslation(banner.translations, "title", banner.creator.name)}
                         src={banner.thumbnail.url}
                         priority={false}
-                        quality={2}
+                        quality={1}
                         className="w-full h-full object-cover"
                       />
                     </div>

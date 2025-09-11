@@ -37,7 +37,7 @@ const MobileNav = ({ isOpen, setIsOpen , setSearchIsOpen }) => {
           }}
         >
           {isOpen ? (
-            <div className="flex absolute w-2/3  items-center rounded-xl bg-white justify-start dark:bg-gray-900  flex-col top-32 h-[clac(100% - 176px)] left-5  rtl:right-5">
+            <div className="flex absolute w-2/3  items-center rounded-xl bg-white justify-start dark:bg-gray-900  flex-col top-32 h-[clac(100vh - 140px)] left-5  rtl:right-5">
               <div className="overflow-auto w-full gap-10 flex h-full flex-col py-5  overflow-x-hidden">
                 {[
                   {
