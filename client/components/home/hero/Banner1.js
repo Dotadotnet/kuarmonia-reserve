@@ -9,10 +9,8 @@ const Banner1 = () => {
 
   return (
     <div className="grid md:grid-cols-3 h-fit  justify-start grid-cols-1 gap-y-2 md:gap-4">
-   
-<Right />
-<Left />
-
+      <Right />
+      <Left />
     </div>
   );
 };
