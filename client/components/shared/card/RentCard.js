@@ -26,9 +26,9 @@ const RentCard = ({ tour }) => {
 
   const sliderRef = useRef(null);
   const user = useSelector((state) => state?.auth);
-  const { title, summary,slug } = tour ; 
-  const { status, gallery, members, location, price, _id } = tour ;
-  
+  const { title, summary, slug } = tour;
+  const { status, gallery, members, location, price, _id } = tour;
+
   const [
     addToFavorite,
     {
@@ -95,11 +95,10 @@ const RentCard = ({ tour }) => {
     <section className="group w-fit flex max-w-64 flex-col gap-y-5 border-b border-l border-r border-gray-100 dark:border-gray-800 rounded">
       <div className="relative rounded-t">
         <span
-          className={`absolute text-xs rounded-r py-0.5 px-3 top-4 left-0 shadow z-10 ${
-            /\d/.test(status)
+          className={`absolute text-xs rounded-r py-0.5 px-3 top-4 left-0 shadow z-10 ${/\d/.test(status)
               ? "bg-[#3DCAFD] text-white"
               : "bg-[#F7D348] text-black"
-          }`}
+            }`}
         >
           {status}
         </span>
@@ -137,7 +136,7 @@ const RentCard = ({ tour }) => {
             {gallery?.map((thumbnail, index) => (
               <LoadImage
                 quality={1}
-                priority={false} 
+                priority={false}
                 key={index}
                 src={thumbnail?.url}
                 alt={title}
@@ -151,6 +150,7 @@ const RentCard = ({ tour }) => {
             <button
               type="button"
               className="h-6 w-6 cursor-pointer bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
+              id={"prev-rent-" + tour.rentId}
               onClick={() => {
                 {
                   const slider = sliderRef.current;
@@ -167,6 +167,7 @@ const RentCard = ({ tour }) => {
             </button>
             <button
               type="button"
+              id={"next-rent-" + tour.rentId}
               className="h-6 w-6 cursor-pointer bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
               onClick={() => {
                 {
@@ -207,8 +208,8 @@ const RentCard = ({ tour }) => {
               <span className="capitalize">${price}/ {t("CostPerNight")} </span>
             </span>
             <Link className="text-sm px-4 py-1 cursor-pointer bg-primary/80 dark:bg-blue-500/80 text-white rounded-secondary border-primary dark:border-blue-500  border-b-[5px] border-solid  hover:bg-primary dark:hover:bg-blue-500  transition-all delay-100"
-             href={`/rent/${tour?.rentId}/${encodeURIComponent(tour.slug.trim())}`}>
-               {t("BookNow")}
+              href={`/rent/${tour?.rentId}/${encodeURIComponent(tour.slug.trim())}`}>
+              {t("BookNow")}
             </Link>
           </div>
         </div>

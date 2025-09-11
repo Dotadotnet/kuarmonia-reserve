@@ -118,6 +118,7 @@ function Left() {
               >
                 <Image
                   src="/assets/home-page/banner/building1.webp"
+                  alt={t("heroTitle")}
                   height={872}
                   width={500}
                   priority={false}
@@ -144,6 +145,7 @@ function Left() {
               >
                 <Image
                   src="/assets/home-page/banner/marriage1.webp"
+                  alt={t("heroTitle")}
                   height={500}
                   width={500}
                   priority={false}
@@ -186,6 +188,7 @@ function Left() {
               >
                 <Image
                   src="/assets/home-page/banner/marriage2.webp"
+                  alt={t("heroTitle")}
                   height={872}
                   width={500}
                   priority={false}
@@ -229,6 +232,7 @@ function Left() {
               >
                 <Image
                   src="/assets/home-page/banner/tourism.webp"
+                  alt={t("heroTitle")}
                   height={872}
                   width={500}
                   priority={false}

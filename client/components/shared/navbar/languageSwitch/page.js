@@ -43,6 +43,7 @@ const LanguageSwitcher = () => {
         <Image
           width={28}
           height={28}
+          alt={lang_now.lang}
           src={lang_now.img}
           priority={false}
           quality={20}
@@ -67,6 +68,7 @@ const LanguageSwitcher = () => {
                 src={lang.img}
                 width={20}
                 height={20}
+                alt={lang.lang}
                 priority={false}
                 quality={2}
                 className="rounded-full"
