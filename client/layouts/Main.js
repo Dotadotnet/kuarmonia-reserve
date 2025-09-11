@@ -10,7 +10,7 @@ const Main = ({ children , schema = {} }) => {
     <>
     <Schema object={schema} />
     <div className="dark:bg-gray-900">
-      {/* <CurrencyRates /> */}
+      <CurrencyRates />
       {children}
       <Chat />
       <Navbar />

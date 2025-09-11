@@ -22,6 +22,8 @@ const NewsLetter = () => {
             <Image
               src="/assets/static/News Letter.jpg"
               alt="newsletter"
+              priority={false}
+              quality={1}
               height={302}
               width={440}
               className="rounded h-[302px] w-full object-cover border border-primary"

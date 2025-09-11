@@ -144,12 +144,12 @@ function Left() {
                 }}
               >
                 <Image
-                  src="/assets/home-page/banner/marriage1.webp"
+                  src="/assets/home-page/banner/marriage1 .webp"
                   alt={t("heroTitle")}
-                  height={500}
-                  width={500}
+                  height={320}
+                  width={320}
                   priority={false}
-                  quality={1}
+                  quality={50}
                   className="w-80 ml-4 block md:mr-auto"
                 />
               </motion.div>
