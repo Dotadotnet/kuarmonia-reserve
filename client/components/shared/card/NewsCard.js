@@ -36,7 +36,7 @@ const NewsCard = ({ news }) => {
             ) : (
               <Image
                 src={news.thumbnail?.url}
-                alt="feature tour"
+                alt={title}
                 priority={false}
                 quality={2}
                 width={600}

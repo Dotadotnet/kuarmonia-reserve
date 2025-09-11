@@ -133,7 +133,7 @@ const Card = ({ tour }) => {
               <Image
                 key={index}
                 src={thumbnail?.url}
-                alt={thumbnail?.public_id}
+                alt={title}
                 width={480}
                 height={200}
                 className="rounded-t h-full w-full max-w-full object-cover"

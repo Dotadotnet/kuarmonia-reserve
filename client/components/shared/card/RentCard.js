@@ -140,17 +140,17 @@ const RentCard = ({ tour }) => {
                 priority={false} 
                 key={index}
                 src={thumbnail?.url}
-                alt={thumbnail?.public_id}
+                alt={title}
                 width={480}
                 height={200}
                 className="rounded-t h-full w-full max-w-full object-cover"
               />
             ))}
           </div>
-          <div className="absolute left-2 bottom-4 flex flex-row gap-x-2 z-50 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute left-2 bottom-4 flex flex-row gap-x-2 z-50 ">
             <button
               type="button"
-              className="h-6 w-6 bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
+              className="h-6 w-6 cursor-pointer bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
               onClick={() => {
                 {
                   const slider = sliderRef.current;
@@ -167,7 +167,7 @@ const RentCard = ({ tour }) => {
             </button>
             <button
               type="button"
-              className="h-6 w-6 bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
+              className="h-6 w-6 cursor-pointer bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
               onClick={() => {
                 {
                   const slider = sliderRef.current;

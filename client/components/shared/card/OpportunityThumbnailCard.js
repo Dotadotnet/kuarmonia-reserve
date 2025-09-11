@@ -21,6 +21,7 @@ export default function OpportunityThumbnailCard({ opportunity, locale }) {
             <Image
               src={opportunity.jobType.thumbnail.url}
               quality={1}
+              alt={opportunity.title}
               priority={false}
               width={128}
               height={128}
@@ -45,7 +46,9 @@ export default function OpportunityThumbnailCard({ opportunity, locale }) {
         <div className="w-32 h-32 rounded-full relative">
           <Image
             src={opportunity.thumbnail.url}
-            alt="feature tour"
+            quality={1}
+            alt={opportunity.title}
+            priority={false}
             width={128}
             height={128}
             className="object-cover w-32 h-32 rounded-full"
@@ -59,7 +62,9 @@ export default function OpportunityThumbnailCard({ opportunity, locale }) {
               <article className="flex flex-row gap-x-2">
                 <Image
                   src={opportunity.thumbnail}
-                  alt="thumbnail"
+                  quality={1}
+                  alt={opportunity.title}
+                  priority={false}
                   width={35}
                   height={35}
                   className="rounded-[5px] object-cover border border-primary"

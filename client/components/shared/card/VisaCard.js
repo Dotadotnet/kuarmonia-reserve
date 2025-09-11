@@ -31,6 +31,7 @@ const VisaCard = ({ visa }) => {
             quality={2}
             width={0}
             height={0}
+            alt={title}
             style={{ width: '100%', height: 'auto' }}
             src={visa.thumbnail.url}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

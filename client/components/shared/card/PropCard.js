@@ -87,6 +87,7 @@ const PropertyCard = ({ property }) => {
             src={property?.thumbnail?.url || "/placeholder.png"}
             height={600}
             quality={2}
+            alt={title}
             priority={false}
             width={600}
             className="w-full h-full object-cover"

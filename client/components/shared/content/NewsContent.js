@@ -81,9 +81,9 @@ const NewsMedia = ({ news }) => {
         <Image
           width={1000}
           height={500}
-          className="w-full object-contain article-image"
+          className="w-full rounded-md object-contain article-image"
           src={thumbnail.url}
-          alt="Featured Image rounded-md "
+          alt="Featured Image"
         />
         <div className="image-caption"></div>
       </div>

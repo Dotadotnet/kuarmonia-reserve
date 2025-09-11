@@ -15,6 +15,7 @@ const LoadImage = ({ src, alt, height , quality = 100 , priority = true  , width
   return (
     <Image
       src={src}
+      alt={alt}
       quality={quality}
       priority={priority}
       height={height}

@@ -48,7 +48,7 @@ export default function ServiceContent({ service }) {
                 height={600}
                 className="-z-10 absolute top-0 left-0 h-105 w-full object-cover"
                 src={service?.thumbnail.url}
-                alt=""
+                alt={title}
               />
             )}
           </header>

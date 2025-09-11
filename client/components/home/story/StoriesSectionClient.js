@@ -118,6 +118,7 @@ export default function StoriesSectionClient({ banners }) {
                       <Image
                         width={200}
                         height={200}
+                        alt={getTranslation(banner.translations, "title", banner.creator.name)}
                         src={banner.thumbnail.url}
                         priority={false}
                         quality={2}

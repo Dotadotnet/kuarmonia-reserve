@@ -19,15 +19,15 @@ const Reviews = ({ className }) => {
 
   useEffect(() => {
     if (error) {
-   
+
     }
 
     if (isLoading) {
-   
+
     }
 
     if (data) {
-    
+
     }
   }, [isLoading, data, error]);
 
@@ -37,7 +37,7 @@ const Reviews = ({ className }) => {
     created(s) {
       s.moveToIdx(5, true, animation);
     },
-    
+
     animationEnded(s) {
       s.moveToIdx(s.track.details.abs() + 5, true, animation);
     },
@@ -69,18 +69,18 @@ const Reviews = ({ className }) => {
         <div className="w-full h-full flex flex-col gap-y-12">
           <article className="flex flex-col gap-y-4">
             <h1 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-            <HighlightText>مهاجرت و اخذ ویزا</HighlightText>
-            <Image
-  src="/assets/home-page/destination/underline.svg"
-  alt="arrow"
-  height={7}
-  width={275}
-  className="mt-1.5 filter dark:invert  dark:brightness-0 dark:sepia dark:hue-rotate-180"
-/>
+              <HighlightText>مهاجرت و اخذ ویزا</HighlightText>
+              <Image
+                src="/assets/home-page/destination/underline.svg"
+                alt="arrow"
+                height={7}
+                width={275}
+                className="mt-1.5 filter dark:invert  dark:brightness-0 dark:sepia dark:hue-rotate-180"
+              />
             </h1>
             <p className="text-base">
-  تجربیات و نظرات مشتریان ما در رابطه با خدمات مهاجرت و اخذ ویزا
-</p>
+              تجربیات و نظرات مشتریان ما در رابطه با خدمات مهاجرت و اخذ ویزا
+            </p>
           </article>
 
           {!isLoading && reviews?.length === 0 && (
@@ -124,13 +124,13 @@ const Reviews = ({ className }) => {
                   className="group relative flex flex-col gap-y-4 border hover:border-primary transition-colors ease-linear p-4 rounded keen-slider__slide"
                 >
                   <div className="flex flex-row gap-x-2.5 items-end">
-                  <Image
-  src={review?.reviewer?.avatar?.url} // مقدار پیش‌فرض در صورت نبود تصویر
-  alt={review?.reviewer?.avatar?.public_id} // مقدار پیش‌فرض برای alt
-  width={50}
-  height={50}
-  className="rounded h-[50px] w-[50px] object-cover"
-/>
+                    <Image
+                      src={review?.reviewer?.avatar?.url} // مقدار پیش‌فرض در صورت نبود تصویر
+                      alt={review?.reviewer?.avatar?.public_id} // مقدار پیش‌فرض برای alt
+                      width={50}
+                      height={50}
+                      className="rounded h-[50px] w-[50px] object-cover"
+                    />
                     <div className="flex flex-row justify-between w-full">
                       <div className="">
                         <h2 className="">{review?.reviewer?.name}</h2>

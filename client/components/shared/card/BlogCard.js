@@ -38,11 +38,11 @@ const BlogCard = ({ data }) => {
         <div className="relative mx-4 mt-4 h-60 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white">
           <Image
             src={data.thumbnail.url}
-            alt="Blog Image"
+            alt={data.title}
             width={1150}
             height={500}
             priority={false}
-            quality={2}
+            quality={1}
             className="w-full h-64 object-cover object-center rounded-xl"
           />
           <div className="absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
@@ -104,6 +104,8 @@ const BlogCard = ({ data }) => {
                   <Image
                     alt={data.creator.name}
                     title={data.creator.name}
+                    quality={1}
+                    priority={false}
                     src={data.creator.avatar?.url}
                     width={36}
                     height={36}

@@ -46,7 +46,6 @@ const Content = ({ data }) => {
           <div className="absolute top-[-150px] left-1/2 transform -translate-x-1/2 translate-y-1/2 z-20">
             {data.creator.avatar.url && (
               <div className="profile-container text-center shine-effect rounded-full flex justify-center mb-4">
-
                 <Image
                   src={data.creator.avatar.url}
                   alt="avatar"
