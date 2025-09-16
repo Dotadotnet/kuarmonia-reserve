@@ -31,32 +31,40 @@ function ScrollInfinity({ children, className, speed = 1 }) {
             }
         }
     })
+    const stop = () => {
+        if (scrollInterval) {
+            clearInterval(scrollInterval)
+            clearTimeout(scrollTimeout)
+            setsScrollInterval(1)
+        }
+    }
+    const start = () => {
+        if (scrollInterval == 1) {
+            clearTimeout(scrollTimeout)
+            clearInterval(scrollInterval)
+            let idSetTimeout = setTimeout(() => {
+                if (scrollInterval == 1) {
+                    clearInterval(scrollInterval)
+                    clearTimeout(scrollTimeout)
+                    setsScrollInterval(false)
+                }
+            }, 3000)
+            setsScrollTimeout(idSetTimeout)
+        }
+    }
     return (
         <div className={"relative w-full before:absolute import-class  before:top-0 before:-right-[1px] before:h-full  before:bg-linear-to-r  before:from-transparent  before:w-2 after:absolute  after:top-0 after:-left-[1px] after:h-full  after:bg-linear-to-l  after:from-transparent  after:w-2 " + className}>
             <div
-                onMouseEnter={() => {
-                    if (scrollInterval) {
-                        clearInterval(scrollInterval)
-                        clearTimeout(scrollTimeout)
-                        setsScrollInterval(1)
-                    }
-                }}
 
-                onMouseLeave={() => {
-                    if (scrollInterval == 1) {
-                        clearTimeout(scrollTimeout)
-                        clearInterval(scrollInterval)
-                        let idSetTimeout = setTimeout(() => {
-                            if (scrollInterval == 1) {
-                                clearInterval(scrollInterval)
-                                clearTimeout(scrollTimeout)
-                                setsScrollInterval(false)
-                            }
-                        }, 3000)
-                        setsScrollTimeout(idSetTimeout)
-                    }
-                }}
-                onScroll={() => {
+                onMouseEnter={() => { stop() }}
+                onMouseLeave={() => { start() }}
+                onTouchStart={() => { stop() }}
+                onTouchEnd={() => { start() }}
+                onMouseDown={() => { stop() }}
+                onMouseUp={() => { start() }}
+                onScroll={(event) => {
+                    console.log(event);
+                    
                     const div = ref.current;
                     const maxScrollLeft = div.scrollWidth - div.clientWidth;
                     if (dir == "rtl") {
