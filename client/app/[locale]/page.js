@@ -162,7 +162,6 @@ export default async function Home({ params }) {
   }
 
 
-  console.log(blog);
   
   return (
     <Main schema={websiteSchema} >
