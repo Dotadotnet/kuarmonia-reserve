@@ -12,7 +12,7 @@ async function DynamicModelBox({ data }) {
                     {data.map((item) => {
                         return (
                             <Link key={item.link} href={item.link} className="flex h-32 sm:h-40 transition-all group items-center bg-white border my-5 mx-2 border-gray-200 rounded-lg shadow-sm sm:w-116 w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700" >
-                                <Image width={400} height={400} priority={true}
+                                <Image width={300} height={300} priority={true}
                                     quality={1} className="object-cover h-full w-32 sm:w-40 rounded-none rounded-s-lg" src={item.image} alt={item.title} />
                                 <div className="py-2 sm:py-4 pr-2 pl-4 rtl:pr-4 rtl:pl-2 size-full">
 

@@ -5,17 +5,22 @@ import CurrencyRates from "@/hooks/useExchangeRatesToIRR";
 import Chat from "@/components/shared/chat/page";
 import Schema from "@/components/shared/seo/schema";
 
-const Main = ({ children , schema = {} }) => {
+const Main = ({ children, schema = {} }) => {
   return (
     <>
-    <Schema object={schema} />
-    <div className="dark:bg-gray-900">
-      <CurrencyRates />
-      {children}
-      <Chat />
-      <Navbar />
-      <Footer />
-    </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema).replace(/</g, '\\u003c'),
+        }}
+      />
+      <div className="dark:bg-gray-900">
+        <CurrencyRates />
+        {children}
+        <Chat />
+        <Navbar />
+        <Footer />
+      </div>
     </>
   );
 };

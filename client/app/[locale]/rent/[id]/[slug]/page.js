@@ -16,7 +16,7 @@ import analizeComments from "@/components/shared/seo/analizeComments";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = params;
-  const rent = await Api(`/dynamic/get-one/rent/rentId/${id}`);
+  const rent = await Api(`/dynamic/get-one/rent/rentId/${id}?fields=metaTitle,metaDescription,creator,tags,title,summary,gallery`);
   const canonical = await canonicalUrl()
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
@@ -48,11 +48,11 @@ const RentPost = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl();
 
-    const { reviews, reviewCount, reviewPoint } = analizeComments(rent);
-  
+  const { reviews, reviewCount, reviewPoint } = analizeComments(rent);
 
 
-  if (!rent || encodeURIComponent(rent.translations.en.slug) !== slug) {
+
+  if (!rent || rent.slug !== slug) {
     return <RedirectRent params={params} />
   }
   const directionClass = locale === "fa" ? "rtl" : "ltr";
@@ -64,7 +64,10 @@ const RentPost = async ({ params }) => {
     "name": rent.title,
     "description": rent.summary,
     "url": canonical.canonical,
-    "image": rent.gallery[0].url,
+    "image": {
+      "@type": "ImageObject",
+      "url": rent.gallery[0].url
+    },
     "address": {
       "@type": "PostalAddress",
       "streetAddress": rent.address.street,

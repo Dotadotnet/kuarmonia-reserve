@@ -4,6 +4,7 @@ import Link from "next/link";
 import Button from "@/components/shared/button/Button";
 import MediaCard from "@/components/shared/card/MediaCard";
 import SkeletonCard from "@/components/shared/card/SkeletonCard";
+import Image from "next/image";
 
 const Sidebar = async ({ locale }) => {
   const t = await getTranslations("News");
@@ -62,9 +63,12 @@ const Sidebar = async ({ locale }) => {
                   href={`/${locale}/news/${item.newsId}/${slug}`}
                   className="group shrink-0 relative block h-56 w-full self-start overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-24 md:w-24 lg:h-40 lg:w-40"
                 >
-                  <img
+                  <Image
                     src={item.thumbnail?.url || "/placeholder.png"}
-                    loading="lazy"
+                    priority={false}
+                    quality={1}
+                    width={400}
+                    height={400}
                     alt={title}
                     className="group-hover:scale-110 absolute inset-0 h-full w-full object-cover object-center transition duration-200"
                   />
@@ -105,7 +109,7 @@ const Sidebar = async ({ locale }) => {
                       })()}
                   </span>
 
-                  <h2 className="text-xl font-bold text-gray-800">
+                  <h2 className="text-xl font-bold dark:text-white text-gray-800">
                     <Link
                       href={`/${locale}/news/${item.newsId}/${slug}`}
                       className="hover:text-rose-500 active:text-rose-600 transition"
@@ -114,7 +118,7 @@ const Sidebar = async ({ locale }) => {
                     </Link>
                   </h2>
 
-                  <p className="text-gray-500">{summary}</p>
+                  <p className="dark:text-gray-300 text-gray-600">{summary}</p>
 
                   <div>
                     <Link

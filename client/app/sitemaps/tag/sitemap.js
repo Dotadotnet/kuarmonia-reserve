@@ -11,7 +11,7 @@ export default async function sitemap() {
         const image = lastItem?.thumbnail ? lastItem.thumbnail.url : lastItem?.gallery ? lastItem.gallery[0].url : (host + "/banners/1.jpg")
         const item = {
             priority: 0.5,
-            url: host + "/tag/" + tag.tagId + "/" + encodeURIComponent(tag.translations.en.title.replaceAll(" ", "-")),
+            url: host + "/tag/" + tag.tagId + "/" + tag.slug ,
             lastModified: tag.lastUpdated,
             changeFrequency: 'daily',
             images: [image]

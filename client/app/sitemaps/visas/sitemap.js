@@ -2,15 +2,14 @@ import Api from "@/utils/api"
 import setLangSitemap from "@/utils/setLangSitemap";
 export default async function sitemap() {
     const sitemap = [];
-    const news = await Api('/dynamic/get-all/news');
-
-    news.forEach(newitem => {
+    const visas = await Api('/dynamic/get-all/visa');
+    visas.forEach(visa => {
         const item = {
-            priority: 0.5,
-            url: process.env.NEXT_PUBLIC_BASE_URL + "/news/" + newitem.newsId + "/" + newitem.slug,
-            lastModified: newitem.lastUpdated,
+            priority: 0.9,
+            url: process.env.NEXT_PUBLIC_BASE_URL + "/visas/" + visa.visasId + "/" + visa.slug,
+            lastModified: visa.lastUpdated,
             changeFrequency: 'daily',
-            images: [newitem.thumbnail.url]
+            images: [visa.thumbnail.url]
         };
         sitemap.push(item)
     });

@@ -23,15 +23,15 @@ export async function GET(request) {
         pubDate: new Date().toUTCString(),
         copyright: `Copyright ${new Date().getFullYear()}, ${"majid pashayi"}`,
     });
-    const items = await Api('/dynamic/get-all/opportunity');
+    const items = await Api('/dynamic/get-all/opportunity',lang.lang);
 
     items.forEach((item) => {
         feed.item({
-            title: item.translations[lang.lang].title,
-            description: item.translations[lang.lang].description,
+            title: item.title,
+            description: item.description,
             guid: item.opportunityId,
-            url: hostLang + "/opportunity/" + item.opportunityId + "/" + encodeURIComponent(item.translations.en.slug),
-            categories: typeof item.refId.jobType == "object" ? [item.refId.jobType.translations[lang.lang].title] : [],
+            url: hostLang + "/opportunity/" + item.opportunityId + "/" + item.slug ,
+            categories: typeof item.refId.jobType == "object" ? [item.refId.jobType.title] : [],
             date: item.createdAt,
             author: typeof item.creator == "object" ? item.creator.name : "",
             enclosure: { url: item.thumbnail.url },

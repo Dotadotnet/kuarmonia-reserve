@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { headers } from 'next/headers';
-const feeds = ["blog", "media", "news", "opportunity", "property", "rent", "service", "tag"]
+const feeds = ["blog", "media", "news", "opportunity", "property", "rent", "service", "tag" , "visas"]
 const langs_result = [];
 export async function generateMetadata() {
   const headersList = await headers();
@@ -54,12 +54,22 @@ export default async function RootLayout({ children, params }) {
     )
   })
   return (
-    <>    
+    <>
       <NextIntlClientProvider>
         <Providers>
           <Session>
             <Auth>
               <html lang={lang.lang + "-" + lang.loc} dir={lang.dir}>
+                {/* داداش دستم به دامنت دست نزن */}
+                <head>
+                  <meta httpEquiv="Content-Language" content={lang.lang + "-" + lang.loc} />
+                  {rssFiles}
+                  <meta name="expires" content="never" />
+                  <meta name="publisher" content={seoTranslations("siteName")} />
+                  <meta name="dc.publisher" content={seoTranslations("pageAboutDis")} />
+                  <meta name="language" content={lang.lang} />
+                </head>
+                {/* داداش دستم به دامنت دست نزن */}
                 <body>
                   {children}
                 </body>

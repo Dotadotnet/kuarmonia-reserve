@@ -8,6 +8,6 @@ export default async function RedirectNews({ params }) {
     if (!news) {
         return notFound()
     }
-    const url = hostLang + "/news/" + id + "/" + encodeURIComponent(news.translations.en.slug.trim())
+    const url = hostLang + "/news/" + id + "/" + encodeURIComponent(news.slug.trim())
     return permanentRedirect(url)
 }

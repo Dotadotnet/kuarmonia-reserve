@@ -7,7 +7,7 @@ export default async function sitemap() {
     services.forEach(service => {
         const item = {
             priority: 0.9,
-            url: process.env.NEXT_PUBLIC_BASE_URL + "/service/" + service.serviceId + "/" +  encodeURIComponent(service.translations.en.slug) ,
+            url: process.env.NEXT_PUBLIC_BASE_URL + "/service/" + service.serviceId + "/" +  service.slug,
             lastModified: service.lastUpdated,
             changeFrequency: 'daily',
             images : [service.thumbnail.url]

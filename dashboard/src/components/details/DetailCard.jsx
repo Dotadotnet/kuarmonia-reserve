@@ -5,6 +5,7 @@
 import ChevronUp from "../icons/ChevronUp";
 import ChevronDown from "../icons/ChevronDown";
 import ChevronRight from "../icons/ChevronRight";
+import React from "react";
 
 const DetailCard = ({ title, content }) => {
   const [isOpen, setIsOpen] = React.useState(false);

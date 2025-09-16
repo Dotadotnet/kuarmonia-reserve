@@ -2,10 +2,11 @@
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from '../../../ckeditor/ckeditor';
 import "./Style.css"
+import { useEffect, useState } from 'react';
 const MyEditor = ({ value, onChange }) => {
-  const [data, setData] = React.useState(() => value);
+  const [data, setData] = useState(() => value);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setData(value);
   }, [value]);
 

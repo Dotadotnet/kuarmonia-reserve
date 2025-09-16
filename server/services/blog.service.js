@@ -41,7 +41,6 @@ exports.addBlog = async (req, res) => {
       }));
     }
 
-
     const blog = await Blog.create({
       ...otherInformation,
       creator: req.admin._id,

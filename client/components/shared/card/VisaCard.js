@@ -4,6 +4,7 @@ import { FaHeart, FaPlane, FaSuitcase, FaGraduationCap, FaMapMarkerAlt, FaChartB
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
+import ScrollInfinity from "../utils/ScrollInfinity";
 
 const VisaCard = ({ visa }) => {
   const getDifficultyColor = (level) => {
@@ -20,7 +21,6 @@ const VisaCard = ({ visa }) => {
   )?.translation?.fields?.title;
   return (
     <Link href={`/visas/${visa.visaId}/${visa.slug_en}`}
-      dir="rtl"
     >
       <div className="bg-white max-w-64 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 overflow-hidden group">
 
@@ -32,7 +32,7 @@ const VisaCard = ({ visa }) => {
             width={400}
             height={400}
             alt={title}
-            style={{ width: '100%', height: 'auto' }}
+            style={{ width: '100%', height: "100%" }}
             src={visa.thumbnail.url}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
@@ -55,15 +55,14 @@ const VisaCard = ({ visa }) => {
 
         {/* Content Section */}
         <div className="p-4">
-          <h3 className="text-lg  text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+          <h3 className="text-lg  dark:text-white font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
             {title}
           </h3>
-          <p className="text-gray-600 mb-3 line-clamp-2 leading-relaxed text-sm">
+          <p className=" dark:text-gray-100 text-gray-600 mb-3 line-clamp-2 leading-relaxed text-sm">
             {summary}
           </p>
 
-          {/* Badges */}
-          <div className="flex flex-wrap gap-1 mb-3">
+          <ScrollInfinity className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800"}>
             <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
               <span
                 className="w-4 h-4 text-blue-500"
@@ -79,7 +78,7 @@ const VisaCard = ({ visa }) => {
               <MdCalendarToday className="w-3 h-3" />
               <span>{validity}</span>
             </div>
-          </div>
+          </ScrollInfinity>
 
 
         </div>

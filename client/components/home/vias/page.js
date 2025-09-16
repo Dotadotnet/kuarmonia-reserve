@@ -1,9 +1,9 @@
 import Container from "@/components/shared/container/Container";
 import HighlightText from "@/components/shared/highlightText/HighlightText";
-import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";
 import VisaSlider from "./VisaSlider";
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 
 const Visa = async ({ params }) => {
   const { locale } = await params;
@@ -17,8 +17,8 @@ const Visa = async ({ params }) => {
   });
 
   const res = await response.json();
-  const visa = res.data;
-  const t = await getTranslations("visa", locale);
+  const visa = res.data;  
+  const t = await getTranslations("Visa", locale);
   return (
     <section
       id="flights"
@@ -33,19 +33,19 @@ const Visa = async ({ params }) => {
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                <HighlightText title={t("title")} />
+                <HighlightText title={t("Title")} />
               </h2>
             </article>
-            <div className="text-primary border-b-2 border-b-transpavisa hover:border-b-primary transition-all">
+            <div className="text-primary border-b-2 border-transparent hover:border-b-primary transition-all">
               <Link
-                href={`/${locale}/opportunities`}
+                href={`/all/visa`}
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >
-                {t("more")} <BiRightArrowAlt />
+                {t("More")} <BiRightArrowAlt className="rtl:rotate-180" />
               </Link>
             </div>
           </div>
-          <p className="text-base">{t("description")}</p>
+          <p className="text-base">{t("Description")}</p>
 
           <VisaSlider visa={visa}  />
         </div>

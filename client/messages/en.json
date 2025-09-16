@@ -341,7 +341,9 @@
     "serviceTitle": "kuarmonia.com website services Feeds",
     "serviceDis": "Feeds of all kuarmonia website services easy access to all services",
     "tagTitle": "kuarmonia.com website tags",
-    "tagDis": "Fid of all Kuarmonia site tags easy access to all tags"
+    "tagDis": "Feeds of all kuarmonia site tags easy access to all tags",
+    "visaTitle": "Easy access to all the visas we provide",
+    "visaDis": "Feeds of all the visas provided on the kuarmonia.com website completely"
   },
   "whatsapp": {
     "accountName": "Marjan Qara Gizli",
@@ -367,7 +369,8 @@
     "property": "Property",
     "blog": "Article",
     "rent": "Hotel",
-    "opportunity": "Job Opportunity"
+    "opportunity": "Job Opportunity",
+    "visa": "visa"
   },
   "ModelPageAllTitle": {
     "news": "All the news",
@@ -375,7 +378,8 @@
     "property": "All real estate and apartments",
     "blog": "All articles",
     "rent": "All hotels",
-    "opportunity": "All job opportunities"
+    "opportunity": "All job opportunities",
+    "visa": "All the visas we provide to you"
   },
   "ModelPageAllDis": {
     "news": "Receive the latest information on immigration and residence in the US and Europe and the world's day -to -day news on Carmenia's website about politics, immigration, events.",
@@ -383,7 +387,8 @@
     "property": "Buying and selling all kinds of real estate, commercial, residential abroad and inside Iran with Carmenia Company safe and secure",
     "blog": "Find out with our articles about the steps, conditions, and whatever you need to migrate",
     "rent": "Hotel reservation worldwide directly and easy with a high variety of prices and facilities at Carmonia Company",
-    "opportunity": "Working Visa is one of the best and most well -known ways to migrate and obtain a residence around the world."
+    "opportunity": "Working Visa is one of the best and most well -known ways to migrate and obtain a residence around the world.",
+    "visa": "Karmania Company is active in the Immigration Basin and with our help you can obtain a variety of visas in most countries, including residence, tourist visa, work visa."
   },
   "SearchPage": {
     "Search": "Search",
@@ -391,5 +396,17 @@
     "ResultSearch": "Search results",
     "NotFound": "The result was not found to search for your",
     "Similer": "Do you mean"
+  },
+  "Visa": {
+    "More": " View all visas",
+    "Description": "Golden Visa for Immigration",
+    "Title": "Visa",
+    "FullView": "Overall",
+    "FullCondition": "General Conditions",
+    "RequireDocument": "Required documents",
+    "StepsRequest": "The application steps",
+    "FrequentlyAskedQuestions": "Frequently asked questions",
+    "Request": "Request",
+    "OtherVisas": "Other visas"
   }
 }

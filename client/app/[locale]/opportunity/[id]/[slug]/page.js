@@ -10,7 +10,7 @@ import RedirectOpportunity from "../page";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = params;
-  const opportunity = await Api(`/dynamic/get-one/opportunity/opportunityId/${id}`);
+  const opportunity = await Api(`/dynamic/get-one/opportunity/opportunityId/${id}?fields=metaTitle,refId,metaDescription,creator,tags,title,summary,thumbnail`);
   const canonical = await canonicalUrl()
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
@@ -45,7 +45,7 @@ const OpportunityPost = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl();
 
-  if (!opportunity || encodeURIComponent(opportunity.translations.en.slug) !== slug) {
+  if (!opportunity || opportunity.slug !== slug) {
     return <RedirectOpportunity params={params} />
   }
 
@@ -54,7 +54,10 @@ const OpportunityPost = async ({ params }) => {
     "@context": "https://schema.org",
     "@type": "JobPosting",
     "title": opportunity.title,
-    "image": opportunity.thumbnail.url,
+    "image": {
+      "@type": "ImageObject",
+      "url": opportunity.thumbnail.url
+    },
     "description": opportunity.summary,
     "datePosted": opportunity.createdAt,
     "employmentType": opportunity.refId.jobTime.title,

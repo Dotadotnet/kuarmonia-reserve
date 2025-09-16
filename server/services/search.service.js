@@ -38,7 +38,7 @@ exports.textSearch = async (req, res) => {
   const input = req.params.text;
   const fieldPoint = { title: 4, description: 2, tag: 2, category: 3 };
   const minPoint = 4;
-  const modelsNames = ["service", "property", "rent", "opportunity", "news", "blog"]
+  const modelsNames = [ "visa" , "service", "property", "rent", "opportunity", "news", "blog"]
 
 
   let items = [];
@@ -75,7 +75,8 @@ exports.textSearch = async (req, res) => {
     let tags = typeof item.tags == "object" ? Array.isArray(item.tags) ? item.tags : [item.tags] : [];
 
     tags.forEach(tag => {
-      point += pointText(input, tag.title, fieldPoint.tag)
+      if (tag.title)
+        point += pointText(input, tag.title, fieldPoint.tag)
     });
 
 

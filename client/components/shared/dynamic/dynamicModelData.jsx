@@ -8,7 +8,7 @@ async function DynamicModelData(data) {
     const hostLang = host + (locale == "fa" ? "" : "/" + locale);
     const modelTranslate = await getTranslations("Model")
     const models = Object.keys(modelsInfo)
-
+    const urlModels = { visa: "visas" }
     const items = data.map((item) => {
         let modelTarget = null;
         let idField = null;
@@ -24,7 +24,7 @@ async function DynamicModelData(data) {
         });
 
         const data = {
-            link: hostLang + "/" + modelTarget + "/" + item[idField] + "/" + encodeURIComponent(item.translations.en.slug),
+            link: hostLang + "/" + (urlModels[modelTarget] ? urlModels[modelTarget] : modelTarget) + "/" + item[idField] + "/" + item.slug,
             title: item.title,
             image: item.thumbnail ? item.thumbnail.url : item.gallery ? item.gallery[0].url : (host + "/banners/1.jpg"),
             icon: icon,
