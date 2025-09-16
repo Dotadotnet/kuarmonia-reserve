@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { getLocale, getTranslations } from 'next-intl/server';
 import { headers } from 'next/headers';
-const feeds = ["blog", "media", "news", "opportunity", "property", "rent", "service", "tag"]
+const feeds = ["blog", "media", "news", "opportunity", "property", "rent", "service", "tag" , "visas"]
 const langs_result = [];
 export async function generateMetadata() {
   const headersList = await headers();

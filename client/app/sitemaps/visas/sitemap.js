@@ -5,7 +5,7 @@ export default async function sitemap() {
     const visas = await Api('/dynamic/get-all/visa');
     visas.forEach(visa => {
         const item = {
-            priority: 0.5,
+            priority: 0.9,
             url: process.env.NEXT_PUBLIC_BASE_URL + "/visas/" + visa.visasId + "/" + visa.slug,
             lastModified: visa.lastUpdated,
             changeFrequency: 'daily',
