@@ -12,9 +12,13 @@ const MultiSelect = ({
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
-  const filteredItems = items.filter((item) =>
-    item.value.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredItems = items.filter((item) => {
+    if (item.value) {
+      return (item.value.toLowerCase().includes(searchTerm.toLowerCase()))
+    }
+  }
   );
+
   const handleItemSelect = (item) => {
     const isAlreadySelected = selectedItems.some(
       (selected) => selected.id === item.id
@@ -110,11 +114,10 @@ const MultiSelect = ({
               <div
                 key={item.id}
                 onClick={() => handleItemSelect(item)}
-                className={`px-4 py-2 rounded-md cursor-pointer ${
-                  selectedItems.some((selected) => selected.id === item.id)
-                    ? "bg-blue-100 text-blue-700 flex gap-x-1"
-                    : "bg-gray-100 hover:bg-blue-100 dark:bg-gray-700 dark:hover:bg-gray-900 flex gap-x-4"
-                }`}
+                className={`px-4 py-2 rounded-md cursor-pointer ${selectedItems.some((selected) => selected.id === item.id)
+                  ? "bg-blue-100 text-blue-700 flex gap-x-1"
+                  : "bg-gray-100 hover:bg-blue-100 dark:bg-gray-700 dark:hover:bg-gray-900 flex gap-x-4"
+                  }`}
               >
                 {item.icon && (
                   <span

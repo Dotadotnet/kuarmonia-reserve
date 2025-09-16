@@ -8,6 +8,10 @@ function paginateArray(array, pageNumber, itemsPerPage) {
     return array.slice(startIndex, endIndex);
 }
 
+function enCodeToUrl(string){
+    return encodeURIComponent(string.trim().replaceAll([".","--","  "],[""," "," "]).replaceAll(" ", "-").replaceAll("--","-")).replaceAll(["."],[""])
+}
+
 module.exports = class replaceRef {
     targetFild = "translations";
     DatabaseNames = mongoose.modelNames();
@@ -104,20 +108,21 @@ module.exports = class replaceRef {
                     if (data[this.targetFild] && data[this.targetFild][0]) {
                         for (let i = 0; i < data[this.targetFild].length; i++) {
                             let translated = this.getRecordObjectId(data[this.targetFild][i]["translation"]);
-                            if (translated){
+                            if (translated) {
                                 object_translate[translated.language] = translated.fields;
                             }
                         }
                     }
                     if (Object.keys(object_translate).length && object_translate[this.lang]) {
                         for (const [key, value] of Object.entries(object_translate[this.lang])) {
-                            if (key == "slug") {
-                                data["slug"] = object_translate.en.slug
-                            } else {
-                                data[key] = value
+                            if (object_translate.en.slug) {
+                                data["slug"] = enCodeToUrl(object_translate.en.slug)
+                            } else if (object_translate.en.title) {
+                                data["slug"] = enCodeToUrl(object_translate.en.title)
                             }
+                            data[key] = value
                         }
-                        data[this.targetFild] = object_translate;
+                        // data[this.targetFild] = object_translate;
                     }
                 }
             }

@@ -5,10 +5,10 @@ export default async function RedirectTag({ params }) {
     const { id, locale } = params;
     const host = process.env.NEXT_PUBLIC_BASE_URL;
     const hostLang = host + (locale == "fa" ? "" : "/" + locale);
-    const tag = await Api('/dynamic/get-one/tag/tagId/' + id);
+    const tag = await Api('/dynamic/get-one/tag/tagId/' + id + "?fields=slug");
     if (!tag) {
         return notFound()
     }
-    const url = hostLang + "/tag/" + id + "/" + encodeURIComponent(tag.translations.en.title.trim().replaceAll(" ", "-"))
+    const url = hostLang + "/tag/" + id + "/" + encodeURIComponent(tag.slug)
     return permanentRedirect(url)
 }

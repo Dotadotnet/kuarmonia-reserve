@@ -1,7 +1,12 @@
 import { getLocale } from "next-intl/server";
 
-export default async function Api(api, settings) {
+export default async function Api(api, settings, langStatic) {
    let lang = await getLocale();
+   if (langStatic) {
+      lang = langStatic
+   } else if (typeof settings == "string") {
+      lang = settings
+   }
    const host = process.env.NEXT_PUBLIC_API;
    let uri = api.replace(host, "")
    let options = {
@@ -10,7 +15,7 @@ export default async function Api(api, settings) {
          "lang": lang
       },
    }
-   if (settings) {
+   if (typeof settings == "object") {
       options = { ...options, ...settings }
    }
    let res = await fetch(process.env.NEXT_PUBLIC_API + uri, options);

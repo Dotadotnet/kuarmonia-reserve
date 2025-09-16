@@ -161,18 +161,20 @@ export default async function Home({ params }) {
   }
 
 
+  console.log(blog);
+  
   return (
     <Main schema={websiteSchema} >
       <>
         <StoriesSectionServer params={params} />
-        {/* <Hero /> */}
+        <Hero />
         <KeyServices services={service} />
+        <Visa params={params} />
         <BlogsServer blogs={blog} />
         <News news={news} />
         <Properties properties={property} />
         <Opportunity opportunity={opportunity} />
         <Rent rent={rent} />
-        <Visa params={params} />
         <NewsLetter />
       </>
    </Main>

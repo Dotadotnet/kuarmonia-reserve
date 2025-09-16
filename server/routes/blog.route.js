@@ -22,8 +22,7 @@ router.post(
   verify,
   authorize("superAdmin", "admin"),
   upload('blog').fields([
-    { name: "thumbnail", maxCount: 1 },
-    { name: "gallery", maxCount: 10 },
+    { name: "thumbnail", maxCount: 1 }
   ]),
   blogController.addBlog
 );

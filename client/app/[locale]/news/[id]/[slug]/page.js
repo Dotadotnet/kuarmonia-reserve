@@ -13,12 +13,11 @@ import analizeComments from "@/components/shared/seo/analizeComments";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = params;
-  const news = await Api(`/dynamic/get-one/news/newsId/${id}`);
+  const news = await Api(`/dynamic/get-one/news/newsId/${id}?fields=metaTitle,metaDescription,creator,tags,title,summary,thumbnail,type`);
   const canonical = await canonicalUrl()
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
   const lang = class_language.getInfo()
-
   const metadata = {
     title: news.metaTitle,
     description: news.metaDescription,
@@ -48,7 +47,7 @@ const NewsPost = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl()
 
-  if (!news || encodeURIComponent(news.translations.en.slug) !== slug) {
+  if (!news || news.slug !== slug) {
     return <RedirectNews params={params} />
   }
   const { reviews, reviewCount, reviewPoint } = analizeComments(news);

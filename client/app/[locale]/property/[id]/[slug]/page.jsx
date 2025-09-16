@@ -9,7 +9,7 @@ import RedirectProperty from "../page";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = params;
-  const property = await Api(`/dynamic/get-one/property/propertyId/${id}`);
+  const property = await Api(`/dynamic/get-one/property/propertyId/${id}?fields=metaTitle,type,metaDescription,category,creator,tags,title,summary,thumbnail`);
   const canonical = await canonicalUrl()
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
@@ -44,7 +44,7 @@ const Property = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl();
 
-  if (!property || encodeURIComponent(property.translations.en.slug) !== slug) {
+  if (!property || property.slug !== slug) {
     return <RedirectProperty params={params} />
   }
 
@@ -57,7 +57,10 @@ const Property = async ({ params }) => {
     "builtYear": "",
     "name": property.title,
     "description": property.summary,
-    "image": property.thumbnail.url,
+    "image": {
+      "@type": "ImageObject",
+      "url": property.thumbnail.url
+    },
     "url": canonical.canonical,
     "numberOfBedrooms": property.building.bedrooms.length,
     "totalUnits": property.building.totalUnits,

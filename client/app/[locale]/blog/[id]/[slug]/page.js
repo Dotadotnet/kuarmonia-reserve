@@ -12,7 +12,7 @@ import analizeComments from "@/components/shared/seo/analizeComments";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = params;
-  const blog = await Api(`/dynamic/get-one/blog/blogId/${id}`);
+  const blog = await Api(`/dynamic/get-one/blog/blogId/${id}?fields=metaTitle,metaDescription,category,creator,tags,title,description,thumbnail`);
   const canonical = await canonicalUrl()
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
     alternates: canonical
   };
   return metadata
-} 
+}
 
 
 const BlogContent = async ({ params }) => {
@@ -45,22 +45,23 @@ const BlogContent = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl()
 
-  if (!blog || encodeURIComponent(blog.translations.en.slug) !== slug) {
+  if (!blog || blog.slug !== slug) {
     return <RedirectBlog params={params} />
   }
-    const { reviews, reviewCount, reviewPoint } = analizeComments(blog);
+  
+  const { reviews, reviewCount, reviewPoint } = analizeComments(blog);
 
   const directionClass = locale === "fa" ? "rtl" : "ltr";
   const schema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "@id": canonical.canonical + "#main" ,
-    "url": canonical.canonical ,
+    "@id": canonical.canonical + "#main",
+    "url": canonical.canonical,
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": canonical.canonical
     },
-    "headline": blog.title ,
+    "headline": blog.title,
     "alternativeHeadline": blog.metaDescription,
     "description": blog.description,
     "image": {
@@ -71,14 +72,14 @@ const BlogContent = async ({ params }) => {
       "@type": "Person",
       "name": blog.creator.name
     },
-    "editor": blog.creator.name ,
-    "genre": blog.category.title ,
+    "editor": blog.creator.name,
+    "genre": blog.category.title,
     "keywords": Array.isArray(blog.tags) ? blog.tags.map(tag => { return tag.title }).join(" , ") : blog.tags.keynotes.map(tag => { return tag }).join(" , "),
     "publisher": {
       "@type": "Organization",
       "@id": hostLang + "/#organization"
     },
-    "datePublished": blog.publishDate ,
+    "datePublished": blog.publishDate,
     "dateModified": blog.updatedAt,
     "isAccessibleForFree": true,
     "commentCount": reviewCount,
@@ -87,9 +88,9 @@ const BlogContent = async ({ params }) => {
       "interactionType": "https://schema.org/CommentAction",
       "userInteractionCount": reviewCount
     },
-   
+
     "articleBody": blog.content,
-     "review": reviews.map((review) => {
+    "review": reviews.map((review) => {
       return ({
         "@type": "Review",
         "author": {

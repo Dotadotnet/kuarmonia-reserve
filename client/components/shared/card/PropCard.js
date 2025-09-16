@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { useTranslations } from "next-intl";
 import { FaBed, FaRegCalendarAlt, FaBath } from "react-icons/fa";
+import ScrollInfinity from "../utils/ScrollInfinity";
 
 const PropertyCard = ({ property }) => {
   const locale = useLocale();
@@ -39,31 +40,30 @@ const PropertyCard = ({ property }) => {
       updatedFinalPrice = installmentAmount;
     }
   }
-  const { title, summary, slug } = property ;
+  const { title, summary, slug } = property;
   const typeTitle = property.type.title;
 
   const saleTypeTitle = property.saleType.title;
 
   const tradeTypeTitle = property.tradeType.title;
 
-  
+
   return (
     <Link
       key={property?._id}
       href={`/property/${property?.propertyId}/${encodeURIComponent(property.slug.trim())}`}
       className="max-w-sm w-full  z-49 "
     >
-      <div className="relative overflow-hidden transition-all duration-150 ease-out bg-white border border-gray-100 dark:border-gray-700 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:shadow-gray-950 dark:bg-gray-800 ">
+      <div className="relative overflow-hidden pb-3 transition-all duration-150 ease-out bg-white border border-gray-100 dark:border-gray-700 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:shadow-gray-950 dark:bg-gray-800 ">
         <span
-          className={`absolute top-2 left-0 w-32 -translate-x-8 translate-y-4 -rotate-45 bg-green-500 text-white text-center text-sm z-50      ${
-            property?.citizenshipStatus === "citizenship"
-              ? "bg-green-500 text-white"
-              : property?.citizenshipStatus === "residency"
+          className={`absolute top-2 left-0 w-32 -translate-x-8 translate-y-4 -rotate-45 bg-green-500 text-white text-center text-sm z-50      ${property?.citizenshipStatus === "citizenship"
+            ? "bg-green-500 text-white"
+            : property?.citizenshipStatus === "residency"
               ? "bg-blue-500 text-white"
               : property?.citizenshipStatus === "goldenVisa"
-              ? "bg-yellow-500 text-white"
-              : "bg-transparent text-transparent"
-          }`}
+                ? "bg-yellow-500 text-white"
+                : "bg-transparent text-transparent"
+            }`}
         >
           {property?.citizenshipStatus === "citizenship" && t("citizenship")}
           {property?.citizenshipStatus === "residency" && t("residency")}
@@ -136,7 +136,7 @@ const PropertyCard = ({ property }) => {
               </div>
             )}
             <div className="flex items-end text-gray-500">
-              <p className="text-sm  ">{Array.isArray(property.address) ? property.address[0].city : property.address.city }</p>
+              <p className="text-sm  ">{Array.isArray(property.address) ? property.address[0].city : property.address.city}</p>
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -171,65 +171,55 @@ const PropertyCard = ({ property }) => {
         <div className="">
           <div className="relative">
             {/* scrollbar container */}
-            <div
-              className="absolute top-0 left-0 right-0 overflow-x-auto custom-scrollbar"
-              style={{ height: "5px" }}
-            >
-              <div style={{ width: "1000px" }} />
-            </div>
-            <div className="w-full ">
-              <div className="flex w-max gap-x-2 px-2 py-2 text-gray-600">
-                {property?.building?.bedrooms?.map((bedroom, index) => (
-                  <span
-                    key={`bedroom-${index}`}
-                    className="flex items-center gap-1 px-2 py-1 text-[10px] font-medium bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap"
+            <ScrollInfinity className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800"}>
+              {property?.building?.bedrooms?.map((bedroom, index) => (
+                <span
+                  key={`bedroom-${index}`}
+                  className="flex items-center gap-1 px-2 py-1 text-[10px] font-medium bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24px"
-                      height="24px"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M3 17.5V13q0-.444.256-.946T4 11.3V9q0-.846.577-1.423T6 7h4.5q.517 0 .883.213q.365.212.617.587q.252-.375.617-.587Q12.983 7 13.5 7H18q.846 0 1.423.577T20 9v2.3q.489.252.744.754q.256.502.256.946v4.5q0 .213-.144.356t-.357.144t-.356-.144T20 17.5V16H4v1.5q0 .213-.144.356T3.499 18t-.356-.144T3 17.5m9.5-6.5H19V9q0-.425-.288-.712T18 8h-4.5q-.425 0-.712.288T12.5 9zM5 11h6.5V9q0-.425-.288-.712T10.5 8H6q-.425 0-.712.288T5 9zm-1 4h16v-2q0-.425-.288-.712T19 12H5q-.425 0-.712.288T4 13zm16 0H4z"
-                      />
-                    </svg>
-                    {bedroom} {t("bedroom")}
-                  </span>
-                ))}
+                    <path
+                      fill="currentColor"
+                      d="M3 17.5V13q0-.444.256-.946T4 11.3V9q0-.846.577-1.423T6 7h4.5q.517 0 .883.213q.365.212.617.587q.252-.375.617-.587Q12.983 7 13.5 7H18q.846 0 1.423.577T20 9v2.3q.489.252.744.754q.256.502.256.946v4.5q0 .213-.144.356t-.357.144t-.356-.144T20 17.5V16H4v1.5q0 .213-.144.356T3.499 18t-.356-.144T3 17.5m9.5-6.5H19V9q0-.425-.288-.712T18 8h-4.5q-.425 0-.712.288T12.5 9zM5 11h6.5V9q0-.425-.288-.712T10.5 8H6q-.425 0-.712.288T5 9zm-1 4h16v-2q0-.425-.288-.712T19 12H5q-.425 0-.712.288T4 13zm16 0H4z"
+                    />
+                  </svg>
+                  {bedroom} {t("bedroom")}
+                </span>
+              ))}
 
-                {property?.building?.square?.map((square, index) => (
-                  <span
-                    key={`square-${index}`}
-                    className="flex items-center gap-1 px-2 py-1 text-[10px] font-medium bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap"
+              {property?.building?.square?.map((square, index) => (
+                <span
+                  key={`square-${index}`}
+                  className="flex items-center gap-1 px-2 py-1 text-[10px] font-medium bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 32 32"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24px"
-                      height="24px"
-                      viewBox="0 0 32 32"
-                    >
-                      <path
-                        fill="currentColor"
-                        d="M27 22.142V9.858A3.992 3.992 0 1 0 22.142 5H9.858A3.992 3.992 0 1 0 5 9.858v12.284A3.992 3.992 0 1 0 9.858 27h12.284A3.992 3.992 0 1 0 27 22.142M26 4a2 2 0 1 1-2 2a2 2 0 0 1 2-2M4 6a2 2 0 1 1 2 2a2 2 0 0 1-2-2m2 22a2 2 0 1 1 2-2a2 2 0 0 1-2 2m16.142-3H9.858A4 4 0 0 0 7 22.142V9.858A4 4 0 0 0 9.858 7h12.284A4 4 0 0 0 25 9.858v12.284A3.99 3.99 0 0 0 22.142 25M26 28a2 2 0 1 1 2-2a2.003 2.003 0 0 1-2 2"
-                      />
-                    </svg>
-                    {square} {t("metr")}
-                  </span>
-                ))}
+                    <path
+                      fill="currentColor"
+                      d="M27 22.142V9.858A3.992 3.992 0 1 0 22.142 5H9.858A3.992 3.992 0 1 0 5 9.858v12.284A3.992 3.992 0 1 0 9.858 27h12.284A3.992 3.992 0 1 0 27 22.142M26 4a2 2 0 1 1-2 2a2 2 0 0 1 2-2M4 6a2 2 0 1 1 2 2a2 2 0 0 1-2-2m2 22a2 2 0 1 1 2-2a2 2 0 0 1-2 2m16.142-3H9.858A4 4 0 0 0 7 22.142V9.858A4 4 0 0 0 9.858 7h12.284A4 4 0 0 0 25 9.858v12.284A3.99 3.99 0 0 0 22.142 25M26 28a2 2 0 1 1 2-2a2.003 2.003 0 0 1-2 2"
+                    />
+                  </svg>
+                  {square} {t("metr")}
+                </span>
+              ))}
 
-                {property?.createDate && (
-                  <span className="flex items-center gap-1 px-2 py-1 text-[10px] font-medium bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap">
-                    📅 {property.createDate}
-                  </span>
-                )}
-              </div>
-            </div>
+              {property?.createDate && (
+                <span className="flex items-center gap-1 h-full px-2 py-2 text-[10px] font-medium bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap">
+                  📅 {property.createDate}
+                </span>
+              )}
+            </ScrollInfinity>
           </div>
         </div>
-
-
       </div>
 
     </Link>

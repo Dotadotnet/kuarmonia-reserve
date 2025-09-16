@@ -344,7 +344,9 @@
     "serviceTitle": "kuarmonia.com Web sitesi hizmetleri beslemeleri",
     "serviceDis": "Tüm Kuarmonia Web Sitesi Hizmetlerinin Beslemeleri Tüm Hizmetlere Kolay Erişim",
     "tagTitle": "Kuarmonia.com web sitesi etiketleri",
-    "tagDis": "Tüm Kuarmonia site etiketlerinin FID'si tüm etiketlere kolay erişim"
+    "tagDis": "Tüm Kuarmonia site etiketlerinin FID'si tüm etiketlere kolay erişim",
+    "visaTitle": "Sağladığımız tüm vizelere kolay erişim",
+    "visaDis": "kuarmonia.com web sitesinde sağlanan tüm vizeleri tamamen"
   },
   "Seo": {
     "siteName": "Kuarmonia",
@@ -366,7 +368,8 @@
     "property": "Mülk",
     "blog": "Madde",
     "rent": "Otel",
-    "opportunity": "İş fırsatı"
+    "opportunity": "İş fırsatı",
+    "visa": "Visa"
   },
   "ModelPageAllTitle": {
     "news": "Tüm haberler",
@@ -374,7 +377,8 @@
     "property": "Tüm gayrimenkul ve daireler",
     "blog": "Tüm Makaleler",
     "rent": "Tüm oteller",
-    "opportunity": "Tüm iş fırsatları"
+    "opportunity": "Tüm iş fırsatları",
+    "visa": "Size sağladığımız tüm vizeler"
   },
   "ModelPageAllDis": {
     "news": "ABD ve Avrupa ve Dünya Günü'ndeki göç ve ikametgah hakkında en son bilgileri Carmenia'nın web sitesinde siyaset, göç, etkinlikler hakkında haberler alın.",
@@ -382,7 +386,8 @@
     "property": "Carmenia Company ile her türlü gayrimenkul, ticari, yurtdışında ve İran'ın içi satın alma ve satım güvenli ve güvenli",
     "blog": "Adımlar, koşullar ve göç etmek için ihtiyacınız olan makalelerimizle öğrenin",
     "rent": "Carmonia Company'de çok çeşitli fiyatlar ve tesislerle dünya çapında doğrudan ve kolay otel rezervasyonu",
-    "opportunity": "Çalışma vizesi, dünya çapında göç etmenin ve ikamet etmenin en iyi ve en bilinen yollarından biridir."
+    "opportunity": "Çalışma vizesi, dünya çapında göç etmenin ve ikamet etmenin en iyi ve en bilinen yollarından biridir.",
+    "visa": "Karmania Company, göçmen havzasında aktiftir ve yardımımızla ikamet, turist vizesi, çalışma vizesi gibi çoğu ülkede çeşitli vize alabilirsiniz."
   },
   "SearchPage": {
     "Search": "Aramak",
@@ -390,5 +395,17 @@
     "ResultSearch": "Arama Sonuçları",
     "NotFound": "Sonuç,",
     "Similer": "Demek istiyorsun"
+  },
+  "Visa": {
+    "More": " Tüm vizeleri görüntüle",
+    "Description": "Göç için Altın Vize",
+    "Title": "Visa",
+    "FullView": "Etraflı",
+    "FullCondition": "Genel koşullar",
+    "RequireDocument": "Gerekli Belgeler",
+    "StepsRequest": "Uygulama adımları",
+    "FrequentlyAskedQuestions": "Sık sorulan sorular",
+    "Request": "Rica etmek",
+    "OtherVisas": "Diğer Vizeler"
   }
 }

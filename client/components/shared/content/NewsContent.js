@@ -32,12 +32,10 @@ const NewsHeader = async ({ news, locale }) => {
             (() => {
               const publishDate = new Date(news.publishDate);
               const now = new Date();
-
               const diffMs = now - publishDate;
               const diffMinutes = Math.floor(diffMs / (1000 * 60));
               const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
               const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
               const weekday = publishDate.toLocaleDateString(locale, {
                 weekday: "long"
               });
@@ -61,7 +59,7 @@ const NewsHeader = async ({ news, locale }) => {
         </span>
       </div>
       {title && (
-        <h1 className=" text-3xl font-bold text-gray-900 sm:text-2xl dark:!text-gray-100 font-source-serif">
+        <h1 className=" text-2xl font-bold text-gray-900 sm:text-4xl dark:!text-gray-100 font-source-serif">
           {title}
         </h1>
       )}
@@ -74,7 +72,6 @@ const NewsHeader = async ({ news, locale }) => {
 
 const NewsMedia = ({ news }) => {
   const { thumbnail, tags } = news;
-
   return (
     <div className="flex flex-col gap-y-2 max-w-screen-xl  px-4">
       <div className="  flex justify-center items-center w-full  overflow-hidden rounded-md article-image-container">
@@ -98,7 +95,7 @@ const NewsContent = async ({ news }) => {
     <div className="px-4   text-lg tracking-wide text-gray-700 dark:text-gray-100 flex flex-col gap-y-8 max-w-screen-xl">
       <div
         dangerouslySetInnerHTML={{ __html: news.content }}
-        className="dark:!text-gray-100"
+        className="dark:text-gray-100"
       />
       <br />
       <TagBox tags={news.tags} />

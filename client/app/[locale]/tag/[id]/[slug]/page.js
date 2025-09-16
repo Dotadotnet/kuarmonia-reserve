@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
     const metadata = {
         title: seoTranslations("TagName") + " | " + tag.title,
         description: seoTranslations("TagName") + " | " + tag.description,
-        keywords: tag.keynotes ? tag.keynotes.map(tag => { return tag }).join(" , ") : null ,
+        keywords: tag.keynotes ? tag.keynotes.map(tag => { return tag }).join(" , ") : null,
         creator: tag.creator.name,
         openGraph: {
             title: tag.title,
@@ -49,11 +49,11 @@ export default async function Page({ params, searchParams }) {
     const transitionSeo = await getTranslations("Seo")
     const tagsRes = await Api("/tag/get-items/" + (page ? page : 1) + "/" + tagTarget._id);
     const totalTag = tagsRes.total;
-    const url = hostLang + "/tag/" + id + "/" + encodeURIComponent(tagTarget.translations.en.title.replaceAll(" ", "-"))
+    const url = hostLang + "/tag/" + id + "/" + tagTarget.slug
     const data = await DynamicModelData(tagsRes.data)
     const canonical = await canonicalUrl()
 
-    if (!tagTarget || encodeURIComponent(tagTarget.translations.en.title.replaceAll(" ", "-")) !== slug) {
+    if (!tagTarget || tagTarget.slug !== slug) {
         return <RedirectTag params={params} />;
     }
 
@@ -64,7 +64,10 @@ export default async function Page({ params, searchParams }) {
         "name": tagTarget.title,
         "description": tagTarget.description,
         "url": canonical.canonical,
-        "image" : data[0] ? data[0].image : host + "/banners/1.jpg" ,
+        "image": {
+            "@type": "ImageObject",
+            "url": data[0] ? data[0].image : host + "/banners/1.jpg",
+        },
         "publisher": {
             "@type": "Organization",
             "@id": hostLang + "/#organization"
@@ -84,7 +87,8 @@ export default async function Page({ params, searchParams }) {
             <Main schema={schema}>
                 <div className="pt-28 sm:pt-34">
                     <div className="flex items-center mx-5 sm:mx-14 ">
-                        <FaTags className="text-3xl sm:text-4xl" /> <p className="ml-2 text-black dark:text-white font-bold text-2xl sm:text-3xl rtl:mr-2"> {transitionSeo("TagName") + " :   "}  <h1 className="inline shadow-title font-bold ml-2 rtl:mr-2"> {tagTarget.title} </h1> </p>
+                        <FaTags className="text-3xl sm:text-4xl" /> <p className="ml-2 font-vazir text-gray-900 dark:text-white font-bold text-2xl sm:text-3xl rtl:mr-2"> {transitionSeo("TagName") + " :   "}   </p>
+                        <h1 className=" text-gray-900 dark:text-white text-2xl sm:text-3xl  shadow-title font-bold ml-2 rtl:mr-2"> {tagTarget.title} </h1>
                     </div>
                     <h2 className="mx-8 mt-6 sm:mx-16 lg:mx-26">
                         {tagTarget.description}

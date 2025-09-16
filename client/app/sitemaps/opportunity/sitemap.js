@@ -7,7 +7,7 @@ export default async function sitemap() {
     properties.forEach(property => {
         const item = {
             priority: 0.7,
-            url: process.env.NEXT_PUBLIC_BASE_URL + "/opportunity/" + property.propertyId + "/" +  encodeURIComponent(property.translations.en.slug) ,
+            url: process.env.NEXT_PUBLIC_BASE_URL + "/opportunity/" + property.propertyId + "/" +  property.slug ,
             lastModified: property.lastUpdated,
             changeFrequency: 'weekly',
             images : [property.thumbnail.url]

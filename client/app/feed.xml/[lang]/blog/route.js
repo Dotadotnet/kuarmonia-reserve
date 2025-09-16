@@ -29,7 +29,7 @@ export async function GET(request) {
             title: item.title,
             description: item.description,
             guid: item.blogId,
-            url: hostLang + "/blog/" + item.blogId + "/" + encodeURIComponent(item.translations.en.slug),
+            url: hostLang + "/blog/" + item.blogId + "/" + item.slug,
             categories: typeof item.category == "object" ? [item.category.title] : [],
             date: item.createdAt,
             author: typeof item.authorId == "object" ? item.authorId.name : "",

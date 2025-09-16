@@ -92,7 +92,7 @@ export default async function Page({ params, searchParams }) {
             <Main schema={schema} >
                 <div className="pt-28 sm:pt-34">
                     <div className="flex text-2xl sm:text-3xl items-center mx-5 sm:mx-14 ">
-                        {modelInfo.icon} <h1 className="inline shadow-title font-bold ml-3 rtl:mr-3"> {title} </h1>
+                        {modelInfo.icon} <h1 className="inline  text-gray-900 dark:text-white  shadow-title font-bold ml-3 rtl:mr-3"> {title} </h1>
                     </div>
                     <h2 className="mx-8 sm:text-left mt-6 sm:mx-16 lg:mx-26">
                         {description}

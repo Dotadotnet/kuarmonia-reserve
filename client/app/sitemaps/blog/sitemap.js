@@ -6,7 +6,7 @@ export default async function sitemap() {
     blogs.forEach(blog => {
         const item = {
             priority: 0.6,
-            url: process.env.NEXT_PUBLIC_BASE_URL + "/blog/" + blog.blogId + "/" + encodeURIComponent(blog.translations.en.slug),
+            url: process.env.NEXT_PUBLIC_BASE_URL + "/blog/" + blog.blogId + "/" + blog.slug,
             lastModified: blog.lastUpdated,
             changeFrequency: 'monthly',
             images: [blog.thumbnail.url]

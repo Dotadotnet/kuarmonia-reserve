@@ -11,7 +11,7 @@ import Api from "@/utils/api";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = params;
-  const service = await Api(`/dynamic/get-one/service/serviceId/${id}`);
+  const service = await Api(`/dynamic/get-one/service/serviceId/${id}?fields=metaTitle,category,metaDescription,creator,tags,title,summary,thumbnail`);
   const canonical = await canonicalUrl()
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
@@ -43,7 +43,7 @@ const ServicePost = async ({ params }) => {
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl()
 
-  if (!service || encodeURIComponent(service.translations.en.slug) !== slug) {
+  if (!service || service.slug !== slug) {
     return <RedirectService params={params} />
   }
   
@@ -54,7 +54,7 @@ const ServicePost = async ({ params }) => {
     "@id": canonical.canonical + "#main",
     "url": canonical.canonical,
     "description": service.summary,
-    "keywords": service.tags.map(tag => { return tag.title }).join(" , "),
+    "keywords": Array.isArray(service.tags) ? service.tags.map(tag => { return tag.title }).join(" , ") : service.tags.keynotes.map(tag => { return tag }).join(" , "),
     "serviceType": service.category.title,
     "image": {
       "@type": "ImageObject",

@@ -10,6 +10,7 @@ import Desktop from "@/components/icons/Desktop";
 import OpportunityThumbnailCard from "./OpportunityThumbnailCard";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import ScrollInfinity from "../utils/ScrollInfinity";
 
 export default function OpportunityCard({ opportunity }) {
   const locale = useLocale();
@@ -84,7 +85,8 @@ export default function OpportunityCard({ opportunity }) {
         </div>
 
         {/* محتوا */}
-        <div className="flex justify-start gap-x-1 mt-4 overflow-x-auto custom-scrollbar h-10">
+        <div className="mt-3"></div>
+        <ScrollInfinity className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800"}>
           <span className="flex items-center gap-1 px-2 py-1 h-7  bg-cyan-100 text-cyan-500  rounded-sm whitespace-nowrap">
             <OfficeBag />
             <span className="min-w-10 text-cyan-500 text-sm">
@@ -113,8 +115,9 @@ export default function OpportunityCard({ opportunity }) {
               }{" "}
             </span>
           </span>
-        </div>
-        <div className="flex justify-start gap-x-1 mt-2 overflow-x-auto custom-scrollbar h-10">
+        </ScrollInfinity>
+        <div className="mt-3"></div>
+        <ScrollInfinity className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800"}>
           {skills?.map((item, index) => (
             <span
               key={index}
@@ -123,7 +126,8 @@ export default function OpportunityCard({ opportunity }) {
               <span className="mr-1 text-sm text-blue-500">{item}</span>
             </span>
           ))}
-        </div>
+        </ScrollInfinity>
+        <div className="mt-3"></div>
         <div className="max-w-xl mx-auto">
           <label className="text-gray-400"> {t("request")}</label>
           <div className="relative  max-w-sm mx-auto">

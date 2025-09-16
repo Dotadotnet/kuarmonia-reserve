@@ -310,7 +310,7 @@ exports.updateTag = async (req, res) => {
 exports.getItem = async (req, res) => {
   let { page, id } = req.params;
   // مهم
-  const modelsNames = ["service", "property", "rent", "opportunity", "news", "blog"]
+  const modelsNames = [ "visa" ,"service", "property", "rent", "opportunity", "news", "blog"]
   // مهم
   let items = [];
   for (let i = 0; i < modelsNames.length; i++) {
