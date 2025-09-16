@@ -63,8 +63,6 @@ function ScrollInfinity({ children, className, speed = 1 }) {
                 onMouseDown={() => { stop() }}
                 onMouseUp={() => { start() }}
                 onScroll={(event) => {
-                    console.log(event);
-                    
                     const div = ref.current;
                     const maxScrollLeft = div.scrollWidth - div.clientWidth;
                     if (dir == "rtl") {
