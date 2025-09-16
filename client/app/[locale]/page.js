@@ -58,6 +58,7 @@ export default async function Home({ params }) {
   const lang = class_language.getInfo()
   const hostLang = host + (locale == "fa" ? "" : "/" + locale);
   const { service, rent, opportunity, news, blog, property } = await Api('/page/home');
+  console.log(property)
   const websiteSchema = {
     "@context": "https://schema.org",
     "@graph": [

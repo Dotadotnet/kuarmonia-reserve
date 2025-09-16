@@ -22,7 +22,7 @@ const VisaCard = ({ visa }) => {
     <Link href={`/visas/${visa.visaId}/${visa.slug_en}`}
       dir="rtl"
     >
-      <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 overflow-hidden group">
+      <div className="bg-white max-w-64 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 overflow-hidden group">
 
         {/* Image Section */}
         <div className="relative h-40 overflow-hidden">
