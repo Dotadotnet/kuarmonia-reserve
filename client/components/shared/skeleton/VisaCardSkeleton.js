@@ -3,7 +3,7 @@
 const VisaCardSkeleton = () => {
   return (
     <div
-      className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse"
+      className="bg-white rounded-2xl max-w-64 shadow-lg overflow-hidden animate-pulse"
       dir="rtl"
     >
       {/* Image Section */}

@@ -39,7 +39,7 @@ const RentSlider = ({ rent }) => {
             </SwiperSlide>
           ))
         : rent.map((rentItem) => (
-            <SwiperSlide key={rentItem._id} className="!w-fit ">
+            <SwiperSlide key={rentItem._id} className="!w-fit !m-0">
               <RentCard tour={rentItem} />
             </SwiperSlide>
           ))}
