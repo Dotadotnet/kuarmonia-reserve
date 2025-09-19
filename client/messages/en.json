@@ -141,7 +141,9 @@
     "26": "Visa",
     "27": "MasterCard",
     "28": "Pipal",
-    "29": "Jeep"
+    "29": "Jeep",
+    "10": "Visa Types",
+    "11": "Visas"
   },
   "CrispChat": {
     "0": "How can I help you?"
@@ -380,7 +382,8 @@
     "blog": "All articles",
     "rent": "All hotels",
     "opportunity": "All job opportunities",
-    "visa": "All the visas we provide to you"
+    "visa": "All the visas we provide to you",
+    "visaType": "Visa Types"
   },
   "ModelPageAllDis": {
     "news": "Receive the latest information on immigration and residence in the US and Europe and the world's day -to -day news on Carmenia's website about politics, immigration, events.",
@@ -389,7 +392,8 @@
     "blog": "Find out with our articles about the steps, conditions, and whatever you need to migrate",
     "rent": "Hotel reservation worldwide directly and easy with a high variety of prices and facilities at Carmonia Company",
     "opportunity": "Working Visa is one of the best and most well -known ways to migrate and obtain a residence around the world.",
-    "visa": "Karmania Company is active in the Immigration Basin and with our help you can obtain a variety of visas in most countries, including residence, tourist visa, work visa."
+    "visa": "Karmania Company is active in the Immigration Basin and with our help you can obtain a variety of visas in most countries, including residence, tourist visa, work visa.",
+    "visaType": "Different types of visas and complete guide for choosing the best option"
   },
   "SearchPage": {
     "Search": "Search",
@@ -409,5 +413,23 @@
     "FrequentlyAskedQuestions": "Frequently asked questions",
     "Request": "Request",
     "OtherVisas": "Other visas"
+  },
+  "VisaType": {
+    "More": "View all visa types",
+    "Description": "Complete guide to visa types and categories",
+    "Title": "Visa Types",
+    "FullView": "Overview",
+    "FullCondition": "General Conditions",
+    "RequireDocument": "Required documents",
+    "StepsRequest": "Application steps",
+    "FrequentlyAskedQuestions": "Frequently asked questions",
+    "Request": "Request consultation",
+    "OtherVisas": "Visas of this type"
+  },
+  "Rss": {
+    "visasTitle": "Visas - Kuarmonia",
+    "visasDescription": "Latest visas and immigration information",
+    "visaTypesTitle": "Visa Types - Kuarmonia",
+    "visaTypesDescription": "Complete guide to visa types and categories"
   }
 }

@@ -13,6 +13,7 @@ import StoriesSectionServer from "@/components/home/story/page";
 import Api from "@/utils/api";
 import BlogsServer from "@/components/home/blogs/Blogs";
 import Visa from "@/components/home/vias/page";
+import VisaTypes from "@/components/home/visa-types/page";
 
 export async function generateMetadata({ params }) {
   const { locale } = params;
@@ -169,6 +170,7 @@ export default async function Home({ params }) {
         <StoriesSectionServer params={params} />
         <Hero />
         <KeyServices services={service} />
+        <VisaTypes params={params} />
         <Visa params={params} />
         <BlogsServer blogs={blog} />
         <News news={news} />

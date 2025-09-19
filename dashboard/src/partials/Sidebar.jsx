@@ -242,7 +242,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                 صفحات
               </span>
             </h3>
-<ul className="mt-3 max-h-[calc(100vh-18rem)] overflow-y-auto">
+<ul className="mt-3 max-h-[calc(100vh-18rem)] ">
               {sidebarItems.map((item, index) => (
                 <SidebarItem key={index} item={item} sidebarExpanded={sidebarExpanded} />
               ))}

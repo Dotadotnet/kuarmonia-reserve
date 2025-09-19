@@ -141,7 +141,9 @@
     "26": "Visa",
     "27": "MasterCard",
     "28": "Pipal",
-    "29": "Jöle"
+    "29": "Jöle",
+    "10": "Vize Türleri",
+    "11": "Vizeler"
   },
   "CrispChat": {
     "0": "Size nasıl yardım edebilirim?"
@@ -378,7 +380,8 @@
     "blog": "Tüm Makaleler",
     "rent": "Tüm oteller",
     "opportunity": "Tüm iş fırsatları",
-    "visa": "Size sağladığımız tüm vizeler"
+    "visa": "Size sağladığımız tüm vizeler",
+    "visaType": "Vize Türleri"
   },
   "ModelPageAllDis": {
     "news": "ABD ve Avrupa ve Dünya Günü'ndeki göç ve ikametgah hakkında en son bilgileri Carmenia'nın web sitesinde siyaset, göç, etkinlikler hakkında haberler alın.",
@@ -387,7 +390,8 @@
     "blog": "Adımlar, koşullar ve göç etmek için ihtiyacınız olan makalelerimizle öğrenin",
     "rent": "Carmonia Company'de çok çeşitli fiyatlar ve tesislerle dünya çapında doğrudan ve kolay otel rezervasyonu",
     "opportunity": "Çalışma vizesi, dünya çapında göç etmenin ve ikamet etmenin en iyi ve en bilinen yollarından biridir.",
-    "visa": "Karmania Company, göçmen havzasında aktiftir ve yardımımızla ikamet, turist vizesi, çalışma vizesi gibi çoğu ülkede çeşitli vize alabilirsiniz."
+    "visa": "Karmania Company, göçmen havzasında aktiftir ve yardımımızla ikamet, turist vizesi, çalışma vizesi gibi çoğu ülkede çeşitli vize alabilirsiniz.",
+    "visaType": "Farklı vize türleri ve en iyi seçeneği seçmek için kapsamlı rehber"
   },
   "SearchPage": {
     "Search": "Aramak",
@@ -407,5 +411,23 @@
     "FrequentlyAskedQuestions": "Sık sorulan sorular",
     "Request": "Rica etmek",
     "OtherVisas": "Diğer Vizeler"
+  },
+  "VisaType": {
+    "More": "Tüm vize türlerini görüntüle",
+    "Description": "Vize türleri ve kategorileri için kapsamlı rehber",
+    "Title": "Vize Türleri",
+    "FullView": "Genel Bakış",
+    "FullCondition": "Genel koşullar",
+    "RequireDocument": "Gerekli Belgeler",
+    "StepsRequest": "Başvuru adımları",
+    "FrequentlyAskedQuestions": "Sık sorulan sorular",
+    "Request": "Danışmanlık talep et",
+    "OtherVisas": "Bu türdeki vizeler"
+  },
+  "Rss": {
+    "visasTitle": "Vizeler - Kuarmonia",
+    "visasDescription": "En son vizeler ve göçmenlik bilgileri",
+    "visaTypesTitle": "Vize Türleri - Kuarmonia",
+    "visaTypesDescription": "Vize türleri ve kategorileri için kapsamlı rehber"
   }
 }
