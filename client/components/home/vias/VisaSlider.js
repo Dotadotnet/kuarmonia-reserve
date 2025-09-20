@@ -11,39 +11,44 @@ import "swiper/css/autoplay";
 const VisaSlider = ({ visa }) => {
   return (
     <Swiper
-      loop={true}
-      effect="coverflow"
-      grabCursor
-      centeredSlides
-      initialSlide={1}
-      slidesPerView="auto"
-      spaceBetween={80}
-      modules={[EffectCoverflow, Autoplay]}
-      autoplay={{
-        delay: 6000,
-        disableOnInteraction: false
-      }}
-      coverflowEffect={{
-        rotate: 0,
-        stretch: 0,
-        depth: 300,
-        modifier: 1,
-        slideShadows: false
-      }}
       className="w-full  px-4 !flex !justify-center"
+      autoplay={{
+        delay: 1000,
+        disableOnInteraction: true,
+      }}
+      loop={true}
+      speed={1300}
+      modules={[Autoplay]}
+      slidesPerView={1}
+      spaceBetween={10}
+      breakpoints={{
+        400: {
+          slidesPerView: 2,
+          spaceBetween: 10
+        },
+        // when window width is >= 480px
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 30
+        },
+        // when window width is >= 640px
+        960: {
+          slidesPerView: 3,
+          spaceBetween: 40
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 50
+        }
+      }}
     >
-      {visa && visa.length === 0
-        ? Array.from({ length: 8 }).map((_, index) => (
-            <SwiperSlide key={index} className="!w-fit ">
-              <VisaCardSkeleton />
-            </SwiperSlide>
-          ))
-        : visa.map((visaItem) => (
-            <SwiperSlide key={visaItem._id} className="!w-fit !my-8 !m-0">
-              <VisaCard visa={visaItem} />
-            </SwiperSlide>
-          ))}
-    </Swiper>
+      {visa.map((visaItem) => (
+        <SwiperSlide key={visaItem._id} className="!my-8">
+          <VisaCard visa={visaItem} />
+        </SwiperSlide>
+      ))
+      }
+    </Swiper >
   );
 };
 

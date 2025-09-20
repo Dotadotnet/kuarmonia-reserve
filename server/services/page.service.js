@@ -36,7 +36,7 @@ async function fetchAndCacheData() {
 fetchAndCacheData();
 
 // کرون‌جاب برای آپدیت هر ۶۰ دقیقه
-cron.schedule('0 * * * *', fetchAndCacheData);
+cron.schedule('* * * *', fetchAndCacheData);
 // هندلر برای استفاده از کش
 
 

@@ -55,7 +55,6 @@ function ScrollInfinity({ children, className, speed = 1 }) {
     return (
         <div className={"relative w-full before:absolute import-class  before:top-0 before:-right-[1px] before:h-full  before:bg-linear-to-r  before:from-transparent  before:w-2 after:absolute  after:top-0 after:-left-[1px] after:h-full  after:bg-linear-to-l  after:from-transparent  after:w-2 " + className}>
             <div
-
                 onMouseEnter={() => { stop() }}
                 onMouseLeave={() => { start() }}
                 onTouchStart={() => { stop() }}
@@ -63,8 +62,6 @@ function ScrollInfinity({ children, className, speed = 1 }) {
                 onMouseDown={() => { stop() }}
                 onMouseUp={() => { start() }}
                 onScroll={(event) => {
-                    console.log(event);
-                    
                     const div = ref.current;
                     const maxScrollLeft = div.scrollWidth - div.clientWidth;
                     if (dir == "rtl") {

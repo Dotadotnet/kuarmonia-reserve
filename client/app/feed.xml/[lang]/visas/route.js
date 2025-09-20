@@ -14,8 +14,8 @@ export async function GET(request) {
     const t = await getTranslations({ locale: lang.lang, namespace: 'Rss' });
     const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (lang.lang !== "fa" ? "/" + lang.lang : '');
     const feed = new RSS({
-        title: t("visaTitle"),
-        description: t("visaDis"),
+        title: t("visasTitle"),
+        description: t("visasDis"),
         feed_url: current_url,
         site_url: hostLang + "/all/" + "visa",
         image_url: host + "/banners/1.jpg",
