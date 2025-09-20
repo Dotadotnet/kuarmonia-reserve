@@ -3,26 +3,24 @@
 
 import PropCard from "@/components/shared/card/PropCard";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, FreeMode, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import PropCardSkeleton from "@/components/shared/card/PropCardSkeleton";
 
 const PropertiesClient = ({ properties }) => {
   return (
     <div className="h-fit ">
       <Swiper
-        slidesPerView={1.4}
+        slidesPerView="auto"
+        spaceBetween={20}
+        modules={[Autoplay]}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
         breakpoints={{
-          640: { slidesPerView: 1.7 },
-          1024: { slidesPerView: 3.5 }
+          0: { slidesPerView: 1.2, spaceBetween: 15 },
+          640: { slidesPerView: 2, spaceBetween: 20 },
+          1024: { slidesPerView: 4, spaceBetween: 25 }
         }}
-        spaceBetween={10}
-        modules={[Pagination, FreeMode, Autoplay]}
-        freeMode={true}
-        autoplay={{ delay: 4500, disableOnInteraction: true, }}
-        className="w-full h-fit z-50 my-2 "
+        className="w-full h-fit my-2"
       >
         {properties && properties.length === 0
           ? Array.from({ length: 6 }).map((_, index) => (

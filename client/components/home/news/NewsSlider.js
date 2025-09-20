@@ -3,43 +3,25 @@
 import NewsCard from "@/components/shared/card/NewsCard";
 import NewsCardSkeleton from "@/components/shared/skeleton/NewsCardSkeleton";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
 
 const NewsSlider = ({ news }) => {
 
   return (
     <Swiper
     loop={true}
-    effect="coverflow"
-    grabCursor
-    centeredSlides
-    initialSlide={0}
     slidesPerView="auto"
-    spaceBetween={80}
-    modules={[EffectCoverflow, Autoplay]}
+    spaceBetween={20}
+    modules={[Autoplay]}
     autoplay={{
-      delay: 6000,
+      delay: 4000,
       disableOnInteraction: false,
     }}
     breakpoints={{
-      0: {
-        spaceBetween: 20, 
-      },
-      640: {
-        spaceBetween: 60, 
-      },
-      1024: {
-        spaceBetween: 80, 
-      }
-    }}
-    coverflowEffect={{
-      rotate: 0,
-      stretch: 0,
-      depth: 100,
-      modifier: 1,
-      slideShadows: false,
+      0: { slidesPerView: 1.2, spaceBetween: 15 },
+      640: { slidesPerView: 2, spaceBetween: 20 },
+      1024: { slidesPerView: 3, spaceBetween: 25 }
     }}
     className="w-full max-w-6xl px-4"
   >

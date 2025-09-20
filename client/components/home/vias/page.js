@@ -38,7 +38,7 @@ const Visa = async ({ params }) => {
             </article>
             <div className="text-primary border-b-2 border-transparent hover:border-b-primary transition-all">
               <Link
-                href={`/all/visa`}
+                href={`/visas`}
                 className="flex flex-row gap-x-1 items-center whitespace-nowrap"
               >
                 {t("More")} <BiRightArrowAlt className="rtl:rotate-180" />

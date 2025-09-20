@@ -4,42 +4,25 @@
 import VisaCard from "@/components/shared/card/VisaCard";
 import VisaCardSkeleton from "@/components/shared/skeleton/VisaCardSkeleton";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
+
 const VisaSlider = ({ visa }) => {
   return (
     <Swiper
-      className="w-full  px-4 !flex !justify-center"
+      className="w-full px-4"
       autoplay={{
-        delay: 1000,
-        disableOnInteraction: true,
+        delay: 4000,
+        disableOnInteraction: false,
       }}
       loop={true}
-      speed={1300}
       modules={[Autoplay]}
-      slidesPerView={1}
-      spaceBetween={10}
+      slidesPerView="auto"
+      spaceBetween={20}
       breakpoints={{
-        400: {
-          slidesPerView: 2,
-          spaceBetween: 10
-        },
-        // when window width is >= 480px
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 30
-        },
-        // when window width is >= 640px
-        960: {
-          slidesPerView: 3,
-          spaceBetween: 40
-        },
-        1280: {
-          slidesPerView: 4,
-          spaceBetween: 50
-        }
+        0: { slidesPerView: 1.2, spaceBetween: 15 },
+        640: { slidesPerView: 2, spaceBetween: 20 },
+        1024: { slidesPerView: 4, spaceBetween: 25 }
       }}
     >
       {visa.map((visaItem) => (

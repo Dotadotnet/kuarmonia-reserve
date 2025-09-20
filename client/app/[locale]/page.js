@@ -172,7 +172,6 @@ export default async function Home({ params }) {
         <KeyServices services={service} />
         <VisaTypes params={params} />
         <Visa params={params} />
-        <BlogsServer blogs={blog} />
         <News news={news} />
         <Properties properties={property} />
         <Opportunity opportunity={opportunity} />

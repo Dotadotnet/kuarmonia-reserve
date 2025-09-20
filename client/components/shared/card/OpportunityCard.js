@@ -19,7 +19,7 @@ export default function OpportunityCard({ opportunity }) {
   const experienceLevel = typeof opportunity?.refId?.experienceLevel == "object" ? Array.isArray(opportunity?.refId?.experienceLevel) ? opportunity?.refId.experienceLevel : [opportunity?.refId.experienceLevel] : []
 
   return (
-    <div className="max-w-xs min-w-[280px] m-4 p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
+    <div className="max-w-xs  p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
       <Link href={`/opportunity/${opportunity?.opportunityId}/${encodeURIComponent(opportunity.slug.trim())}`}>
         <span
           className={`absolute top-0 left-1 w-32 -translate-x-12 translate-y-3 -rotate-45 bg-green-500 text-white text-center text-xs py-[1px] z-50 `}
@@ -86,7 +86,7 @@ export default function OpportunityCard({ opportunity }) {
 
         {/* محتوا */}
         <div className="mt-3"></div>
-        <ScrollInfinity className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800"}>
+        <div className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800 flex gap-x-1"}>
           <span className="flex items-center gap-1 px-2 py-1 h-7  bg-cyan-100 text-cyan-500  rounded-sm whitespace-nowrap">
             <OfficeBag />
             <span className="min-w-10 text-cyan-500 text-sm">
@@ -115,9 +115,9 @@ export default function OpportunityCard({ opportunity }) {
               }{" "}
             </span>
           </span>
-        </ScrollInfinity>
+        </div>
         <div className="mt-3"></div>
-        <ScrollInfinity className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800"}>
+        <div className={"before:to-white dark:before:to-gray-800 flex gap-x-1 after:to-white dark:after:to-gray-800"}>
           {skills?.map((item, index) => (
             <span
               key={index}
@@ -126,7 +126,7 @@ export default function OpportunityCard({ opportunity }) {
               <span className="mr-1 text-sm text-blue-500">{item}</span>
             </span>
           ))}
-        </ScrollInfinity>
+        </div>
         <div className="mt-3"></div>
         <div className="max-w-xl mx-auto">
           <label className="text-gray-400"> {t("request")}</label>

@@ -4,46 +4,40 @@
 import RentCard from "@/components/shared/card/RentCard";
 import RentCardSkeleton from "@/components/shared/skeleton/RentCardSkeleton";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
 
 const RentSlider = ({ rent }) => {
   return (
     <Swiper
-      loop={true}
-      effect="coverflow"
-      grabCursor
-      centeredSlides
-      initialSlide={1}
-      slidesPerView="auto"
-      spaceBetween={80}
-      modules={[EffectCoverflow, Autoplay]}
-      autoplay={{
-        delay: 6000,
-        disableOnInteraction: false
-      }}
-      coverflowEffect={{
-        rotate: 0,
-        stretch: 0,
-        depth: 300,
-        modifier: 1,
-        slideShadows: false
-      }}
-      className="w-full  px-4 !flex !justify-center"
-    >
-      {rent && rent.length === 0
-        ? Array.from({ length: 8 }).map((_, index) => (
-            <SwiperSlide key={index} className="!w-fit ">
-              <RentCardSkeleton />
-            </SwiperSlide>
-          ))
-        : rent.map((rentItem) => (
-            <SwiperSlide key={rentItem._id} className="!w-fit !m-0">
-              <RentCard tour={rentItem} />
-            </SwiperSlide>
-          ))}
-    </Swiper>
+    loop={true}
+    slidesPerView="auto"
+    spaceBetween={20} // فاصله بین اسلایدها
+    modules={[Autoplay]}
+    autoplay={{
+      delay: 4000,
+      disableOnInteraction: false
+    }}
+    breakpoints={{
+      0: { slidesPerView: 1.2, spaceBetween: 5 },
+      640: { slidesPerView: 2, spaceBetween: 20 },
+      1024: { slidesPerView: 4, spaceBetween: 20 }
+    }}
+    className="w-full px-4"
+  >
+    {rent && rent.length === 0
+      ? Array.from({ length: 8 }).map((_, index) => (
+          <SwiperSlide key={index}>
+            <RentCardSkeleton />
+          </SwiperSlide>
+        ))
+      : rent.map((rentItem) => (
+          <SwiperSlide key={rentItem._id}>
+            <RentCard tour={rentItem} />
+          </SwiperSlide>
+        ))}
+  </Swiper>
+  
   );
 };
 

@@ -1,9 +1,8 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Grid, Autoplay } from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/grid";
 import VisaTypeCard from "@/components/shared/card/VisaTypeCard";
 import { useLocale } from "next-intl";
 
@@ -13,13 +12,14 @@ const VisaTypeSlider = ({ visaTypes }) => {
   if (!visaTypes || visaTypes.length === 0) {
     return (
       <Swiper
-        modules={[Grid]}
-        grid={{ rows: 2, fill: "row" }}
-        slidesPerView={2.5}
-        spaceBetween={12}
+        modules={[Autoplay]}
+        slidesPerView="auto"
+        spaceBetween={15}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
         breakpoints={{
-          0: { slidesPerView: 2.5, spaceBetween: 12 },
-          1024: { slidesPerView: 4.5, spaceBetween: 16 }
+          0: { slidesPerView: 2, spaceBetween: 15 },
+          640: { slidesPerView: 3, spaceBetween: 20 },
+          1024: { slidesPerView: 4, spaceBetween: 25 }
         }}
         className="w-full"
       >
@@ -34,14 +34,14 @@ const VisaTypeSlider = ({ visaTypes }) => {
 
   return (
     <Swiper
-      modules={[Grid, Autoplay]}
-      grid={{ rows: 2, fill: "row" }}
-      slidesPerView={2.5}
-      spaceBetween={12}
+      modules={[Autoplay]}
+      slidesPerView="auto"
+      spaceBetween={15}
       autoplay={{ delay: 4000, disableOnInteraction: false }}
       breakpoints={{
-        0: { slidesPerView: 2.5, spaceBetween: 12 },
-        1024: { slidesPerView: 4.5, spaceBetween: 16 }
+        0: { slidesPerView: 2, spaceBetween: 15 },
+        640: { slidesPerView: 3, spaceBetween: 20 },
+        1024: { slidesPerView: 4, spaceBetween: 25 }
       }}
       className="w-full"
     >
