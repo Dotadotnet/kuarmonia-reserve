@@ -6,7 +6,7 @@ export default async function sitemap() {
     visas.forEach(visa => {
         const item = {
             priority: 0.9,
-            url: process.env.NEXT_PUBLIC_BASE_URL + "/visas/" + visa.visasId + "/" + visa.slug,
+            url: process.env.NEXT_PUBLIC_BASE_URL + "/visas/" + visa.visaId + "/" + visa.slug,
             lastModified: visa.lastUpdated,
             changeFrequency: 'daily',
             images: [visa.thumbnail.url]
