@@ -1,39 +1,42 @@
 "use client";
 
-
 import PostCard from "@/components/shared/card/PostCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import "swiper/css";
 import PropCardSkeleton from "@/components/shared/card/PropCardSkeleton";
+import KeenSlider from "@/components/shared/slider/KeenSlider";
 
 const PostsClient = ({ posts }) => {
+  const breakpoints = {
+    "(max-width: 768px)": {
+      slides: { perView: 1.2, spacing: 15 }
+    },
+    "(min-width: 768px)": {
+      slides: { perView: 2, spacing: 20 }
+    },
+    "(min-width: 1024px)": {
+      slides: { perView: 3, spacing: 25 }
+    }
+  };
+
   return (
     <div className="h-full">
-      <Swiper
-        modules={[Autoplay]}
-        slidesPerView="auto"
-        spaceBetween={20}
-        autoplay={{ delay: 4000, disableOnInteraction: false }}
-        breakpoints={{
-          0: { slidesPerView: 1.2, spaceBetween: 15 },
-          768: { slidesPerView: 2, spaceBetween: 20 },
-          1024: { slidesPerView: 3, spaceBetween: 25 }
-        }}
+      <KeenSlider
         className="my-1.5"
+        breakpoints={breakpoints}
+        autoPlay={true}
+        autoPlayDelay={4000}
       >
         {posts && posts.length === 0
           ? Array.from({ length: 6 }).map((_, index) => (
-              <SwiperSlide key={index}>
+              <div key={index} className="keen-slider__slide">
                 <PropCardSkeleton />
-              </SwiperSlide>
+              </div>
             ))
           : posts.slice(0, 8).map((post) => (
-              <SwiperSlide key={post._id}>
+              <div key={post._id} className="keen-slider__slide">
                 <PostCard post={post} />
-              </SwiperSlide>
+              </div>
             ))}
-      </Swiper>
+      </KeenSlider>
     </div>
   );
 };

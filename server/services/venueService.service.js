@@ -1,7 +1,8 @@
 /* internal imports */
 const VenueService = require("../models/venueService.model");
 const Admin = require("../models/admin.model");
-const remove = require("../utils/remove.util");
+const Translation = require("../models/translation.model");
+const translateFields = require("../utils/translateFields");
 
 exports.addVenueService = async (req, res) => {
   try {
@@ -14,6 +15,40 @@ exports.addVenueService = async (req, res) => {
     });
 
     const result = await venueService.save();
+
+    try {
+      const translations = await translateFields(
+        { title, description },
+        { stringFields: ["title", "description"] }
+      );
+
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "VenueService",
+          refId: result._id,
+          fields
+        })
+      );
+
+      const insertedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = insertedTranslations.map((t) => ({
+        translation: t._id,
+        language: t.language
+      }));
+
+      await VenueService.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+    } catch (translationError) {
+      await VenueService.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. خدمات حذف شد.",
+        error: translationError.message
+      });
+    }
 
     await Admin.findByIdAndUpdate(result.creator, {
       $set: { venueService: result._id }
@@ -36,9 +71,12 @@ exports.addVenueService = async (req, res) => {
 };
 
 /* 📌 دریافت همه خدماتها */
-exports.getVenueServices = async ( res) => {
+exports.getVenueServices = async ( req, res) => {
   try {
-    const venueService = await VenueService.find({ isDeleted: false }).populate("creator");
+    const venueService = await VenueService.find({ isDeleted: false }).populate([
+      { path: "translations.translation", match: { language: req.locale } },
+      { path: "creator", select: "name avatar" }
+    ]);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

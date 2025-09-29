@@ -55,6 +55,7 @@ import AddOpportunitie from "./pages/opportunities/add";
 import News from "./pages/news";
 import AddNews from "./pages/news/add";
 import NewsCountry from "./pages/news-countries";
+import Countries  from "./pages/countries";
 import NewsType from "./pages/news-types";
 import Settings from "./pages/settings";
 import Aboutus from "./pages/settings/aboutus";
@@ -107,6 +108,7 @@ function App() {
           <Route exact path="/categories/add" element={<AddCategory />} />
           <Route path="/posts/info/:id" element={<PostInfo />} />
           <Route exact path="/properties" element={<Properties />} />
+          <Route exact path="/countries" element={<Countries />} />
           <Route exact path="/properties/add" element={<AddProperty />} />
           <Route exact path="/prop-trades" element={<PropertyTrades />} />
           <Route exact path="/prop-sales" element={<Sales />} />

@@ -6,45 +6,48 @@ const translateFields = require("../utils/translateFields");
 exports.addCeremonyType = async (req, res) => {
   try {
     const { title, description, icon } = req.body;
-    try {
-      translations = await translateFields({ title, description }, [
-        "title",
-        "description"
-      ]);
-    } catch (err) {
-      console.error("خطا در ترجمه:", err.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Error",
-        description: "خطا در ترجمه",
-        error: err.message
-      });
-    }
 
     const ceremonyType = new CeremonyType({
       title,
-      description,
       icon,
       creator: req.admin._id
     });
 
     const result = await ceremonyType.save();
-    const translationDocs = Object.entries(translations).map(
-      ([lang, { fields }]) => ({
-        language: lang,
-        refModel: "CeremonyType",
-        refId: result._id,
-        fields
-      })
-    );
-    let insertedTranslations;
+    console.log("Saved ceremonyType:", result);
+    
+    const check = await CeremonyType.findById(result._id);
+    console.log("Check in DB:", check);
+    
     try {
-      insertedTranslations = await Translation.insertMany(translationDocs);
+      const translations = await translateFields(
+        {
+          title,
+          description
+        },
+        {
+          stringFields: ["title", "description"]
+        }
+      );
 
-      const translationIds = insertedTranslations.map((t) => t._id);
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "CeremonyType",
+          refId: result._id,
+          fields
+        })
+      );
+
+      const insertedTranslations = await Translation.insertMany(translationDocs);
+
+      const translationInfos = insertedTranslations.map((t) => ({
+        translation: t._id,
+        language: t.language
+      }));
 
       await CeremonyType.findByIdAndUpdate(result._id, {
-        $set: { translations: translationIds }
+        $set: { translations: translationInfos }
       });
 
       return res.status(201).json({
@@ -54,6 +57,7 @@ exports.addCeremonyType = async (req, res) => {
         data: result
       });
     } catch (translationError) {
+      console.log(translationError);
       await CeremonyType.findByIdAndDelete(result._id);
       return res.status(500).json({
         acknowledgement: false,
@@ -62,30 +66,75 @@ exports.addCeremonyType = async (req, res) => {
         error: translationError.message
       });
     }
-   
   } catch (error) {
-    console.log(error);
+    console.error("Error adding ceremony type:", error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطایی در ثبت نوع مراسم رخ داد",
+      description: "خطا در ایجاد نوع مراسم",
       error: error.message
     });
   }
 };
 
-/* 📌 دریافت همه نوع مراسمها */
-exports.getCeremonyTypes = async (res) => {
-  const ceremonyTypes = await CeremonyType.find({ isDeleted: false }).populate(
-    "creator"
-  );
-  res.status(200).json({
-    acknowledgement: true,
-    message: "OK",
-    description: "دریافت موفق نوع مراسمات",
-    data: ceremonyTypes
-  });
+
+exports.getCeremonyTypes = async (req, res) => {
+  const { page = 1, limit = 5, search = "" } = req.query;
+  const skip = (page - 1) * limit;
+console.log(req.locale);
+  try {
+    let matchedCeremonyTypeIds = [];
+
+    if (search) {
+      const translations = await Translation.find({
+        language: req.locale,
+        refModel: "CeremonyType",
+        "fields.title": { $regex: search, $options: "i" }
+      }).select("refId");
+
+      matchedCeremonyTypeIds = translations.map((t) => t.refId);
+    }
+
+    const query = {
+      isDeleted: false,
+      ...(search ? { _id: { $in: matchedCeremonyTypeIds } } : {})
+    };
+
+    const ceremonyTypes = await CeremonyType.find(query)
+      .skip(skip)
+      .limit(Number(limit))
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: "translations.translation",
+          match: { language: req.locale }
+        },
+        {
+          path: "creator",
+          select: "name avatar"
+        }
+      ]);
+
+    const total = await CeremonyType.countDocuments(query);
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "نوع مراسم‌ها با موفقیت دریافت شدند",
+      data: ceremonyTypes,
+      total
+    });
+  } catch (error) {
+    console.error("Error fetching ceremony types:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در دریافت نوع مراسم‌ها",
+      error: error.message
+    });
+  }
 };
+
 
 /* 📌 دریافت یک نوع مراسم */
 exports.getCeremonyType = async (req, res) => {

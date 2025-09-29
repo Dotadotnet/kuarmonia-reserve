@@ -1,42 +1,40 @@
 "use client";
 
-
-
 import MediaCard from "@/components/shared/card/MediaCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import SkeletonCard from "@/components/shared/card/SkeletonCard";
+import KeenSlider from "@/components/shared/slider/KeenSlider";
 
 const MediasClient = ({ medias }) => {
+  const breakpoints = {
+    "(max-width: 768px)": {
+      slides: { perView: 1.2, spacing: 24 }
+    },
+    "(min-width: 768px)": {
+      slides: { perView: 2, spacing: 24 }
+    },
+    "(min-width: 1024px)": {
+      slides: { perView: 4, spacing: 24 }
+    }
+  };
+
   return (
-   
-          <Swiper
-            modules={[Autoplay]}
-            slidesPerView={1}
-            spaceBetween={24}
-            autoplay={{ delay: 4500 }}
-            breakpoints={{
-              0: { slidesPerView: 1.2 },
-              768: { slidesPerView: 2 },
-              1024: { slidesPerView: 4 }
-            }}
-          >
-            {medias && medias.length === 0
-              ? Array.from({ length: 6 }).map((_, index) => (
-                  <SwiperSlide key={index}>
-                    <SkeletonCard />
-                  </SwiperSlide>
-                ))
-              : medias.slice(0, 8).map((media) => (
-                  <SwiperSlide key={media._id}>
-                    <MediaCard media={media} />
-                  </SwiperSlide>
-                ))}
-          </Swiper>
-    
+    <KeenSlider
+      breakpoints={breakpoints}
+      autoPlay={true}
+      autoPlayDelay={4500}
+    >
+      {medias && medias.length === 0
+        ? Array.from({ length: 6 }).map((_, index) => (
+            <div key={index} className="keen-slider__slide">
+              <SkeletonCard />
+            </div>
+          ))
+        : medias.slice(0, 8).map((media) => (
+            <div key={media._id} className="keen-slider__slide">
+              <MediaCard media={media} />
+            </div>
+          ))}
+    </KeenSlider>
   );
 };
 

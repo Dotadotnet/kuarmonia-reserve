@@ -91,6 +91,13 @@ app.use("/api/banner", require("./routes/promoBanner.route"));
 app.use("/api/search", require("./routes/search.route"));
 app.use("/api/visa", require("./routes/visa.route"));
 app.use("/api/visaType", require("./routes/visaType.route"));
+app.use("/api/country", require("./routes/country.route"));
+
+// New API routes for individual models
+app.use("/api/opportunities", require("./routes/opportunity.route"));
+app.use("/api/news", require("./routes/news.route"));
+app.use("/api/properties", require("./routes/property.route"));
+
 app.use(error);
 
 module.exports = app;

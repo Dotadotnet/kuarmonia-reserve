@@ -586,7 +586,7 @@ focus {
   margin-bottom: 30px !important;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
+.schiderollbar-::-webkit-scrollbar {
   display: none;
 }
 
@@ -627,19 +627,11 @@ input#search::-webkit-search-cancel-button {
   height: 6px; /* ارتفاع scrollbar افقی */
 }
 
-.rtl-scrollbar::-webkit-scrollbar-track {
-  background: #f0f0f0; /* پس‌زمینه track */
-}
-
-.rtl-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #dc2626; /* رنگ قرمز thumb */
-  border-radius: 10px; /* گرد بودن thumb */
-}
 
 /* برای Firefox */
 .rtl-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #dc2626 #f0f0f0;
+  scrollbar-color: rgb(189, 192, 189) #f0f0f0;
 }
 
 

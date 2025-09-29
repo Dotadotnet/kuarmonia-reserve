@@ -1,6 +1,8 @@
 /* internal imports */
 const VenueType = require("../models/venueType.model");
-const Admin = require("../models/user.model");
+const Translation = require("../models/translation.model");
+const { generateSlug } = require("../utils/seoUtils");
+const translateFields = require("../utils/translateFields");
 
 /* 📌 اضافه کردن نوع مکان مراسم جدید */
 exports.addVenueType = async (req, res) => {
@@ -9,16 +11,60 @@ exports.addVenueType = async (req, res) => {
 
     const venueType = new VenueType({
       title,
-      description,
       icon,
       creator: req.admin._id,
     });
 
     const result = await venueType.save();
 
-    await Admin.findByIdAndUpdate(result.creator, {
-      $set: { venueType: result._id },
-    });
+
+    const slug = await generateSlug(title);
+
+    try {
+      const translations = await translateFields(
+        {
+          title,
+          description,
+          slug,
+        },
+        {
+          stringFields: ["title", "description", "slug"]
+        }
+      );
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "VenueType",
+          refId: result._id,
+          fields
+        })
+      );
+      const insertedTranslations = await Translation.insertMany(translationDocs);
+
+      const translationInfos = insertedTranslations.map((t) => ({
+        translation: t._id,
+        language: t.language
+      }));
+      await VenueType.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+
+      return res.status(201).json({
+        acknowledgement: true,
+        message: "Created",
+        description: "دسته‌بندی با موفقیت ایجاد و ترجمه شد.",
+        data: result
+      });
+    } catch (translationError) {
+      console.log(translationError.message);
+      await VenueType.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. نوع مکان مراسم حذف شد.",
+        error: translationError.message
+      });
+    }
 
     res.status(201).json({
       acknowledgement: true,

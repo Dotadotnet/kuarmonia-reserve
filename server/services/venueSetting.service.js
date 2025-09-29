@@ -2,7 +2,8 @@
 const VenueSetting = require("../models/venueSetting.model");
 const Product = require("../models/product.model");
 const Admin = require("../models/admin.model");
-const remove = require("../utils/remove.util");
+const Translation = require("../models/translation.model");
+const translateFields = require("../utils/translateFields");
 
 /* 📌 اضافه کردن تنظیمات جدید */
 exports.addVenueSetting = async (req, res) => {
@@ -16,6 +17,40 @@ exports.addVenueSetting = async (req, res) => {
     });
 
     const result = await venueSetting.save();
+
+    try {
+      const translations = await translateFields(
+        { title, description },
+        { stringFields: ["title", "description"] }
+      );
+
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "VenueSetting",
+          refId: result._id,
+          fields
+        })
+      );
+
+      const insertedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = insertedTranslations.map((t) => ({
+        translation: t._id,
+        language: t.language
+      }));
+
+      await VenueSetting.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+    } catch (translationError) {
+      await VenueSetting.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. تنظیمات حذف شد.",
+        error: translationError.message
+      });
+    }
 
     await Admin.findByIdAndUpdate(result.creator, {
       $set: { venueSetting: result._id }
@@ -39,9 +74,12 @@ exports.addVenueSetting = async (req, res) => {
 };
 
 /* 📌 دریافت همه تنظیماتها */
-exports.getVenueSettings = async ( res) => {
+exports.getVenueSettings = async ( req, res) => {
   try {
-    const venueSettings = await VenueSetting.find({ isDeleted: false }).populate("creator");
+    const venueSettings = await VenueSetting.find({ isDeleted: false }).populate([
+      { path: "translations.translation", match: { language: req.locale } },
+      { path: "creator", select: "name avatar" }
+    ]);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

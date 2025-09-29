@@ -1,6 +1,8 @@
 /* internal imports */
 const VenueAmenity = require("../models/venueAmenity.model");
 const Admin = require("../models/admin.model");
+const Translation = require("../models/translation.model");
+const translateFields = require("../utils/translateFields");
 
 /* 📌 اضافه کردن امکانات جدید */
 exports.addVenueAmenity = async (req, res) => {
@@ -15,6 +17,40 @@ exports.addVenueAmenity = async (req, res) => {
     });
 
     const result = await venueAmenity.save();
+
+    try {
+      const translations = await translateFields(
+        { title, description },
+        { stringFields: ["title", "description"] }
+      );
+
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "VenueAmenity",
+          refId: result._id,
+          fields
+        })
+      );
+
+      const insertedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = insertedTranslations.map((t) => ({
+        translation: t._id,
+        language: t.language
+      }));
+
+      await VenueAmenity.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+    } catch (translationError) {
+      await VenueAmenity.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. امکانات حذف شد.",
+        error: translationError.message
+      });
+    }
 
     await Admin.findByIdAndUpdate(result.creator, {
       $set: { venueAmenity: result._id }
@@ -37,9 +73,12 @@ exports.addVenueAmenity = async (req, res) => {
 };
 
 /* 📌 دریافت همه امکانات */
-exports.getVenueAmenities = async ( res) => {
+exports.getVenueAmenities = async ( req, res) => {
   try {
-    const venueAminities = await VenueAmenity.find({ isDeleted: false }).populate("creator");
+    const venueAminities = await VenueAmenity.find({ isDeleted: false }).populate([
+      { path: "translations.translation", match: { language: req.locale } },
+      { path: "creator", select: "name avatar" }
+    ]);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

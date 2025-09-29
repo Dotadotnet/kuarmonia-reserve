@@ -26,12 +26,15 @@ const AddCeremonyType = () => {
     if (isAdding) {
       toast.loading("در حال پردازش...", { id: "type" });
     }
-    if (addData) {
+    console.log("addData",addData);
+    if (addData && addData?.acknowledgement) {
       toast.success(addData?.description, { id: "type" });
       reset();
       setIsOpen(false);
     }
-
+    if (addData && !addData?.acknowledgement) {
+      toast.error(addData?.description, { id: "type" });
+    }
     if (addError?.data) {
       toast.error(addError?.message, { id: "type" });
     }

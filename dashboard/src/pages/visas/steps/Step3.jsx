@@ -1,11 +1,40 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
+import {
+  useGetCountriesQuery} from "@/services/Country/CountryApi";
+  import Dropdown from "@/components/shared/dropDown/Dropdown";
+  import { Controller } from "react-hook-form";
+import { useMemo } from "react";
 
 const Step3 = ({
   prevStep,
   nextStep,
   errors,
-  register 
+  register,
+  control
+
 }) => {
+
+  const {
+    isLoading: fetchingCountries,
+    data: fetchCountriesData,
+    error: fetchCountriesError
+  } = useGetCountriesQuery({
+    page: 1,
+    limit: Infinity,
+    status: "all",
+    search: ""
+  });
+console.log(fetchCountriesData)
+  const countries = useMemo(
+    () =>
+      fetchCountriesData?.data?.map((country) => ({
+        id: country._id,
+        value: country.translations[0].translation?.fields.slug,
+        label: country.slug,
+        about: country.about
+      })),
+    [fetchCountriesData]
+  );
   return (
     <>
       <div className="flex flex-col p-2">
@@ -72,27 +101,44 @@ const Step3 = ({
   )}
 </label>
 
-
-          {/* کشور */}
-          <label htmlFor="country" className="flex flex-col gap-y-1">
-            <span className="text-sm">* کشور </span>
-            <input
-              type="text"
-              id="country"
-              {...register("country", {
-                required: "وارد کردن کشور الزامی است",
-                minLength: { value: 2, message: "نام کشور باید حداقل ۲ حرف داشته باشد" },
-                maxLength: { value: 50, message: "نام کشور نباید بیشتر از ۵۰ حرف باشد" }
-              })}
-              placeholder="کشور"
-              maxLength="50"
-              className="p-2 rounded border"
-            />
-            {errors?.country && (
-              <span className="text-red-500 text-sm">{errors?.country.message}</span>
-            )}
-          </label>
-
+<div className="flex flex-col gap-y-2 w-full  ">
+        <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
+          <div className="flex flex-col flex-1">
+            <label htmlFor="country" className="flex flex-col gap-y-2 ">
+         کشور
+              <Controller
+                control={control}
+                name="country"
+                rules={{ required: "انتخاب کشور الزامی است" }}
+                render={({ field: { onChange, value } }) => (
+                  <Dropdown
+                    items={countries}
+                    selectedItems={value || []}
+                    handleSelect={onChange}
+                    placeholder="چند مورد انتخاب کنید"
+                    className={"w-full h-12"}
+                    returnType="id"
+                  />
+                )}
+              />
+            </label>
+          </div>
+          {/* <div className="mt-7 flex justify-start">
+            <button
+              type="button"
+              className="p-2 bg-green-400 dark:bg-blue-600 text-white rounded hover:bg-green-600 dark:hover:bg-blue-400 transition-colors"
+              aria-label="افزودن نوع  ویزا جدید"
+            >
+              <Plus className="w-8 h-8" />
+            </button>
+          </div> */}
+        </div>
+        {errors.country && (
+          <span className="text-red-500 text-sm">
+            {errors.country.message}
+          </span>
+        )}
+      </div>
         </div>
 
         <div className="flex justify-between mt-12">

@@ -10,6 +10,7 @@ const upload = require("../middleware/upload.middleware");
 const ceremonyTypeController = require("../controllers/ceremonyType.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -28,10 +29,11 @@ router.post(
 // get all ceremonyTypes
 router.get(
   "/get-ceremonyTypes",
+  localeMiddleware,
   ceremonyTypeController.getCeremonyTypes
 );
 // get a ceremonyType
-router.get("/get-ceremonyType/:id", ceremonyTypeController.getCeremonyType);
+router.get("/get-ceremonyType/:id",localeMiddleware, ceremonyTypeController.getCeremonyType);
 
 // update ceremonyType
 router.patch(

@@ -48,7 +48,7 @@ const ListCeremonyType = () => {
       });
     }
   }, [data, error, isLoading, removeData, removeError, isRemoving]);
-
+console.log(data);
   return (
     <>
       <ControlPanel>

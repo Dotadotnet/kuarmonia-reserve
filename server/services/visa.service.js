@@ -47,6 +47,7 @@ exports.addVisa = async (req, res) => {
       thumbnail,
       type,
       tags: parsedTags,
+      country,
       creator: req.admin._id
     });
 
@@ -80,7 +81,6 @@ exports.addVisa = async (req, res) => {
           summary,
           processingTime,
           validity,
-          country,
           difficultyLevel,
           roadmap: parsedRoadmap,
           faqs: parsedFaqs,
@@ -93,7 +93,7 @@ exports.addVisa = async (req, res) => {
           successTips: parsedSuccessTips
         },
         {
-          stringFields: ["title", "summary", "processingTime", "validity", "country", "difficultyLevel"],
+          stringFields: ["title", "summary", "processingTime", "validity", "difficultyLevel"],
           arrayObjectFields: ["faqs", "roadmap", "costs", "documents"],
           arrayStringFields: [
             "conditions",

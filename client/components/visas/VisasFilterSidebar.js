@@ -28,7 +28,7 @@ const VisasFilterSidebar = () => {
   return (
     <aside className="lg:col-span-3 md:col-span-4 col-span-12">
       <section className="flex flex-col gap-y-4 md:sticky md:top-4">
-        <div className="flex flex-col gap-y-3 border py-2 px-4 rounded">
+        <div className="flex flex-col gap-y-3 border border-gray-100 py-2 px-4 rounded">
           <h2 className="text-lg">نوع ویزا</h2>
           <div className="flex flex-col gap-y-2.5 h-40 overflow-y-auto">
             {types.map((t) => {
@@ -50,7 +50,7 @@ const VisasFilterSidebar = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-3 border py-2 px-4 rounded">
+        <div className="flex flex-col gap-y-3 border border-gray-200  py-2 px-4 rounded">
           <h2 className="text-lg">کشور</h2>
           <div className="flex flex-col gap-y-2.5 h-40 overflow-y-auto">
             {countries?.map((country, idx) => (

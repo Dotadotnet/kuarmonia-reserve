@@ -424,7 +424,14 @@
     "StepsRequest": "Application steps",
     "FrequentlyAskedQuestions": "Frequently asked questions",
     "Request": "Request consultation",
-    "OtherVisas": "Visas of this type"
+    "OtherVisas": "Visas of this type",
+    "Advantages": "Advantages",
+    "Disadvantages": "Disadvantages",
+    "Costs": "Costs",
+    "Durations": "Durations",
+    "Country": "Country",
+    "VisaFee": "Visa Fee",
+    "StayDuration": "Stay Duration"
   },
   "Rss": {
     "visasTitle": "Visas - Kuarmonia",

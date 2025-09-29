@@ -56,6 +56,7 @@ const VisaContent = ({ visa, locale, related }) => {
   const lang = useLocale();
   const class_lang = new language(lang);
   const dir = class_lang.getInfo().dir;
+  console.log(visa);
   return (
     <>
       <div className="relative">
@@ -93,7 +94,7 @@ const VisaContent = ({ visa, locale, related }) => {
             <p className="text-xl w-fit p-2  leading-relaxed">{visa.summary}</p>
             <div className="flex items-center space-x-2 text-white/90 mb-6">
               <MapPin size={20} />
-              <span className="text-lg  font-medium">{visa.country}</span>
+              <span className="text-lg  font-medium">{visa.country.name}</span>
             </div>
           </div>
         </div>

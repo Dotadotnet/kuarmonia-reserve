@@ -14,16 +14,21 @@ const ceremonyTypeSchema = new mongoose.Schema(
       minLength: [3, "نام نوع مراسم باید حداقل ۳ کاراکتر باشد"],
       maxLength: [50, "نام نوع مراسم نمی‌تواند بیشتر از ۵۰ کاراکتر باشد"]
     },
-    description: {
-      type: String,
-      maxLength: [500, "توضیحات نمی‌تواند بیشتر از ۵۰۰ کاراکتر باشد"]
-    },
-    translations: [
-      {
-        type: ObjectId,
-        ref: "Translation"
-      }
-    ],
+     translations: [
+         {
+          translation: {
+             type: mongoose.Schema.Types.ObjectId,
+             ref: "Translation",
+             required: true
+           },
+           language: {
+             type: String,
+             enum: ["fa", "en", "tr"], 
+             required: true
+           }
+         }
+       ],       
+
     icon: {
       type: String,
       required: false, // می‌تواند اختیاری باشد

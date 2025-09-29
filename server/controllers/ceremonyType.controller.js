@@ -17,7 +17,7 @@ exports.addCeremonyType = async (req, res, next) => {
 
 exports.getCeremonyTypes = async (req, res, next) => {
   try {
-    await ceremonyTypeService.getCeremonyTypes(res);
+    await ceremonyTypeService.getCeremonyTypes(req,res);
   } catch (error) {
     next(error);
   } finally {

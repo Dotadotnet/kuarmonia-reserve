@@ -5,7 +5,7 @@ const RebtLoading = () => {
   return (
     <>
       {Array.from({ length: 4 }, (_, index) => (
-        <RentCardSkeleton key={index} />
+        <VisaCardSkeleton key={index} />
       ))}
     </>
   );

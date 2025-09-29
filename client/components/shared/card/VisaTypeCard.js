@@ -6,7 +6,7 @@ const VisaTypeCard = ({ visaType, title, locale }) => {
   return (
     <Link
       href={`/${locale}/visa-types/${visaType.visaTypeId}/${visaType.slug_en}`}
-      className="group block  transition-all"
+      className="group block my-4  transition-all rounded-primary shadow-lg border border-gray-200 dark:border-gray-700"
     >
       <div className="flex items-center justify-between gap-2 p-3">
         {/* Left: Title (short text) */}

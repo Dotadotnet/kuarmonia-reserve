@@ -427,6 +427,13 @@
     "StepsRequest": "مراحل درخواست",
     "FrequentlyAskedQuestions": "سوالات متداول",
     "Request": "درخواست مشاوره",
-    "OtherVisas": "ویزاهای این نوع"
+    "OtherVisas": "ویزاهای این نوع",
+    "Advantages": "مزایا",
+    "Disadvantages": "معایب",
+    "Costs": "هزینه‌ها",
+    "Durations": "مدت زمان",
+    "Country": "کشور",
+    "VisaFee": "هزینه ویزا",
+    "StayDuration": "مدت اقامت"
   }
 }

@@ -422,7 +422,14 @@
     "StepsRequest": "Başvuru adımları",
     "FrequentlyAskedQuestions": "Sık sorulan sorular",
     "Request": "Danışmanlık talep et",
-    "OtherVisas": "Bu türdeki vizeler"
+    "OtherVisas": "Bu türdeki vizeler",
+    "Advantages": "Avantajlar",
+    "Disadvantages": "Dezavantajlar",
+    "Costs": "Maliyetler",
+    "Durations": "Süreler",
+    "Country": "Ülke",
+    "VisaFee": "Vize Ücreti",
+    "StayDuration": "Kalış Süresi"
   },
   "Rss": {
     "visasTitle": "Vizeler - Kuarmonia",

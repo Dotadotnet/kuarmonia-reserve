@@ -4,7 +4,7 @@ import { FaTag } from "react-icons/fa";
 function TagBox({ tags }) {
     let tagCollections = Array.isArray(tags) ? tags : [tags]
     return (
-        <div className="mt-6 px-8 w-full overflow-x-auto scrollbar-hide flex flex-wrap justify-center gap-2">
+        <div className=" w-full overflow-x-auto scrollbar-hide  flex flex-wrap justify-start gap-2">
             {tagCollections?.length > 0 &&
                 tagCollections.map((tag) => (
                     <Link

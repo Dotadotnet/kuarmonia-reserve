@@ -33,6 +33,7 @@ const visaSchema = new mongoose.Schema(
 
     tags: [{ type: ObjectId, ref: "Tag" }],
     type: { type: ObjectId, ref: "VisaType" },
+    country: { type: ObjectId, ref: "Country" },
 
     views: { type: Number, default: 0, min: 0 },
     likes: { type: Number, default: 0, min: 0 },

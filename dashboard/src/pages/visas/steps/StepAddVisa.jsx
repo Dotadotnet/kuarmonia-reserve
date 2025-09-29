@@ -56,8 +56,8 @@ const StepAddVisa = ({
     formData.append("validity", data.validity);
     formData.append("tags", extractIds(data.tags));
     formData.append("type", data.visaType.id);
+    formData.append("country", data.country.id);
     formData.append("content", data.content);
-    formData.append("country", data.country);
     formData.append("difficultyLevel", data.difficultyLevel);
 
     // نقشه راه

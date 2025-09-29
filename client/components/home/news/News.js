@@ -4,10 +4,18 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import NewsSlider from "./NewsSlider";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import Api from "@/utils/api";
 
-const News = async ({ news }) => {
-  const t = await getTranslations("HomePage");
+const News = async ({ params }) => {
+  const locale = params?.locale;
+  const t = await getTranslations("HomePage", locale);
+  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
+  const response = await fetch(api, {
+    cache: "no-store",
+    next: { tags: ["news"] },
+    headers: { "Accept-Language": locale }
+  });
+  const res = await response.json();
+  const news = res.data || [];
 
   return (
     <section

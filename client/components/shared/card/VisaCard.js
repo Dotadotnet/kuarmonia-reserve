@@ -22,7 +22,7 @@ const VisaCard = ({ visa }) => {
   return (
     <Link href={`/visas/${visa.visaId}/${visa.slug_en}`}
     >
-      <div className="dark:bg-gray-800 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 overflow-hidden group">
+      <div className="dark:bg-gray-800 my-2 bg-white rounded-2xl  hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1 overflow-hidden group">
 
         {/* Image Section */}
         <div className="relative h-40 overflow-hidden">
@@ -62,7 +62,7 @@ const VisaCard = ({ visa }) => {
             {summary}
           </p>
 
-          <ScrollInfinity className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800"}>
+          <div className={"flex justify-start  gap-x-2"}>
             <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
               <span
                 className="w-4 h-4 text-blue-500"
@@ -78,7 +78,7 @@ const VisaCard = ({ visa }) => {
               <MdCalendarToday className="w-3 h-3" />
               <span>{validity}</span>
             </div>
-          </ScrollInfinity>
+          </div>
         </div>
       </div>
     </Link>

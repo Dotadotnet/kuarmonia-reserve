@@ -233,7 +233,14 @@
     "StepsRequest": "خطوات التقديم",
     "FrequentlyAskedQuestions": "الأسئلة الشائعة",
     "Request": "طلب استشارة",
-    "OtherVisas": "تأشيرات من هذا النوع"
+    "OtherVisas": "تأشيرات من هذا النوع",
+    "Advantages": "المزايا",
+    "Disadvantages": "العيوب",
+    "Costs": "التكاليف",
+    "Durations": "المدة",
+    "Country": "البلد",
+    "VisaFee": "رسوم التأشيرة",
+    "StayDuration": "مدة الإقامة"
   },
   "ModelPageAllTitle": {
     "news": "جميع الأخبار",

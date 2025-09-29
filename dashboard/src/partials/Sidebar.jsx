@@ -6,16 +6,12 @@ import Post from "@/components/icons/Post";
 import Blog from "@/components/icons/Blog";
 import Gallery from "@/components/icons/Gallery";
 import Apartment from "@/components/icons/Apartment";
-import PType from "@/components/icons/PType";
 import PSale from "@/components/icons/PSale";
 import Standard from "@/components/icons/Standard";
 import Medal from "@/components/icons/Medal";
 import Buildings from "@/components/icons/Buildings";
 import Switch from "@/components/icons/Switch";
-import SidebarLinkGroup from "./SidebarLinkGroup";
 import Expand from "@/components/icons/Expand";
-import Calendar from "@/components/icons/Calendar";
-import Messages from "@/components/icons/Messages";
 import Dashboard from "@/components/icons/Dashboard";
 import User from "@/components/icons/User";
 import Category from "@/components/icons/Category";
@@ -93,12 +89,13 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       subItems: [
         { title: "آنالیز", path: "/" },
         { title: "پروفایل من", path: "/my-profile" },
-      ]
+      ],
     },
     { title: "کاربران", icon: User, path: "/users" },
     { title: " دسته بندی", icon: Category, path: "/categories" },
     { title: "َشبکه های اجتماعی", icon: Social, path: "/socialLinks" },
     { title: "تگها", icon: Tag, path: "/tags" },
+    { title: "کشور", icon: Country, path: "/countries" },
     { title: "واحد پول", icon: Currency, path: "/currencies" },
     { title: "پست ها ", icon: Post, path: "/posts" },
     { title: "مجله", icon: Blog, path: "/blogs" },
@@ -112,23 +109,23 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "لیست اخبار", icon: News, path: "/news" },
         { title: "کشور خبر", icon: Country, path: "/news-countries" },
         { title: "نوع خبر", icon: PSale, path: "/news-types" },
-      ]
+      ],
     },
-     {
+    {
       title: "بنرها",
       icon: Banner,
       subItems: [
         { title: " بنر معرفی", icon: Banner, path: "/banners" },
         { title: "استوری", icon: Story, path: "/stories" },
-      ]
+      ],
     },
-      {
+    {
       title: "ویزا",
       icon: Visa,
       subItems: [
         { title: " لیست ویزا", icon: Visa, path: "/visas" },
         { title: "انواع ویزا", icon: Passport, path: "/visa-types" },
-      ]
+      ],
     },
     {
       title: "ملک",
@@ -139,8 +136,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "نوع فروش", icon: PSale, path: "/prop-sales" },
         { title: "نوع ملک", icon: Buildings, path: "/prop-types" },
         { title: "استاندارها", icon: Standard, path: "/standards" },
-        { title: "جوایز", icon: Medal, path: "/awards" }
-      ]
+        { title: "جوایز", icon: Medal, path: "/awards" },
+      ],
     },
     {
       title: "مراسم",
@@ -155,34 +152,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "تنظیمات", icon: Setting, path: "/venue-settings" },
         { title: "استاندارد", icon: Standard, path: "/standards" },
         { title: "جوایز", icon: Medal, path: "/awards" },
-        { title: "همکاران", icon: Vendor, path: "/venue-vendors" }
-      ]
+        { title: "همکاران", icon: Vendor, path: "/venue-vendors" },
+      ],
     },
-    {
-      title: " فرصت ها",
-      icon: Celebration,
-      subItems: [
-        { title: "لیست", icon: VenueEvent, path: "/opportunities" },
-        { title: "نوغ شغل", icon: Venue, path: "/job-types" },
-        { title: "زمان بندی شغل", icon: Venue, path: "/job-times" },
-        { title: "نوع  حضور", icon: Venue, path: "/job-modes" },
-        { title: " نوع همکاری", icon: Type, path: "/employment-types" },
-        { title: "سطح تجربه کاری", icon: Ship, path: "/experience-levels" },
-        { title: "وضعیت اقامت", icon: VenueService, path: "/residency-status" },
-        { title: "نتیجه اقامت", icon: VenueService, path: "/citizenship-outcome" },
-        { title: "نوع مرکز علمی", icon: Amentity, path: "/institution-type" },
-        { title: "مرکز علمی", icon: Vendor, path: "/institutions" },
-        { title: "تنظیمات", icon: Setting, path: "/venue-settings" },
-        { title: "استاندارد", icon: Standard, path: "/standards" },
-        { title: "جوایز", icon: Medal, path: "/awards" },
-      ]
-    }
   ];
 
   return (
     <div className="min-w-fit">
+      {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-gray-900 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
+        className={`fixed inset-0 bg-gray-900 bg-opacity-30 z-40 lg:hidden transition-opacity duration-200 ${
           sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden="true"
@@ -192,21 +171,23 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex lg:!flex flex-col absolute z-40 right-0 top-0 lg:static lg:right-auto lg:top-auto lg:translate-x-0 h-auto  overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-white dark:bg-gray-800 p-3 transition-all duration-200 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "translate-x-64"
-        }`}
+        className={`flex flex-col h-screen absolute z-40 right-0 top-0 
+          lg:static lg:translate-x-0 
+          overflow-y-auto no-scrollbar 
+          w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 
+          bg-white dark:bg-gray-800 p-3 transition-all duration-200 ease-in-out 
+          ${sidebarOpen ? "translate-x-0" : "translate-x-64"}`}
       >
         {/* Sidebar header */}
         <div className="flex md:justify-center justify-between mb-10 pr-3 sm:px-2">
-          {/* Close button */}
-          <NavLink end to="/" className=" flex justify-center">
+          <NavLink end to="/" className="flex justify-center">
             <img
               src={logo}
-              alt="logo"
+              alt="logo"Ste
               width={141}
               height={40}
               className="max-w-full cursor-pointer"
-            />{" "}
+            />
           </NavLink>
           <button
             ref={trigger}
@@ -224,12 +205,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               <path d="M10.7 18.7l1.4-1.4L7.8 13H20v-2H7.8l4.3-4.3-1.4-1.4L4 12z" />
             </svg>
           </button>
-          {/* Logo */}
         </div>
 
         {/* Links */}
-        <div className="space-y-8">
-          {/* Pages group */}
+        <div className="space-y-8 flex-1">
           <div>
             <h3 className="text-xs uppercase text-gray-400 dark:text-gray-500 font-semibold pl-3">
               <span
@@ -242,11 +221,15 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                 صفحات
               </span>
             </h3>
-<ul className="mt-3 max-h-[calc(100vh-18rem)] ">
+            <ul className="my-3">
               {sidebarItems.map((item, index) => (
-                <SidebarItem key={index} item={item} sidebarExpanded={sidebarExpanded} />
+                <SidebarItem
+                  key={index}
+                  item={item}
+                  sidebarExpanded={sidebarExpanded}
+                />
               ))}
-            </ul>{" "}
+            </ul>
           </div>
         </div>
 

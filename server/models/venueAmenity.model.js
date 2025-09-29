@@ -20,8 +20,16 @@ const venueAmenitySchema = new mongoose.Schema(
     },
     translations: [
       {
-        type: ObjectId,
-        ref: "Translation"
+        translation: {
+          type: ObjectId,
+          ref: "Translation",
+          required: true
+        },
+        language: {
+          type: String,
+          enum: ["fa", "en", "tr"],
+          required: true
+        }
       }
     ],
     description: {

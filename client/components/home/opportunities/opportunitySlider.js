@@ -2,37 +2,40 @@
 
 import OpportunityCard from "@/components/shared/card/OpportunityCard";
 import OpportunityCardSkeleton from "@/components/shared/skeleton/opportunityCardSkeleton";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import "swiper/css";
+import KeenSlider from "@/components/shared/slider/KeenSlider";
 
 const OpportunitySlider = ({ opportunity }) => {
+  const breakpoints = {
+    "(max-width: 640px)": {
+      slides: { perView: 1.1, spacing: 15 }
+    },
+    "(min-width: 640px)": {
+      slides: { perView: 2, spacing: 20 }
+    },
+    "(min-width: 1024px)": {
+      slides: { perView: 4, spacing: 25 }
+    }
+  };
+
   return (
-    <Swiper
-      slidesPerView="auto"
-      loop={true}
-      spaceBetween={20} // فاصله بین اسلایدها
-      modules={[Autoplay]}
-      autoplay={{ delay: 4000, disableOnInteraction: false }}
-      breakpoints={{
-        0: { slidesPerView: 1.1, spaceBetween: 15 },
-        640: { slidesPerView: 2, spaceBetween: 20 },
-        1024: { slidesPerView: 4, spaceBetween: 25 },
-      }}
+    <KeenSlider 
       className="w-full h-fit my-2"
+      breakpoints={breakpoints}
+      autoPlay={true}
+      autoPlayDelay={4000}
     >
       {opportunity && opportunity.length === 0
         ? Array.from({ length: 10 }).map((_, index) => (
-            <SwiperSlide key={index} className="w-[250px]"> {/* عرض ثابت برای کنترل فاصله */}
+            <div key={index} className="keen-slider__slide w-[250px]">
               <OpportunityCardSkeleton />
-            </SwiperSlide>
+            </div>
           ))
         : opportunity.slice(0, 8).map((opportunityItem) => (
-            <SwiperSlide key={opportunityItem._id} className="w-[250px]">
+            <div key={opportunityItem._id} className="keen-slider__slide w-[250px]">
               <OpportunityCard opportunity={opportunityItem} />
-            </SwiperSlide>
+            </div>
           ))}
-    </Swiper>
+    </KeenSlider>
   );
 };
 

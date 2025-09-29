@@ -1,5 +1,7 @@
 /* internal imports */
 const VenueVendor = require("../models/venueVendor.model");
+const Translation = require("../models/translation.model");
+const translateFields = require("../utils/translateFields");
 
 exports.addVenueVendor = async (req, res) => {
   try {
@@ -21,6 +23,38 @@ exports.addVenueVendor = async (req, res) => {
 
     const result = await venueVendor.save();
 
+    try {
+      const translations = await translateFields(
+        { title: otherInfo.title, description: otherInfo.description, city: otherInfo.city, country: otherInfo.country },
+        { stringFields: ["title", "description", "city", "country"] }
+      );
+
+      const translationDocs = Object.entries(translations).map(
+        ([lang, { fields }]) => ({
+          language: lang,
+          refModel: "VenueVendor",
+          refId: result._id,
+          fields
+        })
+      );
+      const insertedTranslations = await Translation.insertMany(translationDocs);
+      const translationInfos = insertedTranslations.map((t) => ({
+        translation: t._id,
+        language: t.language
+      }));
+      await VenueVendor.findByIdAndUpdate(result._id, {
+        $set: { translations: translationInfos }
+      });
+    } catch (translationError) {
+      await VenueVendor.findByIdAndDelete(result._id);
+      return res.status(500).json({
+        acknowledgement: false,
+        message: "Translation Save Error",
+        description: "خطا در ذخیره ترجمه‌ها. همکار حذف شد.",
+        error: translationError.message
+      });
+    }
+
     res.status(201).json({
       acknowledgement: true,
       message: "Created",
@@ -39,17 +73,12 @@ exports.addVenueVendor = async (req, res) => {
 };
 
 /* 📌 دریافت همه همکار ها */
-exports.getVenueVendors  = async ( res) => {
+exports.getVenueVendors  = async ( req, res) => {
   try {
     const venueVendors = await VenueVendor.find({ isDeleted: false }).populate([
-      {
-        path: 'creator',
-        select: 'name avatar'  
-      },
-      {
-        path: 'category',
-        select: 'title icon'  
-      },
+      { path: 'translations.translation', match: { language: req.locale } },
+      { path: 'creator', select: 'name avatar' },
+      { path: 'category', select: 'title icon' }
     ]);
     res.status(200).json({
       acknowledgement: true,
