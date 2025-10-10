@@ -57,7 +57,6 @@ const VisaCard = ({ visa }) => {
           <p className=" dark:text-gray-100 text-gray-600 mb-3 line-clamp-2 leading-relaxed text-sm">
             {summary}
           </p>
-          <ScrollInfinity className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800"}>
             <div className={"flex justify-start  gap-x-2"}>
               <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
                 <span
@@ -75,8 +74,6 @@ const VisaCard = ({ visa }) => {
                 <span>{validity}</span>
               </div>
             </div>
-          </ScrollInfinity>
-
         </div>
       </div>
     </Link>
