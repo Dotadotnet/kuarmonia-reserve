@@ -16,7 +16,7 @@ export default function SimpleSlider({ slides }) {
 
   return (
     <section
-      aria- label="simple-slider"
+      aria-label="simple-slider"
       className="relative my-8"
       style={{ width: "100vw", marginLeft: "calc(50% - 50vw)", marginRight: "calc(50% - 50vw)" }}
     >

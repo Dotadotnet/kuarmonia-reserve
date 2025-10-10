@@ -16,7 +16,8 @@ const VisaSlider = ({ visa }) => {
       slides: { perView: 4, spacing: 25 }
     }
   };
-
+  console.log(visa);
+  
   // اگه دیتا وجود نداره یا خالیه → فقط اسکلتون‌ها
   if (!visa || visa.length === 0) {
     return (

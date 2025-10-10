@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import {
   useGetCountriesQuery,
   useRemoveCountryMutation
-} from "@/services/Country/CountryApi";
+} from "@/services/country/countryApi";
 import Add from "./add";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
 import { toast } from "react-hot-toast";

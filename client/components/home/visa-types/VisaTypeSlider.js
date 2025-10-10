@@ -11,7 +11,7 @@ const VisaTypeSlider = ({ visaTypes }) => {
     loop: true,
     initial: 0,
     created(s) {
-      s.moveToIdx(5, true, animation);
+      s.moveToIdx(5, true);
     },
     updated(s) {
       s.moveToIdx(s.track.details.abs + 5, true, animation);
