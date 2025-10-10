@@ -207,7 +207,7 @@ export default async function Home({ params }) {
       <>
         <StoriesSectionServer params={params} />
         <SimpleSlider slides={banner} />
-        <Hero />
+        {/* <Hero /> */}
         <KeyServices services={service}  />
         <VisaTypes params={params} />
         <Visa params={visa} />
