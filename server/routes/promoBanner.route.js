@@ -18,16 +18,25 @@ const router = express.Router();
 /* router methods integration */
 
 // add new banner
+
+router.post(
+  "/add-banner-slider",
+  verify,
+  authorize("superAdmin", "admin"),
+  upload("banner").single("thumbnail"),
+  bannerController.addBannerSlider
+);
+
 router.post(
   "/add-banner",
   verify,
-  authorize("superAdmin","admin"),
+  authorize("superAdmin", "admin"),
   upload("banner").single("thumbnail"),
   bannerController.addPromoBanner
 );
 
 // get all promoPromoBanners
-router.get("/get-banners",localeMiddleware, bannerController.getbanners);
+router.get("/get-banners", localeMiddleware, bannerController.getbanners);
 
 // get a banner
 router.get("/get-banner/:id", bannerController.getPromoBanner);
@@ -36,7 +45,7 @@ router.get("/get-banner/:id", bannerController.getPromoBanner);
 router.patch(
   "/update-banner/:id",
   verify,
-  authorize("superAdmin","admin"),
+  authorize("superAdmin", "admin"),
   upload('banner').single("thumbnail"),
   bannerController.updatePromoBanner
 );
@@ -45,7 +54,7 @@ router.patch(
 router.delete(
   "/delete-banner/:id",
   verify,
-  authorize("superAdmin","admin"),
+  authorize("superAdmin", "admin"),
 
   bannerController.deletePromoBanner
 );

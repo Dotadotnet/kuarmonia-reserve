@@ -13,12 +13,8 @@ const VisaCard = ({ visa }) => {
     return "bg-red-50 text-red-700 border-red-200";
   };
   const locale = useLocale();
-  const { title, summary, slug, processingTime, validity, difficultyLevel, country } =
-    visa?.translations?.find((t) => t.translation?.language === locale)
-      ?.translation?.fields || {};
-  const typeTitle = visa?.type?.translations?.find(
-    (t) => t.translation && t.language === locale
-  )?.translation?.fields?.title;
+  const { title, summary, processingTime, validity, difficultyLevel, country } = visa ;
+  const typeTitle = visa.type.title ;
   return (
     <Link href={`/visas/${visa.visaId}/${visa.slug_en}`}
     >
@@ -61,24 +57,23 @@ const VisaCard = ({ visa }) => {
           <p className=" dark:text-gray-100 text-gray-600 mb-3 line-clamp-2 leading-relaxed text-sm">
             {summary}
           </p>
-
-          <div className={"flex justify-start  gap-x-2"}>
-            <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
-              <span
-                className="w-4 h-4 text-blue-500"
-                dangerouslySetInnerHTML={{ __html: visa.type?.icon }}
-              />
-              <span>{typeTitle}</span>
+            <div className={"flex justify-start  gap-x-2"}>
+              <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
+                <span
+                  className="w-4 h-4 text-blue-500"
+                  dangerouslySetInnerHTML={{ __html: visa.type?.icon }}
+                />
+                <span>{typeTitle}</span>
+              </div>
+              <div className="flex items-center gap-1 px-2 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-medium border border-purple-200">
+                <MdOutlineAccessTime className="w-3 h-3" />
+                <span>{processingTime}</span>
+              </div>
+              <div className="flex items-center gap-1 px-2 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-200">
+                <MdCalendarToday className="w-3 h-3" />
+                <span>{validity}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1 px-2 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-medium border border-purple-200">
-              <MdOutlineAccessTime className="w-3 h-3" />
-              <span>{processingTime}</span>
-            </div>
-            <div className="flex items-center gap-1 px-2 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-200">
-              <MdCalendarToday className="w-3 h-3" />
-              <span>{validity}</span>
-            </div>
-          </div>
         </div>
       </div>
     </Link>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import VisaContent from "./VisaContent"; // بخش کلاینت جدا شده
 import canonicalUrl from "@/components/shared/seo/canonical";
 import language from "@/app/language";
+import RedirectVisa from "../page";
 
 
 export async function generateMetadata({ params }) {
@@ -36,10 +37,13 @@ export async function generateMetadata({ params }) {
 }
 
 const VisaPost = async ({ params }) => {
-  const { id, locale } = await params;
+  const { id, locale , slug } = await params;
   const canonical = await canonicalUrl()
   const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (locale == "fa" ? "" : "/" + locale);
   const visa = await Api(`/dynamic/get-one/visa/visaId/${id}`);
+  if (!visa || visa.slug_en !== slug) {
+    return <RedirectVisa params={params} />
+  }
   const seoTranslations = await getTranslations("Seo");
   const api = `${process.env.NEXT_PUBLIC_API}/visa/get-visas`;
   const visaTranslations = await getTranslations("Visa")

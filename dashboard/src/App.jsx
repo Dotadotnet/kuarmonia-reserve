@@ -55,7 +55,7 @@ import AddOpportunitie from "./pages/opportunities/add";
 import News from "./pages/news";
 import AddNews from "./pages/news/add";
 import NewsCountry from "./pages/news-countries";
-import Countries  from "./pages/countries";
+import Countries from "./pages/countries";
 import NewsType from "./pages/news-types";
 import Settings from "./pages/settings";
 import Aboutus from "./pages/settings/aboutus";
@@ -73,6 +73,8 @@ import VisaTypes from "./pages/visa-types";
 import AddVisaType from "./pages/visa-types/add";
 import Visas from "./pages/visas";
 import AddVisa from "./pages/visas/add";
+import ListBannerSlider from "./pages/banner-slider/index";
+import AddBannerSlider from "./pages/banner-slider/add";
 
 function App() {
   const location = useLocation();
@@ -102,6 +104,8 @@ function App() {
           <Route exact path="/blogs" element={<Blogs />} />
           <Route exact path="/blogs/add" element={<AddBlog />} />
           <Route exact path="/stories/add" element={<AddStory />} />
+          <Route exact path="/banner-slider/add" element={<AddBannerSlider />} />
+          <Route exact path="/banner-slider/all" element={<ListBannerSlider />} />
           <Route exact path="/stories" element={<Stories />} />
           <Route exact path="/banners" element={<Banners />} />
           <Route exact path="/galleries" element={<Galleries />} />
@@ -152,9 +156,9 @@ function App() {
           <Route exact path="/residency-status" element={<ResidencyStatus />} />
           <Route exact path="/institution-type" element={<InstitutionType />} />
           <Route exact path="/institutions" element={<Institutions />} />
-          <Route exact path="/institutions/add" element={<AddInstitutions/>} />
+          <Route exact path="/institutions/add" element={<AddInstitutions />} />
           <Route exact path="/opportunities" element={<Opportunities />} />
-          <Route exact path="/Opportunities/add" element={<AddOpportunitie/>} />
+          <Route exact path="/Opportunities/add" element={<AddOpportunitie />} />
           <Route exact path="/news" element={<News />} />
           <Route exact path="/news/add" element={<AddNews />} />
           <Route exact path="/news-countries" element={<NewsCountry />} />

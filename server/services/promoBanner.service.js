@@ -1,7 +1,23 @@
 const PromoBanner = require("../models/promoBanner.model");
+const Banner = require("../models/banner.model");
 const remove = require("../utils/remove.util");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
+
+exports.addBannerSlider = async (req, res) => {
+  const { link } = req.body;
+  const image = req.uploadedFiles.thumbnail[0];
+  console.log(link)
+  const sliderBanner = new Banner({
+    image: { url: image.url, public_id: image.public_id },
+    link: (link !== "undefined" || link !== undefined) ? link : null
+  });
+  const result = await sliderBanner.save();
+  res.status(200).json({
+    acknowledgement: true,
+    description: "بنر با موفقیت ثبت شد",
+  });
+};
 
 exports.addPromoBanner = async (req, res) => {
   try {
@@ -9,9 +25,9 @@ exports.addPromoBanner = async (req, res) => {
 
     const thumbnail = req.uploadedFiles?.thumbnail?.[0]
       ? {
-          url: req.uploadedFiles.thumbnail[0].url,
-          public_id: req.uploadedFiles.thumbnail[0].key
-        }
+        url: req.uploadedFiles.thumbnail[0].url,
+        public_id: req.uploadedFiles.thumbnail[0].key
+      }
       : null;
 
     const promoBanner = new PromoBanner({
@@ -120,7 +136,7 @@ exports.getbanners = async (req, res) => {
               populate: {
                 path: "translations.translation",
                 match: { language: req.locale },
-                          select: "fields.name"
+                select: "fields.name"
 
               }
             }

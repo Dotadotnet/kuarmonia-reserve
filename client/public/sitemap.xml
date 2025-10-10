@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <sitemap><loc>https://kuarmonia.com/sitemaps/static/sitemap.xml</loc></sitemap>
-<sitemap><loc>https://kuarmonia.com/sitemaps/blog/sitemap.xml</loc></sitemap>
+<!-- <sitemap><loc>https://kuarmonia.com/sitemaps/blog/sitemap.xml</loc></sitemap> -->
 <sitemap><loc>https://kuarmonia.com/sitemaps/news/sitemap.xml</loc></sitemap>
-<sitemap><loc>https://kuarmonia.com/sitemaps/media/sitemap.xml</loc></sitemap>
+<!-- <sitemap><loc>https://kuarmonia.com/sitemaps/media/sitemap.xml</loc></sitemap> -->
 <sitemap><loc>https://kuarmonia.com/sitemaps/property/sitemap.xml</loc></sitemap>
 <sitemap><loc>https://kuarmonia.com/sitemaps/opportunity/sitemap.xml</loc></sitemap>
 <sitemap><loc>https://kuarmonia.com/sitemaps/tag/sitemap.xml</loc></sitemap>
 <sitemap><loc>https://kuarmonia.com/sitemaps/rent/sitemap.xml</loc></sitemap>
 <sitemap><loc>https://kuarmonia.com/sitemaps/service/sitemap.xml</loc></sitemap>
 <sitemap><loc>https://kuarmonia.com/sitemaps/visas/sitemap.xml</loc></sitemap>
+<sitemap><loc>https://kuarmonia.com/sitemaps/visa-types/sitemap.xml</loc></sitemap>
 </sitemapindex>

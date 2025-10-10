@@ -3,6 +3,17 @@
 /* internal import */
 const promoBannerService = require("../services/promoBanner.service");
 
+exports.addBannerSlider = async (req, res, next) => {
+  try {
+    await promoBannerService.addBannerSlider(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+
 /* add new promoBanner */
 exports.addPromoBanner = async (req, res, next) => {
   try {

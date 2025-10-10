@@ -4,18 +4,10 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import RentSlider from "./rentSlider";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import Api from "@/utils/api";
 
 const Rent = async ({ params }) => {
-  const locale = (await params)?.locale;
-  const t = await getTranslations("rent", locale);
-  const api = `${process.env.NEXT_PUBLIC_API}/rent/get-rents`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["rent"] },
-    headers: { "Accept-Language": locale }
-  });
-  const res = await response.json();
-  const rent = res.data || [];
+  const t = await getTranslations("rent");
   return (
     <section
       id="flights"
@@ -43,8 +35,7 @@ const Rent = async ({ params }) => {
             </div>
           </div>
           <p className="text-base">{t("description")}</p>
-
-          <RentSlider rent={rent}  />
+          <RentSlider rent={params}  />
         </div>
       </Container>
     </section>

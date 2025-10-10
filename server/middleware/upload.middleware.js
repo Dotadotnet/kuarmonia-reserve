@@ -80,10 +80,8 @@ const upload = (customFolder = null) => {
                   else resolve(uploadedResult);
                 }
               );
-
               bufferToStream(fileBuffer).pipe(uploadStream);
             });
-
             req.uploadedFiles[field].push({
               url: result.secure_url,
               public_id: result.public_id,

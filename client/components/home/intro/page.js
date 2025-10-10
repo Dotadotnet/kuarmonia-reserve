@@ -53,11 +53,11 @@ export default function HomeIntroSection({ params }) {
           {/* About Section */}
           <div className="overflow-hidden">
             <div className="flex items-center justify-between mb-2">
-              <h2 className="text-2xl font-bold text-gray-800">درباره کارمونیا</h2>
+              <h2 className="text-2xl font-bold dark:text-white text-gray-900">درباره کارمونیا</h2>
               {isExpanded && (
                 <button
                   onClick={toggleExpand}
-                  className="text-gray-500 hover:text-gray-700 text-sm"
+                  className="dark:text-gray-100 text-gray-800 text-xl font-bold cursor-pointer hover:opacity-80"
                 >
                   بستن
                 </button>
@@ -67,13 +67,13 @@ export default function HomeIntroSection({ params }) {
             {/* Preview (collapsed state) */}
             {!isExpanded && (
               <div className="relative p-6 pt-4">
-                <div className="text-gray-700 leading-relaxed max-h-72 overflow-hidden">
+                <div className="dark:text-gray-100 text-gray-800 leading-relaxed max-h-72 overflow-hidden">
                   {`${hero.subtitle} ${hero.description} ${about.introduction.content} ${conclusion.content}`}
                 </div>
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t dark:from-[#101828] from-white to-transparent"></div>
                 <button
                   onClick={toggleExpand}
-                  className="absolute -bottom-1  z-10 text-indigo-600 hover:text-indigo-800 text-sm  p-2 rounded-md  "
+                  className="absolute -bottom-1 hover:opacity-80  z-10 text-indigo-600 hover:text-indigo-800 text-sm  p-2 rounded-md  "
                 >
                   مشاهده بیشتر
                 </button>
@@ -89,7 +89,7 @@ export default function HomeIntroSection({ params }) {
             >
               <div ref={contentRef} className="p-0 space-y-8">
                 {/* Main Content */}
-                <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-6">
+                <div className="prose prose-lg max-w-none dark:text-gray-100 text-gray-800 leading-relaxed space-y-6">
                   {/* Introduction */}
                   <div className="p-0">
                     <p className="text-base">
@@ -106,13 +106,13 @@ export default function HomeIntroSection({ params }) {
                     {keyFeatures.map((feature, index) => (
                       <div
                         key={index}
-                        className="p-4 rounded-xl text-center border border-gray-200 bg-white"
+                        className="p-4 rounded-xl text-center border dark:border-gray-700 dark:bg-gray-900 border-gray-200 bg-white"
                       >
                         <div className="text-2xl mb-2">{feature.icon}</div>
-                        <h3 className="font-semibold text-gray-800">
+                        <h3 className="font-semibold dark:text-white text-gray-900">
                           {feature.title}
                         </h3>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm dark:text-gray-300 text-gray-600">
                           {feature.description}
                         </p>
                       </div>
@@ -121,7 +121,7 @@ export default function HomeIntroSection({ params }) {
 
                   {/* Key Features Section */}
                   <div className="p-0">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                    <h3 className="text-2xl font-bold dark:text-white text-gray-900 mb-4">
                       {about.features.title}
                     </h3>
                     <p className="text-base">{about.features.content}</p>
@@ -129,7 +129,7 @@ export default function HomeIntroSection({ params }) {
 
                   {/* Fast Delivery Section */}
                   <div className="p-0">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                    <h3 className="text-2xl font-bold dark:text-white text-gray-900 mb-4">
                       {about.delivery.title}
                     </h3>
                     <p className="text-base">{about.delivery.content}</p>
@@ -137,7 +137,7 @@ export default function HomeIntroSection({ params }) {
 
                   {/* Special Offers Section */}
                   <div className="p-0">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                    <h3 className="text-2xl font-bold dark:text-white text-gray-900 mb-4">
                       {about.offers.title}
                     </h3>
                     <p className="text-base">{about.offers.content}</p>
@@ -152,14 +152,14 @@ export default function HomeIntroSection({ params }) {
                     {productCategories.map((category, index) => (
                       <div
                         key={category.id}
-                        className="p-6 rounded-xl border border-gray-200 bg-white"
+                        className="p-6 rounded-xl border dark:border-gray-700 dark:bg-gray-900 border-gray-200 bg-white"
                       >
                         <h4
-                          className="text-xl font-bold text-gray-800 mb-3"
+                          className="text-xl font-bold dark:text-white text-gray-900 mb-3"
                         >
                           {category.title}
                         </h4>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm dark:text-gray-300 text-gray-600">
                           {category.description}
                         </p>
                       </div>
@@ -168,12 +168,12 @@ export default function HomeIntroSection({ params }) {
 
                   {/* Additional Categories */}
                   <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                    <h3 className="text-2xl font-bold dark:text-white text-gray-900 mb-4">
                       سایر محصولات و خدمات
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                       {additionalCategories.map((category, index) => (
-                        <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                        <div key={index} className="dark:border-gray-700 border dark:bg-gray-800 border-gray-200 bg-gray-100 p-4 rounded-lg">
                           <span className="font-semibold">
                             {category.title}:
                           </span>{" "}
@@ -184,7 +184,7 @@ export default function HomeIntroSection({ params }) {
                   </div>
 
                   {/* Long SEO description */}
-                  <div className="text-gray-600 text-sm leading-7">
+                  <div className="dark:text-gray-100 text-gray-800 text-sm leading-7">
                     {seo}
                   </div>
                 </div>

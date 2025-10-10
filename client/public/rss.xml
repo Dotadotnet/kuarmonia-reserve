@@ -25,4 +25,7 @@
 <sitemap><loc>https://kuarmonia.com/feed.xml/en/visas</loc></sitemap>
 <sitemap><loc>https://kuarmonia.com/feed.xml/fa/visas</loc></sitemap>
 <sitemap><loc>https://kuarmonia.com/feed.xml/tr/visas</loc></sitemap>
+<sitemap><loc>https://kuarmonia.com/feed.xml/en/visa-types</loc></sitemap>
+<sitemap><loc>https://kuarmonia.com/feed.xml/fa/visa-types</loc></sitemap>
+<sitemap><loc>https://kuarmonia.com/feed.xml/tr/visa-types</loc></sitemap>
 </sitemapindex>

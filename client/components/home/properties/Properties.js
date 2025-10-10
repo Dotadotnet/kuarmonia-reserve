@@ -4,19 +4,10 @@ import HighlightText from "@/components/shared/highlightText/HighlightText";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import homepageApiService from "@/services/api/homepage.service";
+import Api from "@/utils/api";
 
 const PropertiesServer = async ({ params }) => {
-  const locale = (await params)?.locale;
-  const t = await getTranslations("HomePage", locale)
-  const api = `${process.env.NEXT_PUBLIC_API}/property/get-properties`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["property"] },
-    headers: { "Accept-Language": locale }
-  });
-  const res = await response.json();
-  const properties = res.data || [];
+  const t = await getTranslations("HomePage")
   return (
     <Container>
       <div
@@ -43,7 +34,7 @@ const PropertiesServer = async ({ params }) => {
               </Link>
             </div>
           </div>
-          <PropertiesClient properties={properties} />
+          <PropertiesClient properties={params} />
         </div>
       </div>
     </Container>
