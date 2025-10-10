@@ -1,6 +1,6 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import {
-  useGetCountriesQuery} from "@/services/Country/CountryApi";
+  useGetCountriesQuery} from "@/services/country/countryApi";
   import Dropdown from "@/components/shared/dropDown/Dropdown";
   import { Controller } from "react-hook-form";
 import { useMemo } from "react";
