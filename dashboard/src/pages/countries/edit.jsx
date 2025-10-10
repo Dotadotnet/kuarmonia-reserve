@@ -4,7 +4,7 @@ import Button from "@/components/shared/button/Button";
 import {
   useUpdateCountryMutation,
   useGetCountryQuery
-} from "@/services/Country/CountryApi";
+} from "@/services/country/countryApi";
 import { useEffect, useState, useMemo } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
