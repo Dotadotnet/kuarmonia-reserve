@@ -1,75 +1,45 @@
-import { getTranslations } from "next-intl/server";
+// src/app/feed.xml/route.ts
+import language from '@/app/language';
+import { getTranslations } from 'next-intl/server';
+import RSS from 'rss';
+import Api from "@/utils/api"
 
-export async function GET(request, { params }) {
-  const { lang } = await params;
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  
-  try {
-    const api = `${process.env.NEXT_PUBLIC_API}/visaType/get-visaTypes`;
-    const response = await fetch(api, {
-      cache: "no-store",
-      headers: {
-        "Accept-Language": lang
-      }
-    });
-    
-    const res = await response.json();
-    const visaTypes = res.data || [];
-    
-    const t = await getTranslations("VisaType", lang);
-    
-    const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>${t("Title")} - Kuarmonia</title>
-    <description>${t("Description")}</description>
-    <link>${baseUrl}/${lang === 'fa' ? '' : lang + '/'}visa-types</link>
-    <language>${lang}</language>
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-    <atom:link href="${baseUrl}/feed.xml/${lang}/visa-types" rel="self" type="application/rss+xml"/>
-    
-    ${visaTypes.map(visaType => {
-      const { title, summary } = visaType?.translations?.find(
-        (t) => t.language === lang
-      )?.translation?.fields || {};
-      
-      return `
-    <item>
-      <title>${title || 'نوع ویزا'}</title>
-      <description>${summary || 'توضیحات این نوع ویزا'}</description>
-      <link>${baseUrl}/${lang === 'fa' ? '' : lang + '/'}visa-types/${visaType._id}/${visaType.slug_en}</link>
-      <guid>${baseUrl}/${lang === 'fa' ? '' : lang + '/'}visa-types/${visaType._id}/${visaType.slug_en}</guid>
-      <pubDate>${new Date(visaType.createdAt).toUTCString()}</pubDate>
-      ${visaType.thumbnail?.url ? `<enclosure url="${visaType.thumbnail.url}" type="image/jpeg"/>` : ''}
-    </item>`;
-    }).join('')}
-  </channel>
-</rss>`;
+export async function GET(request) {
+  const host = process.env.NEXT_PUBLIC_BASE_URL;
+  const current_url = request.url;
+  let host_exploded = current_url.split("/");
+  const lang_string = host_exploded[host_exploded.length - 2];
+  const lang_class = new language(lang_string);
+  const lang = lang_class.getInfo()
+  const t = await getTranslations({ locale: lang.lang, namespace: 'Rss' });
+  const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (lang.lang !== "fa" ? "/" + lang.lang : '');
+  const feed = new RSS({
+    title: t("visa-typesTitle"),
+    description: t("visa-typesDis"),
+    feed_url: current_url,
+    site_url: hostLang + "/all/" + "visa",
+    image_url: host + "/banners/1.jpg",
+    language: lang.lang + "-" + lang.loc.trim().toLocaleLowerCase(),
+    pubDate: new Date().toUTCString(),
+    copyright: `Copyright ${new Date().getFullYear()}, ${"majid pashayi"}`,
+  });
+  const items = await Api('/dynamic/get-all/visaType', lang.lang);
+  items.forEach((item) => {
+    feed.item({
+      title: item.title,
+      description: item.content,
+      guid: item.visaTypeId,
+      url: hostLang + "/visa-types/" + item.visaTypeId + "/" + item.slug_en,
+      categories: typeof item.category == "object" ? [item.category.title] : [],
+      date: item.createdAt,
+      author: typeof item.authorId == "object" ? item.authorId.name : "",
+      enclosure: { url: item.thumbnail.url },
 
-    return new Response(rss, {
-      headers: {
-        'Content-Type': 'application/rss+xml',
-      },
     });
-  } catch (error) {
-    console.error('Error generating visa types RSS feed:', error);
-    
-    // Return empty RSS feed on error
-    const emptyRss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
-  <channel>
-    <title>${t("Title")} - Kuarmonia</title>
-    <description>${t("Description")}</description>
-    <link>${baseUrl}/${lang === 'fa' ? '' : lang + '/'}visa-types</link>
-    <language>${lang}</language>
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
-  </channel>
-</rss>`;
-    
-    return new Response(emptyRss, {
-      headers: {
-        'Content-Type': 'application/rss+xml',
-      },
-    });
-  }
+  });
+  return new Response(feed.xml({ indent: true }), {
+    headers: {
+      'Content-Type': 'application/rss+xml; charset=utf-8',
+    },
+  });
 }

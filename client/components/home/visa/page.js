@@ -6,19 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 const Visa = async ({ params }) => {
-  const { locale } = await params;
-  const api = `${process.env.NEXT_PUBLIC_API}/visa/get-visas`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["visa"] },
-    headers: {
-      "Accept-Language": locale
-    }
-  });
-
-  const res = await response.json();
-  const visa = res.data;  
-  const t = await getTranslations("Visa", locale);
+  const t = await getTranslations("Visa");
   return (
     <section
       id="flights"
@@ -46,8 +34,7 @@ const Visa = async ({ params }) => {
             </div>
           </div>
           <p className="text-base">{t("Description")}</p>
-
-          <VisaSlider visa={visa}  />
+          <VisaSlider visa={params}  />
         </div>
       </Container>
     </section>

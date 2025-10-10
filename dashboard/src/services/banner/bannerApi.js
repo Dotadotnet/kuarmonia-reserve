@@ -17,15 +17,33 @@ const bannerApi = kuarmoniaApi.injectEndpoints({
       invalidatesTags: ["Banner", "Admin"],
     }),
 
-    // get all banners
-getBanners: builder.query({
-  query: ({ page = 1, limit = 5, search = "" } = {}) => ({
-    url: `/banner/get-banners/?page=${page}&limit=${limit}&search=${search}`,
-    method: "GET",
-  }),
-  providesTags: ["Banner"],
-}),
+    addBannerSlider: builder.mutation({
+      query: (banner) => ({
+        url: "/banner/add-banner-slider",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: banner,
+      }),
+      invalidatesTags: ["Banner", "Admin"],
+    }),
 
+    // get all banners
+    getBanners: builder.query({
+      query: ({ page = 1, limit = 5, search = "" } = {}) => ({
+        url: `/banner/get-banners/?page=${page}&limit=${limit}&search=${search}`,
+        method: "GET",
+      }),
+      providesTags: ["Banner"],
+    }),
+    getBannersSlider: builder.query({
+      query: ({ page = 1, limit = 5, search = "" } = {}) => ({
+        url: `/dynamic/get-all/banner?page=${page}&scope=${limit}`,
+        method: "GET",
+      }),
+      providesTags: ["Banner"],
+    }),
     // update banner
     updateBanner: builder.mutation({
       query: ({ id, body }) => ({
@@ -62,13 +80,26 @@ getBanners: builder.query({
 
       invalidatesTags: ["Banner", "Admin"],
     }),
+    deleteBannerSlider: builder.mutation({
+      query: (id) => ({
+        url: `/dynamic/delete/banner/_id/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }),
+      invalidatesTags: ["Banner", "Admin"],
+    }),
   }),
 });
 
 export const {
   useAddBannerMutation,
-  useGetBannersQuery ,
+  useAddBannerSliderMutation,
+  useGetBannersQuery,
+  useGetBannersSliderQuery,
   useUpdateBannerMutation,
   useGetBannerQuery,
   useDeleteBannerMutation,
+  useDeleteBannerSliderMutation,
 } = bannerApi;

@@ -91,6 +91,9 @@ const RentCard = ({ tour }) => {
     deleteFromFavoriteLoading
   ]);
 
+
+  
+
   return (
     <section className="group w-fit flex max-w-64 flex-col gap-y-5 border-b border-l border-r border-gray-100 dark:border-gray-800 rounded">
       <div className="relative rounded-t">

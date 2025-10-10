@@ -4,18 +4,10 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import NewsSlider from "./NewsSlider";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import Api from "@/utils/api";
 
 const News = async ({ params }) => {
-  const locale = params?.locale;
-  const t = await getTranslations("HomePage", locale);
-  const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["news"] },
-    headers: { "Accept-Language": locale }
-  });
-  const res = await response.json();
-  const news = res.data || [];
+  const t = await getTranslations("HomePage");
 
   return (
     <section
@@ -31,7 +23,7 @@ const News = async ({ params }) => {
           <div className="flex flex-row justify-between items-center">
             <article className="flex flex-col gap-y-4">
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
-                {/* <HighlightText title={t("17")} /> */}
+                <HighlightText title={t("17")} />
               </h2>
             </article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
@@ -44,7 +36,7 @@ const News = async ({ params }) => {
             </div>
           </div>
           <p className="text-base">{t("18")}</p>
-          <NewsSlider news={news} />
+          <NewsSlider news={params} />
         </div>
       </Container>
     </section>

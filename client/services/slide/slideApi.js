@@ -2,6 +2,7 @@ import { kuarmoniaApi } from "../kuarmonia";
 
 const slideApi = kuarmoniaApi.injectEndpoints({
   endpoints: (builder) => ({
+
     addSlide: builder.mutation({
       query: (body) => ({
         url: "/slide/",
@@ -35,15 +36,13 @@ const slideApi = kuarmoniaApi.injectEndpoints({
         url: `/slide/${id}`,
         method: "GET",
       }),
-
       providesTags: ["Slide"],
     }),
-
     getClientSlides: builder.query({
       query: () => ({
         url: `/slide`,
         method: "GET",
-        params: { type: "client" }, 
+        params: { type: "client" },
       }),
       providesTags: ["Slide", "User"],
     }),
@@ -57,7 +56,7 @@ const slideApi = kuarmoniaApi.injectEndpoints({
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       }),
-  
+
       invalidatesTags: [
         "User",
         "Slide",
@@ -72,6 +71,12 @@ const slideApi = kuarmoniaApi.injectEndpoints({
       }),
       invalidatesTags: ["Slide"],
     }),
+    GetSlidesBanner: builder.query({
+      query: () => ({
+        url: `/dynamic/get-all/banner`,
+        method: "GET",
+      })
+    })
   }),
 });
 
@@ -82,4 +87,5 @@ export const {
   useGetClientSlidesQuery,
   useDeleteSlideMutation,
   useUpdateSlideMutation,
+  useGetSlidesBannerQuery
 } = slideApi;

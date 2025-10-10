@@ -1,49 +1,54 @@
 "use client";
 
+
 import VisaCard from "@/components/shared/card/VisaCard";
 import VisaCardSkeleton from "@/components/shared/skeleton/VisaCardSkeleton";
-import KeenSlider from "@/components/shared/slider/KeenSlider";
-
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/autoplay";
 const VisaSlider = ({ visa }) => {
-  const breakpoints = {
-    "(max-width: 640px)": {
-      slides: { perView: 1.2, spacing: 15 }
-    },
-    "(min-width: 640px)": {
-      slides: { perView: 2, spacing: 20 }
-    },
-    "(min-width: 1024px)": {
-      slides: { perView: 4, spacing: 25 }
-    }
-  };
-
-  // اگه دیتا وجود نداره یا خالیه → فقط اسکلتون‌ها
-  if (!visa || visa.length === 0) {
-    return (
-      <div className="w-full px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 my-8">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div key={index} className="w-[250px]">
-            <VisaCardSkeleton />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  // وقتی دیتا هست → اسلایدر
   return (
-    <KeenSlider
-      className="w-full px-4"
-      breakpoints={breakpoints}
-      autoPlay={true}
-      autoPlayDelay={4000}
+    <Swiper
+      className="w-full  px-4 !flex !justify-center"
+      autoplay={{
+        delay: 1000,
+        disableOnInteraction: true,
+      }}
+      loop={true}
+      speed={1300}
+      modules={[Autoplay]}
+      slidesPerView={1}
+      spaceBetween={10}
+      breakpoints={{
+        400: {
+          slidesPerView: 2,
+          spaceBetween: 10
+        },
+        // when window width is >= 480px
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 30
+        },
+        // when window width is >= 640px
+        960: {
+          slidesPerView: 3,
+          spaceBetween: 40
+        },
+        1280: {
+          slidesPerView: 4,
+          spaceBetween: 50
+        }
+      }}
     >
-      {visa.slice(0, 8).map((visaItem) => (
-        <div key={visaItem._id} className="keen-slider__slide my-8">
+      {visa.map((visaItem) => (
+        <SwiperSlide key={visaItem._id} className="!my-8">
           <VisaCard visa={visaItem} />
-        </div>
-      ))}
-    </KeenSlider>
+        </SwiperSlide>
+      ))
+      }
+    </Swiper >
   );
 };
 

@@ -5,24 +5,22 @@ import { getTranslations } from "next-intl/server";
 import VisaTypeContent from "./VisaTypeContent";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import language from "@/app/language";
+import RedirectVisaType from "../page";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = await params;
   console.log(id, locale, slug);
-
-  const visaType = await Api(`/dynamic/get-one/visaType/visaTypeId/${id}?fields=title,summary,creator,tags,thumbnail`);
-  console.log("",visaType);
+  const visaType = await Api(`/dynamic/get-one/visaType/visaTypeId/${id}?fields=title,content,creator,tags,thumbnail`);
   const canonical = await canonicalUrl();
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
   const lang = class_language.getInfo();
-  
   const metadata = {
     title: visaType.title,
-    description: visaType.summary,
+    description: visaType.content,
     creator: visaType.creator?.name,
-    keywords: Array.isArray(visaType.tags) 
-      ? visaType.tags.map(tag => tag.title).join(" , ") 
+    keywords: Array.isArray(visaType.tags)
+      ? visaType.tags.map(tag => tag.title).join(" , ")
       : visaType.tags?.keynotes?.map(tag => tag).join(" , ") || "",
     openGraph: {
       title: visaType.title,
@@ -33,18 +31,20 @@ export async function generateMetadata({ params }) {
       locale: lang.lang + "-" + lang.loc,
       type: "website"
     },
+    canonical: canonical.canonical,
     alternates: canonical
   };
   return metadata;
 }
 
 const VisaTypePost = async ({ params }) => {
-  const { id, locale } = await params;
-  
-  // دریافت اطلاعات نوع ویزا
+  const { id, locale, slug } = await params;
+  const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (locale == "fa" ? "" : "/" + locale);
   const visaType = await Api(`/dynamic/get-one/visaType/visaTypeId/${id}`);
-  
-  // دریافت ویزاهای مرتبط با این نوع
+  if (!visaType || visaType.slug_en !== slug) {
+    return <RedirectVisaType params={params} />
+  }
+  const visaTranslations = await getTranslations("Visa")
   const relatedVisasApi = `${process.env.NEXT_PUBLIC_API}/visa/get-visas?type=${id}`;
   const response = await fetch(relatedVisasApi, {
     cache: "no-store",
@@ -57,53 +57,67 @@ const VisaTypePost = async ({ params }) => {
 
   const visaTypeTranslations = await getTranslations("VisaType", locale);
   const canonical = await canonicalUrl();
-
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Article",
-        "@id": canonical.canonical + "#article",
-        "headline": visaType.title,
-        "description": visaType.summary,
-        "image": visaType.thumbnail?.url,
-        "author": {
-          "@type": "Person",
-          "name": visaType.creator?.name || "Kuarmonia"
+        "@type": "Service",
+        "@id": canonical.canonical + "#main",
+        "name": visaType.title,
+        "url": canonical.canonical,
+        "keywords": Array.isArray(visaType.tags) ? visaType.tags.map(tag => { return tag.title }).join(" , ") : visaType.tags.keynotes.map(tag => { return tag }).join(" , "),
+        "image": {
+          "@type": "ImageObject",
+          "url": visaType.thumbnail.url
         },
-        "publisher": {
+        "provider": {
           "@type": "Organization",
-          "name": "Kuarmonia",
-          "logo": {
-            "@type": "ImageObject",
-            "url": process.env.NEXT_PUBLIC_BASE_URL + "/logo2.png"
-          }
+          "@id": hostLang + "/#organization"
         },
-        "datePublished": visaType.createdAt,
-        "dateModified": visaType.updatedAt,
-        "inLanguage": locale
+        "areaServed": {
+          "@type": "Country",
+          "name": visaType.country
+        },
+        "description": visaType.content,
+        "hasPart": [
+          { "@id": canonical.canonical + "#faq" },
+          ...relatedVisas.map((relatedVisa) => {
+            return (
+              {
+                "@type": "SiteNavigationElement",
+                "name": relatedVisa.title,
+                "url": hostLang + "/visas/" + relatedVisa.visaId + "/" + encodeURIComponent(relatedVisa.slug_en)
+              }
+            )
+          })
+        ]
       },
       {
         "@type": "FAQPage",
         "@id": canonical.canonical + "#faq",
-        "mainEntity": visaType.faqs?.map(faq => ({
-          "@type": "Question",
-          "name": faq.question,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.answer
-          }
-        })) || []
+        "name": visaTranslations("FrequentlyAskedQuestions"),
+        "mainEntity": visaType.faqs.map(faq => {
+          return (
+            {
+              "@type": "Question",
+              "name": faq.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": faq.answer
+              }
+            }
+          )
+        })
       }
     ]
-  };
+  }
 
   return (
     <Main schema={schema}>
       <Container className="!px-0">
-        <VisaTypeContent 
-          visaType={visaType} 
-          locale={locale} 
+        <VisaTypeContent
+          visaType={visaType}
+          locale={locale}
           relatedVisas={relatedVisas}
         />
       </Container>

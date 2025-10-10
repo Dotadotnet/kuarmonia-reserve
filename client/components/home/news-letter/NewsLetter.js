@@ -15,7 +15,7 @@ const NewsLetter = () => {
   };
 
   return (
-    <section className="h-full py-12 dark:bg-gray-900">
+    <section className="h-full pt-12 ">
       <Container>
         <section className="w-full h-full lg:gap-x-4 gap-y-12 grid grid-cols-12">
           <div className="lg:col-span-5 col-span-12 rounded relative">

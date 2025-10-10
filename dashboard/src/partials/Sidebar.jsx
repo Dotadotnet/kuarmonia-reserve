@@ -116,6 +116,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       icon: Banner,
       subItems: [
         { title: " بنر معرفی", icon: Banner, path: "/banners" },
+        { title: " بنر اسلایدر ", icon: Banner, path: "/banner-slider/all" },
         { title: "استوری", icon: Story, path: "/stories" },
       ],
     },
@@ -161,9 +162,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
     <div className="min-w-fit">
       {/* Overlay */}
       <div
-        className={`fixed inset-0 bg-gray-900 bg-opacity-30 z-40 lg:hidden transition-opacity duration-200 ${
-          sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed inset-0 bg-gray-900 bg-opacity-30 z-40 lg:hidden transition-opacity duration-200 ${sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
         aria-hidden="true"
       ></div>
 
@@ -183,7 +183,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
           <NavLink end to="/" className="flex justify-center">
             <img
               src={logo}
-              alt="logo"Ste
+              alt="logo" Ste
               width={141}
               height={40}
               className="max-w-full cursor-pointer"

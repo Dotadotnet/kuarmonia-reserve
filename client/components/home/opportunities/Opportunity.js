@@ -4,19 +4,11 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import OpportunitySlider from "./opportunitySlider";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import Api from "@/utils/api";
 
 
 const Opportunity = async ({ params }) => {
-  const locale = params?.locale;
-  const t = await getTranslations("opportunity", locale);
-  const api = `${process.env.NEXT_PUBLIC_API}/opportunity/get-opportunities`;
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["opportunity"] },
-    headers: { "Accept-Language": locale }
-  });
-  const res = await response.json();
-  const opportunity = res.data || [];
+  const t = await getTranslations("opportunity");
   return (
     <section
       id="flights"
@@ -45,7 +37,7 @@ const Opportunity = async ({ params }) => {
           </div>
           <p className="text-base">{t("description")}</p>
 
-          <OpportunitySlider opportunity={opportunity} />
+          <OpportunitySlider opportunity={params} />
         </div>
       </Container>
     </section>
