@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 const Rent = async ({ params }) => {
-  const locale = params?.locale;
+  const locale = (await params)?.locale;
   const t = await getTranslations("rent", locale);
   const api = `${process.env.NEXT_PUBLIC_API}/rent/get-rents`;
   const response = await fetch(api, {

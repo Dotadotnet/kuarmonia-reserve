@@ -5,8 +5,25 @@ const nextConfig = {
   output: 'standalone',
   unstable_runtimeJS: false,
   images: {
-    domains: ['s3-console.kuarmonia.com', 'storage.kuarmonia.com', 'localhost'],
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "s3-console.kuarmonia.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "storage.kuarmonia.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "",
+        pathname: "/**",
+      },
       {
         protocol: "https",
         hostname: "placehold.co",

@@ -7,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 import homepageApiService from "@/services/api/homepage.service";
 
 const PropertiesServer = async ({ params }) => {
-  const locale = params?.locale;
+  const locale = (await params)?.locale;
   const t = await getTranslations("HomePage", locale)
   const api = `${process.env.NEXT_PUBLIC_API}/property/get-properties`;
   const response = await fetch(api, {

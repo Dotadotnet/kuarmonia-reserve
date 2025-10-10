@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 const News = async ({ params }) => {
-  const locale = params?.locale;
+  const locale = (await params)?.locale;
   const t = await getTranslations("HomePage", locale);
   const api = `${process.env.NEXT_PUBLIC_API}/news/get-news`;
   const response = await fetch(api, {

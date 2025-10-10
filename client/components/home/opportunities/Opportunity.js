@@ -7,7 +7,7 @@ import { Link } from "@/i18n/navigation";
 
 
 const Opportunity = async ({ params }) => {
-  const locale = params?.locale;
+  const locale = (await params)?.locale;
   const t = await getTranslations("opportunity", locale);
   const api = `${process.env.NEXT_PUBLIC_API}/opportunity/get-opportunities`;
   const response = await fetch(api, {

@@ -3,13 +3,20 @@ import { routing } from './i18n/routing';
 
 
 export default async function middleware(request) {
-  const host = process.env.NEXT_PUBLIC_BASE_URL ;
+  const host = process.env.NEXT_PUBLIC_BASE_URL;
   const handleI18nRouting = createMiddleware({
     ...routing,
     localeDetection: false
   });
   const response = handleI18nRouting(request);
-  response.headers.set('url', request.url.replace("https://localhost:3000", host));
+  
+  // Only set URL header if not localhost to avoid canonical issues
+  if (!request.url.includes('localhost')) {
+    response.headers.set('url', request.url);
+  } else {
+    response.headers.set('url', request.url.replace('https://localhost:3000', host));
+  }
+  
   return response;
 }
 
