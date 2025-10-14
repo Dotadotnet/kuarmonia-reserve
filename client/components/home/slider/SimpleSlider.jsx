@@ -66,7 +66,7 @@ export default function SimpleSlider({ slides }) {
               <SwiperSlide key={index} >
                 <div className="size-full flex justify-center items-center">
                   <Link href={slide.link}>
-                    <Image width={1200} height={400} src={slide.image.url} alt="Banner" className="banner-images-swiper lg:rounded-2xl" style="aspect-ratio: 4 / 1; width: 100%; object-fit: cover;" />
+                    <Image width={1200} height={400} src={slide.image.url} alt="Banner" className="banner-images-swiper lg:rounded-2xl"  />
                   </Link>
                 </div>
               </SwiperSlide>

@@ -171,11 +171,11 @@ export default async function Home({ params }) {
     <Main schema={websiteSchema}  >
       <>
         <StoriesSectionServer params={params} />
-        {/* <SimpleSlider slides={banner} /> */}
+        <SimpleSlider slides={banner} />
         {/* <Hero /> */}
         <KeyServices services={service}  />
         <VisaTypes params={params} />
-        {/* <Visa params={visa} /> */}
+        <Visa params={visa[0]} />
         <News params={news} /> 
         <Properties params={property} />
         <Opportunity params={opportunity} />

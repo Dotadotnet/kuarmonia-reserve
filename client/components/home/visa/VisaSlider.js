@@ -8,7 +8,7 @@ import { Autoplay, Grid, Pagination } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-const VisaSlider = ({ visa }) => {
+const VisaSlider = ({ visas }) => {
   return (
     <div>
       <Swiper
@@ -46,21 +46,21 @@ const VisaSlider = ({ visa }) => {
 
       >
         {
-          visa.map((visaItem, index) => {
+          visas.map((visa, index) => {
             if (index % 2 == 0) {
-              if (visa[index + 1]) {
+              if (visas[index + 1]) {
                 return (
                   <SwiperSlide  >
-                    <VisaCard key={visaItem._id} visa={visaItem} />
+                    <VisaCard key={visa._id} visa={visa} />
                     <div className="mt-5"></div>
-                    <VisaCard key={visa[index + 1]._id} visa={visa[index + 1]} />
+                    <VisaCard key={visas[index + 1]._id} visa={visas[index + 1]} />
                   </SwiperSlide>
                 )
               } else {
                 return (
                   <SwiperSlide  >
                     <div className="size-full flex justify-center items-center">
-                      <VisaCard key={visaItem._id} visa={visaItem} />
+                      <VisaCard key={visa._id} visa={visa} />
                     </div>
                   </SwiperSlide>
                 )

@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 
 const Visa = async ({ params }) => {
   const t = await getTranslations("Visa");
+  let visas = Array.isArray(params) ? params : [params];
   return (
     <section
       id="flights"
@@ -35,7 +36,7 @@ const Visa = async ({ params }) => {
           </div>
           <p className="text-base">{t("Description")}</p>
           {/* <VisaSlider visa={params.concat(params,params,params,params,params,params[0])}  /> */}
-          <VisaSlider visa={params}  />
+          <VisaSlider visas={visas}  />
         </div>
       </Container>
     </section>
