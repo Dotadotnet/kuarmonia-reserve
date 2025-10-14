@@ -18,12 +18,18 @@ const nextConfig = {
         pathname: "/**",
       },
       {
+        protocol: "https",
+        hostname: "api.kuarmonia.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
         protocol: "http",
         hostname: "localhost",
         port: "",
         pathname: "/**",
       },
-            {
+      {
         protocol: "https",
         hostname: "res.cloudinary.com",
         port: "",

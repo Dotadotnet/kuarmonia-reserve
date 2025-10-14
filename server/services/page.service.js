@@ -50,6 +50,7 @@ async function replaceDataDynamic(data, req) {
 
 exports.home = async (req, res) => {
     const cached = cache.get('dataPage' + req.headers.lang);
+    console.log(cached);
     res.status(200).json({
         acknowledgement: true,
         message: "Ok",

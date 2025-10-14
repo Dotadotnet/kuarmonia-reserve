@@ -19,6 +19,10 @@ export default async function Api(api, settings, langStatic) {
       options = { ...options, ...settings }
    }
    let res = await fetch(process.env.NEXT_PUBLIC_API + uri, options);
-   let data = await res.json();
-   return data.data;
+   try {
+      let data = await res.json();
+      return data.data;
+   } catch (error) {
+      console.log(res);
+   }
 }
