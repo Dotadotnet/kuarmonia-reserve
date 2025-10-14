@@ -53,7 +53,7 @@ const VisaSlider = ({ visa }) => {
                   <SwiperSlide  >
                     <VisaCard key={visaItem._id} visa={visaItem} />
                     <div className="mt-5"></div>
-                    <VisaCard key={visaItem._id} visa={visa[index + 1]} />
+                    <VisaCard key={visa[index + 1]._id} visa={visa[index + 1]} />
                   </SwiperSlide>
                 )
               } else {

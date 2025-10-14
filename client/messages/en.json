@@ -345,7 +345,9 @@
     "tagTitle": "kuarmonia.com website tags",
     "tagDis": "Feeds of all kuarmonia site tags easy access to all tags",
     "visasTitle": "Easy access to all the visas we provide",
-    "visasDis": "Feeds of all the visas provided on the kuarmonia.com website completely"
+    "visasDis": "Feeds of all the visas provided on the kuarmonia.com website completely",
+    "visa-typesTitle": "Easy access to all types of visas we provide we provide",
+    "visa-typesDis": "Fid all types of visas provided on kuarmonia.com completely"
   },
   "whatsapp": {
     "accountName": "Marjan Qara Gizli",
@@ -355,8 +357,7 @@
     "siteName": "Kuarmonia",
     "defaultTitle": "Immigration and Tourism with Carmenia Way to the Better Future",
     "defaultDis": "With complete information on immigration, marriage, and living in Türkiye and Canada. ",
-    "defaultKeywords": "Kuarmonia, Kuarmonia Immigration, Immigration with Kuarmonia, Kuarmonia Visa Services, Canada Immigration, Turkey Immigration, Canada Visa, Turkey Visa, International Marriage, Residency through Marriage, Investment in Turkey, Investment in Canada, Turkish Residence Permit, Canadian Permanent Residence, Study Visa Turkey, Study Visa Canada, Work Visa Turkey, Work Visa Canada, Living in Turkey, Living in Canada, Immigration Consulting, Migration Services"
-,
+    "defaultKeywords": "Kuarmonia, Kuarmonia Immigration, Immigration with Kuarmonia, Kuarmonia Visa Services, Canada Immigration, Turkey Immigration, Canada Visa, Turkey Visa, International Marriage, Residency through Marriage, Investment in Turkey, Investment in Canada, Turkish Residence Permit, Canadian Permanent Residence, Study Visa Turkey, Study Visa Canada, Work Visa Turkey, Work Visa Canada, Living in Turkey, Living in Canada, Immigration Consulting, Migration Services",
     "siteDis": "Kuarmonia Company is active in visa and international immigration basin",
     "toronto": "Toronto",
     "pageContactTitle": "Contact us ",
