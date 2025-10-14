@@ -28,7 +28,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import AllReviews from "@/components/detail/AllReviews";
-import ScrollInfinity from "@/components/shared/utils/ScrollInfinity";
 import { useLocale, useTranslations } from "next-intl";
 import language from "@/app/language";
 import TagBox from "@/components/shared/utils/TagBox";
@@ -147,7 +146,7 @@ const VisaContent = ({ visa, locale, related }) => {
               </div>
               <div className=" w-full  flex justify-between">
                 <div className="w-full flex justify-center sm:px-1">
-                  <ScrollInfinity className={"before:to-white  dark:before:to-gray-900 after:to-white dark:after:to-gray-900"}>
+                  <div className="flex gap-2 overflow-auto">
                     <button
                       onClick={() => scrollToSection("overview")}
                       className={`whitespace-nowrap py-4 px-1 border-b-2 cursor-pointer font-medium text-sm  transition-colors ${activeTab === "overview"
@@ -198,7 +197,7 @@ const VisaContent = ({ visa, locale, related }) => {
                     >
                       {visaTranslations("FrequentlyAskedQuestions")}
                     </button>
-                  </ScrollInfinity>
+                  </div>
                 </div>
                 <div  className="md:flex hidden flex-row gap-x-2 items-center ">
                   <button
@@ -220,7 +219,7 @@ const VisaContent = ({ visa, locale, related }) => {
           </div>
           <div className="p-8">
             <section id="overview" className="mb-16">
-              <ScrollInfinity className={"before:to-white  dark:before:to-gray-900 after:to-white dark:after:to-gray-900"} >
+              <div className={"flex items-center justify-center gap-2 flex-wrap"} >
                 <div className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-full border border-red-200">
                   <span
                     className="w-4 h-4 text-red-500"
@@ -242,7 +241,7 @@ const VisaContent = ({ visa, locale, related }) => {
                   <BarChart3 className="w-4 h-4" />
                   <span className="font-medium">{visa.difficultyLevel}</span>
                 </div>
-              </ScrollInfinity>
+              </div>
               <br />
               <div className="prose prose-lg max-w-none"  >
                 <p

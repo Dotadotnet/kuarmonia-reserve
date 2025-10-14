@@ -34,6 +34,7 @@ const Visa = async ({ params }) => {
             </div>
           </div>
           <p className="text-base">{t("Description")}</p>
+          {/* <VisaSlider visa={params.concat(params,params,params,params,params,params[0])}  /> */}
           <VisaSlider visa={params}  />
         </div>
       </Container>

@@ -36,7 +36,6 @@ export async function generateMetadata() {
       },
     }
   };
-
   return metadata
 }
 export default async function RootLayout({ children, params }) {

@@ -9,11 +9,11 @@ const VisaTypeCard = ({ visaType, title, locale }) => {
         href={`/${locale}/visa-types/${visaType.visaTypeId}/${visaType.slug_en}`}
         className="group block my-4  transition-all rounded-primary hover:shadow-xl shadow-lg dark:shadow-gray-600 group border border-gray-200 dark:border-gray-700"
       >
-        <div className="flex flex-col items-center justify-between gap-2 p-5">
+        <div className="flex flex-col items-center justify-between gap-2 p-3 md:p-5">
           {/* Left: Title (short text) */}
 
           {/* Right: Small image */}
-          <div className="relative size-32 md:size-32 rounded-primary overflow-hidden flex-shrink-0">
+          <div className="relative size-28 md:size-32 rounded-primary overflow-hidden flex-shrink-0">
             {visaType.thumbnail?.url ? (
               <Image
                 src={visaType.thumbnail.url}
@@ -27,7 +27,7 @@ const VisaTypeCard = ({ visaType, title, locale }) => {
               </div>
             )}
           </div>
-          <h3 className="text-md font-bold  mt-2 text-gray-900 dark:text-white line-clamp-1">
+          <h3 className="text-sm md:text-md font-bold  mt-1 md:mt-2 text-gray-900 dark:text-white line-clamp-1">
             {title || "نوع ویزا"}
           </h3>
         </div>

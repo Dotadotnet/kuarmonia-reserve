@@ -13,67 +13,40 @@ const VisaCard = ({ visa }) => {
     return "bg-red-50 text-red-700 border-red-200";
   };
   const locale = useLocale();
-  const { title, summary, processingTime, validity, difficultyLevel, country } = visa ;
-  const typeTitle = visa.type.title ;
+  const { title, summary, processingTime, validity, difficultyLevel, country } = visa;
+  const typeTitle = visa.type.title;
+  console.log(visa);
+
   return (
     <Link href={`/visas/${visa.visaId}/${visa.slug_en}`}
     >
-      <div className="dark:bg-gray-800 my-2 bg-white rounded-2xl  hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1 overflow-hidden group">
-
-        {/* Image Section */}
-        <div className="relative h-40 overflow-hidden">
+      <div className="flex">
+        <div className="md:size-28 rounded-xl overflow-hidden  size-24">
           <Image
-            priority={false}
-            quality={2}
-            width={400}
-            height={400}
-            alt={title}
-            style={{ width: '100%', height: "100%" }}
             src={visa.thumbnail.url}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            alt={title || "نوع ویزا"}
+            width={200}
+            height={200}
+            className="object-cover group-hover:scale-110 transition-all size-full "
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-          <div className="absolute top-3 right-3">
-            <div
-              className={`flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-medium ${getDifficultyColor(
-                difficultyLevel
-              )}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-bar-chart3 w-3 h-3"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>            {difficultyLevel}
-            </div>
-          </div>
-          <div className="absolute bottom-3 right-3 text-white">
-            <div className="flex items-center gap-1 text-xs">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map-pin w-4 h-4"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>            <span>{country}</span>
-            </div>
-          </div>
         </div>
-
-        {/* Content Section */}
-        <div className="p-4">
-          <h3 className="text-lg  dark:text-white font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+        <div className="flex flex-col justify-between pr-3 sm:pr-5 py-1 sm:py-2.5" >
+          <div className="flex w-fit items-center  gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
+            <span
+              className="w-4 h-4 text-blue-500"
+              dangerouslySetInnerHTML={{ __html: visa.type?.icon }}
+            />
+            <span>{typeTitle}</span>
+          </div>
+          <div className="font-bold text-sm sm:text-md ">
             {title}
-          </h3>
-          <p className=" dark:text-gray-100 text-gray-600 mb-3 line-clamp-2 leading-relaxed text-sm">
-            {summary}
-          </p>
-            <div className={"flex justify-start  gap-x-2"}>
-              <div className="flex items-center gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
-                <span
-                  className="w-4 h-4 text-blue-500"
-                  dangerouslySetInnerHTML={{ __html: visa.type?.icon }}
-                />
-                <span>{typeTitle}</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-medium border border-purple-200">
-                <MdOutlineAccessTime className="w-3 h-3" />
-                <span>{processingTime}</span>
-              </div>
-              <div className="flex items-center gap-1 px-2 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium border border-green-200">
-                <MdCalendarToday className="w-3 h-3" />
-                <span>{validity}</span>
-              </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-1 text-xs">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map-pin w-4 h-4"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>          
+                <span>{typeof country == "object" ? country.name : country}</span>
             </div>
+          </div>
         </div>
       </div>
     </Link>

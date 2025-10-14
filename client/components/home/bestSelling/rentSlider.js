@@ -1,41 +1,49 @@
 "use client";
 
+
 import RentCard from "@/components/shared/card/RentCard";
 import RentCardSkeleton from "@/components/shared/skeleton/RentCardSkeleton";
-import KeenSlider from "@/components/shared/slider/KeenSlider";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const RentSlider = ({ rent }) => {
-  const breakpoints = {
-    "(max-width: 640px)": {
-      slides: { perView: 1.2, spacing: 5 }
-    },
-    "(min-width: 640px)": {
-      slides: { perView: 2, spacing: 20 }
-    },
-    "(min-width: 1024px)": {
-      slides: { perView: 4, spacing: 20 }
-    }
-  };
-
   return (
-    <KeenSlider
-      className="w-full px-4"
-      breakpoints={breakpoints}
-      autoPlay={true}
-      autoPlayDelay={4000}
+    <Swiper
+      loop={true}
+      effect="coverflow"
+      grabCursor
+      centeredSlides
+      initialSlide={1}
+      slidesPerView="auto"
+      spaceBetween={80}
+      modules={[EffectCoverflow, Autoplay]}
+      autoplay={{
+        delay: 6000,
+        disableOnInteraction: false
+      }}
+      coverflowEffect={{
+        rotate: 0,
+        stretch: 0,
+        depth: 300,
+        modifier: 1,
+        slideShadows: false
+      }}
+      className="w-full  px-4 !flex !justify-center"
     >
       {rent && rent.length === 0
         ? Array.from({ length: 8 }).map((_, index) => (
-            <div key={index} className="keen-slider__slide">
+            <SwiperSlide key={index} className="!w-fit ">
               <RentCardSkeleton />
-            </div>
+            </SwiperSlide>
           ))
         : rent.map((rentItem) => (
-            <div key={rentItem._id} className="keen-slider__slide">
+            <SwiperSlide key={rentItem._id} className="!w-fit ">
               <RentCard tour={rentItem} />
-            </div>
+            </SwiperSlide>
           ))}
-    </KeenSlider>
+    </Swiper>
   );
 };
 

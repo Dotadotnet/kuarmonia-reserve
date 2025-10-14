@@ -97,6 +97,7 @@ html[dir="ltr"] * {
 
 * {
   font-family: "Vazir";
+  transition: all 1s;
 }
 
 

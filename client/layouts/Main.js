@@ -4,7 +4,7 @@ import Navbar from "@/components/shared/navbar/Navbar";
 import CurrencyRates from "@/hooks/useExchangeRatesToIRR";
 import Chat from "@/components/shared/chat/page";
 import Schema from "@/components/shared/seo/schema";
-
+import SwiperTransiotion from "@/components/shared/tools/swiperTransiotion";
 const Main = ({ children, schema = {} }) => {
   return (
     <>
@@ -18,6 +18,7 @@ const Main = ({ children, schema = {} }) => {
         <CurrencyRates />
         {children}
         <Chat />
+        <SwiperTransiotion />
         <Navbar />
         <Footer />
       </div>

@@ -111,7 +111,7 @@ const ListCountry = () => {
                 <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
                   <article className="flex-col flex gap-y-2">
                     <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
-                      <span className="flex">{Country.creator.name}</span>
+                      <span className="flex">{Country.creator?.name}</span>
                     </span>
                   </article>
                 </div>

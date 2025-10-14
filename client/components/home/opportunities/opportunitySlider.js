@@ -1,41 +1,41 @@
 'use client'
 
+
 import OpportunityCard from "@/components/shared/card/OpportunityCard";
 import OpportunityCardSkeleton from "@/components/shared/skeleton/opportunityCardSkeleton";
-import KeenSlider from "@/components/shared/slider/KeenSlider";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCoverflow, Autoplay, FreeMode, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const OpportunitySlider = ({ opportunity }) => {
-  const breakpoints = {
-    "(max-width: 640px)": {
-      slides: { perView: 1.1, spacing: 15 }
-    },
-    "(min-width: 640px)": {
-      slides: { perView: 2, spacing: 20 }
-    },
-    "(min-width: 1024px)": {
-      slides: { perView: 4, spacing: 25 }
-    }
-  };
 
   return (
-    <KeenSlider 
-      className="w-full h-fit my-2"
-      breakpoints={breakpoints}
-      autoPlay={true}
-      autoPlayDelay={4000}
-    >
+    <Swiper
+    loop={true}
+       slidesPerView={1.4}
+        breakpoints={{
+          640: { slidesPerView: 1.7 },
+          1024: { slidesPerView: 3.5 }
+        }}
+        spaceBetween={10}
+        modules={[Pagination, FreeMode, Autoplay]}
+        freeMode={true}
+        autoplay={{ delay: 4500, disableOnInteraction: true, }}
+        className="w-full h-fit z-50 my-2 "
+  >
       {opportunity && opportunity.length === 0
         ? Array.from({ length: 10 }).map((_, index) => (
-            <div key={index} className="keen-slider__slide w-[250px]">
+            <SwiperSlide key={index} className="!w-fit">
               <OpportunityCardSkeleton />
-            </div>
+            </SwiperSlide>
           ))
         : opportunity.slice(0, 8).map((opportunityItem) => (
-            <div key={opportunityItem._id} className="keen-slider__slide w-[250px]">
-              <OpportunityCard opportunity={opportunityItem} />
-            </div>
+            <SwiperSlide key={opportunityItem._id } className="!w-fit">
+              <OpportunityCard opportunity={opportunityItem}  />
+            </SwiperSlide>
           ))}
-    </KeenSlider>
+    </Swiper>
   );
 };
 
