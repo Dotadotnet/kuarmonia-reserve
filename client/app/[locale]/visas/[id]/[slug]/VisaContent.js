@@ -55,7 +55,6 @@ const VisaContent = ({ visa, locale, related }) => {
   const lang = useLocale();
   const class_lang = new language(lang);
   const dir = class_lang.getInfo().dir;
-  console.log(visa);
   return (
     <>
       <div className="relative">

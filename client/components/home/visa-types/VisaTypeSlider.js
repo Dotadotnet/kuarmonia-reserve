@@ -17,9 +17,7 @@ const VisaTypeSlider = ({ visaTypes }) => {
         ))}
       </div>
     );
-  }
-  console.log(visaTypes);
-  
+  }  
   return (
     <Swiper
       className="w-full  px-4 !flex !justify-center"

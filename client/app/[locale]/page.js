@@ -167,8 +167,6 @@ export default async function Home({ params }) {
       }
     ]
   }    
-console.log(visa);
-
   return (
     <Main schema={websiteSchema}  >
       <>

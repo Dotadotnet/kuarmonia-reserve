@@ -15,8 +15,6 @@ const VisaCard = ({ visa }) => {
   const locale = useLocale();
   const { title, summary, processingTime, validity, difficultyLevel, country } = visa;
   const typeTitle = visa.type.title;
-  console.log(visa);
-
   return (
     <Link href={`/visas/${visa.visaId}/${visa.slug_en}`}
     >

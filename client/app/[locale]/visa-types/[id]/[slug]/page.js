@@ -9,7 +9,6 @@ import RedirectVisaType from "../page";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = await params;
-  console.log(id, locale, slug);
   const visaType = await Api(`/dynamic/get-one/visaType/visaTypeId/${id}?fields=title,content,creator,tags,thumbnail`);
   const canonical = await canonicalUrl();
   const seoTranslations = await getTranslations('Seo');
