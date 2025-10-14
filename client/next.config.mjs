@@ -3,7 +3,6 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig = {
   // reactStrictMode: true,
   output: 'standalone',
-  unstable_runtimeJS: false,
   images: {
     remotePatterns: [
       {
@@ -23,6 +22,12 @@ const nextConfig = {
         hostname: "localhost",
         port: "",
         pathname: "/**",
+      },
+            {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
+        pathname: "**/*",
       },
       {
         protocol: "https",

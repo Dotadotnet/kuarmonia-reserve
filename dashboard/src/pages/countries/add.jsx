@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
-import { useAddCountryMutation } from "@/services/Country/CountryApi";
+import { useAddCountryMutation } from "@/services/country/countryApi";
 
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";

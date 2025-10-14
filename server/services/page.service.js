@@ -22,7 +22,6 @@ async function fetchAndCacheData() {
             rent: { fields: "title,status,reviews,gallery,price,members,location,address,slug,_id,rentId,thumbnail,summary", page: "last" },
             visa: { fields: "title,processingTime,validity,difficultyLevel,country,type,slug_en,_id,visaId,thumbnail,summary", page: "last" },
             banner: { fields: "link,image,_id", page: "last" }
-
         }
         for (const [table, setting] of Object.entries(result)) {
             const Model = dynamicImportModel(table);

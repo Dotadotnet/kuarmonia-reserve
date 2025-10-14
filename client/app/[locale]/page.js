@@ -25,7 +25,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 export async function generateMetadata({ params }) {
-  const { locale } = params;
+  const { locale } = await params;
   const host = process.env.NEXT_PUBLIC_BASE_URL;
   const canonical = await canonicalUrl()
   const class_lang = new language(locale);
@@ -167,6 +167,7 @@ export default async function Home({ params }) {
       }
     ]
   }    
+console.log(visa);
 
   return (
     <Main schema={websiteSchema}  >
