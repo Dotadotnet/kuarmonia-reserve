@@ -27,7 +27,7 @@ export default function SimpleSlider({ slides }) {
     // sliderRef.current.swiper.slideToLoop()
   })
   return (
-    <div className="mt-6 sm:mt-12">
+    <div className="mt-2 sm:mt-4">
       <div className="relative">
         <div className="absolute z-10 w-full flex bottom-3  sm:bottom-10 justify-center items-center">
           <div className="flex sm:scale-125  justify-center items-center rounded-lg py-1 px-1.5 bg-gray-600 gap-1.5">
@@ -42,7 +42,7 @@ export default function SimpleSlider({ slides }) {
             })}
           </div>
         </div>
-        <div className="h-full absolute sm:right-10 right-5 top-0 flex justify-center items-center">
+        {/* <div className="h-full absolute sm:right-10 right-5 top-0 flex justify-center items-center">
           <button type="button"
             onClick={() => {
               sliderRef.current.swiper.slidePrev()
@@ -50,8 +50,8 @@ export default function SimpleSlider({ slides }) {
             className="text-3xl z-10 p-1 sm:p-2 transition-all cursor-pointer hover:scale-125   sm:text-4xl font-bold dark:text-white dark:border-white  text-blue-600 border-blue-600 border-2  rounded-full hover:bg-gradient-to-bl  focus:outline-none   text-center">
             <GrFormNext />
           </button>
-        </div>
-        <div className="h-full absolute sm:left-10 left-5 top-0 flex justify-center items-center">
+        </div> */}
+        {/* <div className="h-full absolute sm:left-10 left-5 top-0 flex justify-center items-center">
           <button
             onClick={() => {
               sliderRef.current.swiper.slideNext()
@@ -60,11 +60,12 @@ export default function SimpleSlider({ slides }) {
             type="button" className="text-3xl  z-10 p-1 sm:p-2 transition-all cursor-pointer hover:scale-125   sm:text-4xl font-bold dark:text-white dark:border-white  text-blue-600 border-blue-600 border-2  rounded-full hover:bg-gradient-to-bl  focus:outline-none   text-center">
             <GrFormPrevious />
           </button>
-        </div>
+        </div> */}
         <Swiper
           className="w-full  px-4 !flex !justify-center"
           autoplay={{
-            delay: 1000
+            delay: 3000 ,
+            disableOnInteraction: true
           }}
           onSlideChange={(event) => {
             setPage(event.realIndex)

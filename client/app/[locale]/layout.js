@@ -57,7 +57,7 @@ export default async function RootLayout({ children, params }) {
   })
   return (
     <>
-      <NextIntlClientProvider>
+      <NextIntlClientProvider locale={locale}>
         <Providers>
           <Session>
             <Auth>
@@ -73,6 +73,7 @@ export default async function RootLayout({ children, params }) {
                 </head>
                 {/* داداش دستم به دامنت دست نزن */}
                 <body>
+                  
                   {children}
                 </body>
               </html>

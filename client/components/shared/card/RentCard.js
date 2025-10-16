@@ -149,7 +149,7 @@ const RentCard = ({ tour }) => {
               />
             ))}
           </div>
-          <div className="absolute left-2 bottom-4 flex flex-row gap-x-2 z-50 ">
+          <div className="absolute left-2 bottom-4 rtl:flex-row flex-row-reverse flex  gap-x-2 z-50 ">
             <span
               className="h-6 w-6 cursor-pointer bg-white rounded-secondary text-black flex flex-row justify-center items-center shadow-2xl"
               id={"prev-rent-" + tour.rentId}

@@ -16,7 +16,6 @@ export default function ThemeToggle() {
   };
 
   useEffect(() => {
-    document.documentElement.classList.add('[&_*]:!transition-none');
     if (theme === 'light') {
       document.documentElement.classList.remove('dark');
       document.documentElement.style.colorScheme = 'light';
@@ -24,12 +23,6 @@ export default function ThemeToggle() {
       document.documentElement.classList.add('dark');
       document.documentElement.style.colorScheme = 'dark';
     }
-
-    const timeout = setTimeout(() => {
-      document.documentElement.classList.remove('[&_*]:!transition-none');
-    }, 1);
-
-    return () => clearTimeout(timeout);
   }, [theme]);
 
   return (

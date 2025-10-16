@@ -433,11 +433,5 @@
     "Country": "Country",
     "VisaFee": "Visa Fee",
     "StayDuration": "Stay Duration"
-  },
-  "Rss": {
-    "visasTitle": "Visas - Kuarmonia",
-    "visasDescription": "Latest visas and immigration information",
-    "visaTypesTitle": "Visa Types - Kuarmonia",
-    "visaTypesDescription": "Complete guide to visa types and categories"
   }
 }

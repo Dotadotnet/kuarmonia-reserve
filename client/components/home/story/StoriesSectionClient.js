@@ -94,23 +94,22 @@ export default function StoriesSectionClient({ banners }) {
   }, [selectedBanner]);
 
   return (
-    <section className="pt-24 overflow-auto">
+    <section className="sm:pt-32 pt-24 overflow-auto">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex py-2 gap-6 overflow-x-auto scrollbar-hide flex-nowrap px-2 justify-center no-scrollbar">
           {banners.map((banner) => {
             const randomGradient =
               gradientClasses[Math.floor(Math.random() * gradientClasses.length)];
-
             return (
               <div
                 key={banner._id}
                 onClick={() => openStories(banner)}
                 className="flex flex-col items-center cursor-pointer group"
               >
-                <div className="relative w-16 h-16 group">
+                <div className="relative size-20 sm:size-24 group">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div
-                      className={`w-full h-full rounded-full bg-gradient-to-tr ${randomGradient} transition-transform duration-500 group-hover:scale-[1.04]`}
+                      className={`w-full transition-all h-full rounded-full bg-gradient-to-tr ${randomGradient} transition-transform duration-500 md:scale-[0.97] scale-95 group-hover:scale-100`}
                     ></div>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center p-[4px]">

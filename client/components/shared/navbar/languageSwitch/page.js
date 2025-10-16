@@ -37,9 +37,9 @@ const LanguageSwitcher = () => {
       <button
         onClick={() => setIsOpen(!isOpen)}
 
-        className=" cursor-pointer rounded-secondary flex px-4 py-1 md:p-0 items-center justify-center gap-x-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors md:w-10 md:h-10"
+        className=" cursor-pointer rounded-secondary flex px-4 md:px-7  py-1 items-center justify-center gap-x-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors "
       >
-        <span className="md:hidden flex ">{lang_now.name}</span>
+        <span className=" flex ">{lang_now.name}</span>
         <Image
           width={28}
           height={28}

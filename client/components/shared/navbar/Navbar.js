@@ -54,7 +54,6 @@ const Navbar = () => {
             ) : (
               <>
                 <UserMenu setSearchIsOpen={setSearchIsOpen} isSearchOpen={isSearchOpen} />
-
                 <LargeMenu />
               </>
             )}
@@ -71,7 +70,6 @@ const Navbar = () => {
                 <SearchFilter />
               </div>
             </Modal>
-
             <Logo justify="end" />
           </nav>
         </Container>
