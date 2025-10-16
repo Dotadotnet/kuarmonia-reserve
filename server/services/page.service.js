@@ -15,7 +15,7 @@ async function fetchAndCacheData() {
         let reqEdite = { headers: { lang: lang } };
         const result = {
             service: { fields: "title,slug,serviceId,icon" },
-            news: { fields: "title,slug,_id,newsId,thumbnail,summary,categories,publishDate", page: "last" },
+            news: { fields: "title,slug,_id,newsId,thumbnail,summary,categories,publishDate", page: "last" , scope : 6 },
             // blog: { fields: "title,slug,_id,blogId,thumbnail,description,reviews,creator,publishDate", page: "last" },
             property: { fields: "title,variants,citizenshipStatus,building,address,currency,type,slug,_id,propertyId,thumbnail,tradeType,summary,saleType,createDate", page: "last" },
             opportunity: { fields: "title,slug,_id,city,opportunityId,citizenshipOutcome,endDate,startDate,thumbnail,summary,skills,refId", page: "last" },
@@ -50,7 +50,6 @@ async function replaceDataDynamic(data, req) {
 
 exports.home = async (req, res) => {
     const cached = cache.get('dataPage' + req.headers.lang);
-    console.log(cached);
     res.status(200).json({
         acknowledgement: true,
         message: "Ok",

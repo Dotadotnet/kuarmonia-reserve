@@ -97,7 +97,6 @@ html[dir="ltr"] * {
 
 * {
   font-family: "Vazir";
-  transition: all 1s;
 }
 
 
@@ -583,9 +582,9 @@ focus {
     transform: translateX(-100%);
   }
 }
-.swiper-wrapper {
+/* .swiper-wrapper {
   margin-bottom: 30px !important;
-}
+} */
 
 .schiderollbar-::-webkit-scrollbar {
   display: none;

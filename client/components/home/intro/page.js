@@ -33,12 +33,12 @@ export default function HomeIntroSection({ params }) {
   }, [isExpanded]);
   return (
     <>
-      <SEOHead
+      {/* <SEOHead
         title={`${hero.title} | مهاجرت، ویزا، ازدواج بین‌المللی و رزرو هتل`}
         description={`${hero.subtitle} — ${hero.description}`}
         keywords="کارمونیا, مهاجرت, ویزا, ویزای شنگن, ویزای دانشجویی, ویزای کاری, ازدواج بین‌المللی, رزرو هتل, مشاوره مهاجرتی, ترجمه رسمی"
         canonical={siteConfig.siteUrl}
-      />
+      /> */}
       <div
         className=" p-4 md:p-8"
         dir="rtl"

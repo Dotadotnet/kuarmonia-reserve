@@ -8,8 +8,8 @@ function paginateArray(array, pageNumber, itemsPerPage) {
     return array.slice(startIndex, endIndex);
 }
 
-function enCodeToUrl(string){
-    return encodeURIComponent(string.trim().replaceAll([".","--","  "],[""," "," "]).replaceAll(" ", "-").replaceAll("--","-")).replaceAll(["."],[""])
+function enCodeToUrl(string) {
+    return encodeURIComponent(string.trim().replaceAll([".", "--", "  "], ["", " ", " "]).replaceAll(" ", "-").replaceAll("--", "-")).replaceAll(["."], [""])
 }
 
 module.exports = class replaceRef {
@@ -40,12 +40,10 @@ module.exports = class replaceRef {
         let scope = this.req.query.scope ? this.req.query.scope : 10;
         this.fields = this.req.query.fields ? [...this.req.query.fields.split(",")] : null;
         if (this.setting.pagination !== false) {
-            // آیا پیجینیشن از ریکویست خوانده شود یا نه ؟
             if (this.req.query.page == "last") {
-                let count_last_page = result.length % scope ? result.length % scope : scope;
-                page = (result.length - count_last_page) / scope;
+                result = result.slice(-1 * scope)
             }
-            if (page && Array.isArray(result)) {
+            if (parseInt(page) && Array.isArray(result)) {
                 result = paginateArray(result, page, scope)
             }
         }

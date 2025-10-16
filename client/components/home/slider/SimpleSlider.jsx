@@ -26,7 +26,7 @@ export default function SimpleSlider({ slides }) {
   return (
     <div className="mt-6 sm:mt-12">
       <div className="relative">
-        <div className="h-full absolute sm:right-10 right-5 -top-3 mb:top-0 flex justify-center items-center">
+        <div className="h-full absolute sm:right-10 right-5 top-0 flex justify-center items-center">
           <button type="button"
             onClick={() => {
               sliderRef.current.swiper.slidePrev()
@@ -74,6 +74,7 @@ export default function SimpleSlider({ slides }) {
           })}
         </Swiper >
       </div>
+      <br />
       <div className="flex flex-wrap px-2 justify-center items-center gap-4 sm:gap-8">
         {slides.map((slide, index) => {
           return (
