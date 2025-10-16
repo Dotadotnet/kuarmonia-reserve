@@ -18,7 +18,7 @@ const Main = ({ children, schema = {} }) => {
         <CurrencyRates />
         {children}
         <Chat />
-        {/* <SwiperTransiotion /> */}
+        <SwiperTransiotion />
         <Navbar />
         <Footer />
       </div>

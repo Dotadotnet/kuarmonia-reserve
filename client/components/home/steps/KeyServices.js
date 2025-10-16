@@ -24,7 +24,7 @@ const KeyServices = async ({ services }) => {
         {services.map((service) => {
           return (
             <Link
-              className="m-5"
+              className="m-2"
               key={service.serviceId}
               href={{
                 pathname: `/service/${service.serviceId}/${encodeURIComponent(service.slug.trim())}`
@@ -32,14 +32,17 @@ const KeyServices = async ({ services }) => {
             >
               <div
                 id={service._id}
+                className="relative flex flex-col border hover:border-primary transition-color ease-linear delay-100 cursor-pointer 
+                dark:bg-gray-800/70 dark:border-gray-900 dark:text-gray-100 shadow-lg bg-white/80 border-gray-200 
+                w-36 rounded-primary dark:hover:border-blue-500 items-center "
               >
                 <div className="max-w-[100px] mx-auto">
                   <div className="scale-75">
                   <span  className="" dangerouslySetInnerHTML={{ __html: service?.icon }}></span>
                   </div>
                 </div>
-                <div className="flex relative -top-4 flex-col mt-0 mb-8 items-center justify-center">
-                  <h2 className="text-sm text-center lg:text-base mt-4">
+                <div className="flex flex-col mt-0 mb-4 items-center justify-center">
+                  <h2 className="text-sm text-center lg:text-base mt-0">
                     {service.title}
                   </h2>
                 </div>

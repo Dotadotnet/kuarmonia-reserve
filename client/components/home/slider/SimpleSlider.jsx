@@ -15,17 +15,33 @@ export default function SimpleSlider({ slides }) {
   const swiper = useSwiper();
   const sliderRef = useRef(null);
 
+
   useEffect(() => {
     setInterval(() => {
       document.querySelectorAll("img.banner-images-swiper").forEach((image) => {
-        let height = image.offsetWidth / 3;
+        let height = image.offsetWidth / 2;
         image.style.height = (height + "px")
       })
+
     }, 100)
+    // sliderRef.current.swiper.slideToLoop()
   })
   return (
     <div className="mt-6 sm:mt-12">
       <div className="relative">
+        <div className="absolute z-10 w-full flex bottom-3  sm:bottom-10 justify-center items-center">
+          <div className="flex sm:scale-125  justify-center items-center rounded-lg py-1 px-1.5 bg-gray-600 gap-1.5">
+            {slides.map((slide, index) => {
+              return (
+                <span key={index} onClick={() => {
+                  sliderRef.current.swiper.slideToLoop(index)
+                }}  alt="Banner" className={"rounded-full object-cover cursor-pointer size-2 bg-gray-400 "
+                  + (page == index ? " bg-white w-4  " : "")
+                } />
+              );
+            })}
+          </div>
+        </div>
         <div className="h-full absolute sm:right-10 right-5 top-0 flex justify-center items-center">
           <button type="button"
             onClick={() => {
@@ -54,11 +70,14 @@ export default function SimpleSlider({ slides }) {
           onSlideChange={(event) => {
             setPage(event.realIndex)
           }}
+          centeredSlides
+          loopPreventsSliding
+
           ref={sliderRef}
           loop={true}
           speed={1300}
           modules={[Autoplay]}
-          slidesPerView={1}
+          slidesPerView={1.2}
           spaceBetween={10}
         >
           {slides.map((slide, index) => {
@@ -66,7 +85,7 @@ export default function SimpleSlider({ slides }) {
               <SwiperSlide key={index} >
                 <div className="size-full flex justify-center items-center">
                   <Link href={slide.link}>
-                    <Image width={1200} height={400} src={slide.image.url} alt="Banner" className="banner-images-swiper lg:rounded-2xl"  />
+                    <Image width={1200} height={400} src={slide.image.url} alt="Banner" className="banner-images-swiper rounded-xl lg:rounded-2xl" />
                   </Link>
                 </div>
               </SwiperSlide>
@@ -75,7 +94,7 @@ export default function SimpleSlider({ slides }) {
         </Swiper >
       </div>
       <br />
-      <div className="flex flex-wrap px-2 justify-center items-center gap-4 sm:gap-8">
+      {/* <div className="flex flex-wrap px-2 justify-center items-center gap-4 sm:gap-8">
         {slides.map((slide, index) => {
           return (
             <Image key={index} onClick={() => {
@@ -85,7 +104,7 @@ export default function SimpleSlider({ slides }) {
             } />
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 }

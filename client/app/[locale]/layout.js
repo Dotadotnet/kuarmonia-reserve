@@ -47,7 +47,7 @@ export default async function RootLayout({ children, params }) {
 
   const class_language = new language(locale);
   const lang = class_language.getInfo();
-  // console.log(locale,lang);
+  console.log(locale,lang);
   
   const RssTranslated = await getTranslations('Rss');
   const rssFiles = feeds.map(async (feed) => {
@@ -61,7 +61,7 @@ export default async function RootLayout({ children, params }) {
         <Providers>
           <Session>
             <Auth>
-              <html lang={lang.lang + "-" + lang.loc} dir={lang.dir}>
+              <html className="asdfas" lang={lang.lang + "-" + lang.loc} dir={lang.dir}>
                 {/* داداش دستم به دامنت دست نزن */}
                 <head>
                   <meta httpEquiv="Content-Language" content={lang.lang + "-" + lang.loc} />
