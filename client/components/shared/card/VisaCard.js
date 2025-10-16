@@ -28,7 +28,7 @@ const VisaCard = ({ visa }) => {
             className="object-cover group-hover:scale-110 transition-all size-full "
           />
         </div>
-        <div className="flex flex-col justify-between pr-3 sm:pr-5 py-1 sm:py-2.5" >
+        <div className="flex flex-col justify-between pl-3 sm:pl-5 rtl:pr-3 rtl:sm:pr-5 py-1 sm:py-2.5" >
           <div className="flex w-fit items-center  gap-1 px-2 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-200">
             <span
               className="w-4 h-4 text-blue-500"

@@ -5,16 +5,11 @@ const verificationCodeSchema = new mongoose.Schema(
   {
     user: {
       type: ObjectId,
-      ref: "User", // ارجاع به مدل کاربر
-      required: true,
+      ref: "User"
     },
-    phone: {
+    address: {
       type: String,
       required: true,
-      validate: {
-        validator: (value) => /^09\d{9}$/.test(value),
-        message: "شماره تماس معتبر نیست. باید با 09 شروع شود",
-      },
     },
     code: {
       type: Number, // عددی باشد

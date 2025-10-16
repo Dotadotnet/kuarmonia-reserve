@@ -79,6 +79,7 @@ html[dir="ltr"] {
 html[dir="rtl"] * {
   @apply text-right;
   direction: rtl;
+  
 }
 
 html[dir="ltr"] * {

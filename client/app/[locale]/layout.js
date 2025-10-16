@@ -44,8 +44,11 @@ export default async function RootLayout({ children, params }) {
     notFound();
   }
   const seoTranslations = await getTranslations('Seo');
+
   const class_language = new language(locale);
   const lang = class_language.getInfo();
+  // console.log(locale,lang);
+  
   const RssTranslated = await getTranslations('Rss');
   const rssFiles = feeds.map(async (feed) => {
     return (

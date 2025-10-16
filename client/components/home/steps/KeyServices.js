@@ -32,12 +32,13 @@ const KeyServices = async ({ services }) => {
             >
               <div
                 id={service._id}
-                className="relative flex flex-col border hover:border-primary transition-color ease-linear delay-100 cursor-pointer dark:bg-gray-800/70 dark:border-gray-900 dark:text-gray-100 shadow-lg bg-white/80 border-gray-200 w-[150px] lg:w-[170px] p-4 rounded-primary dark:hover:border-blue-500 items-center max-w-xs mx-auto"
               >
                 <div className="max-w-[100px] mx-auto">
-                  <span dangerouslySetInnerHTML={{ __html: service?.icon }}></span>
+                  <div className="scale-75">
+                  <span  className="" dangerouslySetInnerHTML={{ __html: service?.icon }}></span>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-y-8 items-center justify-center">
+                <div className="flex relative -top-4 flex-col mt-0 mb-8 items-center justify-center">
                   <h2 className="text-sm text-center lg:text-base mt-4">
                     {service.title}
                   </h2>
