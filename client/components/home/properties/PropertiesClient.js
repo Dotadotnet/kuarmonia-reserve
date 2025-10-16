@@ -14,9 +14,12 @@ const PropertiesClient = ({ properties }) => {
           640: { slidesPerView: 1.7 },
           1024: { slidesPerView: 3.5 }
         }}
+        centeredSlidesBounds={true}
+        // centerInsufficientSlides={true}
+        centeredSlides
+        loop={true}
         spaceBetween={10}
-        modules={[Pagination, FreeMode, Autoplay]}
-        freeMode={true}
+        modules={[Pagination, Autoplay]}
         autoplay={{ delay: 4500, disableOnInteraction: true, }}
         className="w-full h-fit z-50 my-2 "
       >

@@ -35,7 +35,7 @@ export default function SimpleSlider({ slides }) {
               return (
                 <span key={index} onClick={() => {
                   sliderRef.current.swiper.slideToLoop(index)
-                }}  alt="Banner" className={"rounded-full object-cover cursor-pointer size-2 bg-gray-400 "
+                }} alt="Banner" className={"rounded-full object-cover cursor-pointer size-2 bg-gray-400 "
                   + (page == index ? " bg-white w-4  " : "")
                 } />
               );
@@ -51,7 +51,7 @@ export default function SimpleSlider({ slides }) {
             <GrFormNext />
           </button>
         </div>
-        <div className="h-full absolute sm:left-10 left-5 -top-3 mb:top-0 flex justify-center items-center">
+        <div className="h-full absolute sm:left-10 left-5 top-0 flex justify-center items-center">
           <button
             onClick={() => {
               sliderRef.current.swiper.slideNext()
@@ -64,17 +64,21 @@ export default function SimpleSlider({ slides }) {
         <Swiper
           className="w-full  px-4 !flex !justify-center"
           autoplay={{
-            delay: 1000,
-            disableOnInteraction: true,
+            delay: 1000
           }}
           onSlideChange={(event) => {
             setPage(event.realIndex)
           }}
+          onInit={() => {
+            // sliderRef.current.swiper.slideToLoop(1)
+            setTimeout(() => {
+              sliderRef.current.swiper.autoplay.start()
+               sliderRef.current.swiper.slideNext()
+            }, 1000)
+          }}
           centeredSlides
-          loopPreventsSliding
-
-          ref={sliderRef}
           loop={true}
+          ref={sliderRef}
           speed={1300}
           modules={[Autoplay]}
           slidesPerView={1.2}
@@ -105,7 +109,7 @@ export default function SimpleSlider({ slides }) {
           );
         })}
       </div> */}
-    </div>
+    </div >
   );
 }
 

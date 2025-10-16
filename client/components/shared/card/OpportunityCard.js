@@ -19,139 +19,141 @@ export default function OpportunityCard({ opportunity }) {
   const experienceLevel = typeof opportunity?.refId?.experienceLevel == "object" ? Array.isArray(opportunity?.refId?.experienceLevel) ? opportunity?.refId.experienceLevel : [opportunity?.refId.experienceLevel] : []
 
   return (
-    <div className="max-w-xs  p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
-      <Link href={`/opportunity/${opportunity?.opportunityId}/${encodeURIComponent(opportunity.slug.trim())}`}>
-        <span
-          className={`absolute top-0 left-1 w-32 -translate-x-12 translate-y-3 -rotate-45 bg-green-500 text-white text-center text-xs py-[1px] z-50 `}
-        >
-          {
-            opportunity.citizenshipOutcome.title
-          }
-        </span>
-        <div className="grid grid-cols-2">
-          <div className="flex flex-col col-span-1 gap-y-2 w-full">
-            <h3 className="text-medium line-clamp-1 ">
-              {title || <SkeletonText lines={1} />}
-            </h3>
-            <div className="flex items-center w-fit text-end gap-1 px-2 py-1 h-8  bg-red-100 text-red-500 rounded-sm ">
-              <span className="min-w-10 text-red-500 text-sm flex gap-x-1">
-                <span
-                  className="text-red-500 w-5 h-5"
-                  dangerouslySetInnerHTML={{
-                    __html: opportunity?.refId?.jobType?.icon
-                  }}
-                />
-                <span className="text-red-500">
+    <div className="flex justify-center items-center w-full">
+      <div className="max-w-xs  p-4 bg-white dark:bg-gray-800 relative overflow-hidden  rounded-xl shadow-md">
+        <Link href={`/opportunity/${opportunity?.opportunityId}/${encodeURIComponent(opportunity.slug.trim())}`}>
+          <span
+            className={`absolute top-0 left-1 w-32 -translate-x-12 translate-y-3 -rotate-45 bg-green-500 text-white text-center text-xs py-[1px] z-50 `}
+          >
+            {
+              opportunity.citizenshipOutcome.title
+            }
+          </span>
+          <div className="grid grid-cols-2">
+            <div className="flex flex-col col-span-1 gap-y-2 w-full">
+              <h3 className="text-medium line-clamp-1 ">
+                {title || <SkeletonText lines={1} />}
+              </h3>
+              <div className="flex items-center w-fit text-end gap-1 px-2 py-1 h-8  bg-red-100 text-red-500 rounded-sm ">
+                <span className="min-w-10 text-red-500 text-sm flex gap-x-1">
+                  <span
+                    className="text-red-500 w-5 h-5"
+                    dangerouslySetInnerHTML={{
+                      __html: opportunity?.refId?.jobType?.icon
+                    }}
+                  />
+                  <span className="text-red-500">
+                    {
+                      opportunity?.refId?.jobType?.translations.title
+                    }
+                  </span>
+                </span>
+              </div>
+              <div className="flex items-center w-fit text-end gap-1 px-2 py-1 h-8  bg-green-100 text-green-500 rounded-sm ">
+                <Bag />
+                <span className="min-w-10 text-green-500 text-sm">
                   {
-                    opportunity?.refId?.jobType?.translations.title
+                    opportunity?.refId?.employmentType?.title
                   }
                 </span>
+              </div>
+              <span className="flex items-center w-fit gap-1 px-2 py-1 h-7 bg-orange-100 text-orange-500 rounded-sm whitespace-nowrap">
+                <Dollar />
+                <span className="min-w-10 flex mt-1 text-sm text-orange-500">
+                  {opportunity?.refId?.salary?.min} {"- "}
+                  <span
+                    className="w-5 h-5 text-orange-500"
+                    dangerouslySetInnerHTML={{
+                      __html: opportunity?.refId?.currency?.symbol
+                    }}
+                  />
+                  {opportunity?.refId?.salary?.min}{" "}
+                </span>
               </span>
-            </div>
-            <div className="flex items-center w-fit text-end gap-1 px-2 py-1 h-8  bg-green-100 text-green-500 rounded-sm ">
-              <Bag />
-              <span className="min-w-10 text-green-500 text-sm">
+              <div className="flex items-center w-fit text-end gap-1 px-2 py-1 h-8  bg-gray-100 text-gray-500 text-sm rounded-sm ">
+                <Location />
                 {
-                  opportunity?.refId?.employmentType?.title
-                }
-              </span>
+                  opportunity?.city?.city
+                }{" "}
+              </div>
             </div>
-            <span className="flex items-center w-fit gap-1 px-2 py-1 h-7 bg-orange-100 text-orange-500 rounded-sm whitespace-nowrap">
-              <Dollar />
-              <span className="min-w-10 flex mt-1 text-sm text-orange-500">
-                {opportunity?.refId?.salary?.min} {"- "}
-                <span
-                  className="w-5 h-5 text-orange-500"
-                  dangerouslySetInnerHTML={{
-                    __html: opportunity?.refId?.currency?.symbol
-                  }}
-                />
-                {opportunity?.refId?.salary?.min}{" "}
-              </span>
-            </span>
-            <div className="flex items-center w-fit text-end gap-1 px-2 py-1 h-8  bg-gray-100 text-gray-500 text-sm rounded-sm ">
-              <Location />
-              {
-                opportunity?.city?.city
-              }{" "}
-            </div>
+            <OpportunityThumbnailCard opportunity={opportunity} locale={locale} />
           </div>
-          <OpportunityThumbnailCard opportunity={opportunity} locale={locale} />
-        </div>
-        <div>
-          <p className="text-sm text-gray-600 mt-2 line-clamp-2 ">
-            {summary || <SkeletonText lines={3} />}
-          </p>
-        </div>
+          <div>
+            <p className="text-sm text-gray-600 mt-2 line-clamp-2 ">
+              {summary || <SkeletonText lines={3} />}
+            </p>
+          </div>
 
-        {/* محتوا */}
-        <div className="mt-3"></div>
-        <div className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800 flex gap-x-1"}>
-          <span className="flex items-center gap-1 px-2 py-1 h-7  bg-cyan-100 text-cyan-500  rounded-sm whitespace-nowrap">
-            <OfficeBag />
-            <span className="min-w-10 text-cyan-500 text-sm">
-              {
-                opportunity?.refId?.jobTime?.title
-              }{" "}
+          {/* محتوا */}
+          <div className="mt-3"></div>
+          <div className={"before:to-white dark:before:to-gray-800 after:to-white dark:after:to-gray-800 flex gap-x-1"}>
+            <span className="flex items-center gap-1 px-2 py-1 h-7  bg-cyan-100 text-cyan-500  rounded-sm whitespace-nowrap">
+              <OfficeBag />
+              <span className="min-w-10 text-cyan-500 text-sm">
+                {
+                  opportunity?.refId?.jobTime?.title
+                }{" "}
+              </span>
             </span>
-          </span>
-          <span className="flex items-center gap-1 px-2 py-1 h-7 bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap">
-            <Chart />
-            <span className="min-w-10">
-              {experienceLevel?.map((item, index) => (
-                <span key={index} className="mr-1 text-sm text-sky-500">
-                  {
-                    item?.title
-                  }{" "}
-                </span>
-              ))}
+            <span className="flex items-center gap-1 px-2 py-1 h-7 bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap">
+              <Chart />
+              <span className="min-w-10">
+                {experienceLevel?.map((item, index) => (
+                  <span key={index} className="mr-1 text-sm text-sky-500">
+                    {
+                      item?.title
+                    }{" "}
+                  </span>
+                ))}
+              </span>
             </span>
-          </span>
-          <span className="flex items-center gap-1 px-2 py-1 h-7 bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap">
-            <Desktop />
-            <span className="min-w-10 text-sm text-cyan-500">
-              {
-                opportunity?.refId?.jobMode?.title
-              }{" "}
+            <span className="flex items-center gap-1 px-2 py-1 h-7 bg-cyan-100 text-cyan-500 rounded-sm whitespace-nowrap">
+              <Desktop />
+              <span className="min-w-10 text-sm text-cyan-500">
+                {
+                  opportunity?.refId?.jobMode?.title
+                }{" "}
+              </span>
             </span>
-          </span>
-        </div>
-        <div className="mt-3"></div>
-        <div className={"before:to-white dark:before:to-gray-800 flex gap-x-1 after:to-white dark:after:to-gray-800"}>
-          {skills?.map((item, index) => (
-            <span
-              key={index}
-              className="flex items-center w-fit gap-1 px-2 py-1 h-7 bg-blue-100 text-blue-500 rounded-sm whitespace-nowrap"
-            >
-              <span className="mr-1 text-sm text-blue-500">{item}</span>
-            </span>
-          ))}
-        </div>
-        <div className="mt-3"></div>
-        <div className="max-w-xl mx-auto">
-          <label className="text-gray-400"> {t("request")}</label>
-          <div className="relative  max-w-sm mx-auto">
-            <div className="flex mb-2 items-center justify-between">
-              <div className="text-right">
-                <span className="text-xs font-semibold inline-block text-cyan-600">
-                  50
-                </span>
+          </div>
+          <div className="mt-3"></div>
+          <div className={"before:to-white dark:before:to-gray-800 flex gap-x-1 after:to-white dark:after:to-gray-800"}>
+            {skills?.map((item, index) => (
+              <span
+                key={index}
+                className="flex items-center w-fit gap-1 px-2 py-1 h-7 bg-blue-100 text-blue-500 rounded-sm whitespace-nowrap"
+              >
+                <span className="mr-1 text-sm text-blue-500">{item}</span>
+              </span>
+            ))}
+          </div>
+          <div className="mt-3"></div>
+          <div className="max-w-xl mx-auto">
+            <label className="text-gray-400"> {t("request")}</label>
+            <div className="relative  max-w-sm mx-auto">
+              <div className="flex mb-2 items-center justify-between">
+                <div className="text-right">
+                  <span className="text-xs font-semibold inline-block text-cyan-600">
+                    50
+                  </span>
+                </div>
+                <div className="text-left">
+                  <span className="text-xs font-semibold inline-block text-cyan-600">
+                    50
+                  </span>
+                </div>
               </div>
-              <div className="text-left">
-                <span className="text-xs font-semibold inline-block text-cyan-600">
-                  50
-                </span>
+              <div className="flex rounded-full h-2 bg-gray-200">
+                <div
+                  className="rounded-full bg-cyan-500"
+                  style={{ width: "100%" }}
+                ></div>
               </div>
-            </div>
-            <div className="flex rounded-full h-2 bg-gray-200">
-              <div
-                className="rounded-full bg-cyan-500"
-                style={{ width: "100%" }}
-              ></div>
             </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     </div>
   );
 }

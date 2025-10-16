@@ -20,9 +20,10 @@ const VisaSlider = ({ visas }) => {
           disableOnInteraction: true,
         }}
         modules={[Autoplay]}
+        
         breakpoints={{
           300: {
-            slidesPerView: 1.5,
+            slidesPerView: 1.2,
             spaceBetween: 10,
             simulateTouch: true,
             centeredSlides: true,

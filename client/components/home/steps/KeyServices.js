@@ -42,7 +42,7 @@ const KeyServices = async ({ services }) => {
                   </div>
                 </div>
                 <div className="flex flex-col mt-0 mb-4 items-center justify-center">
-                  <h2 className="text-sm text-center lg:text-base mt-0">
+                  <h2 className="text-sm text-center px-1 lg:text-base mt-0">
                     {service.title}
                   </h2>
                 </div>

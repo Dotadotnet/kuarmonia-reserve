@@ -61,7 +61,7 @@ export default async function RootLayout({ children, params }) {
         <Providers>
           <Session>
             <Auth>
-              <html className="asdfas" lang={lang.lang + "-" + lang.loc} dir={lang.dir}>
+              <html  lang={lang.lang + "-" + lang.loc} dir={lang.dir}>
                 {/* داداش دستم به دامنت دست نزن */}
                 <head>
                   <meta httpEquiv="Content-Language" content={lang.lang + "-" + lang.loc} />

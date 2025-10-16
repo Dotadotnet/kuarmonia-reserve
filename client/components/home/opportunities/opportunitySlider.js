@@ -12,29 +12,29 @@ const OpportunitySlider = ({ opportunity }) => {
 
   return (
     <Swiper
-    loop={true}
-       slidesPerView={1.4}
-        breakpoints={{
-          640: { slidesPerView: 1.7 },
-          1024: { slidesPerView: 3.5 }
-        }}
-        spaceBetween={10}
-        modules={[Pagination, FreeMode, Autoplay]}
-        freeMode={true}
-        autoplay={{ delay: 4500, disableOnInteraction: true, }}
-        className="w-full h-fit z-50 my-2 "
-  >
+      loop={true}
+      slidesPerView={1}
+      breakpoints={{
+        640: { slidesPerView: 2 },
+        1024: { slidesPerView: 4 }
+      }}
+   
+      spaceBetween={10}
+      modules={[Pagination, Autoplay]}
+      autoplay={{ delay: 4500, disableOnInteraction: true, }}
+      className="w-full h-fit z-50 my-2 "
+    >
       {opportunity && opportunity.length === 0
         ? Array.from({ length: 10 }).map((_, index) => (
-            <SwiperSlide key={index} className="!w-fit">
-              <OpportunityCardSkeleton />
-            </SwiperSlide>
-          ))
+          <SwiperSlide key={index}>
+            <OpportunityCardSkeleton />
+          </SwiperSlide>
+        ))
         : opportunity.slice(0, 8).map((opportunityItem) => (
-            <SwiperSlide key={opportunityItem._id } className="!w-fit">
-              <OpportunityCard opportunity={opportunityItem}  />
-            </SwiperSlide>
-          ))}
+          <SwiperSlide  key={opportunityItem._id}>
+            <OpportunityCard opportunity={opportunityItem} />
+          </SwiperSlide>
+        ))}
     </Swiper>
   );
 };
