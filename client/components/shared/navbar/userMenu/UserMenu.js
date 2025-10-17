@@ -4,7 +4,12 @@ import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import LanguageSwitcher from "../languageSwitch/page";
 const UserMenu = ({setSearchIsOpen}) => {
   return (
-    <span></span>
+    <div className="sm:flex hidden flex-row lg:col-span-2 items-center gap-x-3 z-[9999] ">
+      <Auth />
+      <LanguageSwitcher />
+      <ThemeToggle />
+      <Search setSearchIsOpen={setSearchIsOpen} />
+    </div>
   );
 };
 
