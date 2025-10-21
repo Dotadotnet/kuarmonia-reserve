@@ -38,8 +38,9 @@ const flattenDocumentTranslations = (document, locale) => {
     const fields = flattenTranslations(document.translations, locale);
 
     // Return document with flattened fields
+    // Since we're using .lean(), we don't need to call toObject()
     return {
-      ...document.toObject ? document.toObject() : document,
+      ...document,
       ...fields
     };
   } catch (error) {

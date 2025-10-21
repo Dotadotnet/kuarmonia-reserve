@@ -152,7 +152,8 @@ exports.getAllNews = async (req,res) => {
       .populate([
         {
           path: "translations.translation",
-          match: { language: req.locale }
+          match: { language: req.locale },
+          select: "fields language" // Select only the required fields
         },
         {
           path: "creator",
@@ -162,12 +163,12 @@ exports.getAllNews = async (req,res) => {
           path: "categories",
           select: "icon title _id"
         }
-      ]);
+      ]).lean(); // Add lean() to return plain JavaScript objects
     const total = await News.countDocuments(query);
 
     // Flatten translations for all news documents
     const result = flattenDocumentsTranslations(news, req.locale);
-console.log(result)
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
@@ -193,7 +194,8 @@ exports.getNews = async (req, res) => {
     const news = await News.findOne({ newsId }).populate([
       {
         path: "translations.translation",
-        match: { language: req.locale }
+        match: { language: req.locale },
+        select: "fields language" // Select only the required fields
       },
       {
         path: "type",
@@ -227,7 +229,7 @@ exports.getNews = async (req, res) => {
         path: "socialLinks.network",
         select: "title platform icon"
       }
-    ]);
+    ]).lean(); // Add lean() to return plain JavaScript objects
     if (!news) {
       return res.status(404).json({
         acknowledgement: false,
@@ -323,6 +325,14 @@ exports.deleteNews = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
 
 
 
