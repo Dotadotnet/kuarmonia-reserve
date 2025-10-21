@@ -94,7 +94,7 @@ export default function StoriesSectionClient({ banners }) {
   }, [selectedBanner]);
 
   return (
-    <section className="sm:pt-32 pt-24 overflow-auto">
+    <section className="pt-20 md:pt-24 overflow-auto">
       <div className="max-w-7xl mx-auto">
         <div className="flex py-2 gap-6 overflow-x-auto scrollbar-hide flex-nowrap px-2 md:justify-center justify-start no-scrollbar">
           {banners.map((banner) => {
@@ -127,7 +127,7 @@ export default function StoriesSectionClient({ banners }) {
                   </div>
                 </div>
 
-                <span className="text-sm font-medium text-gray-900 font-bold dark:text-white mt-2 max-w-20 truncate text-center">
+                <span className="text-sm font-medium text-gray-900 dark:text-white mt-2 max-w-20 truncate text-center">
                   {getTranslation(banner.translations, "title", banner.creator.name)}
                 </span>
               </div>

@@ -17,7 +17,7 @@ export default function VisaBanner() {
     </div>
 
     {/* تصویر بیرون از بنر */}
-    <div className="w-1/3 absolute -top- -left-8 z-50 overflow-visible">
+    <div className="w-1/3 absolute -top- left-8 z-50 overflow-visible">
       <Image
         src="/assets/home-page/banner/visa.png"
         alt="Visa and Residency Services"

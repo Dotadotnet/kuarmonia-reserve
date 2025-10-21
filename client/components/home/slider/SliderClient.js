@@ -92,20 +92,20 @@ export default function SimpleSliderClient({ slides }) {
                     className="
                       absolute inset-y-0 flex items-center
                       ltr:left-2 rtl:right-2 text-right rtl:text-left
-                      p-4 space-y-3
+                      md:p-4 space-y-3
               
                     "
                   >
                     <div className="space-y-2 flex flex-col">
                       {/* عنوان */}
                       {slide.title && (
-                        <h2 className="text-white md:text-5xl w-fit text-xl px-3  rounded-lg backdrop-blur-lg bg-black/50 md:py-4 py-1 inline-block">
+                        <h2 className="text-white md:text-5xl w-fit text-xl px-3  rounded-lg backdrop-blur-lg text-nowrap bg-black/50 md:py-4 py-1 inline-block">
                           {slide.title}
                         </h2>
                       )}
                       {/* زیرعنوان */}
                       {slide.subtitle && (
-                        <p className="text-white text-lg px-3 md:py-2 py-1 rounded-lg backdrop-blur-lg w-fit bg-black/50 inline-block">
+                        <p className="text-white text-sm px-3 md:py-2 py-1 rounded-lg text-nowrap backdrop-blur-lg w-fit bg-black/50 inline-block">
                           {slide.subtitle}
                         </p>
                       )}
