@@ -1,5 +1,4 @@
 import NewsClient from "./NewsClient";
-import { getTranslations } from "next-intl/server";
 
 export default async function NewsSection({ params }) {
   const { locale } = await params;

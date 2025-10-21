@@ -15,7 +15,7 @@ const NewsLetter = () => {
   };
 
   return (
-    <section className="h-full pt-12 ">
+    <section className="h-full pt-12 px-4">
       <Container>
         <section className="w-full h-full lg:gap-x-4 gap-y-12 grid grid-cols-12">
           <div className="lg:col-span-5 col-span-12 rounded relative">
@@ -79,7 +79,7 @@ const NewsLetter = () => {
               height={50}
               width={50}
               className="h-[50px] w-[50px] object-contain absolute lg:top-4 md:top-1 lg:left-[9.4rem] md:-left-[0.6rem] 
-              left-[0.4rem]"
+              -left-[0.4rem]"
             />
             <article className="flex flex-col gap-y-4 h-full">
               <h2 className="lg:text-4xl md:text-2xl text-xl z-50">
