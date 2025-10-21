@@ -31,7 +31,7 @@ export default function Testimonials({ testimonials }) {
         modifier: 1,
         slideShadows: false,
       }}
-      className="w-full max-w-6xl px-4"
+      className="w-full max-w-7xl px-4"
     >
       {testimonials.map((item, index) => (
         <SwiperSlide

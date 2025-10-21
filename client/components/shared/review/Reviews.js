@@ -78,7 +78,7 @@ const Reviews = ({ className }) => {
                 className="mt-1.5 filter dark:invert  dark:brightness-0 dark:sepia dark:hue-rotate-180"
               />
             </h1>
-            <p className="text-base">
+            <p className="text-base px-4">
               تجربیات و نظرات مشتریان ما در رابطه با خدمات مهاجرت و اخذ ویزا
             </p>
           </article>

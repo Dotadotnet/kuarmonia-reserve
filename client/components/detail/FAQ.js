@@ -26,7 +26,7 @@ const FAQ = () => {
             <HighlightText title={t("85")} />
 
           </h2>
-          <p className="text-base">
+          <p className="text-base px-4">
             {t("86")}
           </p>
         </article>

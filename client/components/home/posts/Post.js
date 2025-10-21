@@ -30,7 +30,7 @@ const Post = (params) => {
                 className="mt-1.5 filter dark:invert  dark:brightness-0 dark:sepia dark:hue-rotate-180"
               />
             </p>
-            <p className="text-base">
+            <p className="text-base px-4">
               پست های ما شامل جدیدترین اطلاعات و تغییرات در قوانین مهاجرت و اخذ
               ویزا هستند که می‌توانند به شما در تصمیم‌گیری‌های مهم کمک کنند.{" "}
             </p>

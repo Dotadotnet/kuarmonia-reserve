@@ -36,7 +36,7 @@ const MediasServer = async () => {
               </Link>
             </div>
           </div>
-          <p className="text-base">{t("23")}</p>
+          <p className="text-base px-4">{t("23")}</p>
 
           <MediasClient medias={medias} />
         </section>

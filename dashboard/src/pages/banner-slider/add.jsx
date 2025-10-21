@@ -1,7 +1,7 @@
-// AddBanner.jsx
+// AddHeroSlider.jsx
 import { useForm } from "react-hook-form";
 import Button from "@/components/shared/button/Button";
-import { useAddBannerSliderMutation } from "@/services/banner/bannerApi";
+import { useAddHeroSliderMutation } from "@/services/heroSlider/heroSliderApi";
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
@@ -9,27 +9,27 @@ import AddButton from "@/components/shared/button/AddButton";
 import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 
-const AddBannerSlider = () => {
+const AddHeroSlider = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { register, handleSubmit, reset, watch } = useForm();
-  const [addBanner, { isLoading: isAdding, data: addData, error: addError }] =
-    useAddBannerSliderMutation();
+  const [addHeroSlider, { isLoading: isAdding, data: addData, error: addError }] =
+    useAddHeroSliderMutation();
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [thumbnail, setThumbnail] = useState({});
   useEffect(() => {
     if (isAdding) {
-      toast.loading("در حال افزودن  بنر...", { id: "add-Banner" });
+      toast.loading("در حال افزودن هرو اسلایدر...", { id: "add-HeroSlider" });
     }
 
     if (addData) {
-      toast.success(addData?.description, { id: "add-Banner" });
+      toast.success(addData?.description, { id: "add-HeroSlider" });
       setIsOpen(false);
       reset();
     }
 
     if (addError?.data) {
-      toast.error(addError?.data?.description, { id: "add-Banner" });
+      toast.error(addError?.data?.description, { id: "add-HeroSlider" });
     }
   }, [isAdding, addData, addError]);
 
@@ -37,11 +37,14 @@ const AddBannerSlider = () => {
     const formData = new FormData();
     formData.append("thumbnail", thumbnail);
     formData.append("link", data.link);
+    formData.append("title", data.title);
+    formData.append("subtitle", data.subtitle);
+    formData.append("description", data.description);
 
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-    addBanner(formData);
+    addHeroSlider(formData);
   };
   return (
     <>
@@ -74,7 +77,7 @@ const AddBannerSlider = () => {
                 htmlFor="gallery"
                 className="flex flex-col items-center text-center gap-y-2"
               >
-                تصویر بنر
+                تصویر هرو اسلایدر
                 <ThumbnailUpload
                   setThumbnailPreview={setThumbnailPreview}
                   setThumbnail={setThumbnail}
@@ -82,14 +85,50 @@ const AddBannerSlider = () => {
                   register={register("Thumbnail")}
                 />
               </label>
+              <label htmlFor="title" className="flex flex-col gap-y-2">
+                عنوان:
+                <input
+                  type="text"
+                  name="title"
+                  id="title"
+                  maxLength={100}
+                  placeholder="عنوان هرو اسلایدر را تایپ کنید ..."
+                  className="rounded"
+                  {...register("title", { required: false })}
+                />
+              </label>
+              <label htmlFor="subtitle" className="flex flex-col gap-y-2">
+                زیرعنوان:
+                <input
+                  type="text"
+                  name="subtitle"
+                  id="subtitle"
+                  maxLength={100}
+                  placeholder="زیرعنوان هرو اسلایدر را تایپ کنید ..."
+                  className="rounded"
+                  {...register("subtitle", { required: false })}
+                />
+              </label>
+              <label htmlFor="description" className="flex flex-col gap-y-2">
+                توضیحات:
+                <textarea
+                  name="description"
+                  id="description"
+                  maxLength={500}
+                  placeholder="توضیحات هرو اسلایدر را تایپ کنید ..."
+                  className="rounded"
+                  rows={3}
+                  {...register("description", { required: false })}
+                />
+              </label>
               <label htmlFor="link" className="flex flex-col gap-y-2">
-                لینک :
+                لینک:
                 <input
                   type="text"
                   name="link"
                   id="link"
                   maxLength={50}
-                  placeholder="لینک بنر را تایپ کنید ..."
+                  placeholder="لینک هرو اسلایدر را تایپ کنید ..."
                   className="rounded"
                   autoFocus
                   {...register("link", { required: false })}
@@ -106,4 +145,4 @@ const AddBannerSlider = () => {
   );
 };
 
-export default AddBannerSlider;
+export default AddHeroSlider;

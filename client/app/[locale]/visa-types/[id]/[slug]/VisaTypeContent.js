@@ -96,7 +96,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                 {visaType.title}
               </h1>
             </div>
-            <p className="text-base md:text-lg w-fit p-1 leading-relaxed">{visaType.summary}</p>
+            <p className="text-base px-4 md:text-lg w-fit p-1 leading-relaxed">{visaType.summary}</p>
       
             </div>
           </div>

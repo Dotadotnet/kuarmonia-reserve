@@ -1,28 +1,24 @@
-import News from "@/components/home/news/News";
-import Hero from "@/components/home/hero/Hero";
+import NewsSection from "@/components/home/news/News";
+// import Hero from "@/components/home/hero/Hero";
 import NewsLetter from "@/components/home/news-letter/NewsLetter";
 import Properties from "@/components/home/properties/Properties";
 import Main from "@/layouts/Main";
-import KeyServices from "@/components/home/steps/KeyServices";
+// import KeyServices from "@/components/home/steps/KeyServices";
 import Opportunity from "../../components/home/opportunities/Opportunity";
 import Rent from "@/components/home/bestSelling/rent";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import { getTranslations } from "next-intl/server";
 import language from "../language";
-import StoriesSectionServer from "@/components/home/story/page";
-import homepageApiService from "@/services/api/homepage.service";
-import opportunityApiService from "@/services/api/opportunity.service";
-import newsApiService from "@/services/api/news.service";
-import propertyApiService from "@/services/api/property.service";
-import BlogsServer from "@/components/home/blogs/Blogs";
+import Stories from "@/components/home/story/page";
 import Visa from "@/components/home/visa/page";
 import VisaTypes from "@/components/home/visa-types/page";
 import Intro from "@/components/home/intro/page";
-import SimpleSlider from "@/components/home/slider/SimpleSlider";
 import Api from "@/utils/api";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import Slider from "@/components/home/slider/page";
+import KeyServices from "@/components/home/steps/KeyServicesSection";
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
@@ -30,7 +26,6 @@ export async function generateMetadata({ params }) {
   const canonical = await canonicalUrl()
   const class_lang = new language(locale);
   const lang = class_lang.getInfo();
-  const hostLang = host + (locale == "fa" ? "" : "/" + locale);
   const seoTranslations = await getTranslations('Seo');
   const metadata = {
     title: seoTranslations("defaultTitle"),
@@ -65,7 +60,29 @@ export default async function Home({ params }) {
   const class_language = new language(locale);
   const lang = class_language.getInfo()
   const hostLang = host + (locale == "fa" ? "" : "/" + locale);
-  const { banner , service, rent, opportunity, news,visa, blog, property } = await Api('/page/home');
+  
+  // Handle API response safely
+  let apiResponse;
+  try {
+    apiResponse = await Api('/page/home');
+  } catch (error) {
+    console.error('Error fetching home page data:', error);
+    // Provide default empty values to prevent destructuring errors
+    apiResponse = { 
+      banner: [], 
+      service: [], 
+      rent: [], 
+      opportunity: [], 
+      news: [], 
+      visa: [], 
+      blog: [], 
+      property: [] 
+    };
+  }
+  
+  // Check if apiResponse is valid before destructuring
+  const { banner = [], service = [], rent = [], opportunity = [], news = [], visa = [], blog = [], property = [] } = apiResponse || {};
+  
   const websiteSchema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -170,21 +187,19 @@ export default async function Home({ params }) {
   return (
     <Main schema={websiteSchema}  >
       <>
-        <StoriesSectionServer params={params} />
-        <SimpleSlider slides={banner} />
+        <Stories params={params} />
+        <Slider params={params} />
         {/* <Hero /> */}
-        <KeyServices services={service}  />
+        <KeyServices params={params} />
         <VisaTypes params={params} />
-        <Visa params={visa[0]} />
-        <News params={news} /> 
-        <Properties params={property} />
-        <Opportunity params={opportunity} />
-        <Rent params={rent} /> 
+        <Visa params={params} />
+        <NewsSection params={params} />
+        <Properties params={params} />
+        <Opportunity params={params} />
+        <Rent params={params} />
         <NewsLetter />
         <Intro params={params} />
       </>
    </Main>
   );
 }
-
-

@@ -1,5 +1,3 @@
-
-
 import { kuarmoniaApi } from "../kuarmonia";
 
 const bannerApi = kuarmoniaApi.injectEndpoints({
@@ -17,18 +15,6 @@ const bannerApi = kuarmoniaApi.injectEndpoints({
       invalidatesTags: ["Banner", "Admin"],
     }),
 
-    addBannerSlider: builder.mutation({
-      query: (banner) => ({
-        url: "/banner/add-banner-slider",
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-        body: banner,
-      }),
-      invalidatesTags: ["Banner", "Admin"],
-    }),
-
     // get all banners
     getBanners: builder.query({
       query: ({ page = 1, limit = 5, search = "" } = {}) => ({
@@ -37,13 +23,7 @@ const bannerApi = kuarmoniaApi.injectEndpoints({
       }),
       providesTags: ["Banner"],
     }),
-    getBannersSlider: builder.query({
-      query: ({ page = 1, limit = 5, search = "" } = {}) => ({
-        url: `/dynamic/get-all/banner?page=${page}&scope=${limit}`,
-        method: "GET",
-      }),
-      providesTags: ["Banner"],
-    }),
+
     // update banner
     updateBanner: builder.mutation({
       query: ({ id, body }) => ({
@@ -80,26 +60,15 @@ const bannerApi = kuarmoniaApi.injectEndpoints({
 
       invalidatesTags: ["Banner", "Admin"],
     }),
-    deleteBannerSlider: builder.mutation({
-      query: (id) => ({
-        url: `/dynamic/delete/banner/_id/${id}`,
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }),
-      invalidatesTags: ["Banner", "Admin"],
-    }),
   }),
 });
 
 export const {
   useAddBannerMutation,
-  useAddBannerSliderMutation,
   useGetBannersQuery,
-  useGetBannersSliderQuery,
   useUpdateBannerMutation,
   useGetBannerQuery,
   useDeleteBannerMutation,
-  useDeleteBannerSliderMutation,
 } = bannerApi;
+
+export default bannerApi;

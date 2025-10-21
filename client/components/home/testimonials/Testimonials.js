@@ -64,7 +64,7 @@ const Testimonials = async () => {
           </article>
 
         </div>
-        <p className="text-base">{t("84")}</p>
+        <p className="text-base px-4">{t("84")}</p>
         <TestimonialsClient testimonials={testimonials} />
       </section>
     </Container>

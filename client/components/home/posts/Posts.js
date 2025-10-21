@@ -40,7 +40,7 @@ const PostsServer = async () => {
               </Link>
             </div>
           </div>
-          <p className="text-base">
+          <p className="text-base px-4">
             {t("74")}
           </p>
           <PostsClient posts={posts} />

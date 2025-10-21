@@ -92,7 +92,7 @@ export default function HomeIntroSection({ params }) {
                 <div className="prose prose-lg max-w-none dark:text-gray-100 text-gray-800 leading-relaxed space-y-6">
                   {/* Introduction */}
                   <div className="p-0">
-                    <p className="text-base">
+                    <p className="text-base px-4">
                       {`${hero.subtitle} ${hero.description} ${about.introduction.content} ${conclusion.content}`}
                     </p>
                   </div>
@@ -124,7 +124,7 @@ export default function HomeIntroSection({ params }) {
                     <h3 className="text-2xl font-bold dark:text-white text-gray-900 mb-4">
                       {about.features.title}
                     </h3>
-                    <p className="text-base">{about.features.content}</p>
+                    <p className="text-base px-4">{about.features.content}</p>
                   </div>
 
                   {/* Fast Delivery Section */}
@@ -132,7 +132,7 @@ export default function HomeIntroSection({ params }) {
                     <h3 className="text-2xl font-bold dark:text-white text-gray-900 mb-4">
                       {about.delivery.title}
                     </h3>
-                    <p className="text-base">{about.delivery.content}</p>
+                    <p className="text-base px-4">{about.delivery.content}</p>
                   </div>
 
                   {/* Special Offers Section */}
@@ -140,7 +140,7 @@ export default function HomeIntroSection({ params }) {
                     <h3 className="text-2xl font-bold dark:text-white text-gray-900 mb-4">
                       {about.offers.title}
                     </h3>
-                    <p className="text-base">{about.offers.content}</p>
+                    <p className="text-base px-4">{about.offers.content}</p>
                   </div>
 
                   {/* Product Categories */}

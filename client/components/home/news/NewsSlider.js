@@ -39,7 +39,7 @@ const NewsSlider = ({ news }) => {
       modifier: 1,
       slideShadows: false,
     }}
-    className="w-full max-w-6xl px-4"
+    className="w-full max-w-7xl px-4"
   >
       {news && news.length === 0
         ? Array.from({ length: 4 }).map((_, index) => (

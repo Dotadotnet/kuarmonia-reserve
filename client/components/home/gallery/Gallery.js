@@ -44,7 +44,7 @@ const Gallery = () => {
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
                 <HighlightText title={t("81")} />
               </h2>
-              <p className="text-base">{t("82")}</p>
+              <p className="text-base px-4">{t("82")}</p>
             </article>
             
           </div>

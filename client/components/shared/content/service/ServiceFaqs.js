@@ -15,7 +15,7 @@ const Faq = ({ items }) => {
   };
 
   return (
-    <section className="mx-auto grid max-w-6xl grid-cols-1 gap-4 p-4 md:grid-cols-[550px_1fr] md:gap-14 md:p-8">
+    <section className="mx-auto grid max-w-7xl grid-cols-1 gap-4 p-4 md:grid-cols-[550px_1fr] md:gap-14 md:p-8">
       <h2 className="text-center text-4xl font-bold text-gray-600 md:text-left md:text-6xl">
         {t("faqs")}
       </h2>

@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import {
-  useGetBannersSliderQuery ,
-  useDeleteBannerSliderMutation
-} from "@/services/banner/bannerApi";
+  useGetHeroSlidersQuery,
+  useDeleteHeroSliderMutation
+} from "@/services/heroSlider/heroSliderApi";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
 import { toast } from "react-hot-toast";
 import StatusIndicator from "@/components/shared/tools/StatusIndicator";
@@ -10,55 +10,56 @@ import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
 import Pagination from "@/components/shared/pagination/Pagination";
 import Search from "@/components/shared/search";
 import Add from "./add";
+import Edit from "./edit";
 import ControlPanel from "../ControlPanel";
-const ListBannerSlider = () => {
+const ListHeroSlider = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading, error, refetch } = useGetBannersSliderQuery({
+  const { data, isLoading, error, refetch } = useGetHeroSlidersQuery({
     page: currentPage,
     limit: itemsPerPage,
     status: statusFilter === "all" ? undefined : statusFilter,
     search: searchTerm
   });
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
-  const banners = useMemo(() => data?.data || [], [data]);
+  const heroSliders = useMemo(() => data?.data || [], [data]);
   const [
-    removeBanner,
-    { isLoading: isRemoving, data: deleteBanner, error: removeError }
-  ] = useDeleteBannerSliderMutation();
+    removeHeroSlider,
+    { isLoading: isRemoving, data: deleteHeroSlider, error: removeError }
+  ] = useDeleteHeroSliderMutation();
   useEffect(() => {
     if (isLoading) {
-      toast.loading("در حال دریافت دسته بندی...", { id: "banner-loading" });
+      toast.loading("در حال دریافت هرو اسلایدر...", { id: "heroSlider-loading" });
     }
 
     if (data && !isLoading) {
-      toast.dismiss("banner-loading");
+      toast.dismiss("heroSlider-loading");
     } 
     
 
     if (error?.data) {
-      toast.error(error?.data?.message, { id: "banner-loading" });
+      toast.error(error?.data?.message, { id: "heroSlider-loading" });
 
       if (isRemoving) {
-        toast.loading("در حال حذف  ...", { id: "banner-remove" });
+        toast.loading("در حال حذف  ...", { id: "heroSlider-remove" });
       }
 
-      if (deleteBanner && !isRemoving) {
-        toast.dismiss("banner-remove");
+      if (deleteHeroSlider && !isRemoving) {
+        toast.dismiss("heroSlider-remove");
       }
 
       if (removeError?.data) {
-        toast.error(removeError?.data?.message, { id: "banner-remove" });
+        toast.error(removeError?.data?.message, { id: "heroSlider-remove" });
       }
     }
 
     // اضافه کردن بررسی برای عملیات موفق حذف
-    if (deleteBanner && !isRemoving) {
-      toast.success("بنر با موفقیت حذف شد .", { id: "banner-remove" });
+    if (deleteHeroSlider && !isRemoving) {
+      toast.success("هرو اسلایدر با موفقیت حذف شد .", { id: "heroSlider-remove" });
     }
-  }, [data, error, isLoading, isRemoving, removeError, deleteBanner]);
+  }, [data, error, isLoading, isRemoving, removeError, deleteHeroSlider]);
 
   return (
     <>
@@ -71,46 +72,66 @@ const ListBannerSlider = () => {
             <span className="flex lg:hidden">نویسنده و عنوان</span>
           </div>
           <div className="col-span-8 lg:col-span-2 hidden lg:flex  text-sm">
-            لینک
+            عنوان
           </div>
           <div className="col-span-1 md:block text-sm">عملیات</div>
         </div>
 
         {/* نمایش داده‌های دسته‌بندی‌ها */}
-        {isLoading || (banners && banners.length == 0) ? (
+        {isLoading || (heroSliders && heroSliders.length == 0) ? (
           <SkeletonItem repeat={5} />
         ) : (
-          banners.map((banner) => {
+          heroSliders.map((heroSlider) => {
             return (
               <div
-                key={banner._id}
+                key={heroSlider._id}
                 className="mt-4 p-1 grid grid-cols-12 rounded-xl cursor-pointer border border-gray-200 gap-2 dark:border-white/10 dark:bg-slate-800 bg-white px-2 transition-all dark:hover:border-slate-700 hover:border-slate-100 hover:bg-green-100 dark:hover:bg-gray-800 dark:text-slate-100"
               >
                 <div className="col-span-10 lg:col-span-3 text-center flex items-center">
-                  <StatusIndicator isActive={banner.status === "active"} />
+                  <StatusIndicator isActive={heroSlider.status === "active"} />
                   <div className="py-2 flex justify-center items-center gap-x-2 text-right">
                     <img
-                      src={banner?.image?.url}
-                      alt={``}
+                      src={heroSlider?.image?.url}
+                      alt={heroSlider.title || "هرو اسلایدر"}
                       height={100}
                       width={100}
                       className="h-[60px] w-[60px] rounded-full object-cover"
                     />
+                    <article className="flex-col flex gap-y-2  ">
+                      <span className="line-clamp-1 text-base ">
+                        <span className="hidden lg:flex ">
+                          {heroSlider.title || "بدون عنوان"}
+                        </span>
+                        <span className=" lg:hidden ">{heroSlider.title || "بدون عنوان"}</span>
+                      </span>
+                      <span className="text-xs hidden lg:flex">
+                        {new Date(heroSlider.createdAt).toLocaleDateString(
+                          "fa-IR"
+                        )}
+                      </span>
+                      <span className=" lg:hidden text-xs  line-clamp-1">
+                        {new Date(heroSlider.createdAt).toLocaleDateString(
+                          "fa-IR"
+                        )}
+                      </span>
+                    </article>
                   </div>
                 </div>
-                <div className="lg:col-span-2 gap-2 flex justify-left items-center text-right">
+                <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
                   <article className="flex-col flex gap-y-2">
                     <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
-                      <span className="flex">{banner.link ? banner.link : "بدون لینک"}</span>
+                      <span className="flex">{heroSlider.title || "بدون عنوان"}</span>
                     </span>
                   </article>
                 </div>
+
                 <div className="col-span-2 md:col-span-1 gap-2 text-center flex justify-center items-center">
                   <article className="lg:flex-row flex flex-col justify-center gap-x-2  gap-y-2">
+                    <Edit id={heroSlider?._id} />
                     <DeleteModal
-                      message="آیا از حذف این بنر اطمینان دارید؟"
+                      message="آیا از حذف این هرو اسلایدر اطمینان دارید؟"
                       isLoading={isRemoving}
-                      onDelete={() => removeBanner(banner?._id)}
+                      onDelete={() => removeHeroSlider(heroSlider?._id)}
                     />
                   </article>
                 </div>
@@ -130,4 +151,4 @@ const ListBannerSlider = () => {
   );
 };
 
-export default ListBannerSlider;
+export default ListHeroSlider;

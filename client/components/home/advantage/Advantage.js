@@ -24,7 +24,7 @@ const Advantage = () => {
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
                 <HighlightText title={t("24")} />
               </h2>
-              <p className="text-base">{t("25")}</p>
+              <p className="text-base px-4">{t("25")}</p>
             </article>
 
             <div className="grid md:grid-cols-2 md:items-center grid-cols-1 gap-8">

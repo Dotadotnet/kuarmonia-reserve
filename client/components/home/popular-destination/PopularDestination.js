@@ -22,7 +22,7 @@ const PopularDestination = () => {
                 <HighlightText title={t("79")} />
 
               </h2>
-              <p className="text-base">
+              <p className="text-base px-4">
                 {t("80")}
               </p>
             </article>

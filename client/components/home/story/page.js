@@ -24,7 +24,7 @@ export default async function StoriesSectionServer({ params }) {
   return (
     <>
       {banners.length === 0 ? (
-        <section className="pt-24 overflow-auto max-w-7xl mx-auto px-4">
+        <section className="pt-24 overflow-auto max-w-7xl mx-auto">
           <StoriesSkeleton />
         </section>
       ) : (

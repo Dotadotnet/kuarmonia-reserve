@@ -113,26 +113,47 @@ exports.addService = async (req, res) => {
 exports.getAllService = async (req, res) => {
   try {
     const services = await Service.find()
-      .select(" serviceId icon _id thumbnail")
+      .select("serviceId icon _id thumbnail translations category")
       .populate([
         {
           path: "translations.translation",
-          match: { language: req.locale }
+          match: { language: req.locale },
+          select: "fields language" // فقط فیلدهای مورد نیاز
         },
         {
           path: "category",
           select: "title _id icon"
         }
-      ]);
+      ]).lean();;
+
+    // داده‌های ترجمه را به سطح بالا ببریم
+    const result = services.map(service => {
+      const translationObj = service.translations.find(
+        t => t.language === req.locale && t.translation
+      );
+
+      // استخراج فیلدها از ترجمه
+      const fields = translationObj?.translation?.fields || {};
+
+      return {
+        _id: service._id,
+        serviceId: service.serviceId,
+        icon: service.icon,
+        thumbnail: service.thumbnail,
+        category: service.category,
+        // ادغام فیلدهای ترجمه در سطح بالا
+        ...fields
+      };
+    });
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست خدمت با موفقیت دریافت شد",
-      data: services
+      data: result
     });
   } catch (error) {
-    console.log(error);
+    console.error("خطا در دریافت خدمات:", error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",

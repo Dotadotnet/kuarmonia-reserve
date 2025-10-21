@@ -62,7 +62,8 @@ export const kuarmoniaApi = createApi({
     "JobMode",
     "Rent",
     "Banner",
-    "Story"
+    "Story",
+    "HeroSlider"
   ],
   endpoints: () => ({})
 });

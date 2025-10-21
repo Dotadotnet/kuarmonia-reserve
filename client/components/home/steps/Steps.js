@@ -16,7 +16,7 @@ const Steps = () => {
               <h2 className="lg:text-5xl md:text-4xl text-3xl whitespace-normal">
                 <HighlightText title={t("77")} />
               </h2>
-              <p className="text-base">
+              <p className="text-base px-4">
                 {t("78")}
               </p>
             </article>

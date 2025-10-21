@@ -19,7 +19,7 @@ const MoreRents = ({ className }) => {
             <h2 className="lg:text-5xl w-fit md:text-4xl text-3xl whitespace-normal">
               <HighlightText title={t("sameRentTitle")} />
             </h2>
-            <p className="text-base">{t("sameRentDescription")}</p>
+            <p className="text-base px-4">{t("sameRentDescription")}</p>
           </article>
 
           <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-6">

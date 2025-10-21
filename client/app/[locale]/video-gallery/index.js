@@ -38,7 +38,7 @@ const Video = ({initialData}) => {
                 className="mt-1.5 filter dark:invert  dark:brightness-0 dark:sepia dark:hue-rotate-180"
               />
             </p>
-            <p className="text-base">
+            <p className="text-base px-4">
               در این ویدئوها، با خدمات تخصصی شرکت ما در زمینه مهاجرت آشنا
               می‌شوید. ما شما را در انتخاب مسیر مناسب برای مهاجرت، آشنایی با
               قوانین جدید و ارائه مشاوره‌های تخصصی همراهی می‌کنیم. این ویدئوها

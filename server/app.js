@@ -92,6 +92,7 @@ app.use("/api/search", require("./routes/search.route"));
 app.use("/api/visa", require("./routes/visa.route"));
 app.use("/api/visaType", require("./routes/visaType.route"));
 app.use("/api/country", require("./routes/country.route"));
+app.use("/api/hero-slider", require("./routes/heroSlider.route"));
 
 // New API routes for individual models
 app.use("/api/opportunities", require("./routes/opportunity.route"));
