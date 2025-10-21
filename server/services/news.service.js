@@ -167,7 +167,7 @@ exports.getAllNews = async (req,res) => {
 
     // Flatten translations for all news documents
     const result = flattenDocumentsTranslations(news, req.locale);
-
+console.log(result)
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",

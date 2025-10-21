@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 
 export default function KeyServicesClient({ services }) {
   if (!services || services.length === 0) {
+    
     // Skeleton loader for empty state
     return (
       <Container>
@@ -33,7 +34,7 @@ export default function KeyServicesClient({ services }) {
       </Container>
     );
   }
-
+console.log(services)
   return (
     <Container>
       <div className="relative flex mt-6 justify-around w-full overflow-x-auto scrollbar-hide flex-nowrap overflow-hidden">
