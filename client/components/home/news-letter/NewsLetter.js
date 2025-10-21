@@ -78,7 +78,8 @@ const NewsLetter = () => {
               alt="ticket"
               height={50}
               width={50}
-              className="h-[50px] w-[50px] object-contain absolute lg:top-4 md:top-1 lg:left-[9.4rem] md:-left-[0.6rem] -left-[0.4rem]"
+              className="h-[50px] w-[50px] object-contain absolute lg:top-4 md:top-1 lg:left-[9.4rem] md:-left-[0.6rem] 
+              left-[0.4rem]"
             />
             <article className="flex flex-col gap-y-4 h-full">
               <h2 className="lg:text-4xl md:text-2xl text-xl z-50">
