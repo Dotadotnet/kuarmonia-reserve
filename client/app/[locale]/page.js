@@ -194,9 +194,9 @@ export default async function Home({ params }) {
         <VisaTypes params={params} />
         <Visa params={params} />
      <NewsSection params={params} /> 
-        <Properties params={params} />
+        {/* <Properties params={params} />
         <Opportunity params={params} />
-        <Rent params={params} />
+        <Rent params={params} /> */}
         <NewsLetter />
         <Intro params={params} /> 
       </>

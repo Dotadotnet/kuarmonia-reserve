@@ -18,6 +18,9 @@ export default async function Properties({ params }) {
 
   const res = await response.json();
   const properties = res.data;
-
-  return <PropertiesClient properties={properties} />;
+console.log(properties)
+  return 
+  <>
+  {/* <PropertiesClient properties={properties} />; */}
+  </>
 }
