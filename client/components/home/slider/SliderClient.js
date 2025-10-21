@@ -7,6 +7,7 @@ import Link from "next/link"
 import React, { useRef, useState } from "react"
 import { Autoplay } from "swiper/modules"
 import { SwiperSlide, Swiper } from "swiper/react"
+import VisaBanner from "./Banner"
 
 export default function SimpleSliderClient({ slides }) {
   const sliderRef = useRef(null)
@@ -122,6 +123,8 @@ export default function SimpleSliderClient({ slides }) {
           ))}
         </Swiper>
       </div>
+      {/* Banner component - only visible on mobile */}
+      <VisaBanner />
     </div>
   )
 }

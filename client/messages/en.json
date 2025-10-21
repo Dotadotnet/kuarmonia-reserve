@@ -7,6 +7,10 @@
     "heroButton": "Start your successful journey",
     "cartTitle": "Your cart",
     "NotFound": "No items found",
+     "visaBanner": {
+      "title": "Secure Visa and Residency in Your Destination Country",
+      "description": "Kuarmonia Company's Immigration Services Advertisement"
+    },
     "search": {
       "title": "Search for content",
       "placeholder": "Enter your search term...",

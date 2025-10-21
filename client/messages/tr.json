@@ -7,6 +7,10 @@
     "heroButton": "Başarılı Yolculuğunuza Başlayın",
     "cartTitle": "Alışveriş Sepeti",
     "NotFound": "Ürün Bulunamadı",
+     "visaBanner": {
+      "title": "Hedef Ülkede Güvenli Vize ve Oturum",
+      "description": "Kuarmonia Şirketi Göçmenlik Hizmetleri Reklamı"
+    },
     "search": {
       "title": "İçerik ara",
       "placeholder": "Aramak istediğiniz kelimeyi girin...",
