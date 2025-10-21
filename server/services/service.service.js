@@ -1,6 +1,7 @@
 const Service = require("../models/service.model");
 const remove = require("../utils/remove.util");
 const translateFields = require("../utils/translateFields");
+const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 const Translation = require("../models/translation.model");
 const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
 const Category = require("../models/category.model");
@@ -127,24 +128,7 @@ exports.getAllService = async (req, res) => {
       ]).lean();;
 
     // داده‌های ترجمه را به سطح بالا ببریم
-    const result = services.map(service => {
-      const translationObj = service.translations.find(
-        t => t.language === req.locale && t.translation
-      );
-
-      // استخراج فیلدها از ترجمه
-      const fields = translationObj?.translation?.fields || {};
-
-      return {
-        _id: service._id,
-        serviceId: service.serviceId,
-        icon: service.icon,
-        thumbnail: service.thumbnail,
-        category: service.category,
-        // ادغام فیلدهای ترجمه در سطح بالا
-        ...fields
-      };
-    });
+    const result = flattenDocumentsTranslations(services, req.locale);
 
     res.status(200).json({
       acknowledgement: true,

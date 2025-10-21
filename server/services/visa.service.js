@@ -6,6 +6,7 @@ const { generateSlug } = require("../utils/seoUtils");
 const translateFields = require("../utils/translateFields");
 const Counter = require("../models/counter");
 const { encodeBase62 } = require("../utils/translationUtils");
+const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 
@@ -171,11 +172,15 @@ exports.getVisas = async (req, res) => {
         }
       }
     ]);
+    
+    // Flatten translations for all visa documents
+    const result = flattenDocumentsTranslations(visas, req.locale);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست  ویزا با موفقیت دریافت شد",
-      data: visas
+      data: result
     });
   } catch (error) {
     console.error("❌ خطا در دریافت  ویزا:", error.message);
@@ -352,3 +357,7 @@ exports.deleteVisa = async (req, res) => {
     });
   }
 };
+
+
+
+

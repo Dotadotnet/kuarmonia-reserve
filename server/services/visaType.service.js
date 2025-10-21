@@ -4,6 +4,7 @@ const { translate } = require("google-translate-api-x");
 const Translation = require("../models/translation.model");
 const { generateSlug } = require("../utils/seoUtils");
 const translateFields = require("../utils/translateFields");
+const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 
 /* 📌 اضافه کردن نوع ویزا جدید */
 exports.addVisaType = async (req, res) => {
@@ -130,11 +131,15 @@ exports.getVisaTypes = async (req, res) => {
         select: "name avatar"
       }
     ]);
+    
+    // Flatten translations for all visa type documents
+    const result = flattenDocumentsTranslations(visaType, req.locale);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست نوع ویزا با موفقیت دریافت شد",
-      data: visaType
+      data: result
     });
   } catch (error) {
     console.error("❌ خطا در دریافت نوع ویزا:", error.message);
@@ -160,11 +165,14 @@ exports.getVisaType = async (req, res) => {
       });
     }
 
+    // Flatten translations for the visa type document
+    const result = flattenDocumentTranslations(visaType, req.locale);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "نوع ویزا با موفقیت دریافت شد",
-      data: visaType
+      data: result
     });
   } catch (error) {
     res.status(500).json({
@@ -319,3 +327,9 @@ exports.deleteVisaType = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+

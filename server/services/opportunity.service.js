@@ -9,6 +9,7 @@ const Category = require("../models/category.model");
 const JobOpportunity = require("../models/jobOpportunity.model");
 const City = require("../models/city.model");
 const Address = require("../models/address.model");
+const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 const Owner = require("../models/owner.model");
 
@@ -458,11 +459,14 @@ exports.getAllOpportunity = async (res, req) => {
         }
       ]);
 
+    // Flatten translations for all opportunity documents
+    const result = flattenDocumentsTranslations(opportunities, req.locale);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست فرصت با موفقیت دریافت شد",
-      data: opportunities
+      data: result
     });
   } catch (error) {
     console.log(error.message);

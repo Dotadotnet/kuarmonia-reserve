@@ -7,6 +7,7 @@ const Address = require("../models/address.model");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
 const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
+const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 const PropertyType = require("../models/propertyType.model");
 const Amenity = require("../models/amenity.model");
@@ -281,11 +282,14 @@ exports.getPropertyById = async (req, res) => {
     }
   ]);
 
+  // Flatten translations for the property document
+  const result = flattenDocumentTranslations(property, req.locale);
+
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
     description: "ملک با موفقیت دریافت شد",
-    data: property
+    data: result
   });
 };
 
@@ -347,11 +351,14 @@ exports.getProperties = async (req, res) => {
       }
     ]);
 
+  // Flatten translations for all property documents
+  const result = flattenDocumentsTranslations(properties, req.locale);
+
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
     description: "واحد ها با موفقیت دریافت شدند",
-    data: properties
+    data: result
   });
 };
 
@@ -405,35 +412,38 @@ exports.getProperty = async (req, res) => {
         select: "translations"
       },
       {
-        path: "amenities",
-        populate: {
-          path: "translations.translation",
-          match: { language: req.locale },
-        },
-
+        path: "category",
+        select: "title _id"
       },
       {
         path: "address",
-        select: "country state city "
+        select: "country state city street"
+      },
+      {
+        path: "amenities",
+        populate: {
+          path: "translations.translation",
+          match: { language: req.locale }
+        }
+      },
+      {
+        path: "eventSpaces",
+        populate: {
+          path: "translations.translation",
+          match: { language: req.locale }
+        }
       }
     ]);
-
-    if (!property) {
-      return res.status(404).json({
-        acknowledgement: false,
-        message: "Not Found",
-        description: "ملک مورد نظر یافت نشد",
-        data: null
-      });
-    }
+    
+    // Flatten translations for the property document
+    const result = flattenDocumentTranslations(property, req.locale);
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "ملک با موفقیت دریافت شد",
-      data: property
+      data: result
     });
-
   } catch (error) {
     console.error("خطا در دریافت ملک:", error);
     res.status(500).json({

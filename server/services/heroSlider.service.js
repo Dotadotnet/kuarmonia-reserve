@@ -2,6 +2,7 @@ const HeroSlider = require("../models/heroSlider.model");
 const remove = require("../utils/remove.util");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
+const { flattenDocumentsTranslations, flattenDocumentTranslations } = require("../utils/flattenTranslations");
 
 exports.addHeroSlider = async (req, res) => {
   try {
@@ -94,27 +95,8 @@ exports.getHeroSliders = async (req, res) => {
       })
       .lean();
 
-    const result = heroSliders.map(slider => {
-
-      const translationObj = slider.translations?.find(
-        t => t.language === req.locale && t.translation
-      );
-
-      const fields = translationObj?.translation?.fields || {};
-
-      return {
-        _id: slider._id,
-        heroSliderId: slider.heroSliderId,
-        image: slider.image,
-        link: slider.link,
-        status: slider.status,
-        isDeleted: slider.isDeleted,
-        createdAt: slider.createdAt,
-        updatedAt: slider.updatedAt,
-        // Merge translated fields at the top level
-        ...fields
-      };
-    });
+    // Flatten translations for all hero slider documents
+    const result = flattenDocumentsTranslations(heroSliders, req.locale);
 
     const total = await HeroSlider.countDocuments(query);
 
@@ -154,26 +136,8 @@ exports.getHeroSlider = async (req, res) => {
       });
     }
 
-    // Find the translation that matches both the language and has a valid translation object
-    const translationObj = heroSlider.translations?.find(
-      t => t.language === req.locale && t.translation
-    );
-
-    // Extract fields from translation
-    const fields = translationObj?.translation?.fields || {};
-
-    const result = {
-      _id: heroSlider._id,
-      heroSliderId: heroSlider.heroSliderId,
-      image: heroSlider.image,
-      link: heroSlider.link,
-      status: heroSlider.status,
-      isDeleted: heroSlider.isDeleted,
-      createdAt: heroSlider.createdAt,
-      updatedAt: heroSlider.updatedAt,
-      // Merge translated fields at the top level
-      ...fields
-    };
+    // Flatten translations for the hero slider document
+    const result = flattenDocumentTranslations(heroSlider, req.locale);
 
     res.status(200).json({
       acknowledgement: true,
@@ -309,6 +273,12 @@ exports.deleteHeroSlider = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
 
 
 

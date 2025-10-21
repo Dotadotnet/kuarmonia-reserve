@@ -8,6 +8,7 @@ const translateFields = require("../utils/translateFields");
 const Translation = require("../models/translation.model");
 const replaceRef = require("../utils/replaceRef");
 const Category = require("../models/category.model");
+const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 /* add new blog */
 exports.addBlog = async (req, res) => {
   try {
@@ -132,11 +133,15 @@ exports.getBlogs = async (res) => {
       select: "title"
     }
   ]);
+  
+  // Flatten translations for all blog documents
+  const result = flattenDocumentsTranslations(blogs, req.locale);
+
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
     description: "واحد ها با موفقیت دریافت شدند",
-    data: blogs
+    data: result
   });
 };
 
@@ -153,11 +158,14 @@ exports.getBlog = async (req, res) => {
     }
   ]);
 
+  // Flatten translations for the blog document
+  const result = flattenDocumentTranslations(blog, req.locale);
+
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
     description: "Blog fetched successfully",
-    data: blog
+    data: result
   });
 };
 

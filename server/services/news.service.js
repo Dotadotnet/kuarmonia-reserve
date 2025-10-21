@@ -5,6 +5,7 @@ const translateFields = require("../utils/translateFields");
 const Translation = require("../models/translation.model");
 const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
 const NewsType = require("../models/newsType.model");
+const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 
 exports.addNews = async (req, res) => {
@@ -164,11 +165,14 @@ exports.getAllNews = async (req,res) => {
       ]);
     const total = await News.countDocuments(query);
 
+    // Flatten translations for all news documents
+    const result = flattenDocumentsTranslations(news, req.locale);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست اخبار با موفقیت دریافت شد",
-      data: news,
+      data: result,
       total
     });
   } catch (error) {
@@ -315,3 +319,7 @@ exports.deleteNews = async (req, res) => {
     });
   }
 };
+
+
+
+

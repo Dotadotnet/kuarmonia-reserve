@@ -6,6 +6,7 @@ const translateFields = require("../utils/translateFields");
 const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
 const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
 const Category = require("../models/category.model");
+const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 
 exports.addRent = async (req, res) => {
   try {
@@ -164,11 +165,15 @@ exports.getRents = async (req, res) => {
         select: "name avatar"
       }
     ]);
+    
+    // Flatten translations for all rent documents
+    const result = flattenDocumentsTranslations(rents, req.locale);
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست  هتل ها با موفقیت دریافت شد",
-      data: rents
+      data: result
     });
   } catch (error) {
     res.status(500).json({
@@ -179,67 +184,47 @@ exports.getRents = async (req, res) => {
     });
   }
 };
-function mergeTranslationFields(doc, locale) {
-  const rawFields = doc.translations.find((t) => t.language === locale)
-    ?.translation?.fields;
-
-  const fields =
-    rawFields instanceof Map
-      ? Object.fromEntries(rawFields.entries())
-      : rawFields;
-
-  if (fields) {
-    Object.assign(doc, fields);
-  }
-
-  return doc;
-}
 
 /* 📌 دریافت یک هتل ها  */
 exports.getRent = async (req, res) => {
   try {
-    console.log("Rent ID from params:", req.params.id);
-    const rentId = parseInt(req.params.id, 10);
-    const rent = await Rent.findOne({ rentId }).populate([
+    const rent = await Rent.findById(req.params.id).populate([
       {
         path: "translations.translation",
         match: { language: req.locale }
       },
       {
         path: "address",
-        select: "city country "
+        select: "city country state street"
       },
       {
-        path: "reviews",
-        options: { sort: { updatedAt: -1 } },
-       
+        path: "creator",
+        select: "name avatar"
       }
     ]);
 
-    mergeTranslationFields(rent, req.locale);
-
-    // console.log("rent:", rent);
     if (!rent) {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
-        description: "هتل ها  مورد نظر یافت نشد"
+        description: "هتل مورد نظر یافت نشد"
       });
     }
+
+    // Flatten translations for the rent document
+    const result = flattenDocumentTranslations(rent, req.locale);
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
-      description: "هتل ها  با موفقیت دریافت شد",
-      data: rent
+      description: "هتل با موفقیت دریافت شد",
+      data: result
     });
   } catch (error) {
-    console.error("Error fetching rent:", error);
-    console.error("Error message:", error.message);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطایی در دریافت هتل ها  رخ داد",
+      description: "خطایی در دریافت هتل رخ داد",
       error: error.message
     });
   }
@@ -310,3 +295,11 @@ exports.deleteRent = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
