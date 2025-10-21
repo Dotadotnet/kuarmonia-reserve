@@ -18,6 +18,6 @@ export default async function NewsSection({ params }) {
 
   const res = await response.json();
   const news = res.data;
-
+console.log(news)
   return <NewsClient news={news} />;
 }
