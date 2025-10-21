@@ -7,7 +7,7 @@ export default function KeyServicesClient({ services }) {
     // Skeleton loader for empty state
     return (
       <Container>
-        <div className="relative flex mt-6 justify-around flex-wrap">
+        <div className="relative flex mt-2 justify-around flex-wrap">
           <picture className="hidden md:block absolute inset-x-0 top-10">
             <source srcSet="/assets/home/steps/step-bg.svg" type="image/svg" />
             <img src="/assets/home-page/keyservice/step-bg.svg" alt="vector" />
@@ -36,7 +36,7 @@ export default function KeyServicesClient({ services }) {
 
   return (
     <Container>
-      <div className="relative flex mt-6 justify-around flex-wrap">
+      <div className="relative flex mt-6 justify-around flex-wrap overflow-hidden">
         <picture className="hidden md:block absolute inset-x-0 top-10">
           <source srcSet="/assets/home/steps/step-bg.svg" type="image/svg" />
           <img src="/assets/home-page/keyservice/step-bg.svg" alt="vector" />
@@ -52,11 +52,11 @@ export default function KeyServicesClient({ services }) {
             >
               <div
                 id={service._id}
-                className="py-2 px-2 pb-4 w-fit flex flex-col items-center justify-center rounded-[40px] 
+                className="py-2 px-2 pb-4 w-fit flex flex-row items-center justify-center rounded-[40px] 
                 text-gray-800  dark:text-white cursor-pointer shadow-lg bg-white dark:bg-gray-700 
                 hover:shadow-xl dark:hover:text-white transition-colors duration-300 flex-shrink-0"
               >
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-500 mb-2">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-500 mr-2">
                   <div className="flex items-center justify-center">
                     <span 
                       className="text-primary dark:text-primary !w-12 !h-12 stroke-[1]" 
@@ -64,8 +64,8 @@ export default function KeyServicesClient({ services }) {
                     ></span>
                   </div>
                 </div>
-                <div className="text-center font-vazir transition-colors duration-300 dark:text-gray-100">
-                  <h2 className="text-sm px-1 lg:text-base">
+                <div className="text-center font-vazir transition-colors duration-300 dark:text-gray-100 max-w-xs">
+                  <h2 className="text-sm px-1 lg:text-base truncate">
                     {service.title}
                   </h2>
                 </div>
