@@ -16,7 +16,7 @@ export default function KeyServicesClient({ services }) {
           {Array.from({ length: 4 }).map((_, index) => (
             <div
               key={index}
-              className="m-2 z-40 py-2 px-2 pb-4 w-fit flex flex-col items-center justify-center rounded-[40px] 
+              className="m-2 z-40 py-2 px-2 w-fit flex flex-col items-center justify-center rounded-[40px] 
               cursor-pointer flex-shrink-0 animate-pulse"
             >
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 mb-2">
@@ -52,7 +52,7 @@ export default function KeyServicesClient({ services }) {
             >
               <div
                 id={service._id}
-                className="py-2 px-2 pb-4 w-fit flex flex-row items-center justify-center rounded-[40px] 
+                className="py-2 px-2  w-fit flex flex-row items-center justify-center rounded-[40px] 
                 text-gray-800  dark:text-white cursor-pointer shadow-lg bg-white dark:bg-gray-700 
                 hover:shadow-xl dark:hover:text-white transition-colors duration-300 flex-shrink-0"
               >
