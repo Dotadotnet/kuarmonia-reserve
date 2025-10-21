@@ -7,7 +7,7 @@ export default function KeyServicesClient({ services }) {
     // Skeleton loader for empty state
     return (
       <Container>
-        <div className="relative flex mt-2 justify-around flex-wrap">
+        <div className="relative flex mt-2 justify-around overflow-x-auto scrollbar-hide flex-nowrap">
           <picture className="hidden md:block absolute inset-x-0 top-10">
             <source srcSet="/assets/home/steps/step-bg.svg" type="image/svg" />
             <img src="/assets/home-page/keyservice/step-bg.svg" alt="vector" />
@@ -16,7 +16,7 @@ export default function KeyServicesClient({ services }) {
           {Array.from({ length: 4 }).map((_, index) => (
             <div
               key={index}
-              className="m-2 z-40 py-2 px-2 w-fit flex flex-col items-center justify-center rounded-[40px] 
+              className="my-4 mx-2 z-40 py-2 px-2 w-fit flex flex-col items-center justify-center rounded-[40px] 
               cursor-pointer flex-shrink-0 animate-pulse"
             >
               <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 mb-2">
