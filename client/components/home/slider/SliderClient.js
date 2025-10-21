@@ -96,7 +96,7 @@ export default function SimpleSliderClient({ slides }) {
               
                     "
                   >
-                    <div className="space-y-2 flex flex-col">
+                    <div className="space-y-2 flex flex-col ">
                       {/* عنوان */}
                       {slide.title && (
                         <h2 className="text-white md:text-5xl w-fit text-xl px-3  rounded-lg backdrop-blur-lg text-nowrap bg-black/50 md:py-4 py-1 inline-block">
