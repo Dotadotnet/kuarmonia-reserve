@@ -200,9 +200,9 @@ exports.getNews = async (req, res) => {
         populate: {
           path: "translations.translation",
           match: { language: req.locale },
-          select: "fields.title  language"
+          select: "fields.title language"
         },
-        select: "fields.title  language"
+        select: "fields.title language"
       },
       {
         path: "reviews",
@@ -235,11 +235,15 @@ exports.getNews = async (req, res) => {
         description: "اخبار مورد نظر یافت نشد"
       });
     }
+    
+    // Flatten translations for the news document
+    const result = flattenDocumentsTranslations([news], req.locale)[0];
+
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "اخبار با موفقیت دریافت شد",
-      data: news
+      data: result
     });
   } catch (error) {
     res.status(500).json({
@@ -319,6 +323,38 @@ exports.deleteNews = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

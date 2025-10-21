@@ -11,7 +11,13 @@ const flattenTranslations = (translations, locale) => {
   );
 
   // Extract fields from translation
-  const fields = translationObj?.translation?.fields || {};
+  let fields = translationObj?.translation?.fields || {};
+
+  // Handle the case where fields might be empty but $__parent contains the data
+  // This is a workaround for Mongoose populate issues with Map types
+  if (Object.keys(fields).length === 0 && translationObj?.translation?.$__parent?.fields) {
+    fields = translationObj.translation.$__parent.fields;
+  }
 
   return fields;
 };
