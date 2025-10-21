@@ -44,7 +44,7 @@ export default function KeyServicesClient({ services }) {
         {services.map((service) => {
           return (
             <Link
-              className="m-2 z-40"
+              className="my-4 z-40"
               key={service.serviceId}
               href={{
                 pathname: `/service/${service.serviceId}/${encodeURIComponent(service.slug.trim())}`
