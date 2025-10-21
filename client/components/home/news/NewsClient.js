@@ -9,7 +9,7 @@ import { Link } from "@/i18n/navigation";
 
 export default function NewsClient({ news }) {
   const t = useTranslations("HomePage");
-
+console.log(news)
   return (
     <section
       id="flights"
@@ -37,7 +37,7 @@ export default function NewsClient({ news }) {
             </div>
           </div>
           <p className="text-base px-4">{t("18")}</p>
-          <NewsSlider news={news} />
+          {/* <NewsSlider news={news} /> */}
         </div>
       </Container>
     </section>

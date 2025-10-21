@@ -21,6 +21,6 @@ export default async function NewsSection({ params }) {
 console.log(news)
   return 
   <>
-  {/* <NewsClient news={news} />; */}
+   <NewsClient news={news} />; 
   </>
 }
