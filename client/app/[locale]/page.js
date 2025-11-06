@@ -22,10 +22,10 @@ export default async function Home({ params }) {
       <>
          <Stories params={params} />
        <Slider params={params} />
-        <KeyServices params={params} />
-       <VisaType params={params} />  
+       <KeyServices params={params} /> 
+     <VisaType params={params} />  
 
-        <Visa params={params} />
+        <Visa params={params} />  
      {/* <NewsSection params={params} />  */}
         {/* <Properties params={params} />
         <Opportunity params={params} />

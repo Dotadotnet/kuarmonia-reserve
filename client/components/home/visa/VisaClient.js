@@ -4,7 +4,6 @@ import Container from "@/components/shared/container/Container";
 import VisaSlider from "./VisaSlider";
 
 export default function VisaClient({ visas }) {
-  let visaArray = Array.isArray(visas) ? visas : [visas];
 
   return (
     <section
@@ -18,7 +17,7 @@ export default function VisaClient({ visas }) {
 
 
 
-          <VisaSlider visas={visaArray} />
+          <VisaSlider visas={visas} />
       </Container>
     </section>
   );

@@ -5,21 +5,29 @@ import { getTranslations } from "next-intl/server";
 export default async function StoriesSectionServer({ params }) {
   const { locale } = await params;
 
-  // Use the new API endpoint that only fetches stories with children
   const api = `${process.env.NEXT_PUBLIC_API}/story/get-stories-with-children`;
 
-  const response = await fetch(api, {
-    cache: "no-store",
-    next: { tags: ["story"] },
-    headers: {
-      "Accept-Language": locale
-    }
-  });
+  let stories = [];
 
-  const res = await response.json();
-  const stories = res.data;
-  
-  
+  try {
+    const response = await fetch(api, {
+      cache: "no-store",
+      next: { tags: ["story"] },
+      headers: {
+        "Accept-Language": locale,
+      },
+    });
+
+    // اگر پاسخ نامعتبر بود (مثل 500، 404 و ...) خطا بنداز
+    if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
+
+    const res = await response.json();
+    stories = res.data || [];
+  } catch (error) {
+    console.error("❌ Error fetching stories:", error.message);
+    // مانع کرش شدن سرور می‌شه
+  }
+
   return (
     <>
       {stories.length === 0 ? (

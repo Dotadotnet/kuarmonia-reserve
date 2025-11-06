@@ -3,25 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 
-const VisaTypeCard = ({ visaType, locale, isLoading }) => {
-  // If isLoading is true, render skeleton UI
-  if (isLoading) {
-    return (
-      <div className="group relative overflow-hidden bg-white border border-gray-100 dark:border-gray-800 rounded-lg hover:shadow-xl hover:shadow-gray-200 dark:hover:border-blue-500 dark:hover:shadow-none dark:bg-gray-800 flex flex-col gap-4  p-4 delay-100 dark:text-blue-500 transition-all duration-300 ease-in-out h-[280px]">
-        <div className="flex flex-col gap-y-2">
-          <div className="flex w-full justify-center">
-            <div className="w-full p-1 rounded-full">
-              <div className="bg-gray-200 dark:bg-gray-600 animate-pulse rounded w-full h-40" />
-            </div>
-          </div>
-        </div>
+const VisaTypeCard = ({ visaType, locale }) => {
 
-        <article className="flex flex-col gap-y-2.5 items-center dark:text-white w-full mt-auto">
-          <div className="h-4 bg-gray-200 dark:bg-gray-600 animate-pulse rounded w-3/4"></div>
-        </article>
-      </div>
-    );
-  }
 
   return (
     <Link

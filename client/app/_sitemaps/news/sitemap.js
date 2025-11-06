@@ -1,9 +1,13 @@
 import setLangSitemap from "@/utils/setLangSitemap";
+
 export default async function sitemap() {
     const sitemap = [];
-    const news = await Api('/dynamic/get-all/news');
-
-    news.forEach(newitem => {
+    
+    // Use fetch instead of Api utility
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dynamic/get-all/news`);
+    const news = await response.json();
+    
+    news.data.forEach(newitem => {
         const item = {
             priority: 0.5,
             url: process.env.NEXT_PUBLIC_BASE_URL + "/news/" + newitem.newsId + "/" + newitem.slug,
@@ -13,6 +17,7 @@ export default async function sitemap() {
         };
         sitemap.push(item)
     });
+    
     setLangSitemap(sitemap);
     return sitemap;
 }

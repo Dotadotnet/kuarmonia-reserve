@@ -8,9 +8,7 @@ export default async function sitemap() {
     let opportunities = [];
     
     try {
-        const response = await fetch(api, {
-            cache: "no-store"
-        });
+        const response = await fetch(api);
         const data = await response.json();
         opportunities = data.data || [];
     } catch (error) {

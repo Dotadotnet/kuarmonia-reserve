@@ -22,9 +22,12 @@ export async function GET(request) {
         pubDate: new Date().toUTCString(),
         copyright: `Copyright ${new Date().getFullYear()}, ${"majid pashayi"}`,
     });
-    const items = await Api('/dynamic/get-all/media');
+    
+    // Use fetch instead of Api utility
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dynamic/get-all/media`);
+    const items = await response.json();
 
-    items.forEach((item) => {
+    items.data.forEach((item) => {
         feed.item({
             title: item.title,
             description: item.description,

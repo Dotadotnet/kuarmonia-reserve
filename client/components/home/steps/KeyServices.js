@@ -1,17 +1,8 @@
 import Container from "@/components/shared/container/Container";
-import {
-  Marriege,
-  Investment,
-  Passport,
-  Legal,
-  Building,
-  Tourism
-} from "@/utils/SaveIcon";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 
 const KeyServices = async ({ services }) => {
-  const t = await getTranslations("HomePage");
   return (
     <Container>
       <div className="relative flex mt-6 justify-around flex-wrap">

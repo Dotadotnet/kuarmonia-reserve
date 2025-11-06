@@ -10,7 +10,11 @@ import analizeComments from "@/components/shared/seo/analizeComments";
 
 export async function generateMetadata({ params }) {
   const { id, locale, slug } = params;
-  const blog = await Api(`/dynamic/get-one/blog/blogId/${id}?fields=metaTitle,metaDescription,category,creator,tags,title,description,thumbnail`);
+  
+  // Use fetch instead of Api utility
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dynamic/get-one/blog/blogId/${id}?fields=metaTitle,metaDescription,category,creator,tags,title,description,thumbnail`);
+  const blog = await response.json();
+  
   const canonical = await canonicalUrl()
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
@@ -38,7 +42,11 @@ export async function generateMetadata({ params }) {
 
 const BlogContent = async ({ params }) => {
   const { id, locale, slug } = params;
-  const blog = await Api(`/dynamic/get-one/blog/blogId/${id}`);
+  
+  // Use fetch instead of Api utility
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/dynamic/get-one/blog/blogId/${id}`);
+  const blog = await response.json();
+  
   const hostLang = process.env.NEXT_PUBLIC_BASE_URL + (locale == "fa" ? "" : "/" + locale);
   const seoTranslations = await getTranslations('Seo');
   const canonical = await canonicalUrl()

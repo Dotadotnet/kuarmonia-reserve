@@ -60,22 +60,7 @@ const EmblaCarousel = (props) => {
     );
   }
 
-  // Render skeleton cards when no slides are available
-  if (!slides || slides.length === 0) {
-    return (
-      <section className="embla">
-        <div className="embla__viewport">
-          <div className="embla__container">
-            {[...Array(4)].map((_, index) => (
-              <div className="embla__slide" key={index}>
-                <VisaTypeCard isLoading={true} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
+
 
   return (
     <section className="embla">
