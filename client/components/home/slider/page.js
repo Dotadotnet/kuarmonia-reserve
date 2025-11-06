@@ -37,7 +37,7 @@ export default async function Slider({ params }) {
       <section className="pt-10 flex flex-col gap-y-10">
         <div className="w-full h-[300px] bg-gray-100 flex items-center justify-center text-gray-500">
         </div>
-        <div className="px-56">
+        <div className="md:px-56 px-10">
 
         <div className="w-full px-20 rounded-2xl h-[100px] bg-gray-100 flex items-center justify-center text-gray-500">
         </div>
