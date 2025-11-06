@@ -1,64 +1,24 @@
 /** @type {import('next').NextConfig} */
 import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin();
+
 const nextConfig = {
-  // reactStrictMode: true,
   output: 'standalone',
+  swcMinify: true, // minify با SWC
+  experimental: {
+    esmExternals: true, // خروجی ES Modules برای مرورگرهای مدرن
+  },
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "s3-console.kuarmonia.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "storage.kuarmonia.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "api.kuarmonia.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-        port: "",
-        pathname: "**/*",
-      },
-      {
-        protocol: "https",
-        hostname: "placehold.co",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "via.placeholder.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "i.ibb.co",
-        port: "",
-        pathname: "/**",
-      },
+      { protocol: "https", hostname: "s3-console.kuarmonia.com", pathname: "/**" },
+      { protocol: "https", hostname: "storage.kuarmonia.com", pathname: "/**" },
+      { protocol: "https", hostname: "api.kuarmonia.com", pathname: "/**" },
+      { protocol: "http", hostname: "localhost", pathname: "/**" },
+      { protocol: "https", hostname: "res.cloudinary.com", pathname: "**/*" },
+      { protocol: "https", hostname: "placehold.co", pathname: "/**" },
+      { protocol: "https", hostname: "via.placeholder.com", pathname: "/**" },
+      { protocol: "https", hostname: "i.ibb.co", pathname: "/**" },
     ],
   },
   async headers() {
@@ -73,21 +33,6 @@ const nextConfig = {
       },
     ];
   },
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source:  "/:lang/:path*", 
-  //       destination: "/:lang/:path*",
-  //     },
-  //     {
-  //       source:  "/:path*",
-  //       destination: "/fa/:path*",
-  //     }
-  //   ];
-  // } 
-
-
 };
 
-const withNextIntl = createNextIntlPlugin();
 export default withNextIntl(nextConfig);
