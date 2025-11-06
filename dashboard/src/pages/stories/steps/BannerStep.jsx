@@ -34,8 +34,8 @@ const BannerStep = ({
     () =>
       fetchTagsData?.data?.map((tag) => ({
         id: tag._id,
-        value: tag.title?.fa,
-        label: tag.title?.fa,
+        value: tag.title,
+        label: tag.title,
         about: tag.about
       })),
     [fetchTagsData]
