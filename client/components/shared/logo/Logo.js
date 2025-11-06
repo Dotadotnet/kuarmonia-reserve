@@ -11,7 +11,7 @@ const Logo = ({ justify = "center" }) => {
       className={`flex items-center justify-${justify} cursor-pointer w-full`}
     >
     <Image
-      src={logo}
+      src="/logo.png"
       alt="لوگو کارمونیا"
       width={1383}
       height={827}
