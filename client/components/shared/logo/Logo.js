@@ -1,11 +1,24 @@
+'use client';
+
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 
-
 const Logo = ({ justify = "center" }) => {
   return (
-    <Link rel="nofollow" href="/" className={`flex justify-${justify} items-center cursor-pointer w-full`}>
-      <Image priority={false} quality={20} width={1383} height={827} alt="logo" src="/logo.png" className="w-[100px] h-[60px]" />
+    <Link
+      href="/"
+      rel="nofollow"
+      className={`flex items-center justify-${justify} cursor-pointer w-full`}
+    >
+      <Image
+        src="/logo.png"
+        alt="لوگو کارمونیا"
+        width={1383}
+        height={827}
+        priority={false}
+        quality={50}
+        className="w-[100px] h-[60px] object-contain"
+      />
     </Link>
   );
 };
