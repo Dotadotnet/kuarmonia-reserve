@@ -134,11 +134,11 @@ export default function StoriesSectionClient({ stories }) {
                 <div className="relative size-20 sm:size-24 group">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div
-                      className={`w-full h-full rounded-full bg-gradient-to-tr ${randomGradient} transition-transform duration-500 md:scale-[0.97] scale-95 group-hover:scale-100`}
+                      className={`w-full h-full rounded-full bg-gradient-to-tr ${randomGradient} transition-transform   duration-500 md:scale-[0.97] scale-95 group-hover:scale-100`}
                     ></div>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center p-[4px]">
-                    <div className="w-full h-full rounded-full border-4 border-white overflow-hidden bg-white">
+                    <div className="w-full h-full rounded-full border-4 border-white dark:border-black overflow-hidden bg-white dark:bg-black">
                       <Image
                         width={200}
                         height={200}
@@ -162,7 +162,10 @@ export default function StoriesSectionClient({ stories }) {
         {/* Show loading state */}
         {loading && (
           <div className="fixed inset-0 bg-black z-[9999999999999999999999999999] flex items-center justify-center">
-            <div className="text-white">Loading...</div>
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+          
+            </div>
           </div>
         )}
 
