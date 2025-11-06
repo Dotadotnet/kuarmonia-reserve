@@ -1,6 +1,92 @@
 /* internal import */
 const Tag = require("../models/tag.model");
 const mongoose = require("mongoose");
+const translateFields = require("../utils/translateFields");
+const { generateSlug } = require("../utils/seoUtils");
+
+exports.addTag = async (req, res) => {
+  try {
+    let { title, description, keynotes } = req.body;
+    const parsedKeynotes = JSON.parse(keynotes || "[]");
+
+    // Use automatic translation for title
+    const titleTranslations = await translateFields(
+      { title },
+      { stringFields: ["title"] }
+    );
+
+    const translatedTitle = {
+      fa: title,
+      en: titleTranslations.en.fields.title,
+      tr: titleTranslations.tr.fields.title
+    };
+
+    // Use automatic translation for description
+    const descriptionTranslations = await translateFields(
+      { description },
+      { stringFields: ["description"] }
+    );
+
+    const translatedDescription = {
+      fa: description,
+      en: descriptionTranslations.en.fields.description,
+      tr: descriptionTranslations.tr.fields.description
+    };
+
+    // Use automatic translation for keynotes
+    const keynotesTranslations = await translateFields(
+      { keynotes: parsedKeynotes },
+      { arrayStringFields: ["keynotes"] }
+    );
+
+    const translatedKeynotes = {
+      fa: parsedKeynotes,
+      en: keynotesTranslations.en.fields.keynotes,
+      tr: keynotesTranslations.tr.fields.keynotes
+    };
+
+    const tag = new Tag({
+      title: translatedTitle,
+      description: translatedDescription,
+      keynotes: translatedKeynotes,
+      slug: await generateSlug(titleTranslations.en.fields.title),
+      creator: req.admin._id
+    });
+
+    const result = await tag.save();
+
+    res.status(201).json({
+      acknowledgement: true,
+      message: "Created",
+      description: "تگ با موفقیت ایجاد و ترجمه شد",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error in addTag:", error);
+
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const errors = {};
+      Object.keys(error.errors).forEach(key => {
+        errors[key] = error.errors[key].message;
+      });
+
+      return res.status(400).json({
+        acknowledgement: false,
+        message: "Validation Error",
+        description: "خطا در اعتبارسنجی داده‌ها",
+        errors
+      });
+    }
+
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطایی در ایجاد تگ رخ داد",
+      error: error.message
+    });
+  }
+};
 
 exports.getTags = async (req, res) => {
   const { page = 1, limit = 10, search = "" } = req.query;
@@ -301,6 +387,8 @@ exports.deleteTag = async (req, res) => {
     description: "تگ با موفقیت حذف شد"
   });
 };
+
+
 
 
 

@@ -1,5 +1,77 @@
 const Category = require("../models/category.model");
 const mongoose = require("mongoose");
+const translateFields = require("../utils/translateFields");
+const { generateSlug } = require("../utils/seoUtils");
+
+exports.addCategory = async (req, res) => {
+  try {
+    let { title, description } = req.body;
+
+    // Use automatic translation for title
+    const titleTranslations = await translateFields(
+      { title },
+      { stringFields: ["title"] }
+    );
+
+    const translatedTitle = {
+      fa: title,
+      en: titleTranslations.en.fields.title,
+      tr: titleTranslations.tr.fields.title
+    };
+
+    // Use automatic translation for description
+    const descriptionTranslations = await translateFields(
+      { description },
+      { stringFields: ["description"] }
+    );
+
+    const translatedDescription = {
+      fa: description,
+      en: descriptionTranslations.en.fields.description,
+      tr: descriptionTranslations.tr.fields.description
+    };
+
+    const category = new Category({
+      title: translatedTitle,
+      description: translatedDescription,
+      slug: await generateSlug(titleTranslations.en.fields.title),
+      creator: req.admin._id
+    });
+
+    const result = await category.save();
+
+    res.status(201).json({
+      acknowledgement: true,
+      message: "Created",
+      description: "دسته‌بندی با موفقیت ایجاد و ترجمه شد",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error in addCategory:", error);
+
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const errors = {};
+      Object.keys(error.errors).forEach(key => {
+        errors[key] = error.errors[key].message;
+      });
+
+      return res.status(400).json({
+        acknowledgement: false,
+        message: "Validation Error",
+        description: "خطا در اعتبارسنجی داده‌ها",
+        errors
+      });
+    }
+
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطایی در ایجاد دسته‌بندی رخ داد",
+      error: error.message
+    });
+  }
+};
 
 exports.getCategories = async (req, res) => {
   const { page = 1, limit = 10, search = "" } = req.query;
@@ -162,4 +234,91 @@ exports.getCategory = async (req, res) => {
   }
 };
 
+exports.updateCategory = async (req, res) => {
+  try {
+    let updatedCategory = req.body;
 
+    // Use automatic translation for title if provided
+    if (updatedCategory.title) {
+      const translations = await translateFields(
+        { title: updatedCategory.title },
+        { stringFields: ["title"] }
+      );
+
+      updatedCategory.title = {
+        fa: updatedCategory.title,
+        en: translations.en.fields.title,
+        tr: translations.tr.fields.title
+      };
+      
+      updatedCategory.slug = await generateSlug(translations.en.fields.title);
+    }
+
+    // Use automatic translation for description if provided
+    if (updatedCategory.description) {
+      const translations = await translateFields(
+        { description: updatedCategory.description },
+        { stringFields: ["description"] }
+      );
+
+      updatedCategory.description = {
+        fa: updatedCategory.description,
+        en: translations.en.fields.description,
+        tr: translations.tr.fields.description
+      };
+    }
+
+    const result = await Category.findByIdAndUpdate(req.params.id, updatedCategory, {
+      new: true
+    });
+
+    if (!result) {
+      return res.status(404).json({
+        acknowledgement: false,
+        message: "Not Found",
+        description: "دسته‌بندی مورد نظر یافت نشد"
+      });
+    }
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "دسته‌بندی با موفقیت ویرایش و ترجمه شد",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error in updateCategory:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطایی در بروزرسانی دسته‌بندی رخ داد",
+      error: error.message
+    });
+  }
+};
+
+/* delete category */
+exports.deleteCategory = async (req, res) => {
+  const category = await Category.findByIdAndUpdate(
+    req.params.id,
+    {
+      isDeleted: true,
+      deletedAt: Date.now()
+    },
+    { new: true }
+  );
+
+  if (!category) {
+    return res.status(404).json({
+      acknowledgement: false,
+      message: "دسته‌بندی پیدا نشد",
+      description: "دسته‌بندی که می‌خواهید حذف کنید، وجود ندارد"
+    });
+  }
+
+  res.status(200).json({
+    acknowledgement: true,
+    message: "Ok",
+    description: "دسته‌بندی با موفقیت حذف شد"
+  });
+};
