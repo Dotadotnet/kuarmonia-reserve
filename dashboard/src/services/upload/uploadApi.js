@@ -13,6 +13,18 @@ const UploadApi = kuarmoniaApi.injectEndpoints({
         body,
       }),
     }),
+    
+    // delete upload
+    DeleteUpload: builder.mutation({
+      query: (body) => ({
+        url: "/upload/delete-upload",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body,
+      }),
+    }),
 
 
   }),
@@ -20,5 +32,5 @@ const UploadApi = kuarmoniaApi.injectEndpoints({
 
 export const {
   useUploadMutation,
-
+  useDeleteUploadMutation,
 } = UploadApi;

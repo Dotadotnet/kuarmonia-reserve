@@ -1,4 +1,3 @@
-
 import CloudUpload from "@/components/icons/CloudUpload";
 
 const ThumbnailUpload = ({
@@ -10,7 +9,7 @@ const ThumbnailUpload = ({
   border = true,
   title="انتخاب یک فایل (عکس یا ویدئو)",
   name="thumbnail",
-    accept = "image/*",
+  accept = "image/*",
 }) => {
   const handleThumbnailPreview = (e) => {
     setThumbnail(e.target.files[0]);
@@ -46,7 +45,9 @@ const ThumbnailUpload = ({
           {...register}
           multiple={false}
           onChange={(event) => {
-            register.onChange(event); 
+            if (register && register.onChange) {
+              register.onChange(event); 
+            }
             handleThumbnailPreview(event); 
           }}
         />

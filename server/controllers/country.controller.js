@@ -1,17 +1,6 @@
 /* internal import */
 const countryService = require("../services/country.service");
 
-/* add new country */
-exports.addCountry = async (req, res, next) => {
-  try {
-    await countryService.addCountry(req, res);
-  } catch (error) {
-    next(error);
-  } finally {
-    console.log(`Route: ${req.url} || Method: ${req.method}`);
-  }
-};
-
 /* get all countries */
 exports.getCountries = async (req, res, next) => {
   try {
@@ -27,6 +16,17 @@ exports.getCountries = async (req, res, next) => {
 exports.getCountry = async (req, res, next) => {
   try {
     await countryService.getCountry(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+/* add new country */
+exports.addCountry = async (req, res, next) => {
+  try {
+    await countryService.addCountry(req, res);
   } catch (error) {
     next(error);
   } finally {

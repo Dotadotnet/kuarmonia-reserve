@@ -34,7 +34,7 @@ function Users() {
 
   const admins = useMemo(() => adminData?.data || [], [adminData]);
   const users = useMemo(() => userData?.data || [], [userData]);
-
+console.log(admins, users)
   const filteredUsers = useMemo(() => {
     if (filter === "superAdmin") return admins.filter(u => u.role === "superAdmin");
     if (filter === "admin") return admins.filter(u => u.role === "admin");
@@ -118,7 +118,7 @@ function Users() {
                 </div>
                 <article className="flex-col flex gap-y-2">
                   <span className="line-clamp-1 text-sm lg:text-base dark:text-blue-400 flex-row flex">
-                    <span className="flex">{user?.name}</span>
+                    <span className="flex">{user?.name.fa}</span>
                   </span>
                 </article>
               </div>

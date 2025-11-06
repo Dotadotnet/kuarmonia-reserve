@@ -7,13 +7,12 @@ function WhatsAppWidget() {
   const t = useTranslations("whatsapp");
   const lang = useLocale();
   return (
-    <div>
+    <div className="mt-[-40px]">
       <FloatingWhatsApp
         accountName={t("accountName")}
         phoneNumber="+14376675933"
         chatMessage={t("chatMessage")}
         allowEsc
-    
         notification
         notificationSound
         avatar="/assets/marjan.jpg"

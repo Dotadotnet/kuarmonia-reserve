@@ -1,4 +1,3 @@
-
 import Container from "@/components/shared/container/Container";
 import {
   Marriege,
@@ -10,7 +9,6 @@ import {
 } from "@/utils/SaveIcon";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import Api from "@/utils/api";
 
 const KeyServices = async ({ services }) => {
   const t = await getTranslations("HomePage");
@@ -27,7 +25,7 @@ const KeyServices = async ({ services }) => {
               className="m-2"
               key={service.serviceId}
               href={{
-                pathname: `/service/${service.serviceId}/${encodeURIComponent(service.slug.trim())}`
+                pathname: `/service/${service.slug}/${service.serviceId}`
               }}
             >
               <div

@@ -41,6 +41,17 @@ exports.updateHeroSlider = async (req, res, next) => {
   }
 };
 
+// Add controller function for updating heroSlider IDs
+exports.updateHeroSliderIds = async (req, res, next) => {
+  try {
+    await heroSliderService.updateHeroSliderIds(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 exports.deleteHeroSlider = async (req, res, next) => {
   try {
     await heroSliderService.deleteHeroSlider(req, res);

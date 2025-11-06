@@ -1,5 +1,4 @@
 import { modelsInfo } from "@/components/shared/dynamic/modelInfo";
-import Api from "@/utils/api";
 import setLangSitemap from "@/utils/setLangSitemap";
 
 export default async function sitemap() {

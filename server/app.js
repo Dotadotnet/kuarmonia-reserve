@@ -56,10 +56,8 @@ app.use("/api/tradeType", require("./routes/tradeType.route"));
 app.use("/api/saleType", require("./routes/saleType.route"));
 app.use("/api/propType", require("./routes/propType.route"));
 app.use("/api/award", require("./routes/award.route"));
-app.use("/api/page", require("./routes/page.route"));
 app.use("/api/standard", require("./routes/standard.route"));
 app.use("/api/media", require("./routes/media.route"));
-app.use("/api/dynamic", require("./routes/dynamic.route"));
 app.use("/api/blog", require("./routes/blog.route"));
 app.use("/api/session", require("./routes/session.route"));
 app.use("/api/gallery", require("./routes/gallery.route"));
@@ -87,17 +85,21 @@ app.use("/api/institution", require("./routes/institution.route"));
 app.use("/api/opportunity", require("./routes/opportunity.route"));
 app.use("/api/rent", require("./routes/rent.route"));
 app.use("/api/story", require("./routes/story.route"));
-app.use("/api/banner", require("./routes/promoBanner.route"));
 app.use("/api/search", require("./routes/search.route"));
 app.use("/api/visa", require("./routes/visa.route"));
 app.use("/api/visaType", require("./routes/visaType.route"));
 app.use("/api/country", require("./routes/country.route"));
+app.use("/api/category", require("./routes/category.route"));
+app.use("/api/tag", require("./routes/tag.route"));
+app.use("/api/currency", require("./routes/currency.route"));
+app.use("/api/icon", require("./routes/icon.route"));
 app.use("/api/hero-slider", require("./routes/heroSlider.route"));
 
 // New API routes for individual models
 app.use("/api/opportunities", require("./routes/opportunity.route"));
 app.use("/api/news", require("./routes/news.route"));
 app.use("/api/properties", require("./routes/property.route"));
+app.use("/api/request", require("./routes/request.route"));
 
 app.use(error);
 

@@ -145,16 +145,12 @@ exports.getAllNews = async (req,res) => {
       isDeleted: false,
       ...(search ? { _id: { $in: matchedCategoryIds } } : {})
     };
+    // First, get the news documents with translation IDs only
     const news = await News.find(query)
       .skip(skip)
       .limit(Number(limit))
       .sort({ createdAt: -1 })
       .populate([
-        {
-          path: "translations.translation",
-          match: { language: req.locale },
-          select: "fields language" // Select only the required fields
-        },
         {
           path: "creator",
           select: "name avatar"
@@ -163,17 +159,40 @@ exports.getAllNews = async (req,res) => {
           path: "categories",
           select: "icon title _id"
         }
-      ]).lean(); // Add lean() to return plain JavaScript objects
-    const total = await News.countDocuments(query);
+      ]).lean();
 
-    // Flatten translations for all news documents
-    const result = flattenDocumentsTranslations(news, req.locale);
+    // Then manually fetch translation data for each news item
+    const newsWithTranslations = await Promise.all(
+      news.map(async (item) => {
+        // Find the translation for the requested locale
+        const translationInfo = item.translations.find(
+          (t) => t.language === req.locale && t.translation
+        );
+        
+        if (translationInfo) {
+          // Fetch the full translation document
+          const translation = await Translation.findById(translationInfo.translation);
+          if (translation) {
+            // Add the translation fields directly to the news item
+            return {
+              ...item,
+              ...translation.fields
+            };
+          }
+        }
+        
+        // If no translation found, return the item as is
+        return item;
+      })
+    );
+
+    const total = await News.countDocuments(query);
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست اخبار با موفقیت دریافت شد",
-      data: result,
+      data: newsWithTranslations,
       total
     });
   } catch (error) {
@@ -191,12 +210,8 @@ exports.getNews = async (req, res) => {
   try {
     const newsId = parseInt(req.params.id, 10);
 
+    // First, get the news document with translation IDs only
     const news = await News.findOne({ newsId }).populate([
-      {
-        path: "translations.translation",
-        match: { language: req.locale },
-        select: "fields language" // Select only the required fields
-      },
       {
         path: "type",
         populate: {
@@ -229,7 +244,8 @@ exports.getNews = async (req, res) => {
         path: "socialLinks.network",
         select: "title platform icon"
       }
-    ]).lean(); // Add lean() to return plain JavaScript objects
+    ]).lean();
+    
     if (!news) {
       return res.status(404).json({
         acknowledgement: false,
@@ -238,14 +254,31 @@ exports.getNews = async (req, res) => {
       });
     }
     
-    // Flatten translations for the news document
-    const result = flattenDocumentsTranslations([news], req.locale)[0];
+    // Manually fetch translation data for the news item
+    let newsWithTranslation = news;
+    
+    // Find the translation for the requested locale
+    const translationInfo = news.translations.find(
+      (t) => t.language === req.locale && t.translation
+    );
+    
+    if (translationInfo && translationInfo.translation) {
+      // Fetch the full translation document
+      const translation = await Translation.findById(translationInfo.translation);
+      if (translation) {
+        // Add the translation fields directly to the news item
+        newsWithTranslation = {
+          ...newsWithTranslation,
+          ...translation.fields
+        };
+      }
+    }
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "اخبار با موفقیت دریافت شد",
-      data: result
+      data: newsWithTranslation
     });
   } catch (error) {
     res.status(500).json({
@@ -325,6 +358,14 @@ exports.deleteNews = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
 
 
 

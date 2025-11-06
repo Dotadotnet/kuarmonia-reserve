@@ -44,7 +44,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   };
 
   return (
-    <div className="flex justify-center mt-4 gap-x-2">
+    <div className="flex flex-row-reverse justify-center mt-4 gap-x-2">
       <button
         className="custom-button"
         onClick={handlePrevious}

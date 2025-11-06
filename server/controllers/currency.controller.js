@@ -1,8 +1,3 @@
-
-/* internal import */
-const currencyService = require("../services/currency.service");
-
-/* add new currency */
 exports.addCurrency = async (req, res, next) => {
   try {
     await currencyService.addCurrency(req, res);
@@ -13,10 +8,13 @@ exports.addCurrency = async (req, res, next) => {
   }
 };
 
-/* get all currencys */
+/* internal import */
+const currencyService = require("../services/currency.service");
+
+/* get all currencies */
 exports.getCurrencies = async (req, res, next) => {
   try {
-    await currencyService.getCurrencies(res);
+    await currencyService.getCurrencies(req, res);
   } catch (error) {
     next(error);
   } finally {

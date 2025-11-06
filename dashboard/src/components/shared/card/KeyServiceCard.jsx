@@ -1,17 +1,26 @@
 
 const KeyServiceCard = ({ service }) => {
   return (
-      <div
-        id={service?.id}
-        className="relative flex mt-4 flex-col border hover:border-primary transition-color ease-linear delay-100 cursor-pointer dark:bg-gray-800/70 dark:border-gray-900 dark:text-gray-100 shadow-lg bg-white/80 border-gray-200 !h-[150px] lg:!h-[170px] w-[150px] lg:w-[170px] p-4 rounded-primary dark:hover:border-blue-500 z-50 items-center max-w-xs mx-auto"
-      >
-        <div className="max-w-[100px] mx-auto">
-        <div dangerouslySetInnerHTML={{ __html: service?.icon }} />
-        </div>
-        <div className="flex flex-col gap-y-8 items-center justify-center">
-          <h2 className="text-sm lg:text-base mt-4">{service?.title}</h2>
+    <div
+      id={service._id}
+      className="py-2 px-2  w-fit flex flex-row items-center justify-center rounded-[40px] 
+                    text-gray-800  dark:text-white cursor-pointer shadow-lg bg-white dark:bg-gray-700 
+                    hover:shadow-xl dark:hover:text-white transition-colors duration-300 flex-shrink-0"
+    >
+      <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-500 mr-2">
+        <div className="flex items-center justify-center">
+          <span
+            className="text-primary dark:text-primary  stroke-[1]"
+            dangerouslySetInnerHTML={{ __html: service?.icon }}
+          ></span>
         </div>
       </div>
+      <div className="text-center font-vazir transition-colors duration-300 dark:text-gray-100 max-w-xs">
+        <h2 className="text-sm px-1 lg:text-base truncate">
+          {service.title}
+        </h2>
+      </div>
+    </div>
   );
 };
 

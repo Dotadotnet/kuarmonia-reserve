@@ -38,15 +38,14 @@ const StepSignUp = () => {
     if (isLoading) {
       toast.loading("در حال ثبت نام...", { id: "signup" });
     }
-
-    if (data) {
-      if (data.isSuccess) {
-        toast.success(data?.description, { id: "signup" });
-        window.open("/signin", "_self");
-      } else {
-        toast.error(data?.description, { id: "signup" });
-      }
+    console.log(data);
+    if (data && data.acknowledgement) {
+      toast.success(data?.description, { id: "signup" });
+      // window.open("/signin", "_self");
+    } if (data && !data?.acknowledgement) {
+      toast.error(data?.description, { id: "signup" });
     }
+
     if (error?.data) {
       toast.error(error?.data?.description, { id: "signup" });
     }
@@ -135,11 +134,11 @@ const StepSignUp = () => {
       case 5:
         valid = await trigger(
           "country" &&
-            "state" &&
-            "city" &&
-            "street" &&
-            "plateNumber" &&
-            "postalCode"
+          "state" &&
+          "city" &&
+          "street" &&
+          "plateNumber" &&
+          "postalCode"
         );
         if (!valid) {
           toast.error("لطفاً آدرس خود را به شکل صحیح وارد کنید");

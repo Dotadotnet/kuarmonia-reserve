@@ -1,6 +1,6 @@
 // import Image from "next/image";
 import Container from "@/components/shared/container/Container";
-import HighlightText from "@/components/shared/highlightText/HighlightText";
+import HighlightText from "@/components/shared/highlightText/page";
 import { useState } from "react";
 import Image from "next/image";
 import VideoCard from "@/components/shared/card/MediaCard"; 

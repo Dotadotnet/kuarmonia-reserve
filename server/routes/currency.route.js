@@ -8,6 +8,7 @@ const upload = require("../middleware/upload.middleware");
 const currencyController = require("../controllers/currency.controller");
 const verify = require("../middleware/verify.middleware");
 const authorize = require("../middleware/authorize.middleware");
+const localeMiddleware = require("../middleware/locale.middleware");
 
 /* router level connection */
 const router = express.Router();
@@ -23,10 +24,10 @@ router.post(
 );
 
 // get all currencies
-router.get("/get-currencies", currencyController.getCurrencies);
+router.get("/get-currencies", localeMiddleware, currencyController.getCurrencies);
 
 // get a currency
-router.get("/get-currency/:id", currencyController.getCurrency);
+router.get("/get-currency/:id", localeMiddleware, currencyController.getCurrency);
 
 // update currency
 router.patch(

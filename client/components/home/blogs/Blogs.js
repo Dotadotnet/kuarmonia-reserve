@@ -1,7 +1,7 @@
 import BlogsClient from "./BlogsClient";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Container from "@/components/shared/container/Container";
-import HighlightText from "@/components/shared/highlightText/HighlightText";
+import HighlightText from "@/components/shared/highlightText/page";
 import { getTranslations } from "next-intl/server";
 import Api from "@/utils/api";
 import { Link } from "@/i18n/navigation";

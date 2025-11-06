@@ -2,11 +2,9 @@ import Content from "@/components/shared/content/Content";
 import LeftSidebar from "./leftSidebar";
 import Main from "@/layouts/Main";
 import RightSidebar from "./rightSidebar";
-import Api from "@/utils/api";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import { getTranslations } from "next-intl/server";
 import language from "@/app/language";
-import RedirectBlog from "../page";
 import analizeComments from "@/components/shared/seo/analizeComments";
 // import { permanentRedirect } from 'next/navigation';
 

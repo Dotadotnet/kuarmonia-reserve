@@ -8,10 +8,10 @@ const Admin = require("../models/admin.model");
 const remove = require("../utils/remove.util");
 const token = require("../utils/token.util");
 const translateFields = require("../utils/translateFields");
-const Translation = require("../models/translation.model");
 const Address = require("../models/address.model");
 
 exports.signUp = async (req, res) => {
+  let addressProp = null;
   try {
     const { body } = req;
     const { name, email, password, phone, avatarUrl, bio, address } = body;
@@ -26,6 +26,7 @@ exports.signUp = async (req, res) => {
       });
     }
 
+    // Check if admin already exists with this email or phone
     const existingAdmin = await Admin.findOne({
       $or: [{ email }, { phone }]
     });
@@ -40,11 +41,60 @@ exports.signUp = async (req, res) => {
         isSuccess: false
       });
     }
-    const addressProp = await Address.create({
-      country: parseAddress.country,
-      city: parseAddress.city,
-      street: parseAddress.street,
-      state: parseAddress.state,
+
+    // Check if address already exists with this phone number
+    const existingAddress = await Address.findOne({ phone });
+    if (existingAddress) {
+      return res.status(409).json({
+        acknowledgement: false,
+        message: "آدرس تکراری",
+        description:
+          "آدرسی با این شماره تلفن قبلاً ثبت شده است. لطفاً به صفحه ورود بروید.",
+        redirectToLogin: true,
+        isSuccess: false
+      });
+    }
+
+    // Use automatic translation for address fields
+    const addressTranslations = await translateFields(
+      { 
+        country: parseAddress.country,
+        state: parseAddress.state,
+        city: parseAddress.city,
+        street: parseAddress.street
+      },
+      { stringFields: ["country", "state", "city", "street"] }
+    );
+
+    // Build the complete address objects with translations
+    const translatedAddress = {
+      country: {
+        fa: parseAddress.country,
+        en: addressTranslations.en.fields.country,
+        tr: addressTranslations.tr.fields.country
+      },
+      state: {
+        fa: parseAddress.state,
+        en: addressTranslations.en.fields.state,
+        tr: addressTranslations.tr.fields.state
+      },
+      city: {
+        fa: parseAddress.city,
+        en: addressTranslations.en.fields.city,
+        tr: addressTranslations.tr.fields.city
+      },
+      street: {
+        fa: parseAddress.street,
+        en: addressTranslations.en.fields.street,
+        tr: addressTranslations.tr.fields.street
+      }
+    };
+
+    addressProp = await Address.create({
+      country: translatedAddress.country,
+      city: translatedAddress.city,
+      street: translatedAddress.street,
+      state: translatedAddress.state,
       floor: parseAddress.floor,
       unit: parseAddress.unit,
       plateNumber: parseAddress.plateNumber,
@@ -72,8 +122,28 @@ exports.signUp = async (req, res) => {
     const role = adminCount === 0 ? "superAdmin" : "operator";
     const status = adminCount === 0 ? "active" : "inactive";
 
+    // Use automatic translation for name and bio
+    const translations = await translateFields(
+      { name, bio },
+      { stringFields: ["name", "bio"] }
+    );
+
+    // Build the complete name and bio objects with translations
+    const translatedName = {
+      fa: name,
+      en: translations.en.fields.name,
+      tr: translations.tr.fields.name
+    };
+
+    const translatedBio = {
+      fa: bio,
+      en: translations.en.fields.bio,
+      tr: translations.tr.fields.bio
+    };
+
     const admin = new Admin({
-      name,
+      name: translatedName,
+      bio: translatedBio,
       email,
       password,
       phone,
@@ -84,54 +154,24 @@ exports.signUp = async (req, res) => {
     });
     const result = await admin.save();
     addressProp.admin = admin._id;
+    await addressProp.save();
 
-    try {
-      const translations = await translateFields(
-        {
-          name,
-          bio
-        },
-        {
-          stringFields: ["name", "bio"]
-        }
-      );
-      const translationDocs = Object.entries(translations).map(
-        ([lang, { fields }]) => ({
-          language: lang,
-          refModel: "Admin",
-          refId: result._id,
-          fields
-        })
-      );
-      const insertedTranslations = await Translation.insertMany(
-        translationDocs
-      );
-
-      const translationInfos = insertedTranslations.map((t) => ({
-        translation: t._id,
-        language: t.language
-      }));
-      await Admin.findByIdAndUpdate(result._id, {
-        $set: { translations: translationInfos }
-      });
-
-      return res.status(201).json({
-        acknowledgement: true,
-        message: "Created",
-        description: "کاربر با موفقیت ایجاد و ترجمه شد.",
-        data: result
-      });
-    } catch (translationError) {
-      console.log(translationError.message);
-      await Admin.findByIdAndDelete(result._id);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Translation Save Error",
-        description: "خطا در ذخیره کاربر  کاربر حذف شد.",
-        error: translationError.message
-      });
-    }
+    return res.status(201).json({
+      acknowledgement: true,
+      message: "Created",
+      description: "کاربر با موفقیت ایجاد و ترجمه شد.",
+      data: result
+    });
   } catch (error) {
+    // If we created an address but failed to create the admin, we should clean up
+    if (addressProp && !addressProp.admin) {
+      try {
+        await Address.findByIdAndDelete(addressProp._id);
+      } catch (cleanupError) {
+        console.error("Error cleaning up address:", cleanupError);
+      }
+    }
+    
     console.error("signUp error:", error);
     return res.status(500).json({
       acknowledgement: false,
@@ -192,13 +232,7 @@ exports.signIn = async (req, res) => {
 
 exports.persistLogin = async (req, res) => {
   const admin = await Admin.findById(req.admin._id)
-    .select("-password")
-    .populate([
-      {
-        path: "translations.translation",
-        match: { language: req.locale }
-      }
-    ]);
+    .select("-password");
 
   if (!admin) {
     res.status(404).json({
@@ -222,10 +256,6 @@ exports.getAdmin = async (req, res) => {
     .select("-password")
     .populate([
       {
-        path: "translations.translation",
-        match: { language: req.locale }
-      },
-      {
         path: "address"
       }
     ]);
@@ -239,12 +269,7 @@ exports.getAdmin = async (req, res) => {
 
 /* get all admins */
 exports.getAdmins = async (req, res) => {
-  const admins = await Admin.find().populate([
-    {
-      path: "translations.translation",
-      match: { language: req.locale }
-    }
-  ]);
+  const admins = await Admin.find();
 
   res.status(200).json({
     acknowledgement: true,
@@ -294,18 +319,69 @@ exports.updateAdmin = async (req, res) => {
       });
     }
 
-    await Address.findByIdAndUpdate(existingAdmin.address._id, {
-      country,
-      city,
-      street,
-      state,
-      floor,
-      unit,
-      plateNumber,
-      postalCode,
-      email,
-      phone
-    });
+    // Use automatic translation for address fields if provided
+    let addressUpdateData = {};
+    if (country) {
+      const translations = await translateFields(
+        { country },
+        { stringFields: ["country"] }
+      );
+      
+      addressUpdateData.country = {
+        fa: country,
+        en: translations.en.fields.country,
+        tr: translations.tr.fields.country
+      };
+    }
+    
+    if (state) {
+      const translations = await translateFields(
+        { state },
+        { stringFields: ["state"] }
+      );
+      
+      addressUpdateData.state = {
+        fa: state,
+        en: translations.en.fields.state,
+        tr: translations.tr.fields.state
+      };
+    }
+    
+    if (city) {
+      const translations = await translateFields(
+        { city },
+        { stringFields: ["city"] }
+      );
+      
+      addressUpdateData.city = {
+        fa: city,
+        en: translations.en.fields.city,
+        tr: translations.tr.fields.city
+      };
+    }
+    
+    if (street) {
+      const translations = await translateFields(
+        { street },
+        { stringFields: ["street"] }
+      );
+      
+      addressUpdateData.street = {
+        fa: street,
+        en: translations.en.fields.street,
+        tr: translations.tr.fields.street
+      };
+    }
+    
+    // Add non-translatable fields
+    if (floor) addressUpdateData.floor = floor;
+    if (unit) addressUpdateData.unit = unit;
+    if (plateNumber) addressUpdateData.plateNumber = plateNumber;
+    if (postalCode) addressUpdateData.postalCode = postalCode;
+    if (email) addressUpdateData.email = email;
+    if (phone) addressUpdateData.phone = phone;
+
+    await Address.findByIdAndUpdate(existingAdmin.address._id, addressUpdateData);
 
     let avatar = existingAdmin.avatar;
     console.log("avatar", avatar);
@@ -322,17 +398,47 @@ exports.updateAdmin = async (req, res) => {
       };
     }
     console.log("avatar", avatar);
+    
+    // Prepare update data
+    let updateData = {
+      email,
+      phone,
+      role,
+      status,
+      avatar
+    };
+    
+    // Use automatic translation for name if provided
+    if (name) {
+      const translations = await translateFields(
+        { name },
+        { stringFields: ["name"] }
+      );
+
+      updateData.name = {
+        fa: name,
+        en: translations.en.fields.name,
+        tr: translations.tr.fields.name
+      };
+    }
+    
+    // Use automatic translation for bio if provided
+    if (bio) {
+      const translations = await translateFields(
+        { bio },
+        { stringFields: ["bio"] }
+      );
+
+      updateData.bio = {
+        fa: bio,
+        en: translations.en.fields.bio,
+        tr: translations.tr.fields.bio
+      };
+    }
+
     const updatedAdmin = await Admin.findByIdAndUpdate(
       existingAdmin._id,
-      {
-        $set: {
-          email,
-          phone,
-          role,
-          status,
-          avatar
-        }
-      },
+      { $set: updateData },
       { new: true, runValidators: true }
     );
 
@@ -394,32 +500,74 @@ exports.updateAdminInfo = async (req, res) => {
       avatarUrl
     } = req.body;
 
+    // Use automatic translation for address fields if provided
+    let addressUpdateData = {};
+    if (country) {
+      const translations = await translateFields(
+        { country },
+        { stringFields: ["country"] }
+      );
+      
+      addressUpdateData.country = {
+        fa: country,
+        en: translations.en.fields.country,
+        tr: translations.tr.fields.country
+      };
+    }
+    
+    if (state) {
+      const translations = await translateFields(
+        { state },
+        { stringFields: ["state"] }
+      );
+      
+      addressUpdateData.state = {
+        fa: state,
+        en: translations.en.fields.state,
+        tr: translations.tr.fields.state
+      };
+    }
+    
+    if (city) {
+      const translations = await translateFields(
+        { city },
+        { stringFields: ["city"] }
+      );
+      
+      addressUpdateData.city = {
+        fa: city,
+        en: translations.en.fields.city,
+        tr: translations.tr.fields.city
+      };
+    }
+    
+    if (street) {
+      const translations = await translateFields(
+        { street },
+        { stringFields: ["street"] }
+      );
+      
+      addressUpdateData.street = {
+        fa: street,
+        en: translations.en.fields.street,
+        tr: translations.tr.fields.street
+      };
+    }
+    
+    // Add non-translatable fields
+    if (floor) addressUpdateData.floor = floor;
+    if (unit) addressUpdateData.unit = unit;
+    if (plateNumber) addressUpdateData.plateNumber = plateNumber;
+    if (postalCode) addressUpdateData.postalCode = postalCode;
+    if (email) addressUpdateData.email = email;
+    if (phone) addressUpdateData.phone = phone;
+
     if (existingAdmin.address) {
-      await Address.findByIdAndUpdate(existingAdmin.address._id, {
-        country,
-        city,
-        street,
-        state,
-        floor,
-        unit,
-        plateNumber,
-        postalCode,
-        email,
-        phone
-      });
+      await Address.findByIdAndUpdate(existingAdmin.address._id, addressUpdateData);
     } else {
-      const newAddress = new Address({
-        country,
-        city,
-        street,
-        state,
-        floor,
-        unit,
-        plateNumber,
-        postalCode,
-        email,
-        phone
-      });
+      const newAddress = new Address(addressUpdateData);
+      newAddress.email = email;
+      newAddress.phone = phone;
 
       await Admin.findByIdAndUpdate(existingAdmin._id, {
         address: newAddress._id
@@ -439,62 +587,49 @@ exports.updateAdminInfo = async (req, res) => {
         public_id: req.uploadedFiles["avatar"][0].key
       };
     }
+    
+    // Prepare update data
+    let updateData = {
+      email,
+      phone,
+      role,
+      status,
+      avatar
+    };
+    
+    // Use automatic translation for name if provided
+    if (name) {
+      const translations = await translateFields(
+        { name },
+        { stringFields: ["name"] }
+      );
+
+      updateData.name = {
+        fa: name,
+        en: translations.en.fields.name,
+        tr: translations.tr.fields.name
+      };
+    }
+    
+    // Use automatic translation for bio if provided
+    if (bio) {
+      const translations = await translateFields(
+        { bio },
+        { stringFields: ["bio"] }
+      );
+
+      updateData.bio = {
+        fa: bio,
+        en: translations.en.fields.bio,
+        tr: translations.tr.fields.bio
+      };
+    }
+
     const result = await Admin.findByIdAndUpdate(
       existingAdmin._id,
-      {
-        $set: {
-          email,
-          phone,
-          role,
-          status,
-          avatar
-        }
-      },
+      { $set: updateData },
       { new: true, runValidators: true }
     );
-    if (result.translations && result.translations.length > 0) {
-      await Promise.all(
-        result.translations.map(async ({ translation, language }) => {
-          const translatedFields = await translateFields(
-            { name, bio },
-            { stringFields: ["name", "bio"], targetLanguages: [language] }
-          );
-
-          await Translation.findByIdAndUpdate(translation, {
-            fields: translatedFields[language].fields
-          });
-        })
-      );
-    } else {
-      const translations = await translateFields(
-        {
-          name,
-          bio
-        },
-        {
-          stringFields: ["name", "bio"]
-        }
-      );
-      const translationDocs = Object.entries(translations).map(
-        ([lang, { fields }]) => ({
-          language: lang,
-          refModel: "Admin",
-          refId: result._id,
-          fields
-        })
-      );
-      const insertedTranslations = await Translation.insertMany(
-        translationDocs
-      );
-
-      const translationInfos = insertedTranslations.map((t) => ({
-        translation: t._id,
-        language: t.language
-      }));
-      await Admin.findByIdAndUpdate(result._id, {
-        $set: { translations: translationInfos }
-      });
-    }
 
     res.status(200).json({
       acknowledgement: true,
@@ -594,3 +729,7 @@ exports.deleteAdmin = async (req, res) => {
     description: ` کاربر${admin.name}'s با موفقیت حذف شد`
   });
 };
+
+
+
+

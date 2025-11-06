@@ -6,7 +6,6 @@ const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
 const Catagory = require("../models/category.model");
 const translateFields = require("../utils/translateFields");
 const Translation = require("../models/translation.model");
-const replaceRef = require("../utils/replaceRef");
 const Category = require("../models/category.model");
 const { flattenDocumentsTranslations } = require("../utils/flattenTranslations");
 /* add new blog */

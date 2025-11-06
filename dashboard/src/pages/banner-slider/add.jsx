@@ -17,6 +17,7 @@ const AddHeroSlider = () => {
     useAddHeroSliderMutation();
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [thumbnail, setThumbnail] = useState({});
+  
   useEffect(() => {
     if (isAdding) {
       toast.loading("در حال افزودن هرو اسلایدر...", { id: "add-HeroSlider" });
@@ -31,28 +32,46 @@ const AddHeroSlider = () => {
     if (addError?.data) {
       toast.error(addError?.data?.description, { id: "add-HeroSlider" });
     }
-  }, [isAdding, addData, addError]);
+  }, [isAdding, addData, addError, reset]);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    formData.append("thumbnail", thumbnail);
-    formData.append("link", data.link);
-    formData.append("title", data.title);
-    formData.append("subtitle", data.subtitle);
-    formData.append("description", data.description);
-
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
+    
+    // Add text fields
+    formData.append("title", data.title || "");
+    formData.append("subtitle", data.subtitle || "");
+    formData.append("caption", data.description || ""); // Using caption instead of description
+    formData.append("link", data.link || "");
+    
+    // Add media file
+    if (thumbnail) {
+      formData.append("media", thumbnail);
     }
-    addHeroSlider(formData);
+
+    try {
+      await addHeroSlider(formData).unwrap();
+      toast.success("هرو اسلایدر با موفقیت اضافه شد");
+      setIsOpen(false);
+      reset();
+      setThumbnailPreview(null);
+      setThumbnail({});
+    } catch (error) {
+      toast.error(error?.data?.message || "خطا در اضافه کردن هرو اسلایدر");
+    }
   };
+  
   return (
     <>
       <AddButton onClick={() => setIsOpen(true)} />
       {isOpen && (
         <Modal
           isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
+          onClose={() => {
+            setIsOpen(false);
+            reset();
+            setThumbnailPreview(null);
+            setThumbnail({});
+          }}
           className="lg:w-1/3 md:w-1/2 w-full z-50 h-fit"
         >
           <form
@@ -66,7 +85,7 @@ const AddHeroSlider = () => {
                   alt="thumbnail"
                   height={100}
                   width={100}
-                  className="h-[100px] w-[100px] profile-pic rounded-full"
+                  className="h-[100px] w-[100px] profile-pic rounded-full object-cover"
                 />
               ) : (
                 <SkeletonImage />
@@ -94,7 +113,7 @@ const AddHeroSlider = () => {
                   maxLength={100}
                   placeholder="عنوان هرو اسلایدر را تایپ کنید ..."
                   className="rounded"
-                  {...register("title", { required: false })}
+                  {...register("title", { required: true })}
                 />
               </label>
               <label htmlFor="subtitle" className="flex flex-col gap-y-2">
@@ -106,7 +125,7 @@ const AddHeroSlider = () => {
                   maxLength={100}
                   placeholder="زیرعنوان هرو اسلایدر را تایپ کنید ..."
                   className="rounded"
-                  {...register("subtitle", { required: false })}
+                  {...register("subtitle", { required: true })}
                 />
               </label>
               <label htmlFor="description" className="flex flex-col gap-y-2">
@@ -118,7 +137,7 @@ const AddHeroSlider = () => {
                   placeholder="توضیحات هرو اسلایدر را تایپ کنید ..."
                   className="rounded"
                   rows={3}
-                  {...register("description", { required: false })}
+                  {...register("description", { required: true })}
                 />
               </label>
               <label htmlFor="link" className="flex flex-col gap-y-2">
@@ -130,12 +149,11 @@ const AddHeroSlider = () => {
                   maxLength={50}
                   placeholder="لینک هرو اسلایدر را تایپ کنید ..."
                   className="rounded"
-                  autoFocus
                   {...register("link", { required: false })}
                 />
               </label>
-              <Button type="submit" className="py-2 mt-4">
-                ایجاد کردن{" "}
+              <Button type="submit" className="py-2 mt-4" disabled={isAdding}>
+                {isAdding ? "در حال ایجاد..." : "ایجاد کردن"}
               </Button>
             </div>
           </form>

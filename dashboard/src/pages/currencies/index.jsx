@@ -54,11 +54,11 @@ const Currencies = () => {
       <Search searchTerm={searchTerm} />
       <Add />
       <div className="mt-8 w-full grid grid-cols-12 text-slate-400 px-4">
-        <div className="col-span-11 lg:col-span-4 text-sm">نام ارز</div>
+        <div className="col-span-11 lg:col-span-3 text-sm">نام ارز</div>
         <div className="col-span-2 text-sm">نماد ارز</div>
         <div className="col-span-2 hidden md:flex  text-sm">کد ارز</div>
         <div className="col-span-3 hidden md:flex text-sm">کشور</div>
-        <div className="col-span-1 text-sm">عملیات</div>
+        <div className="col-span-2 md:col-span-1 text-sm">عملیات</div>
       </div>
 
       {isLoading || data?.data?.length == 0 ? (
@@ -69,11 +69,11 @@ const Currencies = () => {
             key={currency._id}
             className="mt-4 p-2 grid grid-cols-12 rounded-xl border border-gray-200 gap-2  items-center justify-center "
           >
-            <div className="col-span-11 lg:col-span-4 text-center flex items-center">
+            <div className="col-span-10 lg:col-span-3 text-center flex items-center">
               <StatusIndicator isActive={currency.status === "active"} />
               <div className="py-2 flex justify-center items-center gap-x-2 text-right">
                 <img
-                  src={currency?.creator?.avatar.url}
+                  src={currency?.creator?.avatar?.url || "/placeholder.png"}
                   alt={``}
                   height={100}
                   width={100}
@@ -81,7 +81,7 @@ const Currencies = () => {
                 />
                 <article className="flex-col flex gap-y-2  ">
                   <span className="line-clamp-1 text-base ">
-                    <span className="lg:flex ">{currency.title}</span>
+                    <span className="lg:flex ">{currency?.title}</span>
                   </span>
                   <span className="text-xs hidden lg:flex">
                     {new Date(currency.createdAt).toLocaleDateString("fa-IR")}
@@ -107,12 +107,13 @@ const Currencies = () => {
               {currency.code}
             </div>
             <div className="col-span-3 hidden md:flex text-center">
-              {currency.country}
+              {currency?.country?.name || currency?.country}
             </div>
-            <div className="col-span-1 flex md:flex-row flex-col  text-center justify-center items-center ">
+            <div className="col-span-1 gap-2 md:col-span-2 flex md:flex-row flex-col  text-center justify-center items-center ">
               <UpdateCurrency id={currency?._id} />
               <DeleteModal
-                message={`آیا از حذف ${currency?.title} اطمینان دارید؟`}              isLoading={isRemoving}
+                message={`آیا از حذف ${currency?.title} اطمینان دارید؟`}
+              isLoading={isRemoving}
                 onDelete={() => deleteCurrency(currency?._id)}
               />
             </div>

@@ -99,7 +99,7 @@ const MyCart = () => {
                           className="h-[25px] w-[25px] rounded-secondary object-cover"
                         />
                         <div className="flex flex-col gap-y-0.5 flex-1 w-full">
-                          <h2 className="text-sm">{user?.name}</h2>
+                          <h2 className="text-sm">{user?.name?.fa}</h2>
                           <p className="text-xs !line-clamp-1">
                             {user?.email}
                           </p>

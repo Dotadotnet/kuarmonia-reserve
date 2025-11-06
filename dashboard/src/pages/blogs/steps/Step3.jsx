@@ -1,16 +1,11 @@
 // Step3.js
-import { useMemo, useEffect } from "react";
-import { Controller } from "react-hook-form";
+import { useEffect } from "react";
 import Plus from "@/components/icons/Plus";
-import Tag from "@/components/icons/Tag";
-import MultiSelect from "@/components/shared/dropDown/MultiSelect";
-import Dropdown from "@/components/shared/dropDown/Dropdown";
-import { useGetTagsQuery } from "@/services/tag/tagApi";
-import { useGetCategoriesQuery } from "@/services/category/categoryApi";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
+import FormTagsSelect from "@/components/shared/input/FormTagsSelect";
+import FormCategorySelect from "@/components/shared/input/FormCategorySelect";
 
-import { toast } from "react-hot-toast";
 const Step3 = ({
   errors,
   selectedTags,
@@ -20,119 +15,19 @@ const Step3 = ({
   register,
   control
 }) => {
-
-  const {
-    isLoading: fetchingTags,
-    data: fetchTagsData,
-    error: fetchTagsError
-  } = useGetTagsQuery({
-    page: 1,
-    limit: Infinity,
-    status: "all",
-    search: ""
-  });
-
-  const {
-    isLoading: fetchingCategories,
-    data: fetchCategoriesData,
-    error: fetchCategoriesError
-  } = useGetCategoriesQuery({
-    page: 1,
-    limit: Infinity,
-    status: "all",
-    search: ""
-  });
-
- 
-   const categories = useMemo(
-     () =>
-       fetchCategoriesData?.data?.map((category) => ({
-         id: category._id,
-         value: category.translations[0].translation?.fields.title,
-         label: category.title,
-         icon: category.icon
-       })) || [],
-     [fetchCategoriesData]
-   );
-
-   const tags = useMemo(
-     () =>
-       fetchTagsData?.data?.map((tag) => ({
-         id: tag._id,
-         value: tag.translations[0].translation?.fields.title,
-         label: tag.title,
-       })),
-     [fetchTagsData]
-   );
-
-
-  const handleOptionsChange = (newSelectedOptions) => {
-    setSelectedTags(newSelectedOptions);
-  };
-
-  useEffect(() => {
-    if (fetchingTags) {
-      toast.loading("در حال دریافت تگ ها بندی ...", { id: "fetchTags" });
-    }
-
-    if (fetchTagsData) {
-      toast.success(fetchTagsData?.description, {
-        id: "fetchTags"
-      });
-    }
-
-    if (fetchTagsError) {
-      toast.error(fetchTagsError?.data?.description, {
-        id: "fetchTags"
-      });
-    }
-  }, [fetchingTags, fetchTagsData, fetchTagsError]);
-  useEffect(() => {
-    if (fetchingCategories) {
-      toast.loading("در حال دریافت دسته بندی ...", { id: "fetchCategories" });
-    }
-
-    if (fetchCategoriesData) {
-      toast.success(fetchCategoriesData?.description, {
-        id: "fetchCategories"
-      });
-    }
-
-    if (fetchCategoriesError) {
-      toast.error(fetchCategoriesError?.data?.description, {
-        id: "fetchCategories"
-      });
-    }
-  }, [fetchCategoriesData, fetchCategoriesData, fetchCategoriesError]);
-
-
   return (
     <>
       <div className="flex flex-col items-center justify-between gap-2 gap-y-4 w-full">
         {/* بخش تگ‌ها */}
-        <div className="flex flex-col gap-y-2 w-full ">
+        <div className="flex flex-col gap-y-2 w-full">
           <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
-            <div className="flex flex-col flex-1">
-              <label htmlFor="tags" className="flex flex-col gap-y-2 ">
-                تگ‌ها
-                <Controller
-                  control={control}
-                  name="tags"
-                  rules={{ required: "انتخاب تگ الزامی است" }}
-                  render={({ field: { onChange, value } }) => (
-                    <MultiSelect
-                      items={tags}
-                      selectedItems={value || []}
-                      handleSelect={onChange}
-                      icon={<Tag />}
-                      placeholder="چند مورد انتخاب کنید"
-                      className={"w-full h-12"}
-                      returnType="id"
-                    />
-                  )}
-                />
-              </label>
-            </div>
+            <FormTagsSelect
+              label="تگ‌ها"
+              id="tags"
+              control={control}
+              error={errors?.tags}
+              required={true}
+            />
             <div className="mt-7 flex justify-start">
               <button
                 type="button"
@@ -143,32 +38,17 @@ const Step3 = ({
               </button>
             </div>
           </div>
-          {errors.tags && (
-            <span className="text-red-500 text-sm">{errors.tags.message}</span>
-          )}
         </div>
 
         {/* بخش دسته‌بندی */}
-        <div className="flex flex-col gap-y-2 w-full ">
+        <div className="flex flex-col gap-y-2 w-full">
           <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
-            <div className="flex flex-col flex-1">
-              <label htmlFor="category" className="flex flex-col gap-y-2">
-                دسته‌بندی
-                <Controller
-                  control={control}
-                  name="category"
-                  render={({ field: { onChange } }) => (
-                    <Dropdown
-                      onChange={onChange}
-                      items={categories}
-                      sendId={true}
-                      errors={errors.category}
-                      className={"w-full h-12"}
-                    />
-                  )}
-                />
-              </label>
-            </div>
+            <FormCategorySelect
+              label="دسته‌بندی"
+              id="category"
+              control={control}
+              error={errors?.category}
+            />
             <div className="mt-7 flex justify-start">
               <button
                 type="button"
@@ -179,11 +59,6 @@ const Step3 = ({
               </button>
             </div>
           </div>
-          {errors.category && (
-            <span className="text-red-500 text-sm">
-              {errors.category.message}
-            </span>
-          )}
         </div>
         <StatusSwitch
           label="آیا این پست ویژه است"

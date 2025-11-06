@@ -1,5 +1,5 @@
 import Container from "@/components/shared/container/Container";
-import HighlightText from "@/components/shared/highlightText/HighlightText";
+import HighlightText from "@/components/shared/highlightText/page";
 
 import BreakdownArticle from "./BreakdownArticle";
 import FeatureTour from "./FeatureTour";

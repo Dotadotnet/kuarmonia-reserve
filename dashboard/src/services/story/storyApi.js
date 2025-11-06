@@ -1,5 +1,3 @@
-
-
 import { kuarmoniaApi } from "../kuarmonia";
 
 const storyApi = kuarmoniaApi.injectEndpoints({
@@ -15,6 +13,16 @@ const storyApi = kuarmoniaApi.injectEndpoints({
       }),
 
       invalidatesTags: ["Story", "Admin"],
+    }),
+
+    // get all stories (both parent and child)
+    getAllStories: builder.query({
+      query: () => ({
+        url: `/story/get-all-stories/`,
+        method: "GET",
+      }),
+
+      providesTags: ["Story"],
     }),
 
     // get all stories
@@ -39,6 +47,20 @@ const storyApi = kuarmoniaApi.injectEndpoints({
       }),
 
       invalidatesTags: ["Story", "Admin"],
+    }),
+
+    // update story order
+    updateStoryOrder: builder.mutation({
+      query: (stories) => ({
+        url: `/story/update-story-order`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: { stories },
+      }),
+
+      invalidatesTags: ["Story"],
     }),
 
     // get a story
@@ -69,7 +91,9 @@ const storyApi = kuarmoniaApi.injectEndpoints({
 export const {
   useAddStoryMutation,
   useGetStoriesQuery,
+  useGetAllStoriesQuery,
   useUpdateStoryMutation,
   useGetStoryQuery,
   useDeleteStoryMutation,
+  useUpdateStoryOrderMutation,
 } = storyApi;

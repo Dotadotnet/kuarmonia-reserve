@@ -1,6 +1,7 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import GalleryUpload from "@/components/shared/gallery/GalleryUpload";
 import { useGetCurrenciesQuery } from "@/services/currency/currencyApi";
+import { useGetCountriesQuery } from "@/services/country/countryApi";
 import { useMemo } from "react";
 import { Controller } from "react-hook-form";
 import Dropdown from "@/components/shared/dropDown/Dropdown";
@@ -28,12 +29,29 @@ const Step2 = ({
     () =>
       fetchCurrenciesData?.data?.map((currency) => ({
         id: currency._id,
-        value: currency.title,
+        value: currency.title?.fa,
         icon: currency.symbol,
-        description: currency.description
+        description: currency.code
       })),
     [fetchCurrenciesData]
   );
+  
+  const {
+    isLoading: fetchingCountries,
+    data: fetchCountriesData,
+    error: fetchCountriesError
+  } = useGetCountriesQuery();
+  const countries = useMemo(
+    () =>
+      fetchCountriesData?.data?.map((country) => ({
+        id: country._id,
+        value: country.name?.fa,
+        icon: country.icon,
+        description: country.code
+      })),
+    [fetchCountriesData]
+  );
+  
   const {
     isLoading: fetchingjobTimes,
     data: fetchjobTimesData,
@@ -108,6 +126,31 @@ const Step2 = ({
             </span>
           )}
         </label>
+        
+        <label htmlFor="country" className="flex flex-col gap-y-1 w-full">
+          کشور
+          <Controller
+            control={control}
+            name="country"
+            render={({ field: { onChange, value } }) => (
+              <Dropdown
+                items={countries}
+                placeholder="انتخاب کشور"
+                value={value?.value}
+                onChange={onChange}
+                className="w-full mt-2"
+                height="py-3"
+                error={errors.country}
+              />
+            )}
+          />
+          {errors.country && (
+            <span className="text-red-500 text-sm">
+              {errors.country.message}
+            </span>
+          )}
+        </label>
+        
         <div className="flex gap-x-2 w-full ">
           <div className="w-1/2">
             <label>

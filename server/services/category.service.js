@@ -1,163 +1,141 @@
 const Category = require("../models/category.model");
-const remove = require("../utils/remove.util");
-const Translation = require("../models/translation.model");
-const { generateSlug } = require("../utils/seoUtils");
-const translateFields = require("../utils/translateFields");
-
-const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
-exports.addCategory = async (req, res) => {
-  try {
-    const { title, description, ...body } = req.body;
-
-    const thumbnail = req.uploadedFiles?.thumbnail?.[0]
-      ? {
-          url: req.uploadedFiles.thumbnail[0].url,
-          public_id: req.uploadedFiles.thumbnail[0].key
-        }
-      : null;
-
-    const category = new Category({
-      thumbnail,
-      creator: req.admin._id,
-      icon: body.icon
-    });
-
-    const result = await category.save();
-    const slug = await generateSlug(title);
-    const canonicalUrl = `${defaultDomain}/category/${slug}`;
-
-    try {
-      const translations = await translateFields(
-        {
-          title,
-          description,
-          slug,
-          canonicalUrl
-        },
-        {
-          stringFields: ["title", "description", "slug", "canonicalUrl"]
-        }
-      );
-      const translationDocs = Object.entries(translations).map(
-        ([lang, { fields }]) => ({
-          language: lang,
-          refModel: "Category",
-          refId: result._id,
-          fields
-        })
-      );
-      const insertedTranslations = await Translation.insertMany(
-        translationDocs
-      );
-
-      const translationInfos = insertedTranslations.map((t) => ({
-        translation: t._id,
-        language: t.language
-      }));
-      await Category.findByIdAndUpdate(result._id, {
-        $set: { translations: translationInfos }
-      });
-
-      return res.status(201).json({
-        acknowledgement: true,
-        message: "Created",
-        description: "دسته‌بندی با موفقیت ایجاد و ترجمه شد.",
-        data: result
-      });
-    } catch (translationError) {
-      console.log(translationError.message);
-      await Category.findByIdAndDelete(result._id);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. دسته‌بندی حذف شد.",
-        error: translationError.message
-      });
-    }
-  } catch (error) {
-    console.error("Error in addCategory:", error);
-    res.status(500).json({
-      acknowledgement: false,
-      message: "Error",
-      description: "خطا در ایجاد دسته بندی",
-      error: error.message
-    });
-  }
-};
-
+const mongoose = require("mongoose");
 
 exports.getCategories = async (req, res) => {
-  const { page = 1, limit = 5, search = "" } = req.query;
+  const { page = 1, limit = 10, search = "" } = req.query;
   const skip = (page - 1) * limit;
+  const locale = req.locale || "fa";
 
   try {
-    let matchedCategoryIds = [];
-
-    if (search) {
-      const translations = await Translation.find({
-        language: req.locale,
-        refModel: "Category",
-        "fields.title": { $regex: search, $options: "i" }
-      }).select("refId");
-
-      matchedCategoryIds = translations.map((t) => t.refId);
-    }
-
-    const query = {
+    const matchStage = {
       isDeleted: false,
-      ...(search ? { _id: { $in: matchedCategoryIds } } : {})
     };
 
-    const categories = await Category.find(query)
-      .skip(skip)
-      .limit(Number(limit))
-      .sort({ createdAt: -1 })
-      .populate([
-        {
-          path: "translations.translation",
-          match: { language: req.locale }
-        },
-        {
-          path: "creator",
-          select: "name avatar"
-        }
-      ]);
+    // Add search functionality
+    if (search) {
+      matchStage.$or = [
+        { [`title.${locale}`]: { $regex: search, $options: "i" } },
+        { [`description.${locale}`]: { $regex: search, $options: "i" } }
+      ];
+    }
 
-    const total = await Category.countDocuments(query);
+    // Handle limit and skip values
+    const safeLimit = isFinite(Number(limit)) ? Number(limit) : 10;
+    const safeSkip = isFinite(Number(skip)) ? Number(skip) : 0;
+
+    const pipeline = [
+      { $match: matchStage },
+      { $sort: { createdAt: -1 } },
+      { $skip: safeSkip },
+      { $limit: safeLimit },
+
+      // Populate creator with only necessary fields
+      {
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator",
+        },
+      },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
+      {
+        $project: {
+          categoryId: 1,
+          title: `$title.${locale}`,
+          description: `$description.${locale}`,
+          slug: 1,
+          canonicalUrl: 1,
+          icon: 1,
+          thumbnail: 1,
+          status: 1,
+          createdAt: 1,
+          "creator._id": 1,
+          "creator.name": 1,
+          "creator.avatar": 1,
+        },
+      },
+    ];
+
+    const categories = await Category.aggregate(pipeline);
+
+    // Get total count
+    const total = await Category.countDocuments(matchStage);
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
-      description: "دسته بندی ها با موفقیت دریافت شدند",
+      description: "دسته‌بندی‌ها با موفقیت دریافت شدند",
       data: categories,
-      total
+      total,
+      page: Number(page),
+      limit: safeLimit,
     });
   } catch (error) {
     console.error("Error fetching categories:", error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطا در دریافت دسته بندی ها",
-      error: error.message
+      description: "خطا در دریافت دسته‌بندی‌ها",
+      error: error.message,
     });
   }
 };
 
-/* get a category */
 exports.getCategory = async (req, res) => {
-  const category = await Category.findById(req.params.id);
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "دسته بندی با موفقیت دریافت شد",
-    data: category
-  });
-};
-
-/* update category */
-exports.updateCategory = async (req, res) => {
   try {
-    const category = await Category.findById(req.params.id);
+    const { id } = req.params;
+    const locale = req.locale || "fa";
+
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        acknowledgement: false,
+        message: "Bad Request",
+        description: "شناسه نامعتبر است"
+      });
+    }
+
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    const pipeline = [
+      { $match: { _id: objectId, isDeleted: false } },
+
+      // Populate creator
+      {
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
+      {
+        $project: {
+          categoryId: 1,
+          title: `$title.${locale}`,
+          description: `$description.${locale}`,
+          slug: 1,
+          canonicalUrl: 1,
+          icon: 1,
+          thumbnail: 1,
+          status: 1,
+          createdAt: 1,
+          creator: {
+            _id: "$creator._id",
+            name: { $ifNull: [`$creator.name.${locale}`, `$creator.name`] },
+            avatar: "$creator.avatar"
+          }
+        }
+      }
+    ];
+
+    const [category] = await Category.aggregate(pipeline);
 
     if (!category) {
       return res.status(404).json({
@@ -167,84 +145,21 @@ exports.updateCategory = async (req, res) => {
       });
     }
 
-    let updatedCategory = req.body;
-    // حذف تصویر قبلی در صورت آپلود جدید
-    if (!req.body.thumbnail && req.file) {
-      if (category.thumbnail?.public_id) {
-        await remove(category.thumbnail.public_id);
-      }
-
-      updatedCategory.thumbnail = {
-        url: req.file.path,
-        public_id: req.file.filename
-      };
-    }
-
-    const translatableFields = ["title", "description"];
-
-    const changedFields = translatableFields.filter(
-      (field) =>
-        updatedCategory[field] && updatedCategory[field] !== category[field]
-    );
-
-    if (changedFields.length > 0) {
-      const translations = await translateFields(
-        updatedCategory,
-        changedFields
-      );
-
-      for (const [language, { fields }] of Object.entries(translations)) {
-        await Translation.findOneAndUpdate(
-          {
-            language,
-            refModel: "Category",
-            refId: category._id
-          },
-          { fields },
-          { upsert: true, new: true }
-        );
-      }
-    }
-    console.log("Updated Category:", updatedCategory);
-    await Category.findByIdAndUpdate(req.params.id, updatedCategory);
-
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
-      description: "دسته‌بندی با موفقیت ویرایش شد"
+      description: "دسته‌بندی با موفقیت دریافت شد",
+      data: category
     });
   } catch (error) {
-    console.error("Error in updateCategory:", error);
+    console.error("Error fetching category:", error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطا در بروزرسانی دسته‌بندی",
+      description: "خطا در دریافت دسته‌بندی",
       error: error.message
     });
   }
 };
-/* delete category */
-exports.deleteCategory = async (req, res) => {
-  const category = await Category.findByIdAndUpdate(
-    req.params.id,
-    {
-      isDeleted: true,
-      deletedAt: Date.now()
-    },
-    { new: true }
-  );
 
-  if (!category) {
-    return res.status(404).json({
-      acknowledgement: false,
-      message: "دسته بندی پیدا نشد",
-      description: "دسته بندی  که می‌خواهید حذف کنید، وجود ندارد"
-    });
-  }
 
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "دسته بندی با موفقیت حذف شد"
-  });
-};

@@ -5,10 +5,8 @@ import DynamicModelData from "@/components/shared/dynamic/dynamicModelData";
 import Pagination from "@/components/shared/pagination/ServerSide";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import Main from "@/layouts/Main";
-import Api from "@/utils/api";
 import { getTranslations } from "next-intl/server";
 import { FaTags } from "react-icons/fa";
-import RedirectTag from "../page";
 
 export async function generateMetadata({ params }) {
     const host = process.env.NEXT_PUBLIC_BASE_URL;

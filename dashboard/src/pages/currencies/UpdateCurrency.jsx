@@ -1,26 +1,23 @@
-
 import Button from "@/components/shared/button/Button";
 import { useGetCurrencyQuery, useUpdateCurrencyMutation } from "@/services/currency/currencyApi";
+import { useGetCountriesQuery } from "@/services/country/countryApi";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Edit from "@/components/icons/Edit";
 import { useDispatch } from "react-redux";
 import { setCurrency } from "@/features/currency/currencySlice";
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
-import { useGetCategoriesQuery } from "@/services/category/categoryApi";
- import Dropdown from "@/components/shared/dropDown/Dropdown";
+import Dropdown from "@/components/shared/dropDown/Dropdown";
 import { useForm, Controller } from "react-hook-form";
 
 const UpdateCurrency = ({ id }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [keynotes, setKeynotes] = useState([""]);
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm();
   const {
@@ -32,14 +29,24 @@ const UpdateCurrency = ({ id }) => {
     updateCurrency,
     { isLoading: isUpdateing, data: updateData, error: updateError },
   ] = useUpdateCurrencyMutation();
-  const { isLoading: fetchingCategories, data: fetchCategoriesData } = useGetCategoriesQuery();
+  
+  const {
+    isLoading: fetchingCountries,
+    data: fetchCountriesData,
+    error: fetchCountriesError
+  } = useGetCountriesQuery();
+  
+  const countries = useMemo(
+    () =>
+      fetchCountriesData?.data?.map((country) => ({
+        id: country._id,
+        value: country.name,
+        icon: country.icon,
+        description: country.code
+      })),
+    [fetchCountriesData]
+  );
 
-  const categories = useMemo(() => fetchCategoriesData?.data || [], [fetchCategoriesData]);
-  const categoryOptions = categories?.map((category) => ({
-    id: category._id,
-    value: category.title,
-    description: category.description,
-  }));
   useEffect(() => {
     if (isUpdateing) {
       toast.loading("در حال به‌روزرسانی ...", {
@@ -65,27 +72,30 @@ const UpdateCurrency = ({ id }) => {
   }, [fetching, fetchData, fetchError, isUpdateing, updateData, updateError]);
 
   useEffect(() => {
-    if (fetchData) {
-      dispatch(setCurrency(fetchData?.data));
-      setSelectedOptions(fetchData?.data?.robots || []);
-      setKeynotes(fetchData?.data?.keynotes || [""]);
+    if (fetchData?.data) {
+      reset({
+        title: fetchData.data.title,
+        code: fetchData.data.code,
+        symbol: fetchData.data.symbol,
+        exchangeRate: fetchData.data.exchangeRate,
+        country: fetchData.data.country?._id,
+        status: fetchData.data.status === "active"
+      });
     }
-  }, [fetchData, dispatch]);
+  }, [fetchData, reset]);
 
   const handleUpdateCurrency = (data) => {
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("value", data.value);
-    formData.append("category", data.category); // ارسال دسته‌بندی
-    const status = data.status ? "active" : "inactive";
-    formData.append("status", status);
+    const formData = {
+      title: data.title,
+      code: data.code,
+      symbol: data.symbol,
+      exchangeRate: data.exchangeRate,
+      country: data.country,
+      status: data.status ? "active" : "inactive"
+    };
 
     updateCurrency({ id, body: formData });
   };
-
-
-
 
   return (
     <>
@@ -116,27 +126,21 @@ const UpdateCurrency = ({ id }) => {
               <div className="w-full flex flex-col gap-y-4 p-4 border rounded">
                 {/* title */}
                 <label htmlFor="title" className="w-full flex flex-col gap-y-1">
-                  <span className="text-sm">عنوان*</span>
+                  <span className="text-sm">نام ارز*</span>
                   <input
                     type="text"
                     id="title"
-                    maxLength="100"
-                    defaultValue={fetchData?.data?.title}
+                    maxLength="50"
                     {...register("title", {
-                      required: "عنوان الزامی است!",
+                      required: "نام ارز الزامی است!",
                       minLength: {
                         value: 3,
-                        message: "عنوان باید حداقل ۳ کاراکتر باشد!",
+                        message: "نام ارز باید حداقل ۳ کاراکتر باشد!",
                       },
                       maxLength: {
-                        value: 100,
-                        message: "عنوان نمی‌تواند بیش از ۱۰۰ کاراکتر باشد!",
-                      },
-                      pattern: {
-                        value: /^[آ-یA-Za-z0-9\s]+$/,
-                        message:
-                          "عنوان فقط باید شامل حروف فارسی، انگلیسی و عدد باشد!",
-                      },
+                        value: 50,
+                        message: "نام ارز نمی‌تواند بیش از ۵۰ کاراکتر باشد!",
+                      }
                     })}
                   />
                   {errors.title && (
@@ -145,66 +149,107 @@ const UpdateCurrency = ({ id }) => {
                     </span>
                   )}
                 </label>
-                <label htmlFor="value" className="w-full flex flex-col gap-y-1">
-                  <span className="text-sm">مقدار عددی*</span>
+                
+                {/* code */}
+                <label htmlFor="code" className="w-full flex flex-col gap-y-1">
+                  <span className="text-sm">کد ارز*</span>
                   <input
-                    type="number"
-                    id="value"
-                    min="0"
-                    step="any" 
-                    defaultValue={fetchData?.data?.value || 0}
-                    {...register("value", {
-                      required: "مقدار عددی الزامی است!",
-                      min: { value: 0, message: "مقدار عددی نمی‌تواند منفی باشد" },
-                    })}
-                  />
-                  {errors.value && <span className="text-red-500 text-xs">{errors.value.message}</span>}
-                </label>
-                {/* description */}
-                <label
-                  htmlFor="description"
-                  className="w-full flex flex-col gap-y-1"
-                >
-                  <span className="text-sm">توضیحات*</span>
-                  <textarea
-                    id="description"
-                    rows="4"
-                    maxLength="500"
-                    defaultValue={fetchData?.data?.description}
-                    {...register("description", {
-                      required: "توضیحات الزامی است!",
+                    type="text"
+                    id="code"
+                    maxLength="10"
+                    {...register("code", {
+                      required: "کد ارز الزامی است!",
                       minLength: {
-                        value: 10,
-                        message: "توضیحات باید حداقل ۱۰ کاراکتر باشد!",
+                        value: 3,
+                        message: "کد ارز باید حداقل ۳ کاراکتر باشد!",
                       },
                       maxLength: {
-                        value: 500,
-                        message: "توضیحات نمی‌تواند بیش از ۵۰۰ کاراکتر باشد!",
-                      },
+                        value: 10,
+                        message: "کد ارز نمی‌تواند بیش از ۱۰ کاراکتر باشد!",
+                      }
                     })}
                   />
-                  {errors.description && (
+                  {errors.code && (
                     <span className="text-red-500 text-xs">
-                      {errors.description.message}
+                      {errors.code.message}
                     </span>
                   )}
                 </label>
-              </div>
-              <div className="flex flex-col gap-y-2 w-full">
-                 <Controller
-                  control={control}
-                  name="category"
-                  render={({ field }) => (
-                    <Dropdown
-                      items={categoryOptions}
-                      sendId={true}
-                      className="w-full h-12"
-                      handleSelect={field.onChange}
-                      value={field.value || fetchData?.data?.category || ""}
+                
+                {/* symbol */}
+                <label htmlFor="symbol" className="flex flex-col gap-y-2">
+                  نماد ارز{" "}
+                  <textarea
+                    id="symbol"
+                    placeholder="<svg>...</svg>"
+                    className="rounded h-32 font-mono text-xs"
+                    {...register("symbol")}
+                  />
+                </label>
+                
+                {/* نمایش پیش‌نمایش SVG */}
+                {fetchData?.data?.symbol && (
+                  <div className="border rounded p-4 mt-2 flex justify-center items-center ">
+                    <div  
+                      dangerouslySetInnerHTML={{ __html: fetchData?.data?.symbol }} 
+                      style={{ width: "44px", height: "44px" }} 
                     />
+                  </div>
+                )}
+                
+                {/* exchangeRate */}
+                <label
+                  htmlFor="exchangeRate"
+                  className="w-full flex flex-col gap-y-1"
+                >
+                  <span className="text-sm">نرخ تبدیل ارز*</span>
+                  <input
+                    type="number"
+                    id="exchangeRate"
+                    step="any"
+                    {...register("exchangeRate", {
+                      required: "نرخ تبدیل ارز الزامی است!",
+                      min: {
+                        value: 0,
+                        message: "نرخ تبدیل نمی‌تواند منفی باشد"
+                      },
+                      valueAsNumber: true
+                    })}
+                  />
+                  {errors.exchangeRate && (
+                    <span className="text-red-500 text-xs">
+                      {errors.exchangeRate.message}
+                    </span>
                   )}
-                /> 
-                {errors.category && <span className="text-red-500 text-xs">{errors.category.message}</span>}
+                </label>
+                
+                {/* country */}
+                <label
+                  htmlFor="country"
+                  className="w-full flex flex-col gap-y-1"
+                >
+                  <span className="text-sm">کشور*</span>
+                  <Controller
+                    name="country"
+                    control={control}
+                    rules={{ required: "کشور الزامی است" }}
+                    render={({ field }) => (
+                      <Dropdown
+                        items={countries}
+                        placeholder="انتخاب کشور"
+                        value={field.value}
+                        className="w-full mt-2"
+                        height="py-3"
+                        error={errors.country}
+                      />
+                    )}
+                  />
+                  {errors.country && (
+                    <span className="text-red-500 text-xs">
+                      {errors.country.message}
+                    </span>
+                  )}
+                </label>
               </div>
 
               <div className="flex flex-col gap-y-2 w-full ">
@@ -212,7 +257,6 @@ const UpdateCurrency = ({ id }) => {
                   label="وضعیت"
                   id="status"
                   register={register}
-                  defaultChecked={fetchData?.data?.status === "active" ? true : false} 
                 />
               </div>
               <Button type="submit" className="py-2 mt-4 mb-4 bg-black">

@@ -18,11 +18,11 @@ const BioStep = ({ register, errors, prevStep, nextStep }) => {
               message: "بیوگرافی باید حداقل ۳ حرف داشته باشد",
             },
             maxLength: {
-              value: 900,
-              message: "بیوگرافی نباید بیشتر از 900 حرف باشد",
+              value: 500,
+              message: "بیوگرافی نباید بیشتر از 500 حرف باشد",
             },
           })}          placeholder="بیوگرافی"
-          maxLength="900"
+          maxLength="500"
           className="p-2 rounded border "
         />
         {errors.bio && (

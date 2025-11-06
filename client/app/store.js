@@ -12,6 +12,7 @@ import cartSlice from "@/features/cart/cartSlice";
 import purchaseSlice from "@/features/purchase/purchaseSlice";
 import filterSlice from "@/features/filter/filterSlice";
 import postReducer  from "@/features/post/postSlice";
+import requestSlice from "@/features/request/requestSlice";
 
 export const store = configureStore({
   reducer: {
@@ -25,7 +26,8 @@ export const store = configureStore({
     cart: cartSlice,
     purchase: purchaseSlice,
     filter: filterSlice,
-    post: postReducer 
+    post: postReducer,
+    request: requestSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(kuarmoniaApi.middleware),

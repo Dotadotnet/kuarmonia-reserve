@@ -18,10 +18,32 @@ const serviceApi = kuarmoniaApi.injectEndpoints({
     }),
 
     getServices: builder.query({
+      query: ({ page = 1, limit = 5, search = "" } = {}) => {
+        const params = new URLSearchParams();
+        if (page) params.append('page', page);
+        if (limit) params.append('limit', limit);
+        if (search) params.append('search', search);
+        
+        return {
+          url: `/service/get-services/?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Service"],
+    }),
+
+    getAllServices: builder.query({
       query: () => ({
-        url: `/service/get-services`,
+        url: `/service/get-all-services`,
         method: "GET",
-       
+      }),
+      providesTags: ["Service"],
+    }),
+
+    getService: builder.query({
+      query: (id) => ({
+        url: `/service/get-service/${id}`,
+        method: "GET",
       }),
       providesTags: ["Service"],
     }),
@@ -39,13 +61,13 @@ const serviceApi = kuarmoniaApi.injectEndpoints({
     }),
 
     updateService: builder.mutation({
-      query: ({ id, ...formData }) => ({
-        url: `/service/${id}`,
+      query: ({ id, body }) => ({
+        url: `/service/update-service/${id}`,
         method: "PATCH",
-        body: formData,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
+        body,
       }),
       invalidatesTags: ["Service"],
     }),
@@ -55,6 +77,8 @@ const serviceApi = kuarmoniaApi.injectEndpoints({
 export const {
   useAddServiceMutation,
   useGetServicesQuery,
+  useGetAllServicesQuery,
+  useGetServiceQuery,
   useUpdateServiceMutation,
   useRemoveServiceMutation
 } = serviceApi;

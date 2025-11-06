@@ -1,5 +1,3 @@
-
-
 /* internal import */
 const storyService = require("../services/story.service");
 
@@ -38,10 +36,43 @@ exports.getStory = async (req, res, next) => {
   }
 };
 
+/* get stories with children only */
+exports.getStoriesWithChildren = async (req, res, next) => {
+  try {
+    await storyService.getStoriesWithChildren(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+/* get all stories (both parent and child) */
+exports.getAllStories = async (req, res, next) => {
+  try {
+    await storyService.getAllStories(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* update story */
 exports.updateStory = async (req, res, next) => {
   try {
     await storyService.updateStory(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+/* update story order */
+exports.updateStoryOrder = async (req, res, next) => {
+  try {
+    await storyService.updateStoryOrder(req, res);
   } catch (error) {
     next(error);
   } finally {

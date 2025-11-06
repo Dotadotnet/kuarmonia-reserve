@@ -52,7 +52,13 @@ const ListVisaType = () => {
       toast.error(removeError?.data?.message, { id: "visaType-removing" });
     }
   }, [data, error, isLoading, removeData, removeError, isRemoving]);
-console.log(visaTypes)
+
+  // Function to open edit modal
+  const openEditModal = (visaType) => {
+    // Implementation for opening edit modal
+    console.log("Edit visa type:", visaType);
+  };
+
   return (
     <>
       <ControlPanel>
@@ -77,8 +83,10 @@ console.log(visaTypes)
           <SkeletonItem repeat={5} />
         ) : (
           visaTypes.map((visaType) => {
-            const { title, summary } = visaType?.translations?.[0]?.translation?.fields || {};
-          console.log(visaType)
+            // Updated to use direct model fields instead of translation documents
+            const title = visaType?.title || "";
+            const summary = visaType?.summary || "";
+          
             return(
             <div
               key={visaType._id}
@@ -105,7 +113,7 @@ console.log(visaTypes)
                       {new Date(visaType.createdAt).toLocaleDateString("fa-IR")}
                     </span>
                     <span className=" lg:hidden text-xs  line-clamp-1">
-                      {visaType.summary}
+                      {summary}
                     </span>
                   </article>
                 </div>
@@ -139,7 +147,7 @@ console.log(visaTypes)
                     <Edit className="w-5 h-5" />
                   </span>
                   <DeleteModal
-                    message="آیا از حذف نوع ملک اطمینان دارید؟"
+                    message="آیا از حذف نوع ویزا اطمینان دارید؟"
                     isLoading={isRemoving}
                     onDelete={() => removeVisaType(visaType?._id)}
                   />

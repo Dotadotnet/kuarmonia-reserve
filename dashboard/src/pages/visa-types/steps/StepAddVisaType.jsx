@@ -29,7 +29,9 @@ const StepAddVisaType = ({
   roadmap,
   setRoadmap,
   faqs,
-  setFaqs
+  setFaqs,
+  activeTab,
+  setActiveTab
 }) => {
   const [addVisaType, { isLoading, data, error }] = useAddVisaTypeMutation();
   const [currentStep, setCurrentStep] = useState(1);
@@ -42,40 +44,42 @@ const StepAddVisaType = ({
   const [costs, setCosts] = useState([{ country: "", fee: "" }]);
   const [durations, setDurations] = useState([{ country: "", validity: "" }]);
   const totalSteps = 6;
-const onSubmit = async (data) => {
-  const formData = new FormData();
-  const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
 
-  // فیلدهای اصلی
-  formData.append("title", data.title);
-  formData.append("summary", data.summary);
-  formData.append("icon", data.icon);
-  formData.append("thumbnail", thumbnail);
-  formData.append("tags", extractIds(data.tags));
-  formData.append("category", data.category.id);
-  formData.append("content", data.content);
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
 
-  // نقشه راه
-  formData.append("roadmap", JSON.stringify(roadmap));
+    // Main fields - single language
+    formData.append("title", data.title );
+    formData.append("summary", data.summary );
+    formData.append("content", editorData );
 
-  // Step5
-  formData.append("conditions", JSON.stringify(conditions));
-  formData.append("advantages", JSON.stringify(advantages));
-  formData.append("disadvantages", JSON.stringify(disadvantages));
+    formData.append("icon", data.icon);
+    formData.append("thumbnail", thumbnail);
+    formData.append("tags", extractIds(data.tags));
+    formData.append("category", data.category.id);
 
-  // Step6
-  formData.append("faqs", JSON.stringify(faqs));
-  formData.append("costs", JSON.stringify(costs));
-  formData.append("durations", JSON.stringify(durations));
+    // Roadmap - single language
+    formData.append("roadmap", JSON.stringify(roadmap));
 
-  // Debug
-  for (let pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
-  }
+    // Step5 - single language arrays
+    formData.append("conditions", JSON.stringify(conditions));
+    formData.append("advantages", JSON.stringify(advantages));
+    formData.append("disadvantages", JSON.stringify(disadvantages));
 
-  // ارسال
- addVisaType(formData);
-};
+    // Step6 - single language arrays
+    formData.append("faqs", JSON.stringify(faqs));
+    formData.append("costs", JSON.stringify(costs));
+    formData.append("durations", JSON.stringify(durations));
+
+    // Debug
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    // Submit
+    addVisaType(formData);
+  };
 
   const navigate = useNavigate();
 
@@ -112,73 +116,39 @@ const onSubmit = async (data) => {
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("description");
+        valid = await trigger("summary");
         if (!valid) {
-          toast.error("لطفاً توضیحات دسته بندی را وارد کنید");
+          toast.error("لطفاً خلاصه دسته بندی را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
         break;
 
       case 3:
-        valid = await trigger("issuingOrganization");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("country");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("year");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
+        // Validation for content step
+        valid = true;
         break;
       case 4:
-        valid = await trigger("issuingOrganization");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+        // Validation for roadmap step
+        const isRoadmapValid = roadmap.every(item => 
+          item.title && item.description && item.duration
+        );
+        if (!isRoadmapValid) {
+          toast.error("لطفاً تمام فیلدهای نقشه راه را پر کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("country");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("year");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
+        valid = true;
         break;
       case 5:
-        valid = await trigger("issuingOrganization");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+        // Validation for conditions step
+        const isConditionsValid = conditions.every(item => item);
+        if (!isConditionsValid) {
+          toast.error("لطفاً تمام فیلدهای شرایط را پر کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("country");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("year");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
+        valid = true;
         break;
       default:
         break;
@@ -190,9 +160,11 @@ const onSubmit = async (data) => {
       setCurrentStep((prevStep) => prevStep + 1);
     }
   };
+  
   const prevStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
+  
   const renderStepContent = (step) => {
     switch (step) {
       case 1:
@@ -201,7 +173,9 @@ const onSubmit = async (data) => {
             nextStep={nextStep}
             register={register}
             watch={watch}
-            errors={errors.thumbnail}
+            errors={errors}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
           />
         );
       case 2:
@@ -271,6 +245,7 @@ const onSubmit = async (data) => {
         return null;
     }
   };
+  
   const handleStepClick = async (step) => {
     if (step < currentStep) {
       setCurrentStep(step);

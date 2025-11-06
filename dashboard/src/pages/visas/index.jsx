@@ -52,6 +52,7 @@ const ListVisa = () => {
       toast.error(removeError?.data?.message, { id: "visa-removing" });
     }
   }, [data, error, isLoading, removeData, removeError, isRemoving]);
+
 console.log(visas)
   return (
     <>
@@ -74,8 +75,10 @@ console.log(visas)
           <SkeletonItem repeat={5} />
         ) : (
           visas.map((visa) => {
-            const { title, summary } = visa?.translations?.[0]?.translation?.fields || {};
-          console.log(visa)
+            // Updated to use direct model fields instead of translation documents
+            const title = visa?.title || "";
+            const summary = visa?.summary || "";
+          
             return(
             <div
               key={visa._id}
@@ -102,7 +105,7 @@ console.log(visas)
                       {new Date(visa.createdAt).toLocaleDateString("fa-IR")}
                     </span>
                     <span className=" lg:hidden text-xs  line-clamp-1">
-                      {visa.summary}
+                      {summary}
                     </span>
                   </article>
                 </div>
@@ -119,12 +122,11 @@ console.log(visas)
                 <article className="lg:flex-row flex flex-col justify-center gap-x-2  gap-y-2">
                   <span
                     className="edit-button "
-                    onClick={() => openEditModal(visa)}
                   >
                     <Edit className="w-5 h-5" />
                   </span>
                   <DeleteModal
-                    message="آیا از حذف نوع ملک اطمینان دارید؟"
+                    message="آیا از حذف ویزا اطمینان دارید؟"
                     isLoading={isRemoving}
                     onDelete={() => removeVisa(visa?._id)}
                   />

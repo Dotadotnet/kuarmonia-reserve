@@ -50,7 +50,7 @@ const ListCountry = () => {
       toast.error(removeError?.data?.message, { id: "Country-removing" });
     }
   }, [data, error, isLoading, removeData, removeError, isRemoving]);
-
+console.log(data);
   return (
     <>
       <ControlPanel>
@@ -86,12 +86,12 @@ const ListCountry = () => {
                     <div className=" flex justify-center items-center">
                       <div
                         dangerouslySetInnerHTML={{ __html: Country?.icon }}
-                      className="w-full h-full"
+                      className="!w-10 !h-10"
                       />
                     </div>
                     <article className="flex-col flex gap-y-2  ">
                       <span className="line-clamp-1 text-base ">
-                        <span className=" ">{Country?.translations[0].translation.fields.title}</span>
+                        <span className=" ">{Country?.name}</span>
                       </span>
                       <span className="text-xs hidden lg:flex">
                         {new Date(Country.createdAt).toLocaleDateString(
@@ -111,7 +111,7 @@ const ListCountry = () => {
                 <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
                   <article className="flex-col flex gap-y-2">
                     <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
-                      <span className="flex">{Country.creator?.name}</span>
+                      <span className="flex">{Country.creator?.name?.fa}</span>
                     </span>
                   </article>
                 </div>

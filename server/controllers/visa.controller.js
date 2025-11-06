@@ -25,10 +25,33 @@ exports.getVisas = async (req, res, next) => {
   }
 };
 
+/* get all visas for client (lightweight version) */
+exports.getVisasClient = async (req, res, next) => {
+  try {
+    await visaService.getVisasClient(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
 /* get a visa */
 exports.getVisa = async (req, res, next) => {
   try {
     await visaService.getVisa(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+/* get a visa by visaId */
+exports.getVisaById = async (req, res, next) => {
+  try {
+    console.log("🚀 ~ file: visa.controller.js ~ exports.getVisaById= ~ req.params", req.params)
+    await visaService.getVisaById(req, res);
   } catch (error) {
     next(error);
   } finally {

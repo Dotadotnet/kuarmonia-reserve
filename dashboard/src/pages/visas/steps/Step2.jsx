@@ -1,5 +1,3 @@
-// components/signup/steps/NameStep.jsx
-
 import { useEffect, useMemo } from "react";
 import { useGetTagsQuery } from "@/services/tag/tagApi";
 import MultiSelect from "@/components/shared/dropDown/MultiSelect";
@@ -42,7 +40,7 @@ const Step2 = ({
     () =>
       fetchVisaTypesData?.data?.map((visaType) => ({
         id: visaType._id,
-        value: visaType?.translations?.[0]?.translation?.fields?.title || "",
+        value: visaType?.title || "",
         label: visaType.title,
         icon: visaType.icon
       })) || [],
@@ -52,7 +50,7 @@ const Step2 = ({
     () =>
       fetchTagsData?.data?.map((tag) => ({
         id: tag._id,
-        value: tag.translations[0].translation?.fields.title,
+        value: tag.title,
         label: tag.title,
         about: tag.about
       })),
@@ -157,15 +155,6 @@ const Step2 = ({
               />
             </label>
           </div>
-          {/* <div className="mt-7 flex justify-start">
-            <button
-              type="button"
-              className="p-2 bg-green-400 dark:bg-blue-600 text-white rounded hover:bg-green-600 dark:hover:bg-blue-400 transition-colors"
-              aria-label="افزودن تگ جدید"
-            >
-              <Plus className="w-8 h-8" />
-            </button>
-          </div> */}
         </div>
         {errors.tags && (
           <span className="text-red-500 text-sm">{errors.tags.message}</span>
@@ -194,15 +183,6 @@ const Step2 = ({
               />
             </label>
           </div>
-          {/* <div className="mt-7 flex justify-start">
-            <button
-              type="button"
-              className="p-2 bg-green-400 dark:bg-blue-600 text-white rounded hover:bg-green-600 dark:hover:bg-blue-400 transition-colors"
-              aria-label="افزودن نوع  ویزا جدید"
-            >
-              <Plus className="w-8 h-8" />
-            </button>
-          </div> */}
         </div>
         {errors.visaType && (
           <span className="text-red-500 text-sm">
@@ -213,7 +193,6 @@ const Step2 = ({
       </div>
       <div className="flex justify-between mt-12">
         <NavigationButton direction="next" onClick={nextStep} />
-
         <NavigationButton direction="prev" onClick={prevStep} />
       </div>
     </div>

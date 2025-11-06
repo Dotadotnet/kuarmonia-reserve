@@ -1,56 +1,58 @@
 import { useState } from "react";
-import Plus from "@/components/icons/Plus";
-import Minus from "@/components/icons/Minus";
+import ChevronDown from "@/components/icons/ChevronDown";
+import ChevronUp from "@/components/icons/ChevronUp";
+import Calendar from "@/components/icons/Calendar";
+import Clock from "@/components/icons/Clock";
 
-const Faq = ({ items }) => {
-  const [activeIndex, setActiveIndex] = useState(null);
+const ServiceFaqs = ({ items }) => {
+  const [expandedFaq, setExpandedFaq] = useState([]);
 
   const toggleFaq = (index) => {
-    setActiveIndex((prevActiveIndex) =>
-      prevActiveIndex === index ? null : index
+    setExpandedFaq(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index) 
+        : [...prev, index]
     );
   };
 
   return (
-    <section className="mx-auto grid max-w-7xl grid-cols-1 gap-4 p-4 md:grid-cols-[550px_1fr] md:gap-14 md:p-8">
-      <h2 className="text-center text-4xl font-bold text-gray-600 md:text-left md:text-6xl">
-        سوالات متداول{" "}
-      </h2>
-
-      <div>
-        {items?.map(({ question, answer }, idx) => (
-          <div
-            key={idx}
-            onClick={() => toggleFaq(idx)}
-            className="flex cursor-pointer items-start gap-4 border-b border-gray-300 py-5 last:border-0"
-          >
-            <div className="mt-0.5">
-              {idx === activeIndex ? (
-                <Minus color="#047857" />
-              ) : (
-                <Plus color="#047857" />
+    <div className="mx-auto max-w-screen-lg px-4 py-12">
+      <section id="faqs" className="mb-16">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+          سوالات متداول
+        </h2>
+        <div className="space-y-4">
+          {items?.map((faq, index) => (
+            <div
+              key={index}
+              className="dark:bg-gray-800 dark:border-gray-700 border-gray-100 bg-white shadow-gray-400 border rounded-xl overflow-hidden shadow-sm"
+            >
+              <button
+                onClick={() => toggleFaq(index)}
+                className="w-full text-right p-6 dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-50 transition-colors flex items-center justify-between"
+              >
+                <span className="font-semibold text-gray-900 dark:text-white text-lg">
+                  {faq.question}
+                </span>
+                {expandedFaq.includes(index) ? (
+                  <ChevronUp className="w-5 h-5 dark:text-gray-300 text-gray-600" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 dark:text-gray-300 text-gray-600" />
+                )}
+              </button>
+              {expandedFaq.includes(index) && (
+                <div className="p-6 dark:bg-gray-800 dark:border-gray-700 border-gray-100 bg-white border-t">
+                  <p className="text-gray-700 dark:text-gray-100 leading-relaxed text-lg">
+                    {faq.answer}
+                  </p>
+                </div>
               )}
             </div>
-
-            <div>
-              <h4 className="text-lg font-medium">{question}</h4>
-              <div
-                className={`${
-                  idx === activeIndex
-                    ? "grid grid-rows-[1fr]"
-                    : "grid grid-rows-[0fr]"
-                }  transition-all duration-300`}
-              >
-                <p className="mt-2 overflow-hidden text-left text-gray-700">
-                  {answer}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 };
 
-export default Faq;
+export default ServiceFaqs;

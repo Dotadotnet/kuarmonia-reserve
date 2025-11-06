@@ -1,11 +1,12 @@
-
 import Plus from "@/components/icons/Plus";
 import Minus from "@/components/icons/Minus";
 
 const DynamicListInput = ({ label, items, setItems, fields, fieldLabels = {} }) => {
   const handleAdd = () => {
     const newItem = {};
-    fields.forEach((field) => (newItem[field] = ""));
+    fields.forEach((field) => {
+      newItem[field] = field === "type" ? "" : ""; // type ابتدا خالی است
+    });
     setItems((prev) => [...prev, newItem]);
   };
 
@@ -28,13 +29,30 @@ const DynamicListInput = ({ label, items, setItems, fields, fieldLabels = {} }) 
         <div key={index} className="flex flex-col gap-y-2 p-2 border rounded">
           {fields.map((field) => (
             <div key={field} className="flex flex-col gap-y-1">
-              <input
-                type="text"
-                placeholder={fieldLabels[field] || field} // 🆕 placeholder فارسی
-                value={item[field]}
-                onChange={(e) => handleChange(index, field, e.target.value)}
-                className="p-2 rounded border"
-              />
+              {field === "type" ? (
+                <div className="flex items-center gap-x-2">
+                  <input
+                    type="checkbox"
+                    checked={item.type === "mandatory"}
+                    onChange={() =>
+                      handleChange(
+                        index,
+                        "type",
+                        item.type === "mandatory" ? "" : "mandatory"
+                      )
+                    }
+                  />
+                  <span>{"اجباری"}</span>
+                </div>
+              ) : (
+                <input
+                  type="text"
+                  placeholder={fieldLabels[field] || field}
+                  value={item[field]}
+                  onChange={(e) => handleChange(index, field, e.target.value)}
+                  className="p-2 rounded border"
+                />
+              )}
             </div>
           ))}
 

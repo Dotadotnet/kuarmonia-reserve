@@ -1,12 +1,10 @@
 import Minus from "@/components/icons/Minus";
 import Plus from "@/components/icons/Plus";
 import Button from "@/components/shared/button/Button";
-import MultiSelect from "@/components/shared/dropDown/MultiSelect";
 import { useGetTagQuery, useUpdateTagMutation } from "@/services/tag/tagApi";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
 import { useState, useEffect } from "react";
-import Robot from "@/components/icons/Robot";
 import Edit from "@/components/icons/Edit";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -19,7 +17,7 @@ const UpdateTag = ({ id }) => {
     data: fetchData,
     error: fetchError
   } = useGetTagQuery(id, { skip: !isOpen });
-  const [keynotes, setKeynotes] = useState(fetchData?.data?.keynotes ||[""]);
+  const [keynotes, setKeynotes] = useState([""]);
   
   const [selectedOptions, setSelectedOptions] = useState([]);
   const {
@@ -35,15 +33,21 @@ const UpdateTag = ({ id }) => {
   ] = useUpdateTagMutation();
   
   useEffect(() => {
-    if (fetchData?.data?.keynotes) {
-      setKeynotes(fetchData.data.keynotes);
+    if (fetchData?.data) {
+      // Initialize keynotes with the fetched data
+      if (fetchData.data.keynotes) {
+        setKeynotes(fetchData.data.keynotes);
+      } else {
+        setKeynotes([""]);
+      }
     }
+    
     if (isUpdateing) {
       toast.loading("در حال به‌روزرسانی ...", {
         id: "fetchTag"
       });
     }
-    console.log(fetchData);
+    
     if (fetchData) {
       toast.success(fetchData?.message, { id: "fetchTag" });
     }
@@ -68,47 +72,10 @@ const UpdateTag = ({ id }) => {
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("keynotes", JSON.stringify(keynotes));
-    formData.append(
-      "robots",
-      JSON.stringify(selectedOptions.map((option) => option.value))
-    );
     const status = data.status ? "active" : "inactive";
     formData.append("status", status);
 
     updateTag({ id: id, body: formData });
-  };
-
-  const robotOptions = [
-    {
-      id: 1,
-      value: "index",
-      label: "Index",
-      description: "اجازه می‌دهد موتورهای جستجو صفحه را ایندکس کنند"
-    },
-    {
-      id: 2,
-      value: "noindex",
-      label: "Noindex",
-      description: "از ایندکس کردن صفحه توسط موتورهای جستجو جلوگیری می‌کند"
-    },
-    {
-      id: 3,
-      value: "follow",
-      label: "Follow",
-      description:
-        "اجازه می‌دهد موتورهای جستجو لینک‌های موجود در صفحه را دنبال کنند"
-    },
-    {
-      id: 4,
-      value: "nofollow",
-      label: "Nofollow",
-      description:
-        "از دنبال کردن لینک‌های موجود در صفحه توسط موتورهای جستجو جلوگیری می‌کند"
-    }
-  ];
-
-  const handleOptionsChange = (newSelectedOptions) => {
-    setSelectedOptions(newSelectedOptions);
   };
 
   const handleAddKeynote = () => {
@@ -263,15 +230,6 @@ const UpdateTag = ({ id }) => {
               </div>
               {/* انتخاب ربات‌ها */}
               
-              ربات‌ها*
-              <MultiSelect
-                items={robotOptions}
-                selectedItems={fetchData?.data?.robots|| selectedOptions}
-                handleSelect={handleOptionsChange}
-                className="w-full"
-                name="robots"
-                icon={<Robot size={24} />}
-              />{" "}
               *
               <div className="flex flex-col gap-y-2 w-full ">
                 <StatusSwitch

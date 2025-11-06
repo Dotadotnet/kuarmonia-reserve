@@ -1,6 +1,6 @@
 "use client";
 import Container from "../shared/container/Container";
-import HighlightText from "../shared/highlightText/HighlightText";
+import HighlightText from "../shared/highlightText/page";
 import Image from "next/image";
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";

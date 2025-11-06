@@ -1,5 +1,3 @@
-
-
 /* external import */
 const express = require("express");
 
@@ -30,7 +28,13 @@ router.post(
 router.get("/get-stories",localeMiddleware, storyController.getStories);
 
 // get a story
-router.get("/get-story/:id", storyController.getStory);
+router.get("/get-story/:id", localeMiddleware, storyController.getStory);
+
+// get stories with children only
+router.get("/get-stories-with-children", localeMiddleware, storyController.getStoriesWithChildren);
+
+// get all stories (both parent and child)
+router.get("/get-all-stories", localeMiddleware, storyController.getAllStories);
 
 // update story
 router.patch(
@@ -39,6 +43,14 @@ router.patch(
   authorize("superAdmin","admin"),
   upload('story').single("media"),
   storyController.updateStory
+);
+
+// update story order
+router.patch(
+  "/update-story-order",
+  verify,
+  authorize("superAdmin","admin"),
+  storyController.updateStoryOrder
 );
 
 // delete story

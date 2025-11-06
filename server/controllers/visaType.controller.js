@@ -36,6 +36,19 @@ exports.getVisaType = async (req, res, next) => {
   }
 };
 
+/* get a visaType by visaTypeId */
+exports.getVisaTypeById = async (req, res, next) => {
+  try {
+    console.log("🚀 ~ file: visaType.controller.js:42 ~ exports.getVisaTypeById= ~ req.params", req.params)
+    await visaTypeService.getVisaTypeById(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+
 /* update visaType */
 exports.updateVisaType = async (req, res, next) => {
   try {

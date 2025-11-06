@@ -1,5 +1,5 @@
 import Container from "@/components/shared/container/Container";
-import HighlightText from "@/components/shared/highlightText/HighlightText";
+import HighlightText from "@/components/shared/highlightText/page";
 
 import DestinationByMonth from "./DestinationByMonth";
 import Image from 'next/image'

@@ -39,20 +39,20 @@ const StepAddStory = () => {
     const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
 
     const formData = new FormData();
-console.log("Form Data:", data.banners);
+console.log("Form Data:", data);
     formData.append("media", media);
-    formData.append("promoBanner",data.banners.id);
+    formData.append("parent", data.parent || ""); 
     formData.append("tags", extractIds(data.tags));
     formData.append("title", data.title);
     formData.append("caption", data.caption);
-
-    addStory(formData);
+    formData.append("order", data.order);
+     addStory(formData);
   };
   const navigate = useNavigate(); 
 
   useEffect(() => {
     if (isLoading) {
-      toast.loading("در حال افزودن دسته بندی...", { id: "addStory" });
+      toast.loading("در حال افزودن استوری...", { id: "addStory" });
     }
 
     if (data && data?.acknowledgement) {
@@ -80,9 +80,9 @@ console.log("Form Data:", data.banners);
         valid = true;
         break;
       case 2:
-        valid = await trigger("title");
+        valid = await trigger(["title", "order"]);
         if (!valid) {
-          toast.error("لطفاً عنوان دسته بندی را وارد کنید");
+          toast.error("لطفاً عنوان و ترتیب استوری را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }

@@ -1,4 +1,3 @@
-
 import { configureStore } from "@reduxjs/toolkit";
 import { kuarmoniaApi } from "./services/kuarmonia";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -15,6 +14,7 @@ import filterSlice from "./features/filter/filterSlice";
 import userSlice from "@/features/user/userSlice";
 import tagSlice from "@/features/tag/tagSlice";
 import currencySlice from "@/features/currency/currencySlice";
+
 export const store = configureStore({
   reducer: {
     [kuarmoniaApi.reducerPath]: kuarmoniaApi.reducer,
@@ -27,9 +27,9 @@ export const store = configureStore({
     cart: cartSlice,
     purchase: purchaseSlice,
     filter: filterSlice,
-    user:userSlice,
-    tag:tagSlice,
-    currency:currencySlice,
+    user: userSlice,
+    tag: tagSlice,
+    currency: currencySlice,
     // productFilter: productFilterSlice,
   },
   middleware: (getDefaultMiddleware) =>

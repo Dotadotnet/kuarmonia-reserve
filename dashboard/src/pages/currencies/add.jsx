@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "@/components/shared/button/Button";
 import { useAddCurrencyMutation } from "@/services/currency/currencyApi";
+import { useGetCountriesQuery } from "@/services/country/countryApi";
 import { toast } from "react-hot-toast";
 import Modal from "@/components/shared/modal/Modal";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import AddButton from "@/components/shared/button/AddButton";
+import Dropdown from "@/components/shared/dropDown/Dropdown";
 
 const AddCurrency = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,11 +20,25 @@ const AddCurrency = () => {
     formState: { errors }
   } = useForm();
 
-
-
-
   const [addCurrency, { isLoading: isAdding, data: addData, error: addError }] =
     useAddCurrencyMutation();
+    
+  const {
+    isLoading: fetchingCountries,
+    data: fetchCountriesData,
+    error: fetchCountriesError
+  } = useGetCountriesQuery();
+  
+  const countries = useMemo(
+    () =>
+      fetchCountriesData?.data?.map((country) => ({
+        id: country._id,
+        value: country.name,
+        icon: country.icon,
+        description: country.code
+      })),
+    [fetchCountriesData]
+  );
 
   useEffect(() => {
     if (isAdding) {
@@ -33,7 +49,7 @@ const AddCurrency = () => {
       toast.success(addData?.description, { id: "addCurrency" });
       setIsOpen(false)
       reset()
-        }
+    }
 
     if (addError?.data) {
       toast.error(addError?.data?.description, { id: "addCurrency" });
@@ -46,10 +62,8 @@ const AddCurrency = () => {
       code: data.code,
       symbol: data.symbol,
       exchangeRate: data.exchangeRate,
-      country: data.country,
-      category: data.category
+      country: data.country.id,
     };
-    console.log(formData);
 
     addCurrency(formData);
   }
@@ -84,9 +98,18 @@ const AddCurrency = () => {
                       minLength: {
                         value: 3,
                         message: "نام ارز باید حداقل ۳ کاراکتر باشد"
+                      },
+                      maxLength: {
+                        value: 50,
+                        message: "نام ارز نمی‌تواند بیش از ۵۰ کاراکتر باشد"
                       }
                     })}
                   />
+                  {errors.title && (
+                    <span className="text-red-500 text-xs">
+                      {errors.title.message}
+                    </span>
+                  )}
                 </label>
 
                 {/* code */}
@@ -101,11 +124,20 @@ const AddCurrency = () => {
                     {...register("code", {
                       required: "کد ارز الزامی است",
                       minLength: {
-                        value: 3,
-                        message: "کد ارز باید حداقل ۳ کاراکتر باشد"
+                        value: 2,
+                        message: "کد ارز باید حداقل 2 کاراکتر باشد"
+                      },
+                      maxLength: {
+                        value: 10,
+                        message: "کد ارز نمی‌تواند بیش از ۱۰ کاراکتر باشد"
                       }
                     })}
                   />
+                  {errors.code && (
+                    <span className="text-red-500 text-xs">
+                      {errors.code.message}
+                    </span>
+                  )}
                 </label>
 
                 {/* symbol */}
@@ -151,6 +183,11 @@ const AddCurrency = () => {
                       valueAsNumber: true
                     })}
                   />
+                  {errors.exchangeRate && (
+                    <span className="text-red-500 text-xs">
+                      {errors.exchangeRate.message}
+                    </span>
+                  )}
                 </label>
 
                 {/* country */}
@@ -159,20 +196,26 @@ const AddCurrency = () => {
                   className="w-full flex flex-col gap-y-1"
                 >
                   <span className="text-sm">کشور*</span>
-                  <input
-                    type="text"
+                  <Controller
                     name="country"
-                    id="country"
-                    maxLength="100"
-                    required
-                    {...register("country", {
-                      required: "کشور الزامی است",
-                      minLength: {
-                        value: 3,
-                        message: "نام کشور باید حداقل ۳ کاراکتر باشد"
-                      }
-                    })}
+                    control={control}
+                    rules={{ required: "کشور الزامی است" }}
+                    render={({ field }) => (
+                      <Dropdown
+                        items={countries}
+                        placeholder="انتخاب کشور"
+                        value={field.value}
+                        className="w-full mt-2"
+                        height="py-3"
+                        error={errors.country}
+                      />
+                    )}
                   />
+                  {errors.country && (
+                    <span className="text-red-500 text-xs">
+                      {errors.country.message}
+                    </span>
+                  )}
                 </label>
 
               </div>

@@ -5,10 +5,10 @@ import { toast } from "react-hot-toast";
 import SkeletonItem from "@/components/shared/skeleton/SkeletonItem";
 import StatusIndicator from "@/components/shared/tools/StatusIndicator";
 import UpdateTag from "./UpdateTag";
-import Add from "./add";
 import Search from "@/components/shared/search";
 import DeleteModal from "@/components/shared/modal/DeleteModal";
 import Pagination from "@/components/shared/pagination/Pagination";
+import AddButton from "@/components/shared/button/AddButton";
 
 const Tags = () => {
   const itemsPerPage = 5;
@@ -58,7 +58,8 @@ const Tags = () => {
     <>
       <ControlPanel>
         <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <Add />
+        <AddButton link={"./add"} />
+
         <div className="mt-8 w-full grid grid-cols-12 text-slate-400 px-4 ">
           <div className="col-span-11 lg:col-span-3  text-sm">
             <span className="hidden lg:flex">نویسنده</span>
@@ -77,10 +78,6 @@ const Tags = () => {
           <SkeletonItem repeat={5} />
         ) : (
           tags.map((tag) => {
-            const translationItem = tag.translations.find(
-              (t) => t.translation && t.language === "fa"
-            ); // یا زبان موردنظر
-            const fields = translationItem?.translation?.fields ||{};
             return (
               <div
                 key={tag._id}
@@ -99,16 +96,16 @@ const Tags = () => {
                     <article className="flex-col flex gap-y-2  ">
                       <span className="line-clamp-1 text-base ">
                         <span className="hidden lg:flex ">
-                          {tag?.creator?.name}
+                          {tag?.creator?.name.fa}
                         </span>
-                        <span className=" lg:hidden ">{fields?.title}</span>
+                        <span className=" lg:hidden ">{tag?.title}</span>
                       </span>
                       <span className="text-xs hidden lg:flex">
                         {new Date(tag.createdAt).toLocaleDateString("fa-IR")}
                       </span>
                       <span className=" lg:hidden text-xs line-clamp-1 ">
-                        {fields?.description
-                          ? fields?.description
+                        {tag?.description
+                          ? tag?.description
                           : new Date(tag.createdAt).toLocaleDateString("fa-IR")}
                       </span>
                     </article>
@@ -116,12 +113,12 @@ const Tags = () => {
                 </div>
                 <div className="lg:col-span-3 lg:flex  hidden  text-center  items-center">
                   <span className="break-words text-sm lg:text-sm text-right">
-                    {fields.title}
+                    {tag?.title}
                   </span>
                 </div>
                 <div className="lg:col-span-5 lg:flex hidden col-span-5 text-right  items-center">
                   <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                    {fields?.description ? fields.description : "ندارد"}
+                    {tag?.description ? tag.description : "ندارد"}
                   </span>
                 </div>
 

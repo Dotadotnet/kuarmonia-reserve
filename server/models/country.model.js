@@ -6,13 +6,29 @@ const baseSchema = require("./baseSchema.model");
 const countrySchema = new mongoose.Schema(
   {
     countryId: { type: Number, unique: true },
-    name: { type: String, unique: true },
-    translations: [
-      {
-        translation: { type: ObjectId, ref: "Translation", required: true },
-        language: { type: String, enum: ["fa", "en", "tr"], required: true }
+    name: {
+      fa: { 
+        type: String,
+        required: [true, "نام کشور الزامی است"],
+        unique: true,
+        trim: true,
+        maxLength: [100, "نام کشور نباید بیشتر از 100 کاراکتر باشد"]
+      },
+      en: { 
+        type: String,
+        required: [true, "نام کشور الزامی است"],
+        unique: true,
+        trim: true,
+        maxLength: [100, "نام کشور نباید بیشتر از 100 کاراکتر باشد"]
+      },
+      tr: { 
+        type: String,
+        required: [true, "نام کشور الزامی است"],
+        unique: true,
+        trim: true,
+        maxLength: [100, "نام کشور نباید بیشتر از 100 کاراکتر باشد"]
       }
-    ],
+    },
     icon: {
       type: String,
       required: false,
@@ -29,10 +45,23 @@ const countrySchema = new mongoose.Schema(
       required: [true, "شناسه کشور الزامی است"],
       unique: true
     },
-
+    slug: {
+      fa: { type: String, unique: true, index: true },
+      en: { type: String, unique: true, index: true },
+      tr: { type: String, unique: true, index: true }
+    },
+    status: {
+      type: String,
+      enum: ["draft", "published", "archived"],
+      default: "draft"
+    },
+        ...baseSchema.obj
+    
   },
-  
-  { timestamps: true }
+{ 
+    timestamps: true,
+    strict: true  // Enable strict mode to prevent adding undefined fields
+  }
 );
 
 countrySchema.pre("save", async function (next) {

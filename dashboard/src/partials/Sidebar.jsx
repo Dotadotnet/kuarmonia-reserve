@@ -13,7 +13,6 @@ import Buildings from "@/components/icons/Buildings";
 import Switch from "@/components/icons/Switch";
 import Expand from "@/components/icons/Expand";
 import Dashboard from "@/components/icons/Dashboard";
-import User from "@/components/icons/User";
 import Category from "@/components/icons/Category";
 import Tag from "@/components/icons/Tag";
 import Setting from "@/components/icons/Setting";
@@ -33,6 +32,9 @@ import Story from "@/components/icons/Story";
 import Banner from "@/components/icons/Banner";
 import Visa from "@/components/icons/Visa";
 import Passport from "@/components/icons/Passport";
+import Icon from "@/components/icons/Icon";
+import User from "@/components/icons/User"; // Add this import
+
 import logo from "/logo.gif";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
@@ -91,12 +93,30 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "پروفایل من", path: "/my-profile" },
       ],
     },
+    { title: "درخواست‌ها", icon: User, path: "/requests" }, // Add this line
+    { title: "نماد", icon: Icon, path: "/icons" },
     { title: "کاربران", icon: User, path: "/users" },
     { title: " دسته بندی", icon: Category, path: "/categories" },
-    { title: "َشبکه های اجتماعی", icon: Social, path: "/socialLinks" },
     { title: "تگها", icon: Tag, path: "/tags" },
     { title: "کشور", icon: Country, path: "/countries" },
     { title: "واحد پول", icon: Currency, path: "/currencies" },
+    { title: "َشبکه های اجتماعی", icon: Social, path: "/socialLinks" },
+    {
+      title: "بنرها",
+      icon: Banner,
+      subItems: [
+        { title: "استوری", icon: Story, path: "/stories" },
+        { title: " اسلایدر اصلی", icon: Banner, path: "/hero-slider" },
+      ],
+    },
+    {
+    title: "ویزا",
+    icon: Visa,
+    subItems: [
+      { title: " لیست ویزا", icon: Visa, path: "/visas" },
+      { title: "انواع ویزا", icon: Passport, path: "/visa-types" },
+    ],
+  },
     { title: "پست ها ", icon: Post, path: "/posts" },
     { title: "مجله", icon: Blog, path: "/blogs" },
     { title: "گالری", icon: Gallery, path: "/galleries" },
@@ -111,23 +131,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         { title: "نوع خبر", icon: PSale, path: "/news-types" },
       ],
     },
-    {
-      title: "بنرها",
-      icon: Banner,
-      subItems: [
-        { title: " بنر معرفی", icon: Banner, path: "/banners" },
-        { title: " بنر اسلایدر ", icon: Banner, path: "/banner-slider/all" },
-        { title: "استوری", icon: Story, path: "/stories" },
-      ],
-    },
-    {
-      title: "ویزا",
-      icon: Visa,
-      subItems: [
-        { title: " لیست ویزا", icon: Visa, path: "/visas" },
-        { title: "انواع ویزا", icon: Passport, path: "/visa-types" },
-      ],
-    },
+
     {
       title: "ملک",
       icon: Apartment,

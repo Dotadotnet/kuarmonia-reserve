@@ -19,14 +19,18 @@ const Step6 = ({ errors, faqs, setFaqs, costs, setCosts, durations, setDurations
         fields={["country", "fee"]}
         fieldLabels={{ country: "کشور", fee: "هزینه" }}
       />
+<DynamicListInput
+  label="مدت اعتبار ویزا و مدت اقامت"
+  items={durations}
+  setItems={setDurations}
+  fields={["country", "validity", "duration"]}
+  fieldLabels={{
+    country: "کشور",
+    validity: "اعتبار ویزا (مثلاً ۶ ماه)",
+    duration: "مدت اقامت (مثلاً ۲–۶ هفته)"
+  }}
+/>
 
-      <DynamicListInput
-        label="مدت اعتبار ویزا"
-        items={durations}
-        setItems={setDurations}
-        fields={["country", "duration"]}
-        fieldLabels={{ country: "کشور", duration: "زمان اعتبار" }}
-      />
 
   
     </div>

@@ -16,7 +16,6 @@ const localeMiddleware = require("../middleware/locale.middleware");
 const router = express.Router();
 
 /* router methods integration */
-console.log("🚀 ~ file: visaType.route.js:11 ~ router methods integration");
 // add new visaType
 router.post(
   "/add-visaType",
@@ -31,6 +30,7 @@ router.get("/get-visaTypes",localeMiddleware, visaTypeController.getVisaTypes);
 
 // get a visaType
 router.get("/get-visaType/:id", visaTypeController.getVisaType);
+router.get("/get-visaTypeById/:id",localeMiddleware, visaTypeController.getVisaTypeById);
 
 // update visaType
 router.patch(

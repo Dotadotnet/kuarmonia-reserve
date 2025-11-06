@@ -7,7 +7,6 @@ import SearchInput from "@/components/shared/search/input";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import { Link } from "@/i18n/navigation";
 import Main from "@/layouts/Main";
-import Api from "@/utils/api";
 import { getTranslations } from "next-intl/server";
 import { FaSearch } from "react-icons/fa";
 

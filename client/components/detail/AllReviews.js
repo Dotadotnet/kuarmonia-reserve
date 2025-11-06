@@ -8,7 +8,7 @@ import { LiaPlusSolid } from "react-icons/lia";
 import { useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
-import { useAddReviewMutation } from "@/services/review/reviewApi";
+import { useAddReviewMutation, useGetReviewsQuery } from "@/services/review/reviewApi";
 import { toast } from "react-hot-toast";
 
 import { useTranslations } from "next-intl";
@@ -30,14 +30,18 @@ const AllReviews = ({
   const locale = useLocale();
   const { handleSubmit, control, reset } = useForm();
   const [isOpen, setIsOpen] = useState(false);
-  const [reviewList, setReviewList] = useState(reviews);
+  const { data: reviewsData, isLoading: reviewsLoading, refetch } = useGetReviewsQuery({ targetId, targetType });
   const user = useSelector((state) => state?.user);
   const [addReview, { isLoading, data, error }] = useAddReviewMutation();
+  
+  const reviewList = reviewsData?.data || reviews;
+  console.log("reviewsData",reviewsData)
   const getRandomAvatar = () => {
     const total = 50;
     const randomIndex = Math.floor(Math.random() * total) + 1;
     return `/avatar/male/${randomIndex}.png`;
   };
+  
   useEffect(() => {
     if (isLoading) {
       toast.loading(t("addingReview"), {
@@ -50,7 +54,8 @@ const AllReviews = ({
         id: "add-review"
       });
       setIsOpen(false);
-      setReviewList([...reviewList, data.data]);
+      // Refetch reviews to include the new one
+      refetch();
       reset();
     }
 
@@ -59,7 +64,7 @@ const AllReviews = ({
         id: "add-review"
       });
     }
-  }, [data, error, isLoading, reset]);
+  }, [data, error, isLoading, reset, refetch]);
 
   const [sliderRef] = useKeenSlider({
     loop: true,
@@ -114,7 +119,7 @@ const AllReviews = ({
               </button>
             </div>
           </div>
-          {reviewList?.length === 0 ? (
+          {reviewsLoading ? (
             <div ref={sliderRef} className="keen-slider ">
               {[...Array(4)].map((_, index) => (
                 <div
@@ -134,11 +139,15 @@ const AllReviews = ({
                 </div>
               ))}
             </div>
+          ) : reviewList?.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">{t("noReviews")}</p>
+            </div>
           ) : (
             <div ref={sliderRef} className="keen-slider flex gap-2">
               {reviewList.map((review, index) => (
                 <article
-                  key={index}
+                  key={review._id || index}
                   className="group relative flex flex-col  gap-y-4 border border-gray-200 hover:border-primary transition-colors ease-linear p-4 rounded keen-slider__slide"
                 >
                   <div className="flex flex-row items-end">

@@ -14,6 +14,7 @@ import Categories from "./pages/categories";
 import SocialLinks from "./pages/socialLinks";
 import AddCategory from "./pages/categories/add";
 import Tags from "./pages/tags";
+import AddTag from "./pages/tags/add";
 import Currencies from "./pages/currencies";
 import Posts from "./pages/posts";
 import AddPost from "./pages/posts/add";
@@ -75,6 +76,11 @@ import Visas from "./pages/visas";
 import AddVisa from "./pages/visas/add";
 import ListBannerSlider from "./pages/banner-slider/index";
 import AddBannerSlider from "./pages/banner-slider/add";
+import HeroSlider from "./pages/hero-slider/index";
+import EditHeroSlider from "./pages/hero-slider/edit";
+import AddHeroSlider from "./pages/hero-slider/add";
+import Icons from "./pages/icons";
+import Requests from "./pages/requests";
 
 function App() {
   const location = useLocation();
@@ -91,11 +97,19 @@ function App() {
       <Auth>
         <Routes>
           <Route exact path="/" element={<Dashboard />} />
+          
+          {/* Hero Slider Routes */}
+          <Route exact path="/hero-Slider" element={<HeroSlider />} />
+          <Route exact path="/hero-Slider/add" element={<AddHeroSlider />} />
+          <Route exact path="/hero-Slider/edit/:id" element={<EditHeroSlider />} />
+          
           <Route exact path="/signin" element={<SignIn />} />
           <Route exact path="/signup" element={<SignUp />} />
           <Route exact path="/my-profile" element={<MyProfile />} />
           <Route exact path="/users" element={<Users />} />
+          <Route exact path="/requests" element={<Requests />} />
           <Route exact path="/tags" element={<Tags />} />
+          <Route exact path="/tags/add" element={<AddTag />} />
           <Route exact path="/categories" element={<Categories />} />
           <Route exact path="/socialLinks" element={<SocialLinks />} />
           <Route exact path="/currencies" element={<Currencies />} />
@@ -131,6 +145,7 @@ function App() {
           <Route exact path="/venue-services" element={<VenueService />} />
           <Route exact path="/venue-amenities" element={<VenueAmenities />} />
           <Route exact path="/venue-settings" element={<VenueSetting />} />
+          <Route exact path="/icons" element={<Icons />} />
 
           <Route
             exact

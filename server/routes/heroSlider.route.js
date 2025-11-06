@@ -18,20 +18,28 @@ router.post(
   "/add-hero-slider",
   verify,
   authorize("superAdmin", "admin"),
-   upload("hero-slider").single("thumbnail"),
+  upload("hero-slider").single("media"),
   heroSliderController.addHeroSlider
 );
 
-router.get("/get-hero-sliders",localeMiddleware, heroSliderController.getHeroSliders);
+router.get("/get-hero-sliders", localeMiddleware, heroSliderController.getHeroSliders);
 
-router.get("/get-hero-slider/:id", heroSliderController.getHeroSlider);
+router.get("/get-hero-slider/:id", localeMiddleware, heroSliderController.getHeroSlider);
 
 router.patch(
   "/update-hero-slider/:id",
   verify,
   authorize("superAdmin", "admin"),
-   upload("hero-slider").single("thumbnail"),
+  upload("hero-slider").single("media"),
   heroSliderController.updateHeroSlider
+);
+
+// Add route for updating heroSlider IDs
+router.patch(
+  "/update-hero-slider-ids",
+  verify,
+  authorize("superAdmin", "admin"),
+  heroSliderController.updateHeroSliderIds
 );
 
 router.delete(

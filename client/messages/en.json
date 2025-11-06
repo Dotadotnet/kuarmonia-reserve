@@ -255,7 +255,24 @@
     "year": "Year"
   },
   "Service": {
-    "faqs": "Frequently asked questions"
+    "faqs": "Frequently asked questions",
+    "whatYouWillRead": "What You Will Read",
+    "stepsToRequest": "Steps to Request",
+    "latestMigrationArticles": "Latest Migration Articles",
+    "latestMigrationArticlesDesc": "The latest tips and guidance on immigration, living in different countries, and international opportunities.",
+    "natureMigration": "Nature Migration",
+    "europeMigrationGuide": "Complete Guide to European Countries Immigration",
+    "europeMigrationGuideDesc": "Key steps and tips for successfully immigrating to Europe and how to obtain work and study visas.",
+    "livingAbroad": "Living in Foreign Countries",
+    "canadaChallenges": "Challenges and Opportunities of Living in Canada",
+    "canadaChallengesDesc": "Examining living conditions, work, and study in Canada and success strategies for new immigrants.",
+    "studyMigration": "Study Migration",
+    "studyMigrationGuide": "Study Migration and International Scholarships Guide",
+    "studyMigrationGuideDesc": "Everything about obtaining admission to reputable universities and receiving international scholarships.",
+    "workMigration": "Work Migration",
+    "workMigrationOpportunities": "Work Migration Opportunities in Different Countries",
+    "workMigrationOpportunitiesDesc": "Introduction to job markets and high-demand jobs for immigrants in 2022.",
+    "readMore": "Read more"
   },
   "notFound": {
     "title": "404 - Page Not Found",
@@ -417,7 +434,18 @@
     "StepsRequest": "The application steps",
     "FrequentlyAskedQuestions": "Frequently asked questions",
     "Request": "Request",
-    "OtherVisas": "Other visas"
+    "OtherVisas": "Other visas",
+    "Advantages": "Advantages",
+    "Disadvantages": "Disadvantages",
+    "Costs": "Costs",
+    "Title": "Title",
+    "Description": "Description",
+    "Type": "Type",
+    "VisaFee": "Visa Fee",
+    "Reason": "Reason",
+    "Tip": "Tip",
+    "RejectionReasons": "Rejection Reasons",
+    "SuccessTips": "Success Tips"
   },
   "VisaType": {
     "More": "View all visa types",
@@ -437,5 +465,39 @@
     "Country": "Country",
     "VisaFee": "Visa Fee",
     "StayDuration": "Stay Duration"
+  },
+  "RequestForm": {
+    "title": "Request Form",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phone": "Phone Number",
+    "email": "Email",
+    "description": "Description",
+    "file": "File",
+    "clickToUpload": "Click to upload",
+    "fileTypes": "JPG, PNG or PDF files",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "successMessage": "Your request has been successfully submitted. We will contact you soon.",
+    "errorMessage": "Error submitting request. Please try again.",
+    "firstNameRequired": "First name is required",
+    "firstNameMinLength": "First name must be at least 2 characters",
+    "firstNameMaxLength": "First name must be less than 50 characters",
+    "lastNameRequired": "Last name is required",
+    "lastNameMinLength": "Last name must be at least 2 characters",
+    "lastNameMaxLength": "Last name must be less than 50 characters",
+    "phoneRequired": "Phone number is required",
+    "phoneInvalid": "Please enter a valid phone number",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "descriptionRequired": "Description is required",
+    "descriptionMinLength": "Description must be at least 10 characters",
+    "descriptionMaxLength": "Description must be less than 1000 characters",
+    "optional": "optional",
+    "removeFile": "Remove file"
+  },
+  "FloatingRequestButton": {
+    "request": "Request"
   }
 }

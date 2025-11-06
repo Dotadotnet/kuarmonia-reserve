@@ -13,16 +13,12 @@ function AddVisa() {
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [editorData, setEditorData] = useState("");
- 
   const [roadmap, setRoadmap] = useState([
     {
       title: "",
       description: "",
       duration: "",
-      link: {
-        text: "",
-        url: ""
-      }
+      link: ""
     }
   ]);
   const [faqs, setFaqs] = useState([
@@ -44,17 +40,19 @@ function AddVisa() {
     setValue,
     control
   } = methods;
+  
   const visa = {
     title: watch("title"),
     summary: watch("summary"),
-    icon:watch("icon"),
+    icon: watch("icon"),
     thumbnail: thumbnailPreview,
     category: watch("category"),
     tags: watch("tags"),
     content: watch("content"),
-    faqs:faqs,
-    roadmap:roadmap
+    faqs: faqs,
+    roadmap: roadmap
   };
+  
   return (
     <section
       className={`relative bg-[#dce9f5] dark:bg-[#1a202c] h-screen w-screen overflow-hidden text-black dark:text-gray-300 min-h-screen flex justify-center items-center p-4`}
@@ -87,7 +85,7 @@ function AddVisa() {
               setThumbnail={setThumbnail}
               setThumbnailPreview={setThumbnailPreview}
               thumbnailPreview={thumbnailPreview}
-              handleSubmit={handleSubmit }
+              handleSubmit={handleSubmit}
               trigger={trigger}
               control={control}
               roadmap={roadmap}

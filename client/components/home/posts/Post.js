@@ -1,7 +1,7 @@
 // import Image from "next/image";
 "use client";
 import Container from "@/components/shared/container/Container";
-import HighlightText from "@/components/shared/highlightText/HighlightText";
+import HighlightText from "@/components/shared/highlightText/page";
 
 import Posts from "./Posts";
 import Image from "next/image";

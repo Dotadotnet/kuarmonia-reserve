@@ -34,6 +34,19 @@ const heroSliderApi = kuarmoniaApi.injectEndpoints({
       invalidatesTags: ["HeroSlider", "Admin"],
     }),
 
+    // Add mutation for updating heroSlider IDs
+    updateHeroSliderIds: builder.mutation({
+      query: (heroSliders) => ({
+        url: `/hero-slider/update-hero-slider-ids`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: { heroSliders },
+      }),
+      invalidatesTags: ["HeroSlider"],
+    }),
+
     getHeroSlider: builder.query({
       query: (id) => ({
         url: `/hero-slider/get-hero-slider/${id}`,
@@ -59,6 +72,7 @@ export const {
   useAddHeroSliderMutation,
   useGetHeroSlidersQuery,
   useUpdateHeroSliderMutation,
+  useUpdateHeroSliderIdsMutation,
   useGetHeroSliderQuery,
   useDeleteHeroSliderMutation,
 } = heroSliderApi;

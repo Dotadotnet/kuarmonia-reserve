@@ -1,10 +1,8 @@
 import Main from "@/layouts/Main";
 import PropertyDetail from "@/components/shared/content/PropertyContent";
-import Api from "@/utils/api";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import { getTranslations } from "next-intl/server";
 import language from "@/app/language";
-import RedirectProperty from "../page";
 
 
 export async function generateMetadata({ params }) {

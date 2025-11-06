@@ -1,6 +1,6 @@
 import MediasClient from "./MediasClient";
 import Container from "@/components/shared/container/Container";
-import HighlightText from "@/components/shared/highlightText/HighlightText";
+import HighlightText from "@/components/shared/highlightText/page";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { BiRightArrowAlt } from "react-icons/bi";

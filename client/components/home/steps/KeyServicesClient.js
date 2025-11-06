@@ -1,8 +1,11 @@
 import Container from "@/components/shared/container/Container";
 
 import { Link } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
 
 export default function KeyServicesClient({ services }) {
+const locale = useLocale();
+  
   if (!services || services.length === 0) {
     
     // Skeleton loader for empty state
@@ -34,10 +37,9 @@ export default function KeyServicesClient({ services }) {
       </Container>
     );
   }
-console.log(services)
   return (
     <Container>
-      <div className="relative flex mt-6 justify-around w-full overflow-x-auto scrollbar-hide flex-nowrap overflow-hidden">
+      <div className="relative flex -6justify-around w-full overflow-x-auto scrollbar-hide flex-nowrap overflow-hidden">
         <picture className="hidden md:block absolute inset-x-0 top-10">
           <source srcSet="/assets/home/steps/step-bg.svg" type="image/svg" />
           <img src="/assets/home-page/keyservice/step-bg.svg" alt="vector" />
@@ -45,10 +47,10 @@ console.log(services)
         {services.map((service) => {
           return (
             <Link
-              className="my-4 mx-2 z-40"
+              className="mt-4 mb-8 mx-2 z-40"
               key={service.serviceId}
               href={{
-                pathname: `/service/${service.serviceId}/${encodeURIComponent(service.slug.trim())}`
+                pathname: `/services/${service.slug}/${service.serviceId}`
               }}
             >
               <div

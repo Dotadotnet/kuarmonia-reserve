@@ -7,10 +7,24 @@ const Counter = require("./counter");
 const currencySchema = new mongoose.Schema(
   {
     title: {
-      type: String,
-      required: [true, "نام ارز الزامی است"],
-      trim: true,
-      maxLength: [50, "نام ارز نباید بیشتر از ۵۰ کاراکتر باشد"],
+      fa: { 
+        type: String,
+        required: [true, "نام ارز الزامی است"],
+        trim: true,
+        maxLength: [50, "نام ارز نباید بیشتر از ۵۰ کاراکتر باشد"]
+      },
+      en: { 
+        type: String,
+        required: [true, "نام ارز الزامی است"],
+        trim: true,
+        maxLength: [50, "نام ارز نباید بیشتر از ۵۰ کاراکتر باشد"]
+      },
+      tr: { 
+        type: String,
+        required: [true, "نام ارز الزامی است"],
+        trim: true,
+        maxLength: [50, "نام ارز نباید بیشتر از ۵۰ کاراکتر باشد"]
+      }
     },
     code: {
       type: String,
@@ -31,9 +45,9 @@ const currencySchema = new mongoose.Schema(
       min: [0, "نرخ تبدیل نمی‌تواند منفی باشد"],
     },
     country: {
-      type: String,
-      trim: true,
-      maxLength: [100, "نام کشور نباید بیشتر از ۱۰۰ کاراکتر باشد"],
+      type: ObjectId,
+      ref: "Country",
+      required: [true, "کشور الزامی است"]
     },
     creator: {
       type: ObjectId,

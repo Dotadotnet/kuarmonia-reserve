@@ -6,11 +6,9 @@ import Left from "@/components/detail/rent/Left";
 import Right from "@/components/detail/rent/Right";
 import AllReviews from "@/components/detail/AllReviews";
 import MoreRents from "@/components/detail/MoreRents";
-import Api from "@/utils/api";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import { getTranslations } from "next-intl/server";
 import language from "@/app/language";
-import RedirectRent from "../page";
 import analizeComments from "@/components/shared/seo/analizeComments";
 
 

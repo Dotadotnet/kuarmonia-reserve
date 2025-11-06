@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import Container from "../shared/container/Container";
-import HighlightText from "../shared/highlightText/HighlightText";
+import HighlightText from "../shared/highlightText/page";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 import Image from 'next/image'
 import { useGetFaqsQuery } from "@/services/faq/faqApi";

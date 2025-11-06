@@ -24,20 +24,43 @@ const adminSchema = new mongoose.Schema(
       validate: [validator.isEmail, "لطفا یک آدرس ایمیل معتبر وارد کنید"],
       unique: [true, "این ایمیل قبلا ثبت شده است. لطفا ایمیل جدید وارد کنید"]
     },
-    translations: [
-      {
-        translation: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Translation",
-          required: true
-        },
-        language: {
-          type: String,
-          enum: ["fa", "en", "tr"],
-          required: true
-        }
+    name: {
+      fa: {
+        type: String,
+        required: [true, "نام کاربر الزامی است"],
+        trim: true,
+        maxLength: [100, "نام کاربر نباید بیشتر از 100 کاراکتر باشد"]
+      },
+      en: {
+        type: String,
+        required: [true, "نام کاربر الزامی است"],
+        trim: true,
+        maxLength: [100, "نام کاربر نباید بیشتر از 100 کاراکتر باشد"]
+      },
+      tr: {
+        type: String,
+        required: [true, "نام کاربر الزامی است"],
+        trim: true,
+        maxLength: [100, "نام کاربر نباید بیشتر از 100 کاراکتر باشد"]
       }
-    ],
+    },
+    bio: {
+      fa: {
+        type: String,
+        trim: true,
+        maxLength: [800, "بیوگرافی نباید بیشتر از 800 کاراکتر باشد"]
+      },
+      en: {
+        type: String,
+        trim: true,
+        maxLength: [800, "بیوگرافی نباید بیشتر از 800 کاراکتر باشد"]
+      },
+      tr: {
+        type: String,
+        trim: true,
+        maxLength: [800, "بیوگرافی نباید بیشتر از 800 کاراکتر باشد"]
+      }
+    },
     password: {
       type: String,
       required: [true, "لطفا یک رمز عبور قوی وارد کنید"],
@@ -67,18 +90,21 @@ const adminSchema = new mongoose.Schema(
 
     phone: {
       type: String,
+      unique: true,
       required: [true, "لطفا شماره تماس خود را وارد کنید"],
-      match: [
-        /^\+?[1-9]\d{1,14}$/,
-        "شماره تماس باید فرمت بین‌المللی داشته باشد"
-      ],
-
-      unique: true
-    },
+      validate: {
+        validator: function (v) {
+          // فقط اعداد، طول بین 11 تا 15
+          return /^\d{11,15}$/.test(v);
+        },
+        message: "شماره تماس باید فقط عدد باشد و بین 11 تا 15 رقم باشد"
+      }
+    }
+    ,
 
     role: {
       type: String,
-      enum: ["superAdmin", "admin", "operator", "writer", "publisher","vendor"],
+      enum: ["superAdmin", "admin", "operator", "writer", "publisher", "vendor"],
       default: "operator"
     },
 

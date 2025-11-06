@@ -1,5 +1,5 @@
 import Container from "@/components/shared/container/Container";
-import HighlightText from "@/components/shared/highlightText/HighlightText";
+import HighlightText from "@/components/shared/highlightText/page";
 import { BiRightArrowAlt } from "react-icons/bi";
 import OpportunitySlider from "./opportunitySlider";
 import OpportunityClient from "./OpportunityClient";

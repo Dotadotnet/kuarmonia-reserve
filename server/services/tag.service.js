@@ -1,153 +1,77 @@
 /* internal import */
 const Tag = require("../models/tag.model");
-const Translation = require("../models/translation.model");
-const dynamicImportModel = require("../utils/dynamicImportModel");
-const { generateSlug, generateSeoFields } = require("../utils/seoUtils");
-const translateFields = require("../utils/translateFields");
-const replaceRef = require("../utils/replaceRef")
-
-function paginateArray(array, pageNumber, itemsPerPage) {
-  const startIndex = (pageNumber - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  return array.slice(startIndex, endIndex);
-}
-
-const defaultDomain = process.env.NEXT_PUBLIC_CLIENT_URL;
-exports.addTag = async (req, res) => {
-  try {
-    const { title, description, keynotes, robots } = req.body;
-
-    const parsedKeynotes = JSON.parse(keynotes);
-    const parsedRobots = JSON.parse(robots);
-
-    const robotsArray = parsedRobots.map((value, index) => ({
-      id: index + 1,
-      value
-    }));
-
-    const tag = new Tag({
-      title: title,
-      creator: req.admin._id,
-      robots: robotsArray
-    });
-
-    const result = await tag.save();
-    const slug = await generateSlug(title);
-    const canonicalUrl = `${defaultDomain}/tag/${slug}`;
-    const { metaTitle, metaDescription } = generateSeoFields({
-      title,
-      summary: description
-    });
-    try {
-      const translations = await translateFields(
-        {
-          title,
-          description,
-          metaTitle,
-          metaDescription,
-          keynotes: parsedKeynotes,
-          canonicalUrl
-        },
-        {
-          stringFields: [
-            "title",
-            "description",
-            "content",
-            "metaTitle",
-            "metaDescription",
-            "canonicalUrl"
-          ],
-          arrayStringFields: ["keynotes"]
-        }
-      );
-      const translationDocs = Object.entries(translations).map(
-        ([lang, { fields }]) => ({
-          language: lang,
-          refModel: "Tag",
-          refId: result._id,
-          fields
-        })
-      );
-      const savedTranslations = await Translation.insertMany(translationDocs);
-      const translationInfos = savedTranslations.map((t) => ({
-        translation: t._id,
-        language: t.language
-      }));
-      await Tag.findByIdAndUpdate(result._id, {
-        $set: { translations: translationInfos }
-      });
-    } catch (translationError) {
-      console.log(translationError.message);
-      await Tag.findByIdAndDelete(result._id);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها.  کلمه کلیدی حذف شد.",
-        error: translationError.message
-      });
-    }
-
-    res.status(201).json({
-      acknowledgement: true,
-      message: "Created",
-      description: "تگ با موفقیت ترجمه و ذخیره شد"
-    });
-  } catch (error) {
-    console.error("Error in addTag:", error);
-    res.status(500).json({
-      acknowledgement: false,
-      message: "Error",
-      description: "خطایی در ایجاد تگ رخ داد",
-      error: error.message
-    });
-  }
-};
+const mongoose = require("mongoose");
 
 exports.getTags = async (req, res) => {
-  const { page = 1, limit = 5, search = "" } = req.query;
+  const { page = 1, limit = 10, search = "" } = req.query;
   const skip = (page - 1) * limit;
+  const locale = req.locale || "fa";
 
   try {
-    let matchedTagIds = [];
-
-    if (search) {
-      const translations = await Translation.find({
-        language: req.locale,
-        refModel: "Tag",
-        "fields.title": { $regex: search, $options: "i" }
-      }).select("refId");
-
-      matchedTagIds = translations.map((t) => t.refId);
-    }
-
-    const query = {
+    const matchStage = {
       isDeleted: false,
-      ...(search ? { _id: { $in: matchedTagIds } } : {})
     };
 
-    const tags = await Tag.find(query)
-      .skip(skip)
-      .limit(Number(limit))
-      .sort({ createdAt: -1 })
-      .populate([
-        {
-          path: "translations.translation",
-          match: { language: req.locale }
-        },
-        {
-          path: "creator",
-          select: "name avatar"
-        }
-      ]);
+    // Add search functionality
+    if (search) {
+      matchStage.$or = [
+        { [`title.${locale}`]: { $regex: search, $options: "i" } },
+        { [`description.${locale}`]: { $regex: search, $options: "i" } }
+      ];
+    }
 
-    const total = await Tag.countDocuments(query);
+    // Handle limit and skip values
+    const safeLimit = isFinite(Number(limit)) ? Number(limit) : 10;
+    const safeSkip = isFinite(Number(skip)) ? Number(skip) : 0;
+
+    const pipeline = [
+      { $match: matchStage },
+      { $sort: { createdAt: -1 } },
+      { $skip: safeSkip },
+      { $limit: safeLimit },
+
+      // Populate creator with only necessary fields
+      {
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator",
+        },
+      },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
+      {
+        $project: {
+          tagId: 1,
+          title: `$title.${locale}`,
+          description: `$description.${locale}`,
+          keynotes: `$keynotes.${locale}`,
+          slug: 1,
+          canonicalUrl: 1,
+          status: 1,
+          createdAt: 1,
+          "creator._id": 1,
+          "creator.name": 1,
+          "creator.avatar": 1,
+        },
+      },
+    ];
+
+    const tags = await Tag.aggregate(pipeline);
+
+    // Get total count
+    const total = await Tag.countDocuments(matchStage);
 
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "تگ‌ها با موفقیت دریافت شدند",
       data: tags,
-      total
+      total,
+      page: Number(page),
+      limit: safeLimit,
     });
   } catch (error) {
     console.error("Error fetching tags:", error);
@@ -155,21 +79,86 @@ exports.getTags = async (req, res) => {
       acknowledgement: false,
       message: "Error",
       description: "خطا در دریافت تگ‌ها",
-      error: error.message
+      error: error.message,
     });
   }
 };
 
-/* get a tag */
 exports.getTag = async (req, res) => {
-  const tag = await Tag.findById(req.params.id);
+  try {
+    const { id } = req.params;
+    const locale = req.locale || "fa";
 
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "تگ با موفقیت دریافت شد",
-    data: tag
-  });
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        acknowledgement: false,
+        message: "Bad Request",
+        description: "شناسه نامعتبر است"
+      });
+    }
+
+    const objectId = new mongoose.Types.ObjectId(id);
+
+    const pipeline = [
+      { $match: { _id: objectId, isDeleted: false } },
+
+      // Populate creator
+      {
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
+      {
+        $project: {
+          tagId: 1,
+          title: `$title.${locale}`,
+          description: `$description.${locale}`,
+          keynotes: `$keynotes.${locale}`,
+          slug: 1,
+          canonicalUrl: 1,
+          status: 1,
+          createdAt: 1,
+          creator: {
+            _id: "$creator._id",
+            name: { $ifNull: [`$creator.name.${locale}`, `$creator.name`] },
+            avatar: "$creator.avatar"
+          }
+        }
+      }
+    ];
+
+    const [tag] = await Tag.aggregate(pipeline);
+
+    if (!tag) {
+      return res.status(404).json({
+        acknowledgement: false,
+        message: "Not Found",
+        description: "تگ پیدا نشد"
+      });
+    }
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "تگ با موفقیت دریافت شد",
+      data: tag
+    });
+  } catch (error) {
+    console.error("Error fetching tag:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در دریافت تگ",
+      error: error.message
+    });
+  }
 };
 
 /* update tag */
@@ -178,106 +167,52 @@ exports.updateTag = async (req, res) => {
   try {
     let updatedTag = req.body;
 
-    const parsedKeynotes = JSON.parse(req.keynotes);
-    const parsedRobots = JSON.parse(req.robots);
+    const parsedKeynotes = JSON.parse(req.body.keynotes || "[]");
 
-    const robotsArray = parsedRobots.map((value, index) => ({
-      id: index + 1,
-      value
-    }));
-
-    updatedTag.keynotes = parsedKeynotes;
-    updatedTag.robots = robotsArray;
-
-    let translatedTitleEn = "";
-    let translatedTitleTr = "";
-    let translatedDescriptionEn = "";
-    let translatedDescriptionTr = "";
-    let translatedKeynotesEn = [];
-    let translatedKeynotesTr = [];
-
-    if (
-      updatedTag.title ||
-      updatedTag.description ||
-      parsedKeynotes.length > 0
-    ) {
-      try {
-        if (updatedTag.title) {
-          translatedTitleEn = (
-            await translate(updatedTag.title, { to: "en", client: "gtx" })
-          ).text;
-          translatedTitleTr = (
-            await translate(updatedTag.title, { to: "tr", client: "gtx" })
-          ).text;
-        }
-
-        if (updatedTag.description) {
-          translatedDescriptionEn = (
-            await translate(updatedTag.description, { to: "en", client: "gtx" })
-          ).text;
-          translatedDescriptionTr = (
-            await translate(updatedTag.description, { to: "tr", client: "gtx" })
-          ).text;
-        }
-
-        if (parsedKeynotes.length > 0) {
-          translatedKeynotesEn = await Promise.all(
-            parsedKeynotes.map((k) =>
-              translate(k, { to: "en", client: "gtx" }).then((res) => res.text)
-            )
-          );
-          translatedKeynotesTr = await Promise.all(
-            parsedKeynotes.map((k) =>
-              translate(k, { to: "tr", client: "gtx" }).then((res) => res.text)
-            )
-          );
-        }
-
-        // ذخیره یا بروزرسانی ترجمه انگلیسی
-        await Translation.updateOne(
-          { refModel: "Tag", refId: req.params.id, language: "en" },
-          {
-            $set: {
-              ...(translatedTitleEn && { "fields.title": translatedTitleEn }),
-              ...(translatedDescriptionEn && {
-                "fields.description": translatedDescriptionEn
-              }),
-              ...(translatedKeynotesEn.length > 0 && {
-                "fields.keynotes": translatedKeynotesEn
-              })
-            }
-          },
-          { upsert: true }
-        );
-
-        // ذخیره یا بروزرسانی ترجمه ترکی
-        await Translation.updateOne(
-          { refModel: "Tag", refId: req.params.id, language: "tr" },
-          {
-            $set: {
-              ...(translatedTitleTr && { "fields.title": translatedTitleTr }),
-              ...(translatedDescriptionTr && {
-                "fields.description": translatedDescriptionTr
-              }),
-              ...(translatedKeynotesTr.length > 0 && {
-                "fields.keynotes": translatedKeynotesTr
-              })
-            }
-          },
-          { upsert: true }
-        );
-      } catch (translateErr) {
-        console.error("❌ خطا در ترجمه:", translateErr.message);
-        return res.status(404).json({
-          acknowledgement: false,
-          message: "ترجمه نشد",
-          description: "خطا در فرآیند ترجمه"
-        });
-      }
-    }
+    // Use automatic translation for title if provided
     if (updatedTag.title) {
-      updatedTag.slug = await generateSlug(updatedTag.title);
+      const translations = await translateFields(
+        { title: updatedTag.title },
+        { stringFields: ["title"] }
+      );
+
+      updatedTag.title = {
+        fa: updatedTag.title,
+        en: translations.en.fields.title,
+        tr: translations.tr.fields.title
+      };
+      
+      updatedTag.slug = await generateSlug(translations.en.fields.title);
     }
+
+    // Use automatic translation for description if provided
+    if (updatedTag.description) {
+      const translations = await translateFields(
+        { description: updatedTag.description },
+        { stringFields: ["description"] }
+      );
+
+      updatedTag.description = {
+        fa: updatedTag.description,
+        en: translations.en.fields.description,
+        tr: translations.tr.fields.description
+      };
+    }
+
+    // Use automatic translation for keynotes if provided
+    if (updatedTag.keynotes) {
+      const translations = await translateFields(
+        { keynotes: parsedKeynotes },
+        { arrayStringFields: ["keynotes"] }
+      );
+
+      updatedTag.keynotes = {
+        fa: parsedKeynotes,
+        en: translations.en.fields.keynotes,
+        tr: translations.tr.fields.keynotes
+      };
+    }
+
     const result = await Tag.findByIdAndUpdate(req.params.id, updatedTag, {
       new: true
     });
@@ -366,3 +301,7 @@ exports.deleteTag = async (req, res) => {
     description: "تگ با موفقیت حذف شد"
   });
 };
+
+
+
+

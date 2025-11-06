@@ -28,6 +28,28 @@ const TitleStep = ({ register, errors, prevStep, nextStep }) => {
           <span className="text-red-500 text-sm">{errors.title.message}</span>
         )}
       </label>
+      
+      <label htmlFor="order" className="flex flex-col gap-y-1">
+        <span className="text-sm">* ترتیب </span>
+        <input
+          type="number"
+          name="order"
+          id="order"
+          {...register("order", {
+            required: "وارد کردن ترتیب الزامی است",
+            min: {
+              value: 1,
+              message: "ترتیب باید عددی مثبت باشد",
+            },
+          })}
+          placeholder="ترتیب"
+          className="p-2 rounded border "
+        />
+        {errors.order && (
+          <span className="text-red-500 text-sm">{errors.order.message}</span>
+        )}
+      </label>
+      
       <label htmlFor="caption" className="w-full flex flex-col gap-y-1">
         <span className="text-sm">کپشن*</span>
         <textarea

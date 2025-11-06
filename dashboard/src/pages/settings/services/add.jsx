@@ -10,11 +10,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useForm } from "react-hook-form";
+import Computer from "@/components/icons/Computer";
+import Mobile from "@/components/icons/Mobile";
 
 function AddService() {
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
-  const [editorData, setEditorData] = useState("");
   const [roadmap, setRoadmap] = useState([
     {
       title: "",
@@ -32,6 +33,8 @@ function AddService() {
       answer: "",
     }
   ]);
+  const [whatYouWillRead, setWhatYouWillRead] = useState([]);
+  const [viewMode, setViewMode] = useState("desktop"); // 'mobile' or 'desktop'
 
   const methods = useForm({
     mode: "all"
@@ -45,17 +48,25 @@ function AddService() {
     setValue,
     control
   } = methods;
+  
   const service = {
     title: watch("title"),
     summary: watch("summary"),
-    icon:watch("icon"),
+    icon: watch("icon"),
     thumbnail: thumbnailPreview,
     category: watch("category"),
     tags: watch("tags"),
-    content: watch("content"),
-    faqs:faqs,
-    roadmap:roadmap
+    content: editorData,
+    faqs: faqs,
+    roadmap: roadmap,
+    whatYouWillRead: whatYouWillRead,
+    visaType: watch("visaType")
+};
+
+  const toggleViewMode = (mode) => {
+    setViewMode(mode);
   };
+
   return (
     <section
       className={`relative bg-[#dce9f5] dark:bg-[#1a202c] h-screen w-screen overflow-hidden text-black dark:text-gray-300 min-h-screen flex justify-center items-center p-4`}
@@ -88,20 +99,48 @@ function AddService() {
               setThumbnail={setThumbnail}
               setThumbnailPreview={setThumbnailPreview}
               thumbnailPreview={thumbnailPreview}
-              handleSubmit={handleSubmit }
+              handleSubmit={handleSubmit}
               trigger={trigger}
               control={control}
               roadmap={roadmap}
               setRoadmap={setRoadmap}
               faqs={faqs}
               setFaqs={setFaqs}
+              whatYouWillRead={whatYouWillRead}
+              setWhatYouWillRead={setWhatYouWillRead}
+              setValue={setValue}
             />
             <ToggleThemeButton />
           </div>
         </SwiperSlide>
         <SwiperSlide className=" !mr-0 items-center justify-start !w-full">
-          <KeyServiceCard service={service} />
-          <ServiceContent service={service} />
+          {/* Preview Header with View Toggle */}
+          <div className="flex justify-between items-center p-4 bg-white dark:bg-gray-800 rounded-t-lg">
+            <h2 className="text-xl font-bold">پیش نمایش سرویس</h2>
+            <div className="flex gap-2">
+              <button
+                onClick={() => toggleViewMode("mobile")}
+                className={`p-2 rounded-lg ${viewMode === "mobile" ? "bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200" : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"}`}
+                title="نمای موبایل"
+              >
+                <Mobile className="w-5 h-5" />
+              </button>
+              <button
+                onClick={() => toggleViewMode("desktop")}
+                className={`p-2 rounded-lg ${viewMode === "desktop" ? "bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200" : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"}`}
+                title="نمای دسکتاپ"
+              >
+                <Computer className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+          
+          {/* Preview Content */}
+          <div className={`p-4 bg-white dark:bg-gray-800 ${viewMode === "mobile" ? "max-w-md mx-auto" : "w-full"}`}>
+            <div className="">
+              <ServiceContent service={service} />
+            </div>
+          </div>
         </SwiperSlide>
       </Swiper>
     </section>

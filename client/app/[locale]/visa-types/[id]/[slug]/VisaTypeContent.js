@@ -4,29 +4,12 @@ import { useState } from "react";
 import {
   Clock,
   Calendar,
-  FileText,
   CheckCircle,
   ChevronDown,
   ChevronUp,
-  Eye,
-  Heart,
-  Star,
-  MapPin,
-  Plane,
-  Shield,
   BarChart3,
-  ArrowRight,
-  User,
-  Mail,
-  Phone,
   Award,
-  Menu,
   X,
-  Send,
-  Share,
-  Globe,
-  BookOpen,
-  Users
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -76,7 +59,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
               <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(0_0%_0%_/_0)_0%,hsl(0_0%_0%_/_0.8)_100%)]" />
             </div>
 
-            <div className={(dir == "rtl" ? " right-4 " : " left-4 ") + "absolute ring-4 dark:ring-gray-900 ring-white -bottom-10 w-20 h-20 bg-gradient-to-br from-primary to-primary rounded-full flex items-center justify-center dark:shadow-gray-500 text-white font-bold shadow-lg"}>
+            <div className={"absolute rtl:right-4 ltr:left-4 ring-4 dark:ring-gray-900 ring-white -bottom-10 w-20 h-20 bg-gradient-to-br from-primary to-primary rounded-full flex items-center justify-center dark:shadow-gray-500 text-white  shadow-lg"}>
               <Image
                 width={300}
                 height={300}
@@ -91,7 +74,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
             className={"absolute flex flex-col gap-y-2 top-28 right-8 text-white max-w-2xl" + (dir == "rtl" ? " right-8 " : " left-8 ")}
           >
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-4xl">{visaType.icon}</span>
+              {/* <span className="text-4xl">{visaType.icon}</span> */}
               <h1 className="font-display text-3xl md:text-4xl font-bold text-white">
                 {visaType.title}
               </h1>
@@ -109,10 +92,10 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
             
               <div className="flex justify-between w-full mt-8">
                 <div className="flex-1">
-                  <h3 className="font-bold dark:text-white text-gray-900">
+                  <h3 className=" dark:text-white text-gray-900">
                     {visaType.creator?.name || "Kuarmonia"}
                   </h3>
-                  <p className="text-gray-700 dark:text-gray-100 text-sm">{visaType.creator?.bio || "Visa Type Expert"}</p>
+                  <p className="text-gray-700 dark:text-gray-100 text-sm">{visaType.creator?.bio || ""}</p>
                 </div>
                 <div className="text-center"></div>
               </div>
@@ -126,7 +109,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                           ? "border-primary text-primary"
                           : "border-transparent text-gray-600 dark:text-gray-200 hover:text-gray-700 hover:border-gray-300"
                       }`}
-                    >
+                    > 
                       {t("FullView")}
                     </button>
                     <button
@@ -208,8 +191,8 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
           <div className="p-4 md:p-6">
             <section id="overview" className="mb-16">
               <div className="flex items-center gap-3 mb-6">
-                <span className="text-3xl">{visaType.icon}</span>
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                {/* <span className="text-3xl">{visaType.icon}</span> */}
+                <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white">
                   {visaType.title}
                 </h2>
               </div>
@@ -222,7 +205,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
             </section>
 
             <section id="conditions" className="mb-16">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+              <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <CheckCircle className="w-6 h-6 md:w-7 md:h-7 text-green-600" />
                 {t("FullCondition")}
               </h2>
@@ -244,7 +227,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
             {/* Advantages Section */}
             {visaType.advantages && visaType.advantages.length > 0 && (
               <section id="advantages" className="mb-16">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                   <Award className="w-6 h-6 md:w-7 md:h-7 text-green-600" />
                   {t("Advantages")}
                 </h2>
@@ -267,7 +250,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
             {/* Disadvantages Section */}
             {visaType.disadvantages && visaType.disadvantages.length > 0 && (
               <section id="disadvantages" className="mb-16">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                   <X className="w-6 h-6 md:w-7 md:h-7 text-primary" />
                   {t("Disadvantages")}
                 </h2>
@@ -292,7 +275,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
             {/* Costs Section */}
             {visaType.costs && visaType.costs.length > 0 && (
               <section id="costs" className="mb-12">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                   <BarChart3 className="w-6 h-6 md:w-7 md:h-7 text-blue-600" />
                   {t("Costs")}
                 </h2>
@@ -300,10 +283,10 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                   <table className="w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-sm">
                     <thead className="bg-gray-50 dark:bg-gray-700 text-xs">
                       <tr>
-                        <th className="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
+                        <th className="px-4 py-3 text-right  text-gray-900 dark:text-white">
                           {t("Country")}
                         </th>
-                        <th className="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
+                        <th className="px-4 py-3 text-right  text-gray-900 dark:text-white">
                           {t("VisaFee")}
                         </th>
                       </tr>
@@ -328,7 +311,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
             {/* Durations Section */}
             {visaType.durations && visaType.durations.length > 0 && (
               <section id="durations" className="mb-12">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                   <Clock className="w-6 h-6 md:w-7 md:h-7 text-purple-600" />
                   {t("Durations")}
                 </h2>
@@ -336,10 +319,10 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                   <table className="w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-sm">
                     <thead className="bg-gray-50 dark:bg-gray-700 text-xs">
                       <tr>
-                        <th className="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
+                        <th className="px-4 py-3 text-right  text-gray-900 dark:text-white">
                           {t("Country")}
                         </th>
-                        <th className="px-4 py-3 text-right font-semibold text-gray-900 dark:text-white">
+                        <th className="px-4 py-3 text-right  text-gray-900 dark:text-white">
                           {t("StayDuration")}
                         </th>
                       </tr>
@@ -364,7 +347,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
 </div>
 
                 <section id="steps" className="mb-12">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+              <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                 <Calendar className="w-6 h-6 md:w-7 md:h-7 text-purple-600" />
                 {t("StepsRequest")}
               </h2>
@@ -376,13 +359,13 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                     )}
 
                     <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-base shadow-lg">
+                      <div className="flex-shrink-0 w-10 h-10 bg-purple-600 text-white rounded-full flex items-center justify-center  text-base shadow-lg">
                           {index + 1}
                         </div>
 
                       <div className="flex-1 dark:bg-gray-800 dark:border-gray-700 border-gray-100 bg-white border rounded-xl p-4 md:p-5 dark:shadow-gray-300 hover:shadow-md transition-shadow">
                         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-3">
-                          <h3 className="font-semibold text-gray-900 dark:text-white text-lg md:text-xl mb-2 md:mb-0">
+                          <h3 className=" text-gray-900 dark:text-white text-lg md:text-xl mb-2 md:mb-0">
                             {step.title}
                           </h3>
                           <span className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-xs md:text-sm font-medium border border-blue-200">
@@ -401,7 +384,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                 </section>
 
                 <section id="faq" className="mb-12">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-6">
                 {t("FrequentlyAskedQuestions")}
               </h2>
                   <div className="space-y-3">
@@ -414,7 +397,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                       onClick={() => { toggleFaq(index) }}
                       className="w-full text-right p-4 md:p-5 dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-50 transition-colors flex items-center justify-between"
                         >
-                      <span className="font-semibold text-gray-900 dark:text-white text-base md:text-lg">
+                      <span className=" text-gray-900 dark:text-white text-base md:text-lg">
                         {faq.question}
                       </span>
                           {expandedFaq.includes(index) ? (
@@ -445,8 +428,8 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                 Array.isArray(visaType.reviews) ? visaType.reviews : [visaType.reviews]
               }
             />
-            <section className="mb-12">
-              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            {/* <section className="mb-12">
+              <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-6">
                 {t("OtherVisas")}
               </h2>
               <div className="md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -488,7 +471,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                         </div>
                       </div>
                       <div className="p-4">
-                        <h3 className="font-bold dark:text-white text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                        <h3 className=" dark:text-white text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                           {title}
                         </h3>
                         <p className="text-gray-700 dark:text-gray-200 text-sm mb-3 line-clamp-2">
@@ -509,10 +492,10 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                       );
                     })}
               </div>
-            </section>
+            </section> */}
           </div>
         </div>
-        <div className="md:col-span-3 col-span-12 p-6 border-r border-gray-200 hidden lg:block">
+        {/* <div className="md:col-span-3 col-span-12 p-6 border-r border-gray-200 hidden lg:block">
           <section className="mb-16">
             <div className="md:grid grid-cols-1 gap-6">
               {relatedVisas.map((otherVisa) => {
@@ -553,7 +536,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                 </div>
                 </div>
                     <div className="p-4">
-                      <h3 className="font-bold dark:text-white text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                      <h3 className=" dark:text-white text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                         {title}
                       </h3>
                       <p className="text-gray-700 dark:text-gray-200 text-sm mb-3 line-clamp-2">
@@ -575,7 +558,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
               })}
             </div>
           </section>
-        </div>
+        </div> */}
       </div>
     </>
   );

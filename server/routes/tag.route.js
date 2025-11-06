@@ -29,7 +29,7 @@ router.post(
 router.get("/get-tags",localeMiddleware, tagController.getTags);
 
 // get a tag
-router.get("/get-tag/:id", tagController.getTag);
+router.get("/get-tag/:id", localeMiddleware, tagController.getTag);
 
 // update tag
 router.patch(

@@ -23,8 +23,8 @@ const UpdateCountry = ({ id }) => {
 
   useEffect(() => {
     if (data?.data) {
-      const { title, code, icon } = data.data;
-      reset({ title, code, icon });
+      const { name, code, icon } = data.data;
+      reset({ name, code, icon });
     }
     if (isLoading) {
       toast.loading("در حال دریافت  ...", { id: "Country-loading" });
@@ -57,7 +57,7 @@ const UpdateCountry = ({ id }) => {
   const onSubmit = async (data) => {
     const requestData = {
       id: Country._id,
-      title: data.title,
+      name: data.name,
       code: data.code,
       icon:data.icon
     };
@@ -84,18 +84,18 @@ const UpdateCountry = ({ id }) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="flex gap-4 flex-col">
-              <label htmlFor="title" className="flex flex-col gap-y-2">
+              <label htmlFor="name" className="flex flex-col gap-y-2">
                 عنوان
                 <input
                   type="text"
-                  name="title"
-                  id="title"
-                  defaultValue={Country?.title}
+                  name="name"
+                  id="name"
+                  defaultValue={Country?.name}
                   maxLength={50}
                   placeholder="عنوان کشور خبر را تایپ کنید..."
                   className="rounded"
                   autoFocus
-                  {...register("title", { required: true })}
+                  {...register("name", { required: true })}
                 />
               </label>
               <label htmlFor="code" className="flex flex-col gap-y-2">

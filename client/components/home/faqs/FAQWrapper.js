@@ -2,7 +2,7 @@
 import FAQ from "./FAQ";
 import Container from "../../shared/container/Container";
 import { getTranslations } from "next-intl/server";
-import HighlightText from "../../shared/highlightText/HighlightText";
+import HighlightText from "../../shared/highlightText/page";
 
 const FAQWrapper = async () => {
   const api = `${process.env.NEXT_PUBLIC_API}/faqs/get-faqs`;

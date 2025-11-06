@@ -1,18 +1,17 @@
 import NavigationButton from "@/components/shared/button/NavigationButton";
-import { useEffect, useMemo, useState } from "react";
-import { useGetTagsQuery } from "@/services/tag/tagApi";
-import MultiSelect from "@/components/shared/dropDown/MultiSelect";
+import { useEffect, useState } from "react";
 import { Controller } from "react-hook-form";
 import Plus from "@/components/icons/Plus";
-import Tag from "@/components/icons/Tag";
-import { useGetCategoriesQuery } from "@/services/category/categoryApi";
-import { useGetNewsTypesQuery } from "@/services/newsType/newsTypeApi";
 import Modal from "@/components/shared/modal/Modal";
 import toast from "react-hot-toast";
 import TextEditor from "@/components/shared/textEditor/TextEditor";
 import ModalPortal from "@/components/shared/modal/ModalPortal";
-import Dropdown from "@/components/shared/dropDown/Dropdown";
 import Apply from "@/components/icons/Apply";
+import FormTagsSelect from "@/components/shared/input/FormTagsSelect";
+import FormCategorySelect from "@/components/shared/input/FormCategorySelect";
+import { useGetNewsTypesQuery } from "@/services/newsType/newsTypeApi";
+import Dropdown from "@/components/shared/dropDown/Dropdown";
+import { useMemo } from "react";
 
 const Step2 = ({
   register,
@@ -27,40 +26,11 @@ const Step2 = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const {
-    isLoading: fetchingTags,
-    data: fetchTagsData,
-    error: fetchTagsError
-  } = useGetTagsQuery({
-    page: 1,
-    limit: Infinity,
-    status: "all",
-    search: ""
-  });
-  const {
     isLoading: fetchingNewsTypes,
     data: fetchNewsTypesData,
     error: fetchNewsTypesError
   } = useGetNewsTypesQuery();
-  const {
-    isLoading: fetchingCategories,
-    data: fetchCategoriesData,
-    error: fetchCategoriesError
-  } = useGetCategoriesQuery({
-    page: 1,
-    limit: Infinity,
-    status: "all",
-    search: ""
-  });
-  const categories = useMemo(
-    () =>
-      fetchCategoriesData?.data?.map((category) => ({
-        id: category._id,
-        value: category.translations[0].translation?.fields.title,
-        label: category.title,
-        icon: category.icon
-      })) || [],
-    [fetchCategoriesData]
-  );
+
   const newsTypes = useMemo(
     () =>
       fetchNewsTypesData?.data?.map((newsType) => ({
@@ -71,86 +41,42 @@ const Step2 = ({
       })) || [],
     [fetchNewsTypesData]
   );
-  const tags = useMemo(
-    () =>
-      fetchTagsData?.data?.map((tag) => ({
-        id: tag._id,
-        value: tag.translations[0].translation?.fields.title,
-        label: tag.title,
-        about: tag.about
-      })),
-    [fetchTagsData]
-  );
 
   useEffect(() => {
-    if (fetchingTags) {
-      toast.loading("در حال دریافت تگ ها بندی ...", { id: "fetchTags" });
+    if (fetchingNewsTypes) {
+      toast.loading("در حال دریافت انواع خبر ...", { id: "fetchNewsTypes" });
     }
 
-    if (fetchTagsData) {
-      toast.success(fetchTagsData?.about, {
-        id: "fetchTags"
+    if (fetchNewsTypesData) {
+      toast.success(fetchNewsTypesData?.about, {
+        id: "fetchNewsTypes"
       });
     }
 
-    if (fetchTagsError) {
-      toast.error(fetchTagsError?.data?.about, {
-        id: "fetchTags"
+    if (fetchNewsTypesError) {
+      toast.error(fetchNewsTypesError?.data?.about, {
+        id: "fetchNewsTypes"
       });
     }
-    if (fetchingCategories) {
-      toast.loading("در حال دریافت دسته بندی ...", { id: "fetchCategories" });
-    }
+  }, [fetchingNewsTypes, fetchNewsTypesData, fetchNewsTypesError]);
 
-    if (fetchCategoriesData) {
-      toast.success(fetchCategoriesData?.about, {
-        id: "fetchCategories"
-      });
-    }
-
-    if (fetchCategoriesError) {
-      toast.error(fetchCategoriesError?.data?.about, {
-        id: "fetchCategories"
-      });
-    }
-  }, [
-    fetchingTags,
-    fetchTagsData,
-    fetchTagsError,
-    fetchCategoriesData,
-    fetchCategoriesData,
-    fetchCategoriesError
-  ]);
   const stripHtmlTags = (html) => {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
     return tempElement.textContent || tempElement.innerText || "";
   };
+
   return (
     <div className="flex flex-col gap-y-4 w-full h-full">
-       <div className="flex flex-col gap-y-2 w-full  ">
+      <div className="flex flex-col gap-y-2 w-full">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
-          <div className="flex flex-col flex-1">
-            <label htmlFor="tags" className="flex flex-col gap-y-2 ">
-              تگ‌ها
-              <Controller
-                control={control}
-                name="tags"
-                rules={{ required: "انتخاب تگ الزامی است" }}
-                render={({ field: { onChange, value } }) => (
-                  <MultiSelect
-                    items={tags}
-                    selectedItems={value || []}
-                    handleSelect={onChange}
-                    icon={<Tag />}
-                    placeholder="چند مورد انتخاب کنید"
-                    className={"w-full h-12"}
-                    returnType="id"
-                  />
-                )}
-              />
-            </label>
-          </div>
+          <FormTagsSelect
+            label="تگ‌ها"
+            id="tags"
+            control={control}
+            error={errors?.tags}
+            required={true}
+          />
           <div className="mt-7 flex justify-start">
             <button
               type="button"
@@ -161,14 +87,12 @@ const Step2 = ({
             </button>
           </div>
         </div>
-        {errors.tags && (
-          <span className="text-red-500 text-sm">{errors.tags.message}</span>
-        )}
-      </div> 
-      <div className="flex flex-col gap-y-2 w-full  ">
+      </div>
+
+      <div className="flex flex-col gap-y-2 w-full">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
           <div className="flex flex-col flex-1">
-            <label htmlFor="newsType" className="flex flex-col gap-y-2 ">
+            <label htmlFor="newsType" className="flex flex-col gap-y-2">
               نوع خبر
               <Controller
                 control={control}
@@ -203,28 +127,16 @@ const Step2 = ({
           </span>
         )}
       </div>
-       <div className="flex flex-col gap-y-2 w-full  ">
+
+      <div className="flex flex-col gap-y-2 w-full">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
-          <div className="flex flex-col flex-1">
-            <label htmlFor="category" className="flex flex-col gap-y-2 ">
-              دسته بندی
-              <Controller
-                control={control}
-                name="category"
-                rules={{ required: "انتخاب دسته بندی الزامی است" }}
-                render={({ field: { onChange, value } }) => (
-                  <MultiSelect
-                    items={categories}
-                    selectedItems={value || []}
-                    handleSelect={onChange}
-                    placeholder="چند مورد انتخاب کنید"
-                    className={"w-full h-12"}
-                    returnType="id"
-                  />
-                )}
-              />
-            </label>
-          </div>
+          <FormCategorySelect
+            label="دسته بندی"
+            id="category"
+            control={control}
+            error={errors?.category}
+            required={true}
+          />
           <div className="mt-7 flex justify-start">
             <button
               type="button"
@@ -235,12 +147,8 @@ const Step2 = ({
             </button>
           </div>
         </div>
-        {errors.category && (
-          <span className="text-red-500 text-sm">
-            {errors.category.message}
-          </span>
-        )}
-      </div> 
+      </div>
+
       <label
         htmlFor="content"
         className="flex flex-col gap-y-4 w-full h-[200px]"
@@ -259,7 +167,7 @@ const Step2 = ({
                 readOnly
                 rows={24}
                 onClick={() => setIsOpen(true)}
-                className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 text-justify dark:text-white "
+                className="w-full p-2 border border-gray-300 rounded dark:bg-gray-700 text-justify dark:text-white"
               />
 
               {errors.content && (

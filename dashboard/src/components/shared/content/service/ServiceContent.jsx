@@ -1,9 +1,9 @@
-
 import SkeletonText from "@/components/shared/skeleton/SkeletonText";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import Tag from "@/components/icons/Tag";
 import Timeline from "./growth-timeline";
 import ServiceFaqs from "./ServiceFaqs";
+
 export default function ServiceContent({ service }) {
   return (
     <div className="bg-gray-100 dark:bg-gray-800 mt-4 z-40 relative scrollbar-hide h-screen overflow-y-auto">
@@ -51,16 +51,54 @@ export default function ServiceContent({ service }) {
             )}
           </header>
 
-          <div className="mx-auto max-w-screen-lg space-y-12 rounded-b-lg bg-gray-100 dark:bg-gray-900 px-8 pt-10 pb-20 font-serif text-lg tracking-wide text-gray-700 sm:shadow-lg">
+          <div className="mx-auto max-w-screen-lg space-y-12 rounded-b-lg bg-gray-100 dark:bg-gray-900 px-8 pt-10 pb-20 text-lg tracking-wide text-gray-700 sm:shadow-lg">
+            {/* What You'll Read Section */}
+            {service?.whatYouWillRead && service.whatYouWillRead.length > 0 && (
+              <div className="my-6">
+                <h2 className="text-2xl text-gray-900 dark:text-white mb-4">
+                  آنچه خواهید خواند
+                </h2>
+                <ul className="space-y-1">
+                  {service.whatYouWillRead.map((item, index) => (
+                    <li 
+                      key={index} 
+                      className="flex items-start gap-1 w-fit p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 bg-green-50 border border-green-200 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-center h-full">
+                        <svg 
+                          xmlns="http://www.w3.org/2000/svg" 
+                          width="24" 
+                          height="24" 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth="2" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          className="lucide lucide-circle-check-big w-5 h-5 text-green-500 mt-1 flex-shrink-0"
+                        >
+                          <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                          <path d="m9 11 3 3L22 4"></path>
+                        </svg>
+                      </div>
+                      <span className="text-gray-900 dark:text-white text-sm md:text-base">
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             {service?.content ? (
               <div dangerouslySetInnerHTML={{ __html: service?.content }} />
             ) : (
               <SkeletonText lines={10} />
             )}
-          </div>
-        </article>
         <Timeline items={service?.roadmap} />
         <ServiceFaqs items={service?.faqs} />
+          </div>
+        </article>
       </main>
 
       <div className="w-fit mx-auto mt-10 flex space-x-2">
@@ -124,8 +162,7 @@ export default function ServiceContent({ service }) {
                 </div>
               </div>
             </article>
-
-            <article className="flex flex-col items-center gap-4 md:flex-row lg:gap-6">
+  <article className="flex flex-col items-center gap-4 md:flex-row lg:gap-6">
               <a
                 href="#"
                 className="group shrink-0 relative block h-56 w-full self-start overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-24 md:w-24 lg:h-40 lg:w-40"
@@ -246,6 +283,7 @@ export default function ServiceContent({ service }) {
                 </div>
               </div>
             </article>
+          
           </div>
         </div>
       </aside>

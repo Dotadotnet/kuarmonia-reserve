@@ -1,11 +1,9 @@
 import OpportunityContent from "@/components/shared/content/opportunity/OpportunityContent";
 import Main from "@/layouts/Main";
 import "./Style.css";
-import Api from "@/utils/api";
 import canonicalUrl from "@/components/shared/seo/canonical";
 import { getTranslations } from "next-intl/server";
 import language from "@/app/language";
-import RedirectOpportunity from "../page";
 
 
 export async function generateMetadata({ params }) {

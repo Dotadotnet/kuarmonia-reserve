@@ -1,4 +1,4 @@
-import HighlightText from "@/components/shared/highlightText/HighlightText";
+import HighlightText from "@/components/shared/highlightText/page";
 
 import Image from 'next/image'
 

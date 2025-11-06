@@ -30,7 +30,7 @@ router.post(
 router.get("/get-categories",localeMiddleware, categoryController.getCategories);
 
 // get a category
-router.get("/get-category/:id", categoryController.getCategory);
+router.get("/get-category/:id", localeMiddleware, categoryController.getCategory);
 
 // update category
 router.patch(

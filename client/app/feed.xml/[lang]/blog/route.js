@@ -2,7 +2,6 @@
 import language from '@/app/language';
 import { getTranslations } from 'next-intl/server';
 import RSS from 'rss';
-import Api from "@/utils/api"
 
 export async function GET(request) {
     const host = process.env.NEXT_PUBLIC_BASE_URL;

@@ -1,5 +1,3 @@
-
-
 /* external import */
 const express = require("express");
 
@@ -28,22 +26,37 @@ router.post(
   serviceController.addService
 );
 
-// get all service
+// get all services with pagination and search
 router.get(
   "/get-services",
   localeMiddleware,
-  serviceController.getAllService
+  serviceController.getServices
 );
+
+// get all services without pagination (for dashboard)
+router.get(
+  "/get-all-services",
+  localeMiddleware,
+  serviceController.getAllServices
+);
+
 // get a service
-router.get("/get-service/:id",  localeMiddleware,
+router.get("/get-service/:id", localeMiddleware,
   serviceController.getService);
+
+
+router.get("/get-serviceById/:id", localeMiddleware,
+  serviceController.getServiceById);
+
 
 // update service
 router.patch(
   "/update-service/:id",
   verify,
-  localeMiddleware,
   authorize("admin", "superAdmin"),
+  upload('service').fields([
+    { name: "thumbnail", maxCount: 1 },
+  ]),
   serviceController.updateService
 );
 

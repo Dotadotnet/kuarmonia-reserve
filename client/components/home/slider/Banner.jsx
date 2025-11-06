@@ -11,13 +11,13 @@ export default function VisaBanner() {
     {/* 3D effect for the banner */}
     <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-green-800/20 rounded-xl"></div>
 
-    <div className="w-2/3 pr-4 text-white relative z-10">
-      <h3 className="text-lg mb-2">{t("visaBanner.title")}</h3>
-      <p className="text-sm">{t("visaBanner.description")}</p>
+    <div className=" pr-4 text-white relative z-10">
+      <h3 className="text-lg mb-2 text-nowrap">{t("visaBanner.title")}</h3>
+      <p className="text-sm text-nowrap">{t("visaBanner.description")}</p>
     </div>
 
     {/* تصویر بیرون از بنر */}
-    <div className="w-1/3 absolute -top- left-8 z-50 overflow-visible">
+    <div className="w-1/3 absolute -top- ltr:right-8  rtl:left-8 z-50 overflow-visible">
       <Image
         src="/assets/home-page/banner/visa.png"
         alt="Visa and Residency Services"

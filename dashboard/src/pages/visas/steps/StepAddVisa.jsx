@@ -41,26 +41,27 @@ const StepAddVisa = ({
   const [rejectionReasons, setRejectionReasons] = useState([""]);
   const [successTips, setSuccessTips] = useState([""]);
   const [costs, setCosts] = useState([{ title: "", fee: "" }]);
-    const [documents, setDocuments] = useState([{ title: "", description: "" ,type:""}]); // 🆕 مدارک
+  const [documents, setDocuments] = useState([{ title: "", description: "", type: "" }]);
 
   const totalSteps = 6;
   const onSubmit = async (data) => {
     const formData = new FormData();
     const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
 
-    // فیلدهای اصلی
-    formData.append("title", data.title);
-    formData.append("summary", data.summary);
+    // Main fields
+    formData.append("title", data.title || "");
+    formData.append("summary", data.summary || "");
+    formData.append("content", editorData || "");
+    formData.append("processingTime", data.processingTime || "");
+    formData.append("validity", data.validity || "");
+    formData.append("difficultyLevel", data.difficultyLevel || "");
+
     formData.append("thumbnail", thumbnail);
-    formData.append("processingTime", data.processingTime);
-    formData.append("validity", data.validity);
     formData.append("tags", extractIds(data.tags));
     formData.append("type", data.visaType.id);
     formData.append("country", data.country.id);
-    formData.append("content", data.content);
-    formData.append("difficultyLevel", data.difficultyLevel);
 
-    // نقشه راه
+    // Roadmap
     formData.append("roadmap", JSON.stringify(roadmap));
 
     // Step5
@@ -75,13 +76,12 @@ const StepAddVisa = ({
     formData.append("costs", JSON.stringify(costs));
     formData.append("documents", JSON.stringify(documents));
 
-
     // Debug
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
 
-    // ارسال
+    // Submit
     addVisa(formData);
   };
 
@@ -105,88 +105,93 @@ const StepAddVisa = ({
     let valid = false;
     switch (currentStep) {
       case 1:
-        valid = await trigger("thumbnail");
+        valid = await trigger("title");
         if (!valid) {
-          toast.error("لطفاً تصویر بند انگشتی را وارد کنید");
+          toast.error("لطفاً عنوان را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        valid = await trigger("summary");
+        if (!valid) {
+          toast.error("لطفاً خلاصه را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        valid = await trigger("country");
+        if (!valid) {
+          toast.error("لطفاً کشور را انتخاب کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
         valid = true;
         break;
       case 2:
-        valid = await trigger("title");
+        valid = await trigger("thumbnail");
         if (!valid) {
-          toast.error("لطفاً عنوان دسته بندی را وارد کنید");
+          toast.error("لطفاً تصویر بند انگشتی را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("description");
+        valid = await trigger("tags");
         if (!valid) {
-          toast.error("لطفاً توضیحات دسته بندی را وارد کنید");
+          toast.error("لطفاً تگ‌ها را انتخاب کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
+        valid = await trigger("visaType");
+        if (!valid) {
+          toast.error("لطفاً نوع ویزا را انتخاب کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        valid = true;
         break;
-
       case 3:
-        valid = await trigger("issuingOrganization");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("country");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("year");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
+        // Validation for content step
+        valid = true;
         break;
       case 4:
-        valid = await trigger("issuingOrganization");
+        valid = await trigger("processingTime");
         if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+          toast.error("لطفاً زمان پردازش را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("country");
+        valid = await trigger("validity");
         if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+          toast.error("لطفاً اعتبار را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("year");
+        valid = await trigger("difficultyLevel");
         if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+          toast.error("لطفاً سطح دشواری را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
+        valid = true;
         break;
       case 5:
-        valid = await trigger("issuingOrganization");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+        // Validation for conditions step
+        const isConditionsValid = conditions.every(item => item);
+        if (!isConditionsValid) {
+          toast.error("لطفاً تمام فیلدهای شرایط را پر کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("country");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+        valid = true;
+        break;
+      case 6:
+        // Validation for roadmap step
+        const isRoadmapValid = roadmap.every(item => 
+          item.title && item.description && item.duration
+        );
+        if (!isRoadmapValid) {
+          toast.error("لطفاً تمام فیلدهای نقشه راه را پر کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("year");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
+        valid = true;
         break;
       default:
         break;
@@ -198,9 +203,11 @@ const StepAddVisa = ({
       setCurrentStep((prevStep) => prevStep + 1);
     }
   };
+  
   const prevStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
+  
   const renderStepContent = (step) => {
     switch (step) {
       case 1:
@@ -208,10 +215,8 @@ const StepAddVisa = ({
           <Step1
             nextStep={nextStep}
             register={register}
-            control={control}
-            editorData={editorData}
-            setEditorData={setEditorData}
             errors={errors}
+            control={control}
           />
         );
       case 2:
@@ -231,20 +236,20 @@ const StepAddVisa = ({
         return (
           <Step3
             control={control}
-            register={register}
             errors={errors}
             prevStep={prevStep}
             nextStep={nextStep}
+            editorData={editorData}
+            setEditorData={setEditorData}
           />
         );
       case 4:
         return (
           <Step4
-            errors={errors}
-            roadmap={roadmap}
-            setRoadmap={setRoadmap}
             prevStep={prevStep}
             nextStep={nextStep}
+            register={register}
+            errors={errors}
           />
         );
       case 5:
@@ -276,13 +281,15 @@ const StepAddVisa = ({
             setCosts={setCosts}
             setDocuments={setDocuments}
             documents={documents}
+            roadmap={roadmap}
+            setRoadmap={setRoadmap}
           />
         );
-
       default:
         return null;
     }
   };
+  
   const handleStepClick = async (step) => {
     if (step < currentStep) {
       setCurrentStep(step);

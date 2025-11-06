@@ -1,113 +1,74 @@
-
-import Plus from "@/components/icons/Plus";
-import Minus from "@/components/icons/Minus";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 
-const Step4 = ({ errors, roadmap, setRoadmap, prevStep, nextStep }) => {
-  const handleAddRoadmap = () => {
-    setRoadmap((prev) => [
-      ...prev,
-      {
-        title: "",
-        description: "",
-        duration: "",
-        link: {
-          text: "",
-          url: ""
-        }
-      }
-    ]);
-  };
-
-  const handleRemoveRoadmap = (index) => {
-    const updatedRoadmap = [...roadmap];
-    updatedRoadmap.splice(index, 1);
-    setRoadmap(updatedRoadmap);
-  };
-
-  const handleChange = (index, field, value) => {
-    const updatedRoadmap = [...roadmap];
-    updatedRoadmap[index][field] = value;
-    setRoadmap(updatedRoadmap);
-  };
-
-  const handleLinkChange = (index, key, value) => {
-    const updatedRoadmap = [...roadmap];
-    updatedRoadmap[index].link[key] = value;
-    setRoadmap(updatedRoadmap);
-  };
-
+const Step4 = ({
+  prevStep,
+  nextStep,
+  errors,
+  register
+}) => {
   return (
-      <div className="flex flex-col   p-2">
-      <div className="flex flex-col max-h-96 gap-y-4  overflow-y-auto p-2">      {roadmap.map((item, index) => (
-        <label key={index} className="flex flex-col gap-y-1">
-          <span className="text-sm flex flex-row justify-between items-center">
-            اطلاعات نقشه راه را وارد کنید
-            <span className="flex flex-row gap-x-1">
-              {index > 0 && (
-                <span
-                  className="cursor-pointer p-0.5 border rounded bg-red-500 w-6 h-6 text-white flex justify-center items-center"
-                  onClick={() => handleRemoveRoadmap(index)}
-                >
-                  <Minus />
-                </span>
-              )}
-              {index === roadmap.length - 1 && (
-                <span
-                  className="cursor-pointer w-6 h-6 flex justify-center items-center p-0.5 border rounded bg-green-500 text-white"
-                  onClick={handleAddRoadmap}
-                >
-                  <Plus />
-                </span>
-              )}
-            </span>
-          </span>
-          <div className="flex flex-col gap-y-2.5">
-            <input
-              type="text"
-              placeholder="عنوان"
-              value={item.title}
-              onChange={(e) => handleChange(index, "title", e.target.value)}
-              className="p-2 rounded border"
-            />
-            {errors?.roadmap?.[index]?.title && (
-              <span className="text-red-500 text-sm">
-                {errors.roadmap[index].title.message}
-              </span>
-            )}
-
-            <textarea
-              placeholder="توضیحات"
-              value={item.description}
-              rows={5}
-              onChange={(e) =>
-                handleChange(index, "description", e.target.value)
-              }
-              className="p-2 rounded border"
-            />
-            {errors?.roadmap?.[index]?.description && (
-              <span className="text-red-500 text-sm">
-                {errors.roadmap[index].description.message}
-              </span>
-            )}
-
-            <input
-              type="text"
-              placeholder="مدت‌زمان یا بازه"
-              value={item.duration}
-              onChange={(e) => handleChange(index, "duration", e.target.value)}
-              className="p-2 rounded border"
-            />
-            {errors?.roadmap?.[index]?.duration && (
-              <span className="text-red-500 text-sm">
-                {errors.roadmap[index].duration.message}
-              </span>
-            )}
-
-         
-          </div>
+    <div className="flex flex-col p-2">
+      <div className="flex flex-col overflow-y-auto h-96 p-2">
+        {/* Processing Time */}
+        <label htmlFor="processingTime" className="flex flex-col gap-y-1">
+          <span className="text-sm">* زمان پردازش </span>
+          <input
+            type="text"
+            id="processingTime"
+            {...register("processingTime", {
+              required: "وارد کردن زمان پردازش الزامی است",
+              minLength: { value: 3, message: "زمان پردازش باید حداقل ۳ حرف داشته باشد" },
+              maxLength: { value: 100, message: "زمان پردازش نباید بیشتر از ۱۰۰ حرف باشد" }
+            })}
+            placeholder="زمان پردازش"
+            maxLength="100"
+            className="p-2 rounded border"
+          />
+          {errors?.processingTime && (
+            <span className="text-red-500 text-sm">{errors?.processingTime.message}</span>
+          )}
         </label>
-      ))}
+
+        {/* Validity */}
+        <label htmlFor="validity" className="flex flex-col gap-y-1 mt-4">
+          <span className="text-sm">* مدت اعتبار </span>
+          <input
+            type="text"
+            id="validity"
+            {...register("validity", {
+              required: "وارد کردن مدت اعتبار الزامی است",
+              minLength: { value: 3, message: "مدت اعتبار باید حداقل ۳ حرف داشته باشد" },
+              maxLength: { value: 100, message: "مدت اعتبار نباید بیشتر از ۱۰۰ حرف باشد" }
+            })}
+            placeholder="مدت اعتبار"
+            maxLength="100"
+            className="p-2 rounded border"
+          />
+          {errors?.validity && (
+            <span className="text-red-500 text-sm">{errors?.validity.message}</span>
+          )}
+        </label>
+
+        {/* Difficulty Level */}
+        <label htmlFor="difficultyLevel" className="flex flex-col gap-y-1 mt-4 relative">
+          <span className="text-sm">* سطح دشواری </span>
+          <select
+            id="difficultyLevel"
+            {...register("difficultyLevel", {
+              required: "انتخاب سطح دشواری الزامی است"
+            })}
+            className="p-2 pr-8 rounded border appearance-none bg-white"
+          >
+            <option value="">انتخاب سطح دشواری</option>
+            <option value="آسان">آسان</option>
+            <option value="متوسط">متوسط</option>
+            <option value="سخت">سخت</option>
+          </select>
+
+          {errors?.difficultyLevel && (
+            <span className="text-red-500 text-sm">{errors?.difficultyLevel.message}</span>
+          )}
+        </label>
       </div>
       <div className="flex justify-between mt-12">
         <NavigationButton direction="next" onClick={nextStep} />

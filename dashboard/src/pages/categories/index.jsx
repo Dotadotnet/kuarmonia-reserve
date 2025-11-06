@@ -89,8 +89,6 @@ console.log(searchTerm)
           <SkeletonItem repeat={5} />
         ) : (
           categories.map((category) => {
-            const { title, description } =
-              category?.translations[0].translation?.fields || {};
             return (
               <div
                 key={category._id}
@@ -109,9 +107,9 @@ console.log(searchTerm)
                     <article className="flex-col flex gap-y-2  ">
                       <span className="line-clamp-1 text-base ">
                         <span className="hidden lg:flex ">
-                          {category?.creator?.name}
+                          {category?.creator?.name.fa}
                         </span>
-                        <span className=" lg:hidden ">{title}</span>
+                        <span className=" lg:hidden ">{category.title}</span>
                       </span>
                       <span className="text-xs hidden lg:flex">
                         {new Date(category.createdAt).toLocaleDateString(
@@ -119,8 +117,8 @@ console.log(searchTerm)
                         )}
                       </span>
                       <span className=" lg:hidden text-xs  line-clamp-1">
-                        {description
-                          ? description
+                        {category.description
+                          ? category.description
                           : new Date(category.createdAt).toLocaleDateString(
                               "fa-IR"
                             )}
@@ -131,7 +129,7 @@ console.log(searchTerm)
                 <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
                   <article className="flex-col flex gap-y-2">
                     <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
-                      <span className="flex">{title}</span>
+                      <span className="flex">{category.title}</span>
                     </span>
                   </article>
                 </div>
@@ -139,7 +137,7 @@ console.log(searchTerm)
                 <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
                   <article className="flex-col flex gap-y-2">
                     <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                      {description}
+                      {category.description}
                     </span>
                   </article>
                 </div>

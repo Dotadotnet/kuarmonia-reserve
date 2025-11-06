@@ -122,7 +122,7 @@ const MyProfile = () => {
                 />
               </div>
               <div className="text-center mt-2">
-                <h2 className="font-semibold">{admin.name}</h2>
+                <h2 className="font-semibold">{admin.name.fa}</h2>
                 <p className="text-gray-500">
                   {admin.role === "superAdmin"
                     ? "مدیر کل"

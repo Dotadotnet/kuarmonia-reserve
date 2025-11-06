@@ -90,7 +90,7 @@ const DeleteUser = ({ id }) => {
                     width={100}
                     className="h-[100px] w-[100px] rounded object-cover"
                   />
-                  <h1 className="text-2xl">{user?.name}</h1>
+                  <h1 className="text-2xl">{user?.name?.fa}</h1>
                 </div>
                 <div className="flex flex-col gap-y-1">
                   <p className="text-xs">{user?.email}</p>

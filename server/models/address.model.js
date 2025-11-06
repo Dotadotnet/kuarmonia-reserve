@@ -10,37 +10,93 @@ const addressSchema = new mongoose.Schema(
     },
 
     country: {
-      type: String,
-      default: "ایران",
-      trim: true
+      fa: { 
+        type: String,
+        default: "ایران",
+        trim: true,
+        maxLength: [100, "نام کشور نباید بیشتر از 100 کاراکتر باشد"]
+      },
+      en: { 
+        type: String,
+        default: "Iran",
+        trim: true,
+        maxLength: [100, "Country name should not exceed 100 characters"]
+      },
+      tr: { 
+        type: String,
+        default: "İran",
+        trim: true,
+        maxLength: [100, "Ülke adı 100 karakteri aşmamalıdır"]
+      }
     },
     state: {
-      type: String,
-      trim: true
+      fa: { 
+        type: String,
+        trim: true,
+        maxLength: [100, "نام استان نباید بیشتر از 100 کاراکتر باشد"]
+      },
+      en: { 
+        type: String,
+        trim: true,
+        maxLength: [100, "State name should not exceed 100 characters"]
+      },
+      tr: { 
+        type: String,
+        trim: true,
+        maxLength: [100, "Eyalet adı 100 karakteri aşmamalıdır"]
+      }
     },
     city: {
-      type: String,
-      trim: true
+      fa: { 
+        type: String,
+        trim: true,
+        maxLength: [100, "نام شهر نباید بیشتر از 100 کاراکتر باشد"]
+      },
+      en: { 
+        type: String,
+        trim: true,
+        maxLength: [100, "City name should not exceed 100 characters"]
+      },
+      tr: { 
+        type: String,
+        trim: true,
+        maxLength: [100, "Şehir adı 100 karakteri aşmamalıdır"]
+      }
     },
     street: {
-      type: String,
-      trim: true
+      fa: { 
+        type: String,
+        trim: true,
+        maxLength: [200, "نام خیابان نباید بیشتر از 200 کاراکتر باشد"]
+      },
+      en: { 
+        type: String,
+        trim: true,
+        maxLength: [200, "Street name should not exceed 200 characters"]
+      },
+      tr: { 
+        type: String,
+        trim: true,
+        maxLength: [200, "Sokak adı 200 karakteri aşmamalıdır"]
+      }
     },
     plateNumber: {
       type: String,
       trim: true
     },
 
-    phone: {
-      type: String,
-      unique: true,
-
-      required: [true, "لطفا شماره تماس خود را وارد کنید"],
-      match: [
-        /^\+?[1-9]\d{1,14}$/,
-        "شماره تماس باید فرمت بین‌المللی داشته باشد"
-      ]
+phone: {
+  type: String,
+  unique: true,
+  required: [true, "لطفا شماره تماس خود را وارد کنید"],
+  validate: {
+    validator: function(v) {
+      // فقط اعداد، طول بین 11 تا 15
+      return /^\d{11,15}$/.test(v);
     },
+    message: "شماره تماس باید فقط عدد باشد و بین 11 تا 15 رقم باشد"
+  }
+},
     email: {
       type: String,
       unique: true,

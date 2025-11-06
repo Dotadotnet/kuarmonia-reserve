@@ -1,4 +1,3 @@
-
 /* internal import */
 const serviceService = require("../services/service.service");
 
@@ -13,10 +12,23 @@ exports.addService= async (req, res, next) => {
   }
 };
 
-/* get all services */
-exports.getAllService = async (req, res, next) => {
+/* get all services with pagination */
+exports.getServices = async (req, res, next) => {
   try {
-    await serviceService.getAllService(req,res);
+    await serviceService.getServices(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+
+
+/* get all services without pagination (for dashboard) */
+exports.getAllServices = async (req, res, next) => {
+  try {
+    await serviceService.getAllServices(req, res);
   } catch (error) {
     next(error);
   } finally {
@@ -35,10 +47,21 @@ exports.getService= async (req, res, next) => {
   }
 };
 
+exports.getServiceById= async (req, res, next) => {
+  try {
+    await serviceService.getServiceById(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+
 /* update service */
 exports.updateService= async (req, res, next) => {
   try {
-    await serviceService.updateVenue(req, res);
+    await serviceService.updateService(req, res);
   } catch (error) {
     next(error);
   } finally {

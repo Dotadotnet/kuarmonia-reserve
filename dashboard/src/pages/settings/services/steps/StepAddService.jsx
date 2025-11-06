@@ -10,6 +10,7 @@ import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
 import Step5 from "./Step5";
+import Step6 from "./Step6";
 import { useNavigate } from "react-router-dom";
 
 const StepAddService = ({
@@ -28,33 +29,37 @@ const StepAddService = ({
   roadmap,
   setRoadmap,
   faqs,
-  setFaqs
+  setFaqs,
+  whatYouWillRead,
+  setWhatYouWillRead
 }) => {
   const [addService, { isLoading, data, error }] = useAddServiceMutation();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState({});
   const [invalidSteps, setInvalidSteps] = useState({});
 
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   const onSubmit = async (data) => {
     const formData = new FormData();
     const extractIds = (arr) => JSON.stringify(arr.map((item) => item.id));
 
+    // Send only Farsi content - backend handles translation
     formData.append("title", data.title);
     formData.append("summary", data.summary);
     formData.append("icon", data.icon);
     formData.append("thumbnail", thumbnail);
     formData.append("tags", extractIds(data.tags));
-    formData.append("category",data.category.id);
-    formData.append("content", data.content);
-    formData.append("roadmap",JSON.stringify(roadmap));
-    formData.append("faqs",JSON.stringify(faqs));
+    formData.append("category", data.category.id);
+    formData.append("content", editorData);
+    formData.append("roadmap", JSON.stringify(roadmap));
+    formData.append("faqs", JSON.stringify(faqs));
+    formData.append("whatYouWillRead", JSON.stringify(whatYouWillRead));
 
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-     addService(formData);
+    addService(formData);
   };
 
   const navigate = useNavigate();
@@ -92,74 +97,32 @@ const StepAddService = ({
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("description");
+        valid = await trigger("summary");
         if (!valid) {
-          toast.error("لطفاً توضیحات دسته بندی را وارد کنید");
+          toast.error("لطفاً خلاصه دسته بندی را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
         break;
 
-      case 3:
-        valid = await trigger("issuingOrganization");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("country");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("year");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
+      case 3: // What You'll Read step (moved to position 3)
+        valid = true;
         break;
-      case 4:
-        valid = await trigger("issuingOrganization");
+      case 4: // Content editing step (moved from position 3)
+        valid = await trigger("content");
         if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+          toast.error("لطفاً محتوا را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("country");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("year");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
+        valid = true;
         break;
-        case 5:
-          valid = await trigger("issuingOrganization");
-          if (!valid) {
-            toast.error("لطفاً نکات کلیدی را وارد کنید");
-            setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-            return;
-          }
-          valid = await trigger("country");
-          if (!valid) {
-            toast.error("لطفاً نکات کلیدی را وارد کنید");
-            setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-            return;
-          }
-          valid = await trigger("year");
-          if (!valid) {
-            toast.error("لطفاً نکات کلیدی را وارد کنید");
-            setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-            return;
-          }
-          break;
+      case 5: // Roadmap step (moved from position 4)
+        valid = true;
+        break;
+      case 6: // FAQ step (moved from position 5)
+        valid = true;
+        break;
       default:
         break;
     }
@@ -170,9 +133,11 @@ const StepAddService = ({
       setCurrentStep((prevStep) => prevStep + 1);
     }
   };
+  
   const prevStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
+  
   const renderStepContent = (step) => {
     switch (step) {
       case 1:
@@ -192,40 +157,47 @@ const StepAddService = ({
             setThumbnail={setThumbnail}
             setThumbnailPreview={setThumbnailPreview}
             thumbnailPreview={thumbnailPreview}
-            prevStep={prevStep}
-            nextStep={nextStep}
             control={control}
           />
         );
-      case 3:
+      case 3: // What You'll Read step (moved to position 3)
         return (
           <Step3
+            whatYouWillRead={whatYouWillRead}
+            setWhatYouWillRead={setWhatYouWillRead}
+          />
+        );
+      case 4: // Content editing step (moved from position 3)
+        return (
+          <Step4
             control={control}
             register={register}
             errors={errors}
-            prevStep={prevStep}
-            nextStep={nextStep}
             editorData={editorData}
             setEditorData={setEditorData}
           />
         );
-      case 4:
+      case 5: // Roadmap step (moved from position 4)
         return (
-          <Step4
+          <Step5
             errors={errors}
             roadmap={roadmap}
             setRoadmap={setRoadmap}
-            prevStep={prevStep}
-            nextStep={nextStep}
           />
         );
-      case 5:
-        return <Step5 errors={errors} faqs={faqs} setFaqs={setFaqs} />;
-
+      case 6: // FAQ step (moved from position 5)
+        return (
+          <Step6 
+            errors={errors} 
+            faqs={faqs} 
+            setFaqs={setFaqs} 
+          />
+        );
       default:
         return null;
     }
   };
+  
   const handleStepClick = async (step) => {
     if (step < currentStep) {
       setCurrentStep(step);
@@ -261,6 +233,13 @@ const StepAddService = ({
 
       {renderStepContent(currentStep)}
 
+      {currentStep > 1 && currentStep < totalSteps && (
+        <div className="flex justify-between mt-12">
+          <NavigationButton direction="next" onClick={nextStep} />
+          <NavigationButton direction="prev" onClick={prevStep} />
+        </div>
+      )}
+      
       {currentStep === totalSteps && (
         <div className="flex justify-between mt-12">
           <SendButton />

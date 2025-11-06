@@ -95,7 +95,7 @@ console.log(requestData);
                 <textarea
                   name="description"
                   id="description"
-                  defaultValue={category?.description}
+                  defaultValue={category?.description?.fa}
                   maxLength={200}
                   placeholder="توضیحات دسته‌بندی را تایپ کنید..."
                   className="rounded h-32"

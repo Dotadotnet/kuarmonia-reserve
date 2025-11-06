@@ -232,6 +232,11 @@ select {
 .edit-button {
   @apply line-clamp-1 cursor-pointer rounded-full border border-green-500/5 bg-green-500/5 p-2 text-green-500 transition-colors hover:border-green-500/10 hover:bg-green-500/10 hover:!opacity-100 group-hover:opacity-70;
 }
+
+.view-children-button {
+  @apply line-clamp-1 cursor-pointer rounded-full border border-gray-500/5 bg-gray-500/5 p-2 text-gray-500 transition-colors hover:border-gray-500/10 hover:bg-gray-500/10 hover:!opacity-100 group-hover:opacity-70;
+}
+
 .apply-button {
   @apply cursor-pointer    border border-white dark:border-blue-800 py-2  text-green-500 bg-green-800/10 dark:bg-blue-800/10 dark:text-blue-500   text-center flex justify-center items-center
   transition-colors border-green-500/10 dark:border-blue-500/10 hover:bg-green-600/20 dark:hover:bg-blue-600/20  hover:!opacity-100 group-hover:opacity-70;

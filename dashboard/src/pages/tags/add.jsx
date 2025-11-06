@@ -1,243 +1,90 @@
-import { useForm } from "react-hook-form";
-import Minus from "@/components/icons/Minus";
-import Plus from "@/components/icons/Plus";
-import Button from "@/components/shared/button/Button";
-import MultiSelect from "@/components/shared/dropDown/MultiSelect";
-import { useAddTagMutation } from "@/services/tag/tagApi";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import Modal from "@/components/shared/modal/Modal";
-import { useState, useEffect } from "react";
-import Robot from "@/components/icons/Robot";
-import AddButton from "@/components/shared/button/AddButton";
+import { useForm } from "react-hook-form";
+import { useAddTagMutation } from "@/services/tag/tagApi";
+import BackButton from "@/components/shared/button/BackButton";
+import SendButton from "@/components/shared/button/SendButton";
+import ToggleThemeButton from "@/components/ThemeToggle";
+import FormInput from "@/components/shared/input/FormInput";
+import FormKeywords from "@/components/shared/input/FormKeywords";
 
-const AddTag = () => {
-  const [selectedOptions, setSelectedOptions] = useState([]);
+function AddTag() {
+  const [addTag, { isLoading, data, error }] = useAddTagMutation();
   const [keynotes, setKeynotes] = useState([""]);
-  const [isOpen, setIsOpen] = useState(false);
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const [addTag, { isLoading: isAdding, data: addData, error: addError }] =
-    useAddTagMutation();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset
-  } = useForm({ mode: "onChange" });
-
-  useEffect(() => {
-    if (isAdding) {
-      toast.loading("در حال افزودن  برچسب...", { id: "addTag" });
-    }
-
-    if (addData) {
-      toast.success(addData?.description, { id: "addTag" });
-      setIsOpen(false);
-      reset();
-    }
-
-    if (addError?.data) {
-      toast.error(addError?.data?.description, { id: "addTag" });
-    }
-  }, [isAdding, addData, addError]);
-
-  function onSubmit(formData) {
-    const formattedData = {
+  const onSubmit = async (formData) => {
+    const data = {
       title: formData.title,
       description: formData.description,
-      keynotes: JSON.stringify(keynotes),
-      robots: JSON.stringify(selectedOptions.map((option) => option.value))
+      keynotes: JSON.stringify(keynotes)
     };
+    await addTag(data);
+  };
 
-    addTag(formattedData);
-  }
-
-  const robotOptions = [
-    {
-      id: 1,
-      value: "index",
-      label: "Index",
-      description: "اجازه می‌دهد موتورهای جستجو صفحه را ایندکس کنند"
-    },
-    {
-      id: 2,
-      value: "noindex",
-      label: "Noindex",
-      description: "از ایندکس کردن صفحه توسط موتورهای جستجو جلوگیری می‌کند"
-    },
-    {
-      id: 3,
-      value: "follow",
-      label: "Follow",
-      description:
-        "اجازه می‌دهد موتورهای جستجو لینک‌های موجود در صفحه را دنبال کنند"
-    },
-    {
-      id: 4,
-      value: "nofollow",
-      label: "Nofollow",
-      description:
-        "از دنبال کردن لینک‌های موجود در صفحه توسط موتورهای جستجو جلوگیری می‌کند"
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("در حال افزودن تگ...", { id: "add-tag" });
     }
-  ];
 
-  const handleOptionsChange = (newSelectedOptions) => {
-    setSelectedOptions(newSelectedOptions);
-  };
+    if (data) {
+      toast.success(data?.description, { id: "add-tag" });
+    }
 
-  const handleAddKeynote = () => {
-    setKeynotes([...keynotes, ""]);
-  };
-
-  const handleRemoveKeynote = (index) => {
-    const updatedKeynotes = [...keynotes];
-    updatedKeynotes.splice(index, 1);
-    setKeynotes(updatedKeynotes);
-  };
-
-  const handleKeynoteChange = (index, value) => {
-    const updatedKeynotes = [...keynotes];
-    updatedKeynotes[index] = value;
-    setKeynotes(updatedKeynotes);
-  };
+    if (error?.data) {
+      toast.error(error?.data?.description, { id: "add-tag" });
+    }
+  }, [isLoading, data, error]);
 
   return (
-    <>
-      <AddButton onClick={() => setIsOpen(true)} />
-      {isOpen && (
-        <Modal
-          isOpen={isOpen}
-          onClose={() => setIsOpen(false)}
-          className="lg:w-1/3 md:w-1/2 w-full z-50 h-fit overflow-y-auto  max-h-3/4"
-        >
-          <form
-            className="text-sm w-full h-full flex flex-col gap-y-4 p-4"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <div className="flex gap-4 flex-col">
-              <div className="w-full flex flex-col gap-y-4 p-4 border rounded">
-                {/* title */}
-                <label htmlFor="title" className="w-full flex flex-col gap-y-1">
-                  <span className="text-sm">عنوان*</span>
-                  <input
-                    type="text"
-                    name="title"
-                    id="title"
-                    required
-                    {...register("title", {
-                      required: "وارد کردن عنوان الزامی است",
-                      minLength: {
-                        value: 3,
-                        message: "عنوان باید حداقل ۳ کاراکتر باشد"
-                      },
-                      maxLength: {
-                        value: 70,
-                        message: "عنوان نمی‌تواند بیشتر از ۷۰ کاراکتر باشد"
-                      }
-                    })}
-                  />
-                  {/* نمایش خطا برای عنوان */}
-                  {errors.title && (
-                    <span className="text-xs text-red-500">
-                      {errors.title.message}
-                    </span>
-                  )}
-                </label>
+    <section className="relative bg-[#dce9f5] dark:bg-[#1a202c] h-screen w-screen overflow-hidden text-black dark:text-gray-300 min-h-screen flex justify-center items-center p-4">
+      <div className="wave"></div>
+      <div className="wave wave2"></div>
+      <div className="wave wave3"></div>
+      <div className="flex flex-row items-center gap-x-2">
+        <BackButton to={-1} />
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-md w-full dark:bg-gray-800 bg-white flex flex-col gap-y-4 p-5 sm:p-8 rounded-primary shadow-lg z-10"
+        action=""
+      >
+        <div className="w-full flex flex-col gap-y-4">
+          <FormInput
+            label="* عنوان"
+            id="title"
+            type="text"
+            placeholder="عنوان تگ"
+            register={register}
+            error={errors?.title}
+            required="وارد کردن عنوان الزامی است"
+            minLength={{ value: 3, message: "عنوان باید حداقل ۳ حرف داشته باشد" }}
+            maxLength={{ value: 100, message: "عنوان نباید بیشتر از ۱۰۰ حرف باشد" }}
+          />
 
-                {/* description */}
-                <label
-                  htmlFor="description"
-                  className="w-full flex flex-col gap-y-1"
-                >
-                  <span className="text-sm">توضیحات*</span>
-                  <textarea
-                    name="description"
-                    id="description"
-                    rows="4"
-                    required
-                    {...register("description", {
-                      required: "وارد کردن توضیحات الزامی است",
-                      minLength: {
-                        value: 50,
-                        message: "توضیحات باید حداقل ۵۰ کاراکتر باشد"
-                      },
-                      maxLength: {
-                        value: 1200,
-                        message: "توضیحات نمی‌تواند بیشتر از 1200 کاراکتر باشد"
-                      }
-                    })}
-                  />
-                  {errors.description && (
-                    <span className="text-xs text-red-500">
-                      {errors.description.message}
-                    </span>
-                  )}
-                </label>
-              </div>
-              {/* keynotes */}
-              <div className="w-full flex flex-col gap-y-4 p-4 border rounded">
-                <label
-                  htmlFor="keynotes"
-                  className="w-full flex flex-col gap-y-4"
-                >
-                  <p className="text-sm flex flex-row justify-between items-center">
-                    کلمات کلیدی*
-                    <button
-                      type="button"
-                      className="p-0.5 border rounded-secondary bg-green-500 text-white"
-                      onClick={handleAddKeynote}
-                    >
-                      <Plus />
-                    </button>
-                  </p>
+          <FormInput
+            label="* توضیحات"
+            id="description"
+            type="textarea"
+            placeholder="توضیحات تگ"
+            register={register}
+            error={errors?.description}
+            required="وارد کردن توضیحات الزامی است"
+            minLength={{ value: 10, message: "توضیحات باید حداقل ۱۰ حرف داشته باشد" }}
+            maxLength={{ value: 500, message: "توضیحات نباید بیشتر از ۵۰۰ حرف باشد" }}
+            rows={4}
+          />
 
-                  {keynotes.map((keynote, index) => (
-                    <p
-                      key={index}
-                      className="flex flex-row gap-x-2 items-center"
-                    >
-                      <input
-                        type="text"
-                        name="کلمات کلیدی"
-                        placeholder="کلمه کلیدی را یادداشت کنید"
-                        className="flex-1"
-                        value={keynote}
-                        onChange={(event) =>
-                          handleKeynoteChange(index, event.target.value)
-                        }
-                        required
-                      />
-                      {index !== 0 && (
-                        <button
-                          type="button"
-                          className="p-0.5 border rounded-secondary bg-red-500 text-white"
-                          onClick={() => handleRemoveKeynote(index)}
-                        >
-                          <Minus />
-                        </button>
-                      )}
-                    </p>
-                  ))}
-                </label>
-              </div>
-              {/* انتخاب ربات‌ها */}
-              ربات‌ها*
-              <MultiSelect
-                items={robotOptions}
-                selectedItems={selectedOptions}
-                handleSelect={handleOptionsChange}
-                className="w-full"
-                name="robots"
-                icon={<Robot size={24} />}
-              />
-              <Button type="submit" className="py-2 mt-4 mb-4 bg-black">
-                ایجاد کردن
-              </Button>
-            </div>
-          </form>
-        </Modal>
-      )}
-    </>
+          <FormKeywords
+            items={keynotes}
+            setItems={setKeynotes}
+          />
+        </div>
+        <SendButton />
+        <ToggleThemeButton />
+      </form>
+    </section>
   );
-};
+}
 
 export default AddTag;
