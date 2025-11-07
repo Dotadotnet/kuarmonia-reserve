@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import { MessageCircle } from "lucide-react";
 import RequestForm from "./RequestForm";

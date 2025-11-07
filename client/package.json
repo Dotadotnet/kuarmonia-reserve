@@ -20,6 +20,7 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.5.0",
     "google-translate-api-x": "^10.7.2",
+    "html-react-parser": "^5.2.8",
     "keen-slider": "^6.8.6",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",

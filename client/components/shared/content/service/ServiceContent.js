@@ -4,6 +4,8 @@ import ServiceRoadmap from "./ServiceRoadmap";
 import ServiceFaqs from "./ServiceFaqs";
 import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 import Main from "@/layouts/Main";
+import parse from "html-react-parser";
+import FloatingRequestButton from "@/components/shared/FloatingRequestButton";
 
 export default function ServiceContent({ service }) {
   const locale = useLocale();
@@ -28,6 +30,12 @@ export default function ServiceContent({ service }) {
             )}
             
             <header className="mx-auto mt-[320px] max-w-screen-lg rounded-t-primary dark:bg-gray-900 bg-white pt-16 text-center relative z-10">
+
+              <div className="absolute right-4 top-4">
+                <FloatingRequestButton serviceType="service" specificTypeId={service?._id} />
+
+
+              </div>
               <div className="flex items-center justify-center text-center">
                 <div className="text-gray-700 mt-6 md:mt-0 text-center">
                   <a
@@ -49,11 +57,12 @@ export default function ServiceContent({ service }) {
                     </span>
                   </p>
                 </div>
+         
               </div>
               <h1 className="mt-2 text-4xl text-center sm:text-5xl font-bold">
-                {service?.title}
+               {service?.title}
               </h1>
-              <p className="mt-6 text-xl text-center ">{service?.summary}</p>
+              <p className="mt-6 md:text-md text-sm  text-center ">{service?.summary}</p>
             </header>
             
             <div className="absolute top-[150px] left-1/2 transform -translate-x-1/2 translate-y-1/2 z-40">
@@ -99,12 +108,11 @@ export default function ServiceContent({ service }) {
                 </section>
               )}
               
-              {service?.content && (
-                <div
-                  className="text-justify text-sm md:text-base"
-                  dangerouslySetInnerHTML={{ __html: service.content }}
-                />
-              )}
+             {service?.content && (
+  <div className="text-justify text-sm md:text-base">
+    {parse(service.content)}
+  </div>
+)}
               
               {/* Roadmap Section */}
               {service?.roadmap && service.roadmap.length > 0 && (
