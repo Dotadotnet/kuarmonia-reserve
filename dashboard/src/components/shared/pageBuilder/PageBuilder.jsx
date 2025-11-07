@@ -13,7 +13,8 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         {
           id: Date.now(),
           type: "ckeditor",
-          content: initialValue
+          content: initialValue,
+          uniqueId: `block-${Date.now()}` // Add unique ID for each block
         }
       ];
     }
@@ -27,11 +28,15 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
     const newBlock = {
       id: Date.now(),
       type,
+      uniqueId: `block-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, // Unique ID for each block
       content: type === "title" ? { text: "", icon: null } :
                type === "ckeditor" ? "" : 
                type === "image" ? { images: [], caption: "" } :
                type === "list" ? { listTitle: "", items: [{ text: "", icon: null }] } : // Initialize with one empty item
-               type === "table" ? { title: "", rows: [[]], columns: ["ستون 1"] } : ""
+               type === "table" ? { title: "", rows: [[]], columns: ["ستون 1"] } :
+               type === "blockquote" ? { text: "", title: "", author: "", color: "green" } :
+               type === "video" ? { url: "", title: "", thumbnail: "", isUploaded: false, isThumbnailUploaded: false } :
+               type === "podcast" ? { url: "", title: "", isUploaded: false } : ""
     };
 
     const newBlocks = [...blocks];
@@ -51,6 +56,30 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
 
   // Remove a block
   const removeBlock = (id) => {
+    const blockToRemove = blocks.find(block => block.id === id);
+    
+    // If this is an uploaded video or podcast, we should delete it from Cloudinary
+    if (blockToRemove && (blockToRemove.type === "video" || blockToRemove.type === "podcast")) {
+      if (blockToRemove.content.isUploaded && blockToRemove.content.url) {
+        deleteMedia(blockToRemove.content.url);
+      }
+      // Delete thumbnail if it exists and was uploaded
+      if (blockToRemove.type === "video" && blockToRemove.content.isThumbnailUploaded && blockToRemove.content.thumbnail) {
+        deleteMedia(blockToRemove.content.thumbnail);
+      }
+    }
+    
+    // If this is an image block, delete all images from Cloudinary
+    if (blockToRemove && blockToRemove.type === "image") {
+      if (blockToRemove.content.images && Array.isArray(blockToRemove.content.images)) {
+        blockToRemove.content.images.forEach(image => {
+          if (image.isUploaded && image.url) {
+            deleteMedia(image.url);
+          }
+        });
+      }
+    }
+    
     const newBlocks = blocks.filter(block => block.id !== id);
     setBlocks(newBlocks);
     onChange(serializeBlocks(newBlocks));
@@ -78,8 +107,8 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
     onChange(serializeBlocks(newBlocks));
   };
 
-  // Upload an image
-  const uploadImage = async (file) => {
+  // Upload an image/video/podcast
+  const uploadMedia = async (file) => {
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -87,34 +116,37 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
       const result = await upload(formData).unwrap();
       return result.data.url; // Assuming the API returns the URL in result.data.url
     } catch (error) {
-      console.error("Image upload failed:", error);
+      console.error("Media upload failed:", error);
       throw error;
     }
   };
 
-  // Delete an image
-  const deleteImage = async (imageUrl) => {
-    // In a real implementation, you would call an API to delete the image
+  // Delete media from Cloudinary
+  const deleteMedia = async (mediaUrl) => {
+    // In a real implementation, you would call an API to delete the media
     // For now, we'll just log it
-    console.log("Deleting image:", imageUrl);
+    console.log("Deleting media:", mediaUrl);
   };
 
-  // Serialize blocks to HTML
+  // Serialize blocks to HTML with unique IDs
   const serializeBlocks = (blocksToSerialize) => {
     return blocksToSerialize.map(block => {
+      // Add unique ID as a data attribute to each block
+      const uniqueIdAttr = `data-block-id="${block.uniqueId}"`;
+      
       if (block.type === "title") {
         // Handle title block with icon using Tailwind classes
         // Responsive text sizing: smaller on mobile, larger on desktop
         // Remove bold styling on mobile
         if (block.content.icon && block.content.text) {
-          return `<h2 class="flex items-center gap-2 text-lg md:text-2xl font-normal  text-gray-900 dark:text-white"><span class="inline-block w-5 h-5">${block.content.icon.symbol}</span> ${block.content.text}</h2>`;
+          return `<h2 class="flex items-center gap-2 text-lg md:text-2xl font-normal text-gray-900 dark:text-white" ${uniqueIdAttr}><span class="inline-block w-5 h-5">${block.content.icon.symbol}</span> ${block.content.text}</h2>`;
         } else if (block.content.text) {
-          return `<h2 class="text-lg md:text-2xl font-normal  text-gray-900 dark:text-white">${block.content.text}</h2>`;
+          return `<h2 class="text-lg md:text-2xl font-normal text-gray-900 dark:text-white" ${uniqueIdAttr}>${block.content.text}</h2>`;
         }
         return "";
       } else if (block.type === "ckeditor") {
         // Make CKEditor content smaller on mobile and remove bold styling
-        return `<div class="text-sm md:text-base font-normal">${block.content}</div>`;
+        return `<div class="text-sm md:text-base font-normal" ${uniqueIdAttr}>${block.content}</div>`;
       } else if (block.type === "image") {
         // Handle multiple images with responsive grid layout using Tailwind classes
         // Single column on mobile, two columns on desktop
@@ -123,7 +155,7 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
           // If image has a caption, create overlay with glassmorphism effect
           if (img.caption) {
             return `
-              <div class="relative">
+              <div class="relative" ${uniqueIdAttr}>
                 <div class="flex justify-center">
                   <img src="${img.url}" alt="${img.alt}" class="max-w-full h-auto rounded-lg my-2" />
                 </div>
@@ -135,7 +167,7 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
           } else {
             // If no caption, just show the image normally
             return `
-              <div class="flex justify-center">
+              <div class="flex justify-center" ${uniqueIdAttr}>
                 <img src="${img.url}" alt="${img.alt}" class="max-w-full h-auto rounded-lg my-2" />
               </div>
             `;
@@ -143,7 +175,7 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         }).join("");
         
         return `
-          <div class="my-4">
+          <div class="my-4" ${uniqueIdAttr}>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               ${imagesHtml}
             </div>
@@ -164,7 +196,7 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         
         let html = "";
         if (block.content.listTitle) {
-          html += `<h3 class="text-base md:text-lg font-normal text-gray-800 dark:text-white my-2">${block.content.listTitle}</h3>`;
+          html += `<h3 class="text-base md:text-lg font-normal text-gray-800 dark:text-white my-2" ${uniqueIdAttr}>${block.content.listTitle}</h3>`;
         }
         
         const items = block.content.items.map(item => {
@@ -174,20 +206,20 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
           if (item.icon && item.icon.symbol) {
             // Include icon in the list item using Tailwind classes
             // Use flexbox to vertically center icon with multi-line text
-            return `<li class="${itemStyle.class} mb-1 flex text-sm md:text-base font-normal">
+            return `<li class="${itemStyle.class} mb-1 flex text-sm md:text-base font-normal" ${uniqueIdAttr}>
               <span class="flex-shrink-0 w-4 h-4 ltr:mr-2 rtl:ml-2">${item.icon.symbol}</span>
               <span>${item.text}</span>
             </li>`;
           }
-          return `<li class="${itemStyle.class} mb-1 text-sm md:text-base font-normal">${item.text}</li>`;
+          return `<li class="${itemStyle.class} mb-1 text-sm md:text-base font-normal" ${uniqueIdAttr}>${item.text}</li>`;
         }).join("");
         
-        return `<ul class="mb-4 space-y-1">${items}</ul>`;
+        return `<ul class="mb-4 space-y-1" ${uniqueIdAttr}>${items}</ul>`;
       } else if (block.type === "table") {
         // Handle table block with Tailwind classes
         // Remove bold styling on mobile
         // Modified to use w-fit, center alignment, and proper borders
-        let html = '<div class="my-4 flex justify-center"><table class="w-fit bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-xs md:text-sm">';
+        let html = `<div class="my-4 flex justify-center" ${uniqueIdAttr}><table class="w-fit bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-xs md:text-sm">`;
         
         // Add header row with title if exists
         if (block.content.columns && block.content.columns.length > 0) {
@@ -221,6 +253,89 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         
         html += '</table></div>';
         return html;
+      } else if (block.type === "blockquote") {
+        // Handle blockquote with color options and responsive width
+        if (block.content.text) {
+          // Define color options to match the exact examples
+          const colorOptions = [
+            { value: "indigo", classes: "from-indigo-50 to-purple-50 border-indigo-500 text-indigo-800" },
+            { value: "green", classes: "from-green-50 to-teal-50 border-green-500 text-green-800" },
+            { value: "blue", classes: "from-blue-50 to-cyan-50 border-blue-500 text-blue-800" },
+            { value: "purple", classes: "from-purple-50 to-pink-50 border-purple-500 text-purple-800" }
+          ];
+          
+          // Get the current color classes or default to indigo
+          const currentColor = block.content.color || "indigo";
+          const selectedColor = colorOptions.find(option => option.value === currentColor) || colorOptions[0];
+          
+          const titleHtml = block.content.title ? `<h3 class="text-2xl font-bold ${selectedColor.classes.split(" ")[3]} mb-4">${block.content.title}</h3>` : '';
+          const authorHtml = block.content.author ? `<footer class="mt-4 text-right font-medium ${selectedColor.classes.split(" ")[3]}">— ${block.content.author}</footer>` : '';
+          
+          // Use different classes for RTL and LTR support
+          // RTL: border-r, gradient from right to left
+          // LTR: border-l, gradient from left to right
+          return `
+            <div class="bg-gradient-to-l ${selectedColor.classes.split(" ")[0]} ${selectedColor.classes.split(" ")[1]} p-6 rounded-xl ltr:bg-gradient-to-r ltr:border-l-4 ltr:border-r-0 border-r-4 ${selectedColor.classes.split(" ")[2]} w-full md:w-1/2" ${uniqueIdAttr}>
+              ${titleHtml}
+              <p class="text-base italic">${block.content.text}</p>
+              ${authorHtml}
+            </div>
+          `;
+        }
+        return "";
+      } else if (block.type === "video") {
+        // Handle video embedding with thumbnail
+        if (block.content.url) {
+          // If thumbnail exists, show it with play button overlay
+          if (block.content.thumbnail) {
+            return `
+              <div class="my-4" ${uniqueIdAttr}>
+                <div class="relative">
+                  <img src="${block.content.thumbnail}" alt="${block.content.title || 'Video thumbnail'}" class="w-full rounded-lg" />
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <a href="${block.content.url}" target="_blank" class="bg-black bg-opacity-50 rounded-full p-4 hover:bg-opacity-70 transition">
+                      <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+                ${block.content.title ? `<p class="text-center text-gray-600 dark:text-gray-300 mt-2 text-sm md:text-base">${block.content.title}</p>` : ""}
+              </div>
+            `;
+          } else {
+            // Show embedded video player
+            return `
+              <div class="my-4" ${uniqueIdAttr}>
+                <div class="relative pb-[56.25%] h-0"> <!-- 16:9 Aspect Ratio -->
+                  <iframe 
+                    src="${block.content.url}" 
+                    class="absolute top-0 left-0 w-full h-full rounded-lg" 
+                    frameborder="0" 
+                    allowfullscreen
+                    title="${block.content.title || 'Embedded Video'}"
+                  ></iframe>
+                </div>
+                ${block.content.title ? `<p class="text-center text-gray-600 dark:text-gray-300 mt-2 text-sm md:text-base">${block.content.title}</p>` : ""}
+              </div>
+            `;
+          }
+        }
+        return "";
+      } else if (block.type === "podcast") {
+        // Handle podcast embedding
+        if (block.content.url) {
+          return `
+            <div class="my-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg" ${uniqueIdAttr}>
+              <audio controls class="w-full">
+                <source src="${block.content.url}" type="audio/mpeg">
+                مرورگر شما از پخش پادکست پشتیبانی نمی‌کند.
+              </audio>
+              ${block.content.title ? `<p class="text-center text-gray-700 dark:text-gray-300 mt-2 text-sm md:text-base">${block.content.title}</p>` : ""}
+            </div>
+          `;
+        }
+        return "";
       }
       return "";
     }).join("");
@@ -241,8 +356,8 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
             onRemove={removeBlock}
             onMoveUp={moveBlockUp}
             onMoveDown={moveBlockDown}
-            onUploadImage={uploadImage}
-            onDeleteImage={deleteImage}
+            onUploadImage={uploadMedia}
+            onDeleteImage={deleteMedia}
           />
         ))}
       </div>

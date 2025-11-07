@@ -4,6 +4,9 @@ import ImageBlock from "@/components/shared/pageBuilder/ImageBlock";
 import ListBlock from "@/components/shared/pageBuilder/ListBlock";
 import TitleBlock from "@/components/shared/pageBuilder/TitleBlock";
 import TableBlock from "@/components/shared/pageBuilder/TableBlock";
+import BlockquoteBlock from "@/components/shared/pageBuilder/BlockquoteBlock";
+import VideoBlock from "@/components/shared/pageBuilder/VideoBlock";
+import PodcastBlock from "@/components/shared/pageBuilder/PodcastBlock";
 import BlockControls from "@/components/shared/pageBuilder/BlockControls";
 
 const ContentBlock = ({ 
@@ -54,6 +57,29 @@ const ContentBlock = ({
           <TableBlock 
             content={block.content} 
             onChange={(content) => onUpdate(block.id, content)} 
+          />
+        );
+      case "blockquote":
+        return (
+          <BlockquoteBlock 
+            content={block.content} 
+            onChange={(content) => onUpdate(block.id, content)} 
+          />
+        );
+      case "video":
+        return (
+          <VideoBlock 
+            content={block.content} 
+            onChange={(content) => onUpdate(block.id, content)} 
+            onUpload={onUploadImage}
+          />
+        );
+      case "podcast":
+        return (
+          <PodcastBlock 
+            content={block.content} 
+            onChange={(content) => onUpdate(block.id, content)} 
+            onUpload={onUploadImage}
           />
         );
       default:

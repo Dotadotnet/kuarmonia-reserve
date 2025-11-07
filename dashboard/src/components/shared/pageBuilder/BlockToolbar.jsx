@@ -6,7 +6,10 @@ const BlockToolbar = ({ onAddBlock }) => {
     { type: "ckeditor", label: "متن با ویرایشگر", icon: "📝" },
     { type: "image", label: "تصویر", icon: "🖼️" },
     { type: "list", label: "لیست با آیکون", icon: "📋" },
-    { type: "table", label: "جدول", icon: "📊" }
+    { type: "table", label: "جدول", icon: "📊" },
+    { type: "blockquote", label: "نقل قول", icon: "❝" },
+    { type: "video", label: "ویدئو", icon: "🎬" },
+    { type: "podcast", label: "پادکست", icon: "🎙️" }
   ];
 
   return (

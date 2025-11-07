@@ -24,6 +24,15 @@ const FormPageBuilder = ({
       {error && (
         <p className="mt-1 text-sm text-red-600">{error.message}</p>
       )}
+      
+      <div className="mt-2 text-sm text-gray-500">
+        <p>راهنمای ویرایش:</p>
+        <ul className="list-disc list-inside">
+          <li>برای اضافه کردن نقل قول، از دکمه نقل قول استفاده کنید</li>
+          <li>برای اضافه کردن ویدئو یا پادکست، از دکمه‌های مربوطه استفاده کنید</li>
+          <li>هر بخش دارای شناسه منحصر به فرد جهت ویرایش آسان است</li>
+        </ul>
+      </div>
     </div>
   );
 };

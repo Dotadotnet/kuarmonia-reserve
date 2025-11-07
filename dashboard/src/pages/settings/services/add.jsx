@@ -16,6 +16,8 @@ import Mobile from "@/components/icons/Mobile";
 function AddService() {
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
+   const [editorData, setEditorData] = useState("");
+ 
   const [roadmap, setRoadmap] = useState([
     {
       title: "",
