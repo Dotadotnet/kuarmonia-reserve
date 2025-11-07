@@ -1,9 +1,8 @@
 const HeroSlider = require("../models/heroSlider.model");
 const remove = require("../utils/remove.util");
-const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
-const { flattenDocumentsTranslations, flattenDocumentTranslations } = require("../utils/flattenTranslations");
 const mongoose = require("mongoose");
+const deleteFromCloudinary = require("../middleware/delete.middleware");
 
 exports.addHeroSlider = async (req, res) => {
   try {
@@ -300,9 +299,12 @@ exports.updateHeroSlider = async (req, res) => {
 
       // If there's an existing media file, we should remove it
       if (currentHeroSlider.media && currentHeroSlider.media.public_id) {
-        // Here you would typically call your cloud storage service to remove the file
-        // For local files, you would use the replaceImage utility
-        console.log(`Old media file should be removed: ${currentHeroSlider.media.public_id}`);
+        // Delete the old media file from Cloudinary
+        try {
+          await deleteFromCloudinary(currentHeroSlider.media.public_id, 'image');
+        } catch (error) {
+          console.error("Error deleting old media from Cloudinary:", error);
+        }
       }
 
       updateData.media = {
@@ -442,14 +444,7 @@ exports.updateHeroSliderIds = async (req, res) => {
 
 exports.deleteHeroSlider = async (req, res) => {
   try {
-    const heroSlider = await HeroSlider.findByIdAndUpdate(
-      req.params.id,
-      {
-        isDeleted: true,
-        deletedAt: Date.now()
-      },
-      { new: true }
-    );
+    const heroSlider = await HeroSlider.findById(req.params.id);
 
     if (!heroSlider) {
       return res.status(404).json({
@@ -458,6 +453,24 @@ exports.deleteHeroSlider = async (req, res) => {
         description: "اسلایدری که می‌خواهید حذف کنید وجود ندارد"
       });
     }
+
+    // Delete media file from Cloudinary if it exists
+    if (heroSlider.media && heroSlider.media.public_id) {
+      try {
+        await deleteFromCloudinary(heroSlider.media.public_id, 'image');
+      } catch (error) {
+        console.error("Error deleting media from Cloudinary:", error);
+      }
+    }
+
+    const result = await HeroSlider.findByIdAndUpdate(
+      req.params.id,
+      {
+        isDeleted: true,
+        deletedAt: Date.now()
+      },
+      { new: true }
+    );
 
     res.status(200).json({
       acknowledgement: true,

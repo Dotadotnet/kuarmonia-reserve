@@ -1,8 +1,8 @@
 // controllers/story.controller.js
 const Story = require("../models/story.model");
 const translateFields = require("../utils/translateFields");
-const replaceImage = require("../utils/replaceImage");
 const mongoose = require("mongoose");
+const deleteFromCloudinary = require("../middleware/delete.middleware");
 
 exports.addStory = async (req, res) => {
   try {
@@ -403,9 +403,12 @@ exports.updateStory = async (req, res) => {
 
       // If there's an existing media file, we should remove it
       if (currentStory.media && currentStory.media.public_id) {
-        // Here you would typically call your cloud storage service to remove the file
-        // For local files, you would use the replaceImage utility
-        console.log(`Old media file should be removed: ${currentStory.media.public_id}`);
+        // Delete the old media file from Cloudinary
+        try {
+          await deleteFromCloudinary(currentStory.media.public_id, 'image');
+        } catch (error) {
+          console.error("Error deleting old media from Cloudinary:", error);
+        }
       }
 
       updateData.media = {
@@ -531,6 +534,15 @@ exports.deleteStory = async (req, res) => {
       });
     }
 
+    // Delete media file from Cloudinary if it exists
+    if (story.media && story.media.public_id) {
+      try {
+        await deleteFromCloudinary(story.media.public_id, 'image');
+      } catch (error) {
+        console.error("Error deleting media from Cloudinary:", error);
+      }
+    }
+
     // If this story has a parent, remove it from the parent's children array
     if (story.parent) {
       await Story.findByIdAndUpdate(story.parent, {
@@ -540,6 +552,18 @@ exports.deleteStory = async (req, res) => {
 
     // If this story has children, delete them as well (cascade delete)
     if (story.children && story.children.length > 0) {
+      // Delete media files for all children first
+      const childrenStories = await Story.find({ _id: { $in: story.children } });
+      for (const child of childrenStories) {
+        if (child.media && child.media.public_id) {
+          try {
+            await deleteFromCloudinary(child.media.public_id, 'image');
+          } catch (error) {
+            console.error("Error deleting child media from Cloudinary:", error);
+          }
+        }
+      }
+
       await Story.deleteMany({
         _id: { $in: story.children }
       });
