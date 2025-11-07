@@ -23,7 +23,7 @@ export default function VisaBanner() {
         alt="Visa and Residency Services"
         width={130}
         height={130}
-        className="rounded-lg scale-150 object-contain"
+        className="rounded-lg rtl:scale-x-[-1] scale-150 object-contain"
       />
     </div>
   </div>

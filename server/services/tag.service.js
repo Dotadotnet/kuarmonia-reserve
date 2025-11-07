@@ -3,6 +3,7 @@ const Tag = require("../models/tag.model");
 const mongoose = require("mongoose");
 const translateFields = require("../utils/translateFields");
 const { generateSlug } = require("../utils/seoUtils");
+const deleteFromCloudinary = require("../middleware/delete.middleware");
 
 exports.addTag = async (req, res) => {
   try {
@@ -45,11 +46,21 @@ exports.addTag = async (req, res) => {
       tr: keynotesTranslations.tr.fields.keynotes
     };
 
+    // Handle thumbnail upload if provided
+    let thumbnail = null;
+    if (req.uploadedFiles && req.uploadedFiles["thumbnail"] && req.uploadedFiles["thumbnail"].length > 0) {
+      thumbnail = {
+        url: req.uploadedFiles["thumbnail"][0].url,
+        public_id: req.uploadedFiles["thumbnail"][0].public_id
+      };
+    }
+
     const tag = new Tag({
       title: translatedTitle,
       description: translatedDescription,
       keynotes: translatedKeynotes,
       slug: await generateSlug(titleTranslations.en.fields.title),
+      thumbnail: thumbnail,
       creator: req.admin._id
     });
 
@@ -136,6 +147,7 @@ exports.getTags = async (req, res) => {
           keynotes: `$keynotes.${locale}`,
           slug: 1,
           canonicalUrl: 1,
+          thumbnail: 1,
           status: 1,
           createdAt: 1,
           "creator._id": 1,
@@ -210,6 +222,7 @@ exports.getTag = async (req, res) => {
           slug: 1,
           canonicalUrl: 1,
           status: 1,
+          thumbnail: 1,
           createdAt: 1,
           creator: {
             _id: "$creator._id",
@@ -296,6 +309,27 @@ exports.updateTag = async (req, res) => {
         fa: parsedKeynotes,
         en: translations.en.fields.keynotes,
         tr: translations.tr.fields.keynotes
+      };
+    }
+
+    // Handle thumbnail update if new file is uploaded
+    if (req.uploadedFiles && req.uploadedFiles["thumbnail"] && req.uploadedFiles["thumbnail"].length > 0) {
+      // Get the current tag to access old thumbnail info
+      const currentTag = await Tag.findById(req.params.id);
+
+      // If there's an existing thumbnail, delete it from Cloudinary
+      if (currentTag.thumbnail && currentTag.thumbnail.public_id && currentTag.thumbnail.public_id !== "N/A") {
+        try {
+          await deleteFromCloudinary(currentTag.thumbnail.public_id, 'image');
+        } catch (error) {
+          console.error("Error deleting old thumbnail from Cloudinary:", error);
+        }
+      }
+
+      // Set the new thumbnail
+      updatedTag.thumbnail = {
+        url: req.uploadedFiles["thumbnail"][0].url,
+        public_id: req.uploadedFiles["thumbnail"][0].public_id
       };
     }
 
@@ -387,9 +421,3 @@ exports.deleteTag = async (req, res) => {
     description: "تگ با موفقیت حذف شد"
   });
 };
-
-
-
-
-
-

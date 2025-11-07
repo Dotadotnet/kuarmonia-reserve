@@ -1,254 +1,218 @@
-import Minus from "@/components/icons/Minus";
-import Plus from "@/components/icons/Plus";
-import Button from "@/components/shared/button/Button";
-import { useGetTagQuery, useUpdateTagMutation } from "@/services/tag/tagApi";
+import { useEffect, useState, useMemo } from "react";
 import { toast } from "react-hot-toast";
-import Modal from "@/components/shared/modal/Modal";
-import { useState, useEffect } from "react";
-import Edit from "@/components/icons/Edit";
-import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import StatusSwitch from "@/components/shared/button/StatusSwitch";
+import { useUpdateTagMutation, useGetTagQuery } from "@/services/tag/tagApi";
+import BackButton from "@/components/shared/button/BackButton";
+import SendButton from "@/components/shared/button/SendButton";
+import ToggleThemeButton from "@/components/ThemeToggle";
+import FormInput from "@/components/shared/input/FormInput";
+import FormKeywords from "@/components/shared/input/FormKeywords";
+import ThumbnailUpload from "@/components/shared/gallery/ThumbnailUpload";
+import SkeletonImage from "@/components/shared/skeleton/SkeletonImage";
 
 const UpdateTag = ({ id }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const {
-    isLoading: fetching,
-    data: fetchData,
-    error: fetchError
-  } = useGetTagQuery(id, { skip: !isOpen });
+  const { data: tagData, isLoading: isFetching, error: fetchError } = useGetTagQuery(id);
+  const [updateTag, { isLoading, data, error }] = useUpdateTagMutation();
   const [keynotes, setKeynotes] = useState([""]);
-  
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm();
-  
-  
-  const [
-    updateTag,
-    { isLoading: isUpdateing, data: updateData, error: updateError }
-  ] = useUpdateTagMutation();
-  
+  const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [thumbnail, setThumbnail] = useState({});
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+  // Set initial form values when tag data is fetched
   useEffect(() => {
-    if (fetchData?.data) {
-      // Initialize keynotes with the fetched data
-      if (fetchData.data.keynotes) {
-        setKeynotes(fetchData.data.keynotes);
+    if (tagData?.data) {
+      const tag = tagData.data;
+      reset({
+        title: tag.title,
+        description: tag.description
+      });
+      
+      // Set keynotes
+      if (tag.keynotes && Array.isArray(tag.keynotes)) {
+        setKeynotes(tag.keynotes.length > 0 ? tag.keynotes : [""]);
       } else {
         setKeynotes([""]);
       }
+      
+      // Set thumbnail preview if exists
+      if (tag.thumbnail?.url) {
+        setThumbnailPreview(tag.thumbnail.url);
+      }
     }
+  }, [tagData, reset]);
+
+  const onSubmit = async (formData) => {
+    const data = new FormData();
+    data.append("title", formData.title);
+    data.append("description", formData.description);
+    data.append("keynotes", JSON.stringify(keynotes));
     
-    if (isUpdateing) {
-      toast.loading("در حال به‌روزرسانی ...", {
-        id: "fetchTag"
+    // Only append thumbnail if a new one is selected
+    if (thumbnail && thumbnail.name) {
+      data.append("thumbnail", thumbnail);
+    }
+
+    await updateTag({ id, body: data });
+  };
+
+  // Function to handle pasting comma-separated values into keynotes
+  const handleKeynotesPaste = (e) => {
+    const paste = e.clipboardData.getData('text');
+    if (paste.includes(',')) {
+      e.preventDefault();
+      const newKeynotes = paste.split(',').map(item => item.trim()).filter(item => item.length > 0);
+      
+      // Update keynotes state with new values
+      const updatedKeynotes = [...keynotes];
+      let currentIndex = updatedKeynotes.findIndex(item => item === "");
+      
+      // If no empty field found, add new fields
+      if (currentIndex === -1) {
+        setKeynotes([...updatedKeynotes, ...newKeynotes]);
+      } else {
+        // Replace empty fields with pasted values
+        newKeynotes.forEach((value, index) => {
+          if (currentIndex + index < updatedKeynotes.length) {
+            updatedKeynotes[currentIndex + index] = value;
+          } else {
+            updatedKeynotes.push(value);
+          }
+        });
+        setKeynotes(updatedKeynotes);
+      }
+    }
+  };
+
+  useEffect(() => {
+    // Add paste event listener to keynotes inputs
+    const keynotesInputs = document.querySelectorAll('input[placeholder*="کلمه کلیدی"]');
+    keynotesInputs.forEach(input => {
+      input.addEventListener('paste', handleKeynotesPaste);
+    });
+
+    return () => {
+      // Clean up event listeners
+      keynotesInputs.forEach(input => {
+        input.removeEventListener('paste', handleKeynotesPaste);
       });
-    }
-    
-    if (fetchData) {
-      toast.success(fetchData?.message, { id: "fetchTag" });
+    };
+  }, [keynotes]);
+
+  useEffect(() => {
+    if (isFetching) {
+      toast.loading("در حال دریافت اطلاعات تگ...", { id: "fetch-tag" });
     }
 
     if (fetchError?.data) {
-      toast.error(fetchError?.data?.message, { id: "fetchTag" });
+      toast.error(fetchError?.data?.description, { id: "fetch-tag" });
+    }
+  }, [isFetching, fetchError]);
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("در حال بروزرسانی تگ...", { id: "update-tag" });
     }
 
-    if (updateData) {
-      toast.success(updateData?.message, { id: "updateTag" });
-      setIsOpen(false);
+    if (data) {
+      toast.success(data?.description, { id: "update-tag" });
     }
 
-    if (updateError?.data) {
-      toast.error(updateError?.data?.message, { id: "updateTag" });
+    if (error?.data) {
+      toast.error(error?.data?.description, { id: "update-tag" });
     }
-  }, [fetching, fetchData, fetchError, isUpdateing, updateData, updateError]);
+  }, [isLoading, data, error]);
 
-  const handleUpdateUser = (data) => {
-    const formData = new FormData();
+  if (isFetching) {
+    return (
+      <section className="relative bg-[#dce9f5] dark:bg-[#1a202c] h-screen w-screen overflow-hidden text-black dark:text-gray-300 min-h-screen flex justify-center items-center p-4">
+        <div className="wave"></div>
+        <div className="wave wave2"></div>
+        <div className="wave wave3"></div>
+        <div className="flex flex-row items-center gap-x-2">
+          <BackButton to={-1} />
+        </div>
+        <div className="max-w-md w-full dark:bg-gray-800 bg-white flex flex-col gap-y-4 p-5 sm:p-8 rounded-primary shadow-lg z-10">
+          <p className="text-center">در حال بارگذاری...</p>
+        </div>
+      </section>
+    );
+  }
 
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("keynotes", JSON.stringify(keynotes));
-    const status = data.status ? "active" : "inactive";
-    formData.append("status", status);
-
-    updateTag({ id: id, body: formData });
-  };
-
-  const handleAddKeynote = () => {
-    setKeynotes([...keynotes, ""]);
-  };
-
-  const handleRemoveKeynote = (index) => {
-    const updatedKeynotes = [...keynotes];
-    updatedKeynotes.splice(index, 1);
-    setKeynotes(updatedKeynotes);
-  };
-
-  const handleKeynoteChange = (index, value) => {
-    const updatedKeynotes = [...keynotes];
-    updatedKeynotes[index] = value;
-    setKeynotes(updatedKeynotes);
-  };
   return (
-    <>
-      <span
-        type="button"
-        disabled={fetching ? true : undefined}
-        className="edit-button"
-        onClick={() => {
-          setIsOpen(true);
-        }}
+    <section className="relative bg-[#dce9f5] dark:bg-[#1a202c] h-screen w-screen overflow-hidden text-black dark:text-gray-300 min-h-screen flex justify-center items-center p-4">
+      <div className="wave"></div>
+      <div className="wave wave2"></div>
+      <div className="wave wave3"></div>
+      <div className="flex flex-row items-center gap-x-2">
+        <BackButton to={-1} />
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="max-w-md w-full dark:bg-gray-800 bg-white flex flex-col gap-y-4 p-5 sm:p-8 rounded-primary shadow-lg z-10"
+        encType="multipart/form-data"
       >
-        <Edit className="w-5 h-5" />
-      </span>
-
-      {isOpen && (
-        <Modal
-          isOpen={isOpen}
-          action=""
-          onClose={() => setIsOpen(false)}
-          className="lg:w-1/3 md:w-1/2 w-full z-50 p-4 rounded-md overflow-y-hidden text-right "
-        >
-          <form
-            action=""
-            className="text-sm w-full h-full flex flex-col gap-y-4 mb-3 p-4 overflow-y-auto"
-            onSubmit={handleSubmit(handleUpdateUser)}
+        <div className="profile-container shine-effect rounded-full flex justify-center">
+          {thumbnailPreview ? (
+            <img
+              src={thumbnailPreview}
+              alt="thumbnail"
+              height={100}
+              width={100}
+              className="h-[100px] w-[100px] profile-pic rounded-full"
+            />
+          ) : (
+            <SkeletonImage />
+          )}
+        </div>
+        
+        <div className="flex gap-4 flex-col w-full">
+          <label
+            htmlFor="thumbnail"
+            className="flex flex-col items-center text-center gap-y-2"
           >
-            <div className="flex gap-4 flex-col">
-              <div className="w-full flex flex-col gap-y-4 p-4 border rounded">
-                {/* title */}
-                <label htmlFor="title" className="w-full flex flex-col gap-y-1">
-                  <span className="text-sm">عنوان*</span>
-                  <input
-                    type="text"
-                    id="title"
-                    maxLength="100"
-                    defaultValue={fetchData?.data?.title}
-                    {...register("title", {
-                      required: "عنوان الزامی است!",
-                      minLength: {
-                        value: 3,
-                        message: "عنوان باید حداقل ۳ کاراکتر باشد!"
-                      },
-                      maxLength: {
-                        value: 100,
-                        message: "عنوان نمی‌تواند بیش از ۱۰۰ کاراکتر باشد!"
-                      },
-                      pattern: {
-                        value: /^[آ-یA-Za-z0-9\s]+$/,
-                        message:
-                          "عنوان فقط باید شامل حروف فارسی، انگلیسی و عدد باشد!"
-                      }
-                    })}
-                  />
-                  {errors.title && (
-                    <span className="text-red-500 text-xs">
-                      {errors.title.message}
-                    </span>
-                  )}
-                </label>
+            تصویر تگ
+            <ThumbnailUpload
+              setThumbnailPreview={setThumbnailPreview}
+              setThumbnail={setThumbnail}
+              maxFiles={1}
+              register={register("thumbnail")}
+            />
+          </label>
+          
+          <FormInput
+            label="* عنوان"
+            id="title"
+            type="text"
+            placeholder="عنوان تگ"
+            register={register}
+            error={errors?.title}
+            required="وارد کردن عنوان الزامی است"
+            minLength={{ value: 3, message: "عنوان باید حداقل ۳ حرف داشته باشد" }}
+            maxLength={{ value: 100, message: "عنوان نباید بیشتر از ۱۰۰ حرف باشد" }}
+          />
 
-                {/* description */}
-                <label
-                  htmlFor="description"
-                  className="w-full flex flex-col gap-y-1"
-                >
-                  <span className="text-sm">توضیحات*</span>
-                  <textarea
-                    id="description"
-                    rows="4"
-                    maxLength="500"
-                    defaultValue={fetchData?.data?.description}
-                    {...register("description", {
-                      required: "توضیحات الزامی است!",
-                      minLength: {
-                        value: 10,
-                        message: "توضیحات باید حداقل ۱۰ کاراکتر باشد!"
-                      },
-                      maxLength: {
-                        value: 500,
-                        message: "توضیحات نمی‌تواند بیش از ۵۰۰ کاراکتر باشد!"
-                      }
-                    })}
-                  />
-                  {errors.description && (
-                    <span className="text-red-500 text-xs">
-                      {errors.description.message}
-                    </span>
-                  )}
-                </label>
-              </div>
-              {/* keynotes */}
-              <div className="w-full flex flex-col gap-y-4 p-4 border rounded">
-                <label
-                  htmlFor="keynotes"
-                  className="w-full flex flex-col gap-y-4"
-                >
-                  <p className="text-sm flex flex-row justify-between items-center">
-                    کلمات کلیدی*
-                    <button
-                      type="button"
-                      className="p-0.5 border rounded-secondary bg-green-500 text-white"
-                      onClick={handleAddKeynote}
-                    >
-                      <Plus />
-                    </button>
-                  </p>
+          <FormInput
+            label="* توضیحات"
+            id="description"
+            type="textarea"
+            placeholder="توضیحات تگ"
+            register={register}
+            error={errors?.description}
+            required="وارد کردن توضیحات الزامی است"
+            minLength={{ value: 10, message: "توضیحات باید حداقل ۱۰ حرف داشته باشد" }}
+            maxLength={{ value: 1000, message: "توضیحات نباید بیشتر از ۱۰۰۰ حرف باشد" }}
+            rows={4}
+          />
 
-                  { keynotes.map((keynote, index) => (
-                    <p
-                      key={index}
-                      className="flex flex-row gap-x-2 items-center"
-                    >
-                      <input
-                        type="text"
-                        name="keynote"
-                        placeholder="کلمه کلیدی را یادداشت کنید"
-                        className="flex-1"
-                        value={keynote}
-                        onChange={(event) =>
-                          handleKeynoteChange(index, event.target.value)
-                        }
-                        required
-                      />
-                      {index !== 0 && (
-                        <button
-                          type="button"
-                          className="p-0.5 border rounded-secondary bg-red-500 text-white"
-                          onClick={() => handleRemoveKeynote(index)}
-                        >
-                          <Minus />
-                        </button>
-                      )}
-                    </p>
-                  ))}
-                </label>
-              </div>
-              {/* انتخاب ربات‌ها */}
-              
-              *
-              <div className="flex flex-col gap-y-2 w-full ">
-                <StatusSwitch
-                  label="وضعیت"
-                  id="status"
-                  register={register}
-                  defaultChecked={
-                    fetchData?.data?.status === "active" ? true : false
-                  }
-                />
-              </div>
-              <Button type="submit" className="py-2 mt-4 mb-4 bg-black">
-                ویرایش کردن
-              </Button>
-            </div>
-          </form>
-        </Modal>
-      )}
-    </>
+          <FormKeywords
+            items={keynotes}
+            setItems={setKeynotes}
+          />
+        </div>
+        <SendButton />
+        <ToggleThemeButton />
+      </form>
+    </section>
   );
 };
 

@@ -5,7 +5,7 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
   output: 'standalone',
-  swcMinify: true, // minify با SWC
+  // swcMinify option removed as it's not valid in this Next.js version
   experimental: {
     esmExternals: true, // خروجی ES Modules برای مرورگرهای مدرن
   },

@@ -1,5 +1,3 @@
-
-
 /* external import */
 const express = require("express");
 
@@ -22,6 +20,7 @@ router.post(
   "/add-tag",
   verify,
   authorize("superAdmin", "admin"),
+  upload('tag').single("thumbnail"),
   tagController.addTag
 );
 
@@ -36,7 +35,7 @@ router.patch(
   "/update-tag/:id",
   verify,
   authorize("superAdmin", "admin"),
-  upload('tag').single("logo"),
+  upload('tag').single("thumbnail"),
   tagController.updateTag
 );
 

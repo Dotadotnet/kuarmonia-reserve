@@ -33,17 +33,17 @@ const tagSchema = new mongoose.Schema(
       fa: { 
         type: String,
         trim: true,
-        maxLength: [500, "توضیحات تگ نباید بیشتر از 500 کاراکتر باشد"]
+        maxLength: [1000, "توضیحات تگ نباید بیشتر از 1000 کاراکتر باشد"]
       },
       en: { 
         type: String,
         trim: true,
-        maxLength: [500, "توضیحات تگ نباید بیشتر از 500 کاراکتر باشد"]
+        maxLength: [1000, "توضیحات تگ نباید بیشتر از 1000 کاراکتر باشد"]
       },
       tr: { 
         type: String,
         trim: true,
-        maxLength: [500, "توضیحات تگ نباید بیشتر از 500 کاراکتر باشد"]
+        maxLength: [1000, "توضیحات تگ نباید بیشتر از 1000 کاراکتر باشد"]
       }
     },
 
@@ -80,6 +80,18 @@ const tagSchema = new mongoose.Schema(
       type: ObjectId,
       ref: "Admin",
       required: [true, "شناسه نویسنده الزامی است"]
+    },
+
+    // Add thumbnail field similar to category model
+    thumbnail: {
+      url: {
+        type: String,
+        default: "https://placehold.co/300x300.png"
+      },
+      public_id: {
+        type: String,
+        default: "N/A"
+      }
     },
 
     tagId: {

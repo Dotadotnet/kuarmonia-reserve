@@ -12,27 +12,28 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Slider from "@/components/home/slider/page";
 import KeyServices from "@/components/home/steps/KeyServicesSection";
+import VisaBanner from "@/components/home/slider/Banner";
 
 
 
 export default async function Home({ params }) {
-  
+
   return (
     <Main   >
       <>
-         <Stories params={params} />
-       <Slider params={params} />
-       <KeyServices params={params} /> 
-     <VisaType params={params} />  
-
-        <Visa params={params} />  
-     {/* <NewsSection params={params} />  */}
+        <Stories params={params} />
+        <Slider params={params} />
+        <VisaBanner />
+        <KeyServices params={params} />
+        <VisaType params={params} />
+        <Visa params={params} />
+        {/* <NewsSection params={params} />  */}
         {/* <Properties params={params} />
         <Opportunity params={params} />
-        <Rent params={params} /> 
-        <NewsLetter /> */}
-        <Intro params={params} /> 
+        <Rent params={params} /> */}
+        <NewsLetter />
+        <Intro params={params} />
       </>
-   </Main>
+    </Main>
   );
 }
