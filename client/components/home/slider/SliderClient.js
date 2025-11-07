@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from "embla-carousel-autoplay"
 import { useLocale } from "next-intl"
+import Image from "next/image"
 
 export default function SliderClient({ slides }) {
   const locale = useLocale()
@@ -20,7 +21,7 @@ export default function SliderClient({ slides }) {
       containScroll: "trimSnaps",
       direction: isRTL ? "rtl" : "ltr",
     },
-    [autoplay.current] // ← اضافه شد
+    [autoplay.current]
   )
 
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -44,28 +45,45 @@ export default function SliderClient({ slides }) {
     emblaApi.on("reInit", onSelect)
   }, [emblaApi, onSelect])
 
+  // Get the first slide for LCP optimization
+  const firstSlide = slides && slides.length > 0 ? slides[0] : null;
+
   return (
     <div className="relative w-full">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y touch-pinch-zoom">
-          {slides.map((slide) => (
+          {slides.map((slide, index) => (
             <div
               key={slide._id}
               className="relative flex-[0_0_90%] md:flex-[0_0_100%] px-1 md:px-0 min-w-0"
             >
               <div className="relative w-full h-[200px] md:h-[300px] overflow-hidden rounded-xl md:rounded-none">
-                <img
-                  src={slide.media.url}
-                  alt={slide.title}
-                  className={`w-full h-full object-cover transition-transform duration-300 rounded-xl md:rounded-none ${
-                    isRTL ? "scale-x-[-1]" : ""
-                  }`}
-                />
+                {index === 0 ? (
+                  // First image with priority for LCP optimization
+                  <Image
+                    src={slide.media.url}
+                    alt={slide.title}
+                    fill
+                    priority
+                    fetchPriority="high"
+                    className={`object-cover transition-transform duration-300 rounded-xl md:rounded-none rtl:scale-x-[-1] `}
+                  />
+                ) : (
+                  // Other images without priority
+                  <Image
+                    src={slide.media.url}
+                    alt={slide.title}
+                    fill
+                    loading="lazy"
+                    className={`object-cover transition-transform duration-300 rounded-xl md:rounded-none rtl:scale-x-[-1]
+                    }`}
+                  />
+                )}
 
                 {/* فقط پشت متن تار و شیشه‌ای */}
                 <div
-                  className={`absolute top-1/2 -translate-y-1/2 ${
-                    isRTL ? "right-4 text-right" : "left-4 text-left"
+                  className={`absolute top-1/2 -translate-y-1/2 
+                    rtl:right-4 rtl:text-right ltr:left-4 ltr:text-left
                   } md:right-12 text-white space-y-2`}
                 >
                   <h3 className="text-2xl md:text-5xl font-bold bg-black/40 backdrop-blur-sm px-4 py-2 rounded-md w-fit">
