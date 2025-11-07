@@ -15,6 +15,7 @@ import SocialLinks from "./pages/socialLinks";
 import AddCategory from "./pages/categories/add";
 import Tags from "./pages/tags";
 import AddTag from "./pages/tags/add";
+import UpdateTag from "./pages/tags/UpdateTag";
 import Currencies from "./pages/currencies";
 import Posts from "./pages/posts";
 import AddPost from "./pages/posts/add";
@@ -110,6 +111,7 @@ function App() {
           <Route exact path="/requests" element={<Requests />} />
           <Route exact path="/tags" element={<Tags />} />
           <Route exact path="/tags/add" element={<AddTag />} />
+          <Route exact path="/tags/edit/:id" element={<UpdateTag />} />
           <Route exact path="/categories" element={<Categories />} />
           <Route exact path="/socialLinks" element={<SocialLinks />} />
           <Route exact path="/currencies" element={<Currencies />} />

@@ -241,12 +241,18 @@ exports.getHeroSlider = async (req, res) => {
 
 exports.updateHeroSlider = async (req, res) => {
   try {
+    console.log("Starting updateHeroSlider function");
+    console.log("Request params:", req.params);
+    console.log("Request body:", req.body);
+    console.log("Uploaded files:", req.uploadedFiles);
+    
     const { id } = req.params;
     const { title, subtitle, caption, link } = req.body;
     let updateData = {};
 
     // Use automatic translation for title if provided
     if (title) {
+      console.log("Processing title translation:", title);
       const translations = await translateFields(
         { title },
         { stringFields: ["title"] }
@@ -257,10 +263,12 @@ exports.updateHeroSlider = async (req, res) => {
         en: translations.en.fields.title,
         tr: translations.tr.fields.title
       };
+      console.log("Title translation completed:", updateData.title);
     }
 
     // Use automatic translation for subtitle if provided
     if (subtitle) {
+      console.log("Processing subtitle translation:", subtitle);
       const translations = await translateFields(
         { subtitle },
         { stringFields: ["subtitle"] }
@@ -271,10 +279,12 @@ exports.updateHeroSlider = async (req, res) => {
         en: translations.en.fields.subtitle,
         tr: translations.tr.fields.subtitle
       };
+      console.log("Subtitle translation completed:", updateData.subtitle);
     }
 
     // Use automatic translation for caption if provided
     if (caption) {
+      console.log("Processing caption translation:", caption);
       const translations = await translateFields(
         { caption },
         { stringFields: ["caption"] }
@@ -285,23 +295,31 @@ exports.updateHeroSlider = async (req, res) => {
         en: translations.en.fields.caption,
         tr: translations.tr.fields.caption
       };
+      console.log("Caption translation completed:", updateData.caption);
     }
 
     // Update link if provided
     if (link !== undefined) {
+      console.log("Updating link:", link);
       updateData.link = link || null;
     }
 
     // Handle media update if new file is uploaded
     if (req.uploadedFiles && req.uploadedFiles["media"] && req.uploadedFiles["media"].length) {
+      console.log("Processing media update");
+      console.log("Uploaded media files:", req.uploadedFiles["media"]);
+      
       // Get the current heroSlider to access old media info
       const currentHeroSlider = await HeroSlider.findById(id);
+      console.log("Current heroSlider:", currentHeroSlider);
 
       // If there's an existing media file, we should remove it
-      if (currentHeroSlider.media && currentHeroSlider.media.public_id) {
+      if (currentHeroSlider && currentHeroSlider.media && currentHeroSlider.media.public_id) {
+        console.log("Deleting old media from Cloudinary:", currentHeroSlider.media.public_id);
         // Delete the old media file from Cloudinary
         try {
           await deleteFromCloudinary(currentHeroSlider.media.public_id, 'image');
+          console.log("Old media deleted successfully");
         } catch (error) {
           console.error("Error deleting old media from Cloudinary:", error);
         }
@@ -312,15 +330,19 @@ exports.updateHeroSlider = async (req, res) => {
         public_id: req.uploadedFiles["media"][0].key,
         type: "image" // Assuming image for now, could be extended for video
       };
+      console.log("New media data:", updateData.media);
     }
 
+    console.log("Update data to be saved:", updateData);
     const heroSlider = await HeroSlider.findByIdAndUpdate(
       id,
       { $set: updateData },
       { new: true, runValidators: true }
     );
+    console.log("Updated heroSlider:", heroSlider);
 
     if (!heroSlider) {
+      console.log("HeroSlider not found with id:", id);
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
@@ -336,6 +358,7 @@ exports.updateHeroSlider = async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating hero slider:", error);
+    console.error("Error stack:", error.stack);
 
     // Handle validation errors
     if (error.name === 'ValidationError') {
@@ -487,3 +510,5 @@ exports.deleteHeroSlider = async (req, res) => {
     });
   }
 };
+
+

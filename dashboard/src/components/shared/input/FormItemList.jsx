@@ -27,7 +27,7 @@ const FormItemList = ({
   };
 
   return (
-    <div className={className}>
+    <div className={className} >
       <label className="w-full flex flex-col gap-y-4">
         <p className="text-sm flex flex-row justify-between items-center">
           {label}{required && "*"}
