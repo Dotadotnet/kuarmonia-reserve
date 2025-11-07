@@ -83,10 +83,10 @@ console.log("data",data)
           <span className="hidden lg:flex">نویسنده</span>
           <span className="flex lg:hidden">نویسنده و عنوان</span>
         </div>
-        <div className="col-span-8 lg:col-span-2 hidden lg:flex text-sm">
+        <div className="col-span-8 lg:col-span-3 hidden lg:flex text-sm">
           عنوان
         </div>
-        <div className="lg:col-span-4 lg:flex hidden text-sm md:block">
+        <div className="lg:col-span-5 lg:flex hidden text-sm md:block">
           توضیحات
         </div>
         <div className="col-span-1 md:block text-sm">عملیات</div>
@@ -142,7 +142,7 @@ console.log("data",data)
               </div>
             </div>
 
-            <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
+            <div className="lg:col-span-3 hidden gap-2 lg:flex justify-left items-center text-right">
               <article className="flex-col flex gap-y-2">
                 <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
                   {tag?.title}
@@ -150,7 +150,7 @@ console.log("data",data)
               </article>
             </div>
 
-            <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
+            <div className="lg:col-span-5 hidden gap-2 lg:flex justify-left items-center text-right">
               <article className="flex-col flex gap-y-2">
                 <span
                   className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]"
