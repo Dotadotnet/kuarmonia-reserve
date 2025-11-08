@@ -13,7 +13,7 @@ export default function ServiceContent({ service }) {
 
   return (
     <Main>
-      <div className="dark:bg-gray-800 z-40 relative scrollbar-hide h-screen overflow-y-auto">
+      <div className="dark:bg-gray-800 relative scrollbar-hide h-screen overflow-y-auto">
         <main>
           <article>
             {/* Thumbnail at the top, behind the article header */}
@@ -29,7 +29,7 @@ export default function ServiceContent({ service }) {
               </div>
             )}
             
-            <header className="mx-auto mt-[320px] max-w-screen-lg rounded-t-primary dark:bg-gray-900 bg-white pt-16 text-center relative z-10">
+            <header className="mx-auto mt-[320px] max-w-screen-lg rounded-t-primary dark:bg-gray-900 bg-white pt-16 text-center relative ">
 
               <div className="absolute right-4 top-4">
                 <FloatingRequestButton serviceType="service" specificTypeId={service?._id} />
@@ -65,7 +65,7 @@ export default function ServiceContent({ service }) {
               <p className="mt-6 px-4 md:text-md text-sm   text-justify">{service?.summary}</p>
             </header>
             
-            <div className="absolute top-[150px] left-1/2 transform -translate-x-1/2 translate-y-1/2 !z-40">
+            <div className="absolute top-[150px] left-1/2 transform -translate-x-1/2 translate-y-1/2 z-0">
               {!service?.creator?.avatar?.url && (
                 <div className="profile-container dark:!border-gray-600 text-center shine-effect rounded-full flex justify-center mb-4">
                   <SkeletonImage

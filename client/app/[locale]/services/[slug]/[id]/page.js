@@ -13,7 +13,6 @@ const ServicePost = async ({ params }) => {
 
   const res = await response.json();
   const service = res.data;
-console.log(service)
   return (
 
     <ServiceContent service={service} />

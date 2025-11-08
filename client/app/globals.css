@@ -164,27 +164,7 @@ a:has(> svg.fa-whatsapp) {
   transform: rotateX(180deg); /* محتوا رو برمی‌گردونیم به حالت عادی */
 }
 
-blockquote {
-  border-left: 4px solid var(--color-primary);
-  padding: var(--spacing-md) var(--spacing-lg);
-  margin: var(--spacing-lg) 0;
-  font-style: italic;
-  font-family: var(--font-heading);
-  font-size: 1.3rem;
-  background-color: var(--bg-secondary);
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
-  position: relative;
-}
 
-blockquote::before {
-  content: '"';
-  font-size: 3rem;
-  position: absolute;
-  left: var(--spacing-sm);
-  top: 0;
-  color: var(--primary-light);
-  opacity: 0.3;
-}
 
 ::-webkit-scrollbar-track {
   background-color: transparent;
