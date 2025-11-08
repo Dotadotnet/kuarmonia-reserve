@@ -6,7 +6,7 @@ import Main from "@/layouts/Main";
 import Stories from "@/components/home/story/page";
 import Visa from "@/components/home/visa/page";
 import VisaType from "@/components/home/visatype/page";
-import Intro from "@/components/home/intro/page";
+import Intro from "@/components/home/intro/IntroServer";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
