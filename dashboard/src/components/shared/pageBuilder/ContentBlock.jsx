@@ -1,5 +1,5 @@
 import React from "react";
-import CKEditorBlock from "@/components/shared/pageBuilder/CKEditorBlock";
+import MyEditor from "@/components/shared/textEditor/TextEditor";
 import ImageBlock from "@/components/shared/pageBuilder/ImageBlock";
 import ListBlock from "@/components/shared/pageBuilder/ListBlock";
 import TitleBlock from "@/components/shared/pageBuilder/TitleBlock";
@@ -7,6 +7,7 @@ import TableBlock from "@/components/shared/pageBuilder/TableBlock";
 import BlockquoteBlock from "@/components/shared/pageBuilder/BlockquoteBlock";
 import VideoBlock from "@/components/shared/pageBuilder/VideoBlock";
 import PodcastBlock from "@/components/shared/pageBuilder/PodcastBlock";
+import LinkBlock from "@/components/shared/pageBuilder/LinkBlock";
 import BlockControls from "@/components/shared/pageBuilder/BlockControls";
 
 const ContentBlock = ({ 
@@ -31,8 +32,8 @@ const ContentBlock = ({
         );
       case "ckeditor":
         return (
-          <CKEditorBlock 
-            content={block.content} 
+          <MyEditor 
+            value={block.content} 
             onChange={(content) => onUpdate(block.id, content)} 
           />
         );
@@ -80,6 +81,13 @@ const ContentBlock = ({
             content={block.content} 
             onChange={(content) => onUpdate(block.id, content)} 
             onUpload={onUploadImage}
+          />
+        );
+      case "link":
+        return (
+          <LinkBlock 
+            content={block.content} 
+            onChange={(content) => onUpdate(block.id, content)} 
           />
         );
       default:

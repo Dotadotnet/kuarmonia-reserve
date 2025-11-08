@@ -9,7 +9,8 @@ const BlockToolbar = ({ onAddBlock }) => {
     { type: "table", label: "جدول", icon: "📊" },
     { type: "blockquote", label: "نقل قول", icon: "❝" },
     { type: "video", label: "ویدئو", icon: "🎬" },
-    { type: "podcast", label: "پادکست", icon: "🎙️" }
+    { type: "podcast", label: "پادکست", icon: "🎙️" },
+    { type: "link", label: "لینک", icon: "🔗" }
   ];
 
   return (

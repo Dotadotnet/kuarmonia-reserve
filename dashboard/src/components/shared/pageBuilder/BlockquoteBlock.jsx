@@ -1,12 +1,14 @@
 import React from "react";
 
 const BlockquoteBlock = ({ content, onChange }) => {
-  // Define color options to match the exact examples
+  // Define color options with lighter intensity
   const colorOptions = [
-    { value: "indigo", label: "نیلی", classes: "from-indigo-50 to-purple-50 border-indigo-500 text-indigo-800" },
-    { value: "green", label: "سبز", classes: "from-green-50 to-teal-50 border-green-500 text-green-800" },
-    { value: "blue", label: "آبی", classes: "from-blue-50 to-cyan-50 border-blue-500 text-blue-800" },
-    { value: "purple", label: "بنفش", classes: "from-purple-50 to-pink-50 border-purple-500 text-purple-800" }
+    { value: "indigo", label: "نیلی", classes: "from-indigo-50 to-indigo-50 border-indigo-100 text-indigo-800" },
+    { value: "green", label: "سبز", classes: "from-green-50 to-green-50 border-green-100 text-green-800" },
+    { value: "blue", label: "آبی", classes: "from-blue-50 to-blue-50 border-blue-100 text-blue-800" },
+    { value: "purple", label: "بنفش", classes: "from-purple-50 to-purple-50 border-purple-100 text-purple-800" },
+    { value: "red", label: "قرمز", classes: "from-red-50 to-red-50 border-red-100 text-red-800" },
+    { value: "yellow", label: "زرد", classes: "from-yellow-50 to-yellow-50 border-yellow-100 text-yellow-800" }
   ];
 
   // Get the current color classes or default to indigo

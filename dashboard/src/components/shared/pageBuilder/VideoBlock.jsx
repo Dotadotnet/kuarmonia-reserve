@@ -127,6 +127,11 @@ const VideoBlock = ({ content, onChange, onUpload }) => {
         </p>
       </div>
       
+      <div className="mt-4 p-3 bg-yellow-50 rounded text-sm text-gray-700">
+        <p className="font-bold mb-1">راهنمایی:</p>
+        <p>اگر از افزودن مطلب منصرف شدید، حتماً تصاویر و رسانه‌ها را حذف کنید تا از ذخیره‌سازی غیرضروری جلوگیری شود.</p>
+      </div>
+      
       {/* Video preview for thumbnail capture */}
       {content.url && !content.thumbnail && (
         <div className="mb-4">

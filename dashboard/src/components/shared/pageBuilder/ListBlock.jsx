@@ -4,17 +4,17 @@ import Minus from "@/components/icons/Minus";
 import FormInput from "@/components/shared/input/FormInput";
 import IconSelect from "@/components/shared/input/IconSelect";
 
-const ListBlock = ({ items = { listTitle: "", items: [{ text: "", icon: null, style: "default" }] }, onChange }) => {
+const ListBlock = ({ items = { listTitle: "", items: [{ text: "", icon: null, color: "indigo" }] }, onChange }) => {
   const [listTitle, setListTitle] = useState(items.listTitle || "");
-  const [listItems, setListItems] = useState(items.items || [{ text: "", icon: null, style: "default" }]);
+  const [listItems, setListItems] = useState(items.items || [{ text: "", icon: null, color: "indigo" }]);
 
   useEffect(() => {
     setListTitle(items.listTitle || "");
-    setListItems(items.items || [{ text: "", icon: null, style: "default" }]);
+    setListItems(items.items || [{ text: "", icon: null, color: "indigo" }]);
   }, [items]);
 
   const handleAddItem = () => {
-    const newItems = [...listItems, { text: "", icon: null, style: "default" }];
+    const newItems = [...listItems, { text: "", icon: null, color: "indigo" }];
     setListItems(newItems);
     onChange({ listTitle, items: newItems });
   };
@@ -33,25 +33,13 @@ const ListBlock = ({ items = { listTitle: "", items: [{ text: "", icon: null, st
     onChange({ listTitle, items: newItems });
   };
 
-  const handleTitleChange = (e) => {
-    const newTitle = e.target.value;
-    setListTitle(newTitle);
-    onChange({ listTitle: newTitle, items: listItems });
-  };
-
-  const handleIconChange = (index, icon) => {
-    handleItemChange(index, 'icon', icon);
-  };
-
-  const handleStyleChange = (index, style) => {
-    handleItemChange(index, 'style', style);
-  };
-
-  const styleOptions = [
-    { value: "default", label: "پیش‌فرض", class: "" },
-    { value: "blue", label: "آبی", class: "flex items-center gap-3 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit bg-blue-400 border border-blue-200 rounded-xl shadow-sm hover:shadow-md transition-shadow" },
-    { value: "red", label: "قرمز", class: "flex items-center gap-3 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 bg-red-50 border border-red-200 rounded-xl shadow-sm hover:shadow-md transition-shadow" },
-    { value: "green", label: "سبز", class: "flex items-center gap-3 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit bg-green-50 border border-green-200 rounded-xl shadow-sm hover:shadow-md transition-shadow" }
+  const colorOptions = [
+    { name: 'indigo', from: 'from-indigo-50', to: 'to-indigo-100', border: 'border-indigo-100' },
+    { name: 'blue', from: 'from-blue-50', to: 'to-blue-100', border: 'border-blue-100' },
+    { name: 'green', from: 'from-green-50', to: 'to-green-100', border: 'border-green-100' },
+    { name: 'red', from: 'from-red-50', to: 'to-red-100', border: 'border-red-100' },
+    { name: 'purple', from: 'from-purple-50', to: 'to-purple-100', border: 'border-purple-100' },
+    { name: 'yellow', from: 'from-yellow-50', to: 'to-yellow-100', border: 'border-yellow-100' }
   ];
 
   return (
@@ -61,7 +49,10 @@ const ListBlock = ({ items = { listTitle: "", items: [{ text: "", icon: null, st
         <FormInput
           type="text"
           value={listTitle}
-          onChange={handleTitleChange}
+          onChange={(e) => {
+            setListTitle(e.target.value);
+            onChange({ listTitle: e.target.value, items: listItems });
+          }}
           placeholder="عنوان لیست (اختیاری)"
         />
       </div>
@@ -78,51 +69,49 @@ const ListBlock = ({ items = { listTitle: "", items: [{ text: "", icon: null, st
         </button>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-4">
         {listItems.map((item, index) => (
-          <div key={index} className="flex items-center gap-2">
-            {/* Icon Selection Dropdown */}
-            <IconSelect
-              value={item.icon}
-              onChange={(icon) => handleIconChange(index, icon)}
-              placeholder="انتخاب"
-              className="w-32"
-            />
-            
-            {/* Text Input */}
-            <div className="flex-1">
+          <div key={index} className="flex flex-col gap-2 border-b pb-2">
+            <div className="flex items-center gap-2">
+              <IconSelect
+                value={item.icon}
+                onChange={(icon) => handleItemChange(index, 'icon', icon)}
+                placeholder="انتخاب"
+                className="w-32"
+              />
+              
               <FormInput
                 type="text"
                 value={item.text}
                 onChange={(e) => handleItemChange(index, 'text', e.target.value)}
                 placeholder="متن آیتم"
+                className="flex-1"
               />
+              
+              {listItems.length > 1 && (
+                <button
+                  type="button"
+                  className="p-1 bg-red-500 text-white rounded"
+                  onClick={() => handleRemoveItem(index)}
+                  title="حذف آیتم"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+              )}
             </div>
-            
-            {/* Style Selection */}
-            <select
-              value={item.style || "default"}
-              onChange={(e) => handleStyleChange(index, e.target.value)}
-              className="w-24 p-1 text-xs border rounded appearance-none"
-            >
-              {styleOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
+
+            {/* Color Selection زیر آیتم */}
+            <div className="flex gap-2 mt-1">
+              {colorOptions.map((color) => (
+                <button
+                  key={color.name}
+                  type="button"
+                  className={`w-6 h-6 rounded-full bg-gradient-to-br ${color.from} ${color.to} border-2 ${item.color === color.name ? 'border-gray-800' : 'border-gray-300'}`}
+                  onClick={() => handleItemChange(index, 'color', color.name)}
+                  title={color.name}
+                />
               ))}
-            </select>
-            
-            {/* Remove Button */}
-            {listItems.length > 1 && (
-              <button
-                type="button"
-                className="p-1 bg-red-500 text-white rounded"
-                onClick={() => handleRemoveItem(index)}
-                title="حذف آیتم"
-              >
-                <Minus className="w-4 h-4" />
-              </button>
-            )}
+            </div>
           </div>
         ))}
       </div>

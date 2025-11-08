@@ -62,10 +62,10 @@ export default function ServiceContent({ service }) {
               <h1 className="mt-2 text-4xl text-center sm:text-5xl font-bold">
                {service?.title}
               </h1>
-              <p className="mt-6 md:text-md text-sm  text-center ">{service?.summary}</p>
+              <p className="mt-6 px-4 md:text-md text-sm   text-justify">{service?.summary}</p>
             </header>
             
-            <div className="absolute top-[150px] left-1/2 transform -translate-x-1/2 translate-y-1/2 z-40">
+            <div className="absolute top-[150px] left-1/2 transform -translate-x-1/2 translate-y-1/2 !z-40">
               {!service?.creator?.avatar?.url && (
                 <div className="profile-container dark:!border-gray-600 text-center shine-effect rounded-full flex justify-center mb-4">
                   <SkeletonImage
@@ -90,7 +90,7 @@ export default function ServiceContent({ service }) {
               )}
             </div>
             
-            <div className="mx-auto bg-white max-w-screen-lg space-y-12 rounded-b-lg dark:bg-gray-900 md:px-8 px-2 pb-20 text-base md:text-lg tracking-wide text-gray-700 dark:text-white sm:shadow-lg">
+            <div className="mx-auto bg-white max-w-screen-lg space-y-12 rounded-b-lg dark:bg-gray-900 md:px-8 px-4 pb-20 text-base md:text-lg tracking-wide text-gray-700 dark:text-white sm:shadow-lg">
               {/* What You Will Read Section - Moved to top */}
               {service?.whatYouWillRead && service.whatYouWillRead.length > 0 && (
                 <section className="mt-12">

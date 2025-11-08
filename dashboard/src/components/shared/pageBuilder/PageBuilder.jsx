@@ -20,6 +20,9 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
     }
     return [];
   });
+  
+  // State for showing the content editor
+  const [showEditor, setShowEditor] = useState(false);
 
   const [upload] = useUploadMutation();
 
@@ -32,11 +35,12 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
       content: type === "title" ? { text: "", icon: null } :
                type === "ckeditor" ? "" : 
                type === "image" ? { images: [], caption: "" } :
-               type === "list" ? { listTitle: "", items: [{ text: "", icon: null }] } : // Initialize with one empty item
+               type === "list" ? { listTitle: "", items: [{ text: "", icon: null, style: "default", color: "default" }] } : // Initialize with one empty item
                type === "table" ? { title: "", rows: [[]], columns: ["ستون 1"] } :
-               type === "blockquote" ? { text: "", title: "", author: "", color: "green" } :
+               type === "blockquote" ? { text: "", title: "", author: "", color: "indigo" } :
                type === "video" ? { url: "", title: "", thumbnail: "", isUploaded: false, isThumbnailUploaded: false } :
-               type === "podcast" ? { url: "", title: "", isUploaded: false } : ""
+               type === "podcast" ? { url: "", title: "", isUploaded: false } :
+               type === "link" ? { links: [{ id: Date.now(), image: null, title: "", description: "", url: "", color: "indigo" }] } : ""
     };
 
     const newBlocks = [...blocks];
@@ -75,6 +79,17 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         blockToRemove.content.images.forEach(image => {
           if (image.isUploaded && image.url) {
             deleteMedia(image.url);
+          }
+        });
+      }
+    }
+    
+    // If this is a link block, delete all images from Cloudinary
+    if (blockToRemove && blockToRemove.type === "link") {
+      if (blockToRemove.content.links && Array.isArray(blockToRemove.content.links)) {
+        blockToRemove.content.links.forEach(link => {
+          if (link.image && link.image.isUploaded && link.image.url) {
+            deleteMedia(link.image.url);
           }
         });
       }
@@ -139,14 +154,14 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         // Responsive text sizing: smaller on mobile, larger on desktop
         // Remove bold styling on mobile
         if (block.content.icon && block.content.text) {
-          return `<h2 class="flex items-center gap-2 text-lg md:text-2xl font-normal text-gray-900 dark:text-white" ${uniqueIdAttr}><span class="inline-block w-5 h-5">${block.content.icon.symbol}</span> ${block.content.text}</h2>`;
+          return `<h2 class="flex items-center gap-2 text-lg md:text-2xl font-normal text-gray-900 dark:text-white mt-6" ${uniqueIdAttr}><span class="inline-block w-5 h-5">${block.content.icon.symbol}</span> ${block.content.text}</h2>`;
         } else if (block.content.text) {
-          return `<h2 class="text-lg md:text-2xl font-normal text-gray-900 dark:text-white" ${uniqueIdAttr}>${block.content.text}</h2>`;
+          return `<h2 class="text-lg md:text-2xl font-normal text-gray-900 dark:text-white mt-4" ${uniqueIdAttr}>${block.content.text}</h2>`;
         }
         return "";
       } else if (block.type === "ckeditor") {
         // Make CKEditor content smaller on mobile and remove bold styling
-        return `<div class="text-sm md:text-base font-normal" ${uniqueIdAttr}>${block.content}</div>`;
+        return `<div class="text-sm md:text-base font-normal mt-2" ${uniqueIdAttr}>${block.content}</div>`;
       } else if (block.type === "image") {
         // Handle multiple images with responsive grid layout using Tailwind classes
         // Single column on mobile, two columns on desktop
@@ -187,12 +202,25 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         // Remove bold styling on mobile
         // Fix icon vertical alignment for multi-line text
         // Add support for individual list item styles
-        const styleOptions = [
-          { value: "default", class: "" },
-          { value: "blue", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit bg-blue-200 border border-blue-200 rounded-xl shadow-sm hover:shadow-md transition-shadow" },
-          { value: "red", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 bg-red-50 border border-red-200 w-fit rounded-xl shadow-sm hover:shadow-md transition-shadow" },
-          { value: "green", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit bg-green-50 border border-green-200 rounded-xl shadow-sm hover:shadow-md transition-shadow" }
+        const baseStyleOptions = [
+          { value: "default", class: "flex items-center gap-1 p-1 md:p-2 w-fit h-fit" },
+          { value: "blue", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit h-fit" },
+          { value: "red", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit h-fit" },
+          { value: "green", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit h-fit" },
+          { value: "indigo", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit h-fit" },
+          { value: "purple", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit h-fit" },
+          { value: "yellow", class: "flex items-center gap-1 p-1 md:p-2 dark:bg-gray-800 dark:border-gray-700 border-gray-100 w-fit h-fit" }
         ];
+        
+        // Define color options for list items
+        const colorOptions = {
+          indigo: { bg: 'bg-indigo-50', border: 'border-indigo-100' },
+          blue: { bg: 'bg-blue-50', border: 'border-blue-100' },
+          green: { bg: 'bg-green-50', border: 'border-green-100' },
+          red: { bg: 'bg-red-50', border: 'border-red-100' },
+          purple: { bg: 'bg-purple-50', border: 'border-purple-100' },
+          yellow: { bg: 'bg-yellow-50', border: 'border-yellow-100' }
+        };
         
         let html = "";
         if (block.content.listTitle) {
@@ -200,21 +228,29 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         }
         
         const items = block.content.items.map(item => {
-          // Get the style class for this specific item
-          const itemStyle = styleOptions.find(style => style.value === (item.style || "default")) || styleOptions[0];
+          // Get the base style class for this specific item
+          const baseStyle = baseStyleOptions.find(style => style.value === (item.style || "default")) || baseStyleOptions[0];
+          
+          // Get the color for this specific item
+          const itemColor = item.color ? colorOptions[item.color] : null;
+          
+          // Combine base style with color classes
+          const itemClass = itemColor
+            ? `${baseStyle.class} ${itemColor.bg} border ${itemColor.border} rounded-xl shadow-sm hover:shadow-md transition-shadow`
+            : baseStyle.class;
           
           if (item.icon && item.icon.symbol) {
             // Include icon in the list item using Tailwind classes
             // Use flexbox to vertically center icon with multi-line text
-            return `<li class="${itemStyle.class} mb-1 flex text-sm md:text-base font-normal" ${uniqueIdAttr}>
+            return `<li class="${itemClass} mb-1 flex text-sm md:text-base font-normal" ${uniqueIdAttr}>
               <span class="flex-shrink-0 w-4 h-4 ltr:mr-2 rtl:ml-2">${item.icon.symbol}</span>
               <span>${item.text}</span>
             </li>`;
           }
-          return `<li class="${itemStyle.class} mb-1 text-sm md:text-base font-normal" ${uniqueIdAttr}>${item.text}</li>`;
+          return `<li class="${itemClass} mb-1 text-sm md:text-base font-normal" ${uniqueIdAttr}>${item.text}</li>`;
         }).join("");
         
-        return `<ul class="mb-4 space-y-1" ${uniqueIdAttr}>${items}</ul>`;
+        return `<ul class="mt-2 mb-4 space-y-1" ${uniqueIdAttr}>${items}</ul>`;
       } else if (block.type === "table") {
         // Handle table block with Tailwind classes
         // Remove bold styling on mobile
@@ -256,12 +292,14 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
       } else if (block.type === "blockquote") {
         // Handle blockquote with color options and responsive width
         if (block.content.text) {
-          // Define color options to match the exact examples
+          // Define color options with lighter intensity
           const colorOptions = [
-            { value: "indigo", classes: "from-indigo-50 to-purple-50 border-indigo-500 text-indigo-800" },
-            { value: "green", classes: "from-green-50 to-teal-50 border-green-500 text-green-800" },
-            { value: "blue", classes: "from-blue-50 to-cyan-50 border-blue-500 text-blue-800" },
-            { value: "purple", classes: "from-purple-50 to-pink-50 border-purple-500 text-purple-800" }
+            { value: "indigo", classes: "from-indigo-50 to-indigo-50 border-indigo-100 text-indigo-800" },
+            { value: "green", classes: "from-green-50 to-green-50 border-green-100 text-green-800" },
+            { value: "blue", classes: "from-blue-50 to-blue-50 border-blue-100 text-blue-800" },
+            { value: "purple", classes: "from-purple-50 to-purple-50 border-purple-100 text-purple-800" },
+            { value: "red", classes: "from-red-50 to-red-50 border-red-100 text-red-800" },
+            { value: "yellow", classes: "from-yellow-50 to-yellow-50 border-yellow-100 text-yellow-800" }
           ];
           
           // Get the current color classes or default to indigo
@@ -275,10 +313,66 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
           // RTL: border-r, gradient from right to left
           // LTR: border-l, gradient from left to right
           return `
-            <div class="bg-gradient-to-l ${selectedColor.classes.split(" ")[0]} ${selectedColor.classes.split(" ")[1]} p-6 rounded-xl ltr:bg-gradient-to-r ltr:border-l-4 ltr:border-r-0 border-r-4 ${selectedColor.classes.split(" ")[2]} w-full md:w-1/2" ${uniqueIdAttr}>
+            <div class="bg-gradient-to-l ${selectedColor.classes.split(" ")[0]} ${selectedColor.classes.split(" ")[1]} p-6 rounded-xl ltr:bg-gradient-to-r ltr:border-l-4 ltr:border-r-0 border-r-4 ${selectedColor.classes.split(" ")[2]} w-full md:w-1/2 mt-2" ${uniqueIdAttr}>
               ${titleHtml}
               <p class="text-base italic">${block.content.text}</p>
               ${authorHtml}
+            </div>
+          `;
+        }
+        return "";
+      } else if (block.type === "link") {
+        // Handle link block with multiple links
+        if (block.content.links && block.content.links.length > 0) {
+          // Define color options
+          const colorOptions = {
+            indigo: { from: 'from-indigo-50', to: 'to-indigo-100', text: 'text-indigo-800' },
+            blue: { from: 'from-blue-50', to: 'to-blue-100', text: 'text-blue-800' },
+            green: { from: 'from-green-50', to: 'to-green-100', text: 'text-green-800' },
+            red: { from: 'from-red-50', to: 'to-red-100', text: 'text-red-800' },
+            purple: { from: 'from-purple-50', to: 'to-purple-100', text: 'text-purple-800' },
+            yellow: { from: 'from-yellow-50', to: 'to-yellow-100', text: 'text-yellow-800' }
+          };
+          
+          const linksHtml = block.content.links.map(link => {
+            if (link.image && link.title && link.url) {
+              // Get the selected color or default to indigo
+              const selectedColor = colorOptions[link.color] || colorOptions.indigo;
+              
+              return `
+                <div class="bg-gradient-to-br ${selectedColor.from} ${selectedColor.to} p-4 rounded-xl flex-shrink-0" style="width: 300px;">
+                  <a aria-label="${link.title}" href="${link.url}">
+                    <div class="flex items-center gap-3">
+                      <div class="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                        <img 
+                          alt="${link.image.alt || link.title}"
+                          loading="lazy"
+                          decoding="async"
+                          data-nimg="fill"
+                          class="object-cover"
+                          style="position:absolute;height:100%;width:100%;left:0;top:0;right:0;bottom:0;color:transparent"
+                          src="${link.image.url}"
+                        />
+                      </div>
+                      <div class="flex-1 text-right">
+                        <h4 class="text-base font-bold ${selectedColor.text} mb-1">${link.title}</h4>
+                        ${link.description ? `<p class="text-xs text-gray-700 line-clamp-2">${link.description}</p>` : ''}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              `;
+            }
+            return '';
+          }).join('');
+          
+          return `
+            <div class="mt-2" ${uniqueIdAttr}>
+              <div class="overflow-x-auto scrollbar-hide">
+                <div class="flex gap-4 pb-2" style="width: max-content; min-width: 100%;">
+                  ${linksHtml}
+                </div>
+              </div>
             </div>
           `;
         }
@@ -289,7 +383,7 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
           // If thumbnail exists, show it with play button overlay
           if (block.content.thumbnail) {
             return `
-              <div class="my-4" ${uniqueIdAttr}>
+              <div class="my-4 mt-2" ${uniqueIdAttr}>
                 <div class="relative">
                   <img src="${block.content.thumbnail}" alt="${block.content.title || 'Video thumbnail'}" class="w-full rounded-lg" />
                   <div class="absolute inset-0 flex items-center justify-center">
@@ -306,7 +400,7 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
           } else {
             // Show embedded video player
             return `
-              <div class="my-4" ${uniqueIdAttr}>
+              <div class="my-4 mt-2" ${uniqueIdAttr}>
                 <div class="relative pb-[56.25%] h-0"> <!-- 16:9 Aspect Ratio -->
                   <iframe 
                     src="${block.content.url}" 
@@ -343,24 +437,70 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
 
   return (
     <div className="page-builder">
-      <BlockToolbar onAddBlock={addBlock} />
-      
-      <div className="blocks-container">
-        {blocks.map((block, index) => (
-          <ContentBlock
-            key={block.id}
-            block={block}
-            index={index}
-            totalBlocks={blocks.length}
-            onUpdate={updateBlock}
-            onRemove={removeBlock}
-            onMoveUp={moveBlockUp}
-            onMoveDown={moveBlockDown}
-            onUploadImage={uploadMedia}
-            onDeleteImage={deleteMedia}
-          />
-        ))}
-      </div>
+      {!showEditor ? (
+        <div 
+          className="flex items-center justify-center h-32 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors"
+          onClick={() => setShowEditor(true)}
+        >
+          <p className="text-gray-600 text-lg font-medium">افزودن محتوا</p>
+        </div>
+      ) : (
+        // Full-screen modal overlay
+        <div className="fixed inset-0 z-50 bg-white">
+          <div className="flex flex-col h-screen">
+            {/* Header with close button */}
+            <div className="flex justify-between items-center p-4 border-b">
+              <h2 className="text-xl font-bold">ویرایشگر محتوا</h2>
+              <button 
+                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                onClick={() => setShowEditor(false)}
+              >
+                بستن
+              </button>
+            </div>
+            
+            {/* Main content area - full screen */}
+            <div className="flex flex-col lg:flex-row flex-grow overflow-hidden">
+              {/* Editor Panel - Full width on mobile, half on desktop */}
+              <div className="lg:w-1/2 w-full flex flex-col border-l">
+                <div className="p-4 border-b">
+                  <BlockToolbar onAddBlock={addBlock} />
+                </div>
+                
+                <div className="flex-grow overflow-y-auto p-4">
+                  <div className="blocks-container">
+                    {blocks.map((block, index) => (
+                      <ContentBlock
+                        key={block.id}
+                        block={block}
+                        index={index}
+                        totalBlocks={blocks.length}
+                        onUpdate={updateBlock}
+                        onRemove={removeBlock}
+                        onMoveUp={moveBlockUp}
+                        onMoveDown={moveBlockDown}
+                        onUploadImage={uploadMedia}
+                        onDeleteImage={deleteMedia}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              
+              {/* Preview Panel - Full width on mobile, half on desktop */}
+              <div className="lg:w-1/2 w-full flex flex-col">
+                <div className="p-4 border-b">
+                  <h3 className="text-lg font-medium">پیش‌نمایش محتوا</h3>
+                </div>
+                
+                <div className="flex-grow overflow-y-auto p-4 bg-gray-50">
+                  <div className="preview-content" dangerouslySetInnerHTML={{ __html: serializeBlocks(blocks) }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
