@@ -21,7 +21,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [expandedFaq, setExpandedFaq] = useState([]);
   const t = useTranslations("VisaType");
-  console.log(visaType)
+
   const toggleFaq = (index) => {
     if (expandedFaq.includes(index)) {
       setExpandedFaq(expandedFaq.filter(indexSaved => indexSaved !== index));
@@ -43,8 +43,8 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
     <Main>
 
       <div className="relative">
-        <div className="h-64 md:h-72 overflow-hidden">
-          <div className="h-64 md:h-72 overflow-hidden">
+        <div className="h-96  overflow-hidden">
+          <div className="h-96 overflow-hidden">
             <div className="relative w-full h-full">
               <Image
                 width={1400}
@@ -53,7 +53,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                 alt={visaType.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(0_0%_0%_/_0)_0%,hsl(0_0%_0%_/_0.8)_100%]" />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,hsl(0_0%_0%_/_0)_0%,hsl(0_0%_0%_/_0.8)_100%)]" />
             </div>
 
             <div className={"absolute rtl:right-4 ltr:left-4 ring-4 dark:ring-gray-900 ring-white -bottom-10 w-20 h-20 bg-gradient-to-br from-primary to-primary rounded-full flex items-center justify-center dark:shadow-gray-500 text-white  shadow-lg"}>
@@ -68,7 +68,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
           </div>
 
           <div
-            className={"absolute flex flex-col gap-y-2 top-12 right-8 text-white max-w-2xl rtl:right-8 ltr:left-8"}
+            className={"absolute flex flex-col gap-y-2 top-28 right-8 text-white max-w-2xl rtl:right-8 ltr:left-8"}
           >
             <div className="flex items-center gap-3 mb-2">
               {/* <span className="text-4xl">{visaType.icon}</span> */}
@@ -224,7 +224,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                   {visaType.advantages.map((advantage, index) => (
                     <div
                       key={index}
-                      className="flex items-start gap-3 p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700  bg-green-50 border border-green-200 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                      className="flex items-start gap-3 p-4 md:p-5 dark:bg-gray-800 dark:border-gray-700 border-gray-100 bg-green-50 border border-green-200 rounded-xl shadow-sm hover:shadow-md transition-shadow"
                     >
                       <span className="flex items-center h-full">
                         <CheckCircle className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
@@ -262,7 +262,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
 
 
               {/* Costs Section */}
-              {processedCosts && processedCosts.length > 0 && (
+              {visaType.costs && visaType.costs.length > 0 && (
                 <section id="costs" className="mb-12">
                   <h2 className="text-xl md:text-2xl  text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <BarChart3 className="w-6 h-6 md:w-7 md:h-7 text-blue-600" />
@@ -281,7 +281,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {processedCosts.map((cost, index) => (
+                        {visaType.costs.map((cost, index) => (
                           <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                             <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">
                               {cost.country}
@@ -323,7 +323,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                               {duration.country}
                             </td>
                             <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
-                              {duration.validity}
+                              {duration.duration}
                             </td>
                           </tr>
                         ))}
