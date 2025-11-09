@@ -47,9 +47,8 @@ const FormItemList = ({
         newItems = paste.split('  ').map(item => item.trim()).filter(item => item.length > 0);
       }
       
-      // Filter out empty items from the current list and add new items
-      const nonEmptyItems = items.filter(item => item.trim() !== "");
-      setItems([...nonEmptyItems, ...newItems]);
+      // Always add new items to the end of the list
+      setItems([...items, ...newItems]);
     }
   };
 

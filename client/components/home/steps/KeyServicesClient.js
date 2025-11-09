@@ -8,7 +8,7 @@ export default function KeyServicesClient({ services }) {
 
   return (
     <Container>
-      <div className="relative flex -6justify-around w-full overflow-x-auto scrollbar-hide flex-nowrap overflow-hidden">
+      <div className="relative flex mt-4 justify-around w-full overflow-x-auto scrollbar-hide flex-nowrap overflow-hidden">
         <picture className="hidden md:block absolute inset-x-0 top-10">
           <source srcSet="/assets/home/steps/step-bg.svg" type="image/svg" />
           <img src="/assets/home-page/keyservice/step-bg.svg" alt="vector" />
