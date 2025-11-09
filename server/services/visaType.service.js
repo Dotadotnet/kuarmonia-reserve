@@ -689,6 +689,7 @@ exports.getVisaTypeById = async (req, res) => {
     ];
 
     const [visaType] = await VisaType.aggregate(pipeline);
+console.log("visaTypes",visaType)
 
     if (!visaType) {
       return res.status(404).json({

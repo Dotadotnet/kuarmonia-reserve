@@ -21,6 +21,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const [expandedFaq, setExpandedFaq] = useState([]);
   const t = useTranslations("VisaType");
+  console.log(visaType)
   const toggleFaq = (index) => {
     if (expandedFaq.includes(index)) {
       setExpandedFaq(expandedFaq.filter(indexSaved => indexSaved !== index));
