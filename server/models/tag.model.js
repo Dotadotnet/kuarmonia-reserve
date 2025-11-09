@@ -13,7 +13,8 @@ const tagSchema = new mongoose.Schema(
         type: String,
         required: [true, "عنوان تگ الزامی است"],
         trim: true,
-        maxLength: [70, "عنوان تگ نباید بیشتر از 70 کاراکتر باشد"]
+        maxLength: [70, "عنوان تگ نباید بیشتر از 70 کاراکتر باشد"],
+      unique: true
       },
       en: { 
         type: String,
