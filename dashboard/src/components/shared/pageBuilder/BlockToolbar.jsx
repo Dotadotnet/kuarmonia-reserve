@@ -15,7 +15,7 @@ const BlockToolbar = ({ onAddBlock }) => {
 
   return (
     <div 
-      className="block-toolbar flex flex-wrap gap-2 p-2 bg-gray-100 rounded"
+      className="block-toolbar flex flex-wrap gap-2 p-2 bg-gray-100 dark:bg-gray-900 rounded"
       style={{ color: 'var(--white, white)' }}
     >
       {blockTypes.map((blockType) => (

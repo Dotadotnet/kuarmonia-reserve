@@ -254,8 +254,8 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
       } else if (block.type === "table") {
         // Handle table block with Tailwind classes
         // Remove bold styling on mobile
-        // Modified to use w-fit, center alignment, and proper borders
-        let html = `<div class="my-4 flex justify-center" ${uniqueIdAttr}><table class="w-fit bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-xs md:text-sm">`;
+        // Modified to use w-fit, center alignment, proper borders, and horizontal scrolling
+        let html = `<div class="my-4 flex justify-center overflow-x-auto" ${uniqueIdAttr}><table class="w-fit bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-xs md:text-sm">`;
         
         // Add header row with title if exists
         if (block.content.columns && block.content.columns.length > 0) {
@@ -355,8 +355,8 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
                         />
                       </div>
                       <div class="flex-1 text-right">
-                        <h4 class="text-base font-bold ${selectedColor.text} mb-1">${link.title}</h4>
-                        ${link.description ? `<p class="text-xs text-gray-700 line-clamp-2">${link.description}</p>` : ''}
+                        <h4 class="text-base font-bold ${selectedColor.text} mb-1 dark:text-gray-900">${link.title}</h4>
+                        ${link.description ? `<p class="text-xs text-gray-700 line-clamp-2 dark:text-gray-900">${link.description}</p>` : ''}
                       </div>
                     </div>
                   </a>
@@ -446,10 +446,10 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
         </div>
       ) : (
         // Full-screen modal overlay
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className="fixed inset-0 z-50 bg-white dark:bg-gray-900">
           <div className="flex flex-col h-screen">
             {/* Header with close button */}
-            <div className="flex justify-between items-center p-4 border-b">
+            <div className="flex justify-between items-center p-4 border-b ">
               <h2 className="text-xl font-bold">ویرایشگر محتوا</h2>
               <button 
                 className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
@@ -493,7 +493,7 @@ const PageBuilder = ({ initialValue = "", onChange }) => {
                   <h3 className="text-lg font-medium">پیش‌نمایش محتوا</h3>
                 </div>
                 
-                <div className="flex-grow overflow-y-auto p-4 bg-gray-50">
+                <div className="flex-grow overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800">
                   <div className="preview-content" dangerouslySetInnerHTML={{ __html: serializeBlocks(blocks) }} />
                 </div>
               </div>
