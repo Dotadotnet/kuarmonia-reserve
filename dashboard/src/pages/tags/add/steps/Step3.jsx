@@ -3,11 +3,7 @@ import FormItemList from "@/components/shared/input/FormItemList";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import SendButton from "@/components/shared/button/SendButton";
 
-const Step3 = ({ formData, handleInputChange, addKeynotesPasteListener, prevStep, nextStep, isLoading }) => {
-  useEffect(() => {
-    const cleanup = addKeynotesPasteListener();
-    return cleanup;
-  }, [addKeynotesPasteListener]);
+const Step3 = ({ formData, handleInputChange, prevStep, nextStep, isLoading }) => {
 
   return (
     <div className="flex flex-col gap-6">

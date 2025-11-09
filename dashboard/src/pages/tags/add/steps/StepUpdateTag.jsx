@@ -133,7 +133,6 @@ const StepUpdateTag = () => {
           <Step3
             formData={formData}
             handleInputChange={handleInputChange}
-            addKeynotesPasteListener={addKeynotesPasteListener}
             prevStep={prevStep}
             nextStep={handleSubmit}
             isLoading={isLoading}
@@ -168,64 +167,6 @@ const StepUpdateTag = () => {
       ...prev,
       [field]: value
     }));
-  };
-
-  // Handle pasting comma-separated values into keynotes
-  const handleKeynotesPaste = (e) => {
-    const paste = e.clipboardData.getData('text');
-    // Check if paste contains commas or double spaces
-    if (paste.includes(',') || paste.includes('  ')) {
-      e.preventDefault();
-      let newKeynotes = [];
-      
-      // Split by comma first
-      if (paste.includes(',')) {
-        newKeynotes = paste.split(',').map(item => item.trim()).filter(item => item.length > 0);
-      } 
-      // If no commas, split by double spaces
-      else if (paste.includes('  ')) {
-        newKeynotes = paste.split('  ').map(item => item.trim()).filter(item => item.length > 0);
-      }
-      
-      // Update keynotes state with new values
-      const updatedKeynotes = [...formData.keynotes];
-      let currentIndex = updatedKeynotes.findIndex(item => item === "");
-      
-      // If no empty field found, add new fields
-      if (currentIndex === -1) {
-        setFormData(prev => ({
-          ...prev,
-          keynotes: [...updatedKeynotes, ...newKeynotes]
-        }));
-      } else {
-        // Replace empty fields with pasted values
-        newKeynotes.forEach((value, index) => {
-          if (currentIndex + index < updatedKeynotes.length) {
-            updatedKeynotes[currentIndex + index] = value;
-          } else {
-            updatedKeynotes.push(value);
-          }
-        });
-        setFormData(prev => ({
-          ...prev,
-          keynotes: updatedKeynotes
-        }));
-      }
-    }
-  };
-
-  // Add paste event listener to keynotes inputs
-  const addKeynotesPasteListener = () => {
-    const keynotesInputs = document.querySelectorAll('input[placeholder*="کلمه کلیدی"]');
-    keynotesInputs.forEach(input => {
-      input.addEventListener('paste', handleKeynotesPaste);
-    });
-
-    return () => {
-      keynotesInputs.forEach(input => {
-        input.removeEventListener('paste', handleKeynotesPaste);
-      });
-    };
   };
 
   const handleSubmit = async () => {
