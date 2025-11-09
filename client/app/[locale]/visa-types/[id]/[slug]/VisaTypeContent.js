@@ -323,7 +323,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
                               {duration.country}
                             </td>
                             <td className="px-4 py-3 text-gray-600 dark:text-gray-300">
-                              {duration.duration}
+                              {duration.validity}
                             </td>
                           </tr>
                         ))}

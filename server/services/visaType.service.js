@@ -297,7 +297,6 @@ exports.getVisaTypes = async (req, res) => {
 
     const pipeline = [
       { $match: matchStage },
-      { $sort: { createdAt: -1 } },
       { $skip: Number(skip) },
       { $limit: Number(limit) },
 
