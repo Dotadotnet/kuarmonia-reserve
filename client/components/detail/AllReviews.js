@@ -35,7 +35,6 @@ const AllReviews = ({
   const [addReview, { isLoading, data, error }] = useAddReviewMutation();
   
   const reviewList = reviewsData?.data || reviews;
-  console.log("reviewsData",reviewsData)
   const getRandomAvatar = () => {
     const total = 50;
     const randomIndex = Math.floor(Math.random() * total) + 1;

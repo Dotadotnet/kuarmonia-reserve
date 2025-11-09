@@ -361,7 +361,6 @@ exports.getVisaTypes = async (req, res) => {
 
     // Get total count
     const total = await VisaType.countDocuments(matchStage);
-
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
@@ -619,22 +618,46 @@ exports.getVisaTypeById = async (req, res) => {
           summary: `$summary.${locale}`,
           content: `$content.${locale}`,
           roadmap: {
-            title: `$roadmap.title.${locale}`,
-            description: `$roadmap.description.${locale}`,
-            duration: `$roadmap.duration.${locale}`,
-            link: `$roadmap.link.${locale}`
+            $map: {
+              input: "$roadmap",
+              as: "step",
+              in: {
+                title: `$$step.title.${locale}`,
+                description: `$$step.description.${locale}`,
+                duration: `$$step.duration.${locale}`,
+                link: `$$step.link.${locale}`
+              }
+            }
           },
           faqs: {
-            question: `$faqs.question.${locale}`,
-            answer: `$faqs.answer.${locale}`
+            $map: {
+              input: "$faqs",
+              as: "faq",
+              in: {
+                question: `$$faq.question.${locale}`,
+                answer: `$$faq.answer.${locale}`
+              }
+            }
           },
           costs: {
-            country: `$costs.country.${locale}`,
-            fee: `$costs.fee.${locale}`
+            $map: {
+              input: "$costs",
+              as: "cost",
+              in: {
+                country: `$$cost.country.${locale}`,
+                fee: `$$cost.fee.${locale}`
+              }
+            }
           },
           durations: {
-            country: `$durations.country.${locale}`,
-            validity: `$durations.validity.${locale}`
+            $map: {
+              input: "$durations",
+              as: "duration",
+              in: {
+                country: `$$duration.country.${locale}`,
+                validity: `$$duration.validity.${locale}`
+              }
+            }
           },
           conditions: `$conditions.${locale}`,
           advantages: `$advantages.${locale}`,
@@ -666,6 +689,7 @@ exports.getVisaTypeById = async (req, res) => {
     ];
 
     const [visaType] = await VisaType.aggregate(pipeline);
+console.log("visaTypes",visaType)
 
     if (!visaType) {
       return res.status(404).json({
@@ -1027,5 +1051,7 @@ exports.getAllVisaTypes = async (req, res) => {
     });
   }
 };
+
+
 
 
