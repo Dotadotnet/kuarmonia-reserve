@@ -7,7 +7,7 @@ const { encodeBase62 } = require("../utils/translationUtils");
 const visaTypeSchema = new mongoose.Schema(
   {
     title: {
-      fa: { type: String, required: [true, "عنوان فارسی الزامی است"], minlength: [3], maxlength: [100] },
+      fa: { type: String, required: [true, "عنوان فارسی الزامی است"], minlength: [3], maxlength: [100], unique: true },
       en: { type: String, default: "" },
       tr: { type: String, default: "" }
     },
