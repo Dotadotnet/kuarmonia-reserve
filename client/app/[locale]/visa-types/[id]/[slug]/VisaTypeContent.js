@@ -39,45 +39,6 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
   };
 
 
-  // Helper function to flatten the data structure
-  const flattenData = (data) => {
-    if (!data) return [];
-    
-    // If data is already in the correct format (not nested arrays)
-    if (typeof data[0] === 'object' && !Array.isArray(data[0])) {
-      return data;
-    }
-    
-    // If data is in the problematic nested array format
-    if (Array.isArray(data[0]) && data[0].length > 0) {
-      // Assume all items have the same structure
-      const firstItem = data[0];
-      const result = [];
-      
-      // Get the number of items from the first property array
-      const itemCount = firstItem.length;
-      
-      for (let i = 0; i < itemCount; i++) {
-        const item = {};
-        Object.keys(data[0]).forEach(key => {
-          item[key] = data[0][key][i] || '';
-        });
-        result.push(item);
-      }
-      
-      return result;
-    }
-    
-    // If data is a simple array of objects
-    return data;
-  };
-
-  // Process the data to handle the nested array structure
-  const processedCosts = flattenData(visaType.costs);
-  const processedDurations = flattenData(visaType.durations);
-  const processedRoadmap = flattenData(visaType.roadmap);
-  const processedFaqs = flattenData(visaType.faqs);
-
   return (
     <Main>
 
@@ -107,7 +68,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
           </div>
 
           <div
-            className={"absolute flex flex-col gap-y-2 top-28 right-8 text-white max-w-2xl rtl:right-8 ltr:left-8"}
+            className={"absolute flex flex-col gap-y-2 top-12 right-8 text-white max-w-2xl rtl:right-8 ltr:left-8"}
           >
             <div className="flex items-center gap-3 mb-2">
               {/* <span className="text-4xl">{visaType.icon}</span> */}
