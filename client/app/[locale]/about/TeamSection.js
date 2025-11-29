@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useLocale, useTranslations } from "next-intl";
 import { useGetTeamLeaderQuery } from "@/services/teamMember/teamMemberApi";
+
 export default function TeamSection() {
   const t = useTranslations("About");
   const locale = useLocale();
@@ -17,11 +18,9 @@ export default function TeamSection() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
   };
   const leader = useMemo(() => data?.data || [], [data]);
-  const translation = leader[0]?.translations?.find(
-    (t) => t.language === locale && t.translationId
-  )?.translationId?.fields;
-
-  const { fullName, description } = translation || leader;
+  
+  // Now we can access fields directly since they're already localized by the API
+  const { fullName, description } = leader[0] || {};
 
   return (
     <div>
@@ -55,17 +54,17 @@ export default function TeamSection() {
               </div>
             </div>
             <div className="flex items-center gap-4 justify-center lg:justify-start max-sm:bottom-0 relative">
-              {leader[0]?.socialLinks?.map((sosial, idx) => (
+              {leader[0]?.socialLinks?.map((social, idx) => (
                 <a
                   key={idx}
-                  href={sosial.link}
+                  href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cursor-pointer text-gray-900 dark:text-gray-400 hover:text-white group w-12 h-12 rounded-full flex justify-center items-center dark:bg-black bg-gray-100 transition-all duration-500 hover:bg-indigo-600"
                 >
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: sosial?.network?.icon
+                      __html: social?.network?.icon
                     }}
                     className="w-7 h-7"
                   />

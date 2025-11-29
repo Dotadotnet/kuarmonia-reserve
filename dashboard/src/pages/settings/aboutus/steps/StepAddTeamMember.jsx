@@ -86,36 +86,36 @@ const StepAddTeamMember = () => {
         valid = true;
         break;
       case 2:
-        valid = await trigger("title");
+        valid = await trigger("fullName");
         if (!valid) {
-          toast.error("لطفاً عنوان دسته بندی را وارد کنید");
+          toast.error("لطفاً نام و نام خانوادگی را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        valid = await trigger("position");
+        if (!valid) {
+          toast.error("لطفاً سمت را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
         valid = await trigger("description");
         if (!valid) {
-          toast.error("لطفاً توضیحات دسته بندی را وارد کنید");
+          toast.error("لطفاً توضیحات را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
         break;
 
       case 3:
-        valid = await trigger("issuingOrganization");
+        valid = await trigger("email");
         if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+          toast.error("لطفاً ایمیل را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
-        valid = await trigger("country");
+        valid = await trigger("phone");
         if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
-          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
-          return;
-        }
-        valid = await trigger("year");
-        if (!valid) {
-          toast.error("لطفاً نکات کلیدی را وارد کنید");
+          toast.error("لطفاً شماره تلفن را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }

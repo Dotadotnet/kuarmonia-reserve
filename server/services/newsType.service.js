@@ -8,59 +8,52 @@ const translateFields = require("../utils/translateFields");
 /* 📌 اضافه کردن نوع خبر جدید */
 exports.addNewsType = async (req, res) => {
   try {
-    const { title, description, icon } = req.body;
+    const { title, description, icon } = req.body; // Changed from summary to description
+    
+    // === Validation اولیه ===
+    if (!title) return res.status(400).json({ acknowledgement: false, description: "عنوان فارسی الزامی است" });
+    if (!description) return res.status(400).json({ acknowledgement: false, description: "توضیحات فارسی الزامی است" }); // Changed from summary to description
+    
+    // === آماده‌سازی داده برای ترجمه ===
+    const dataForTranslation = {
+      title,
+      summary: description // Changed from summary to description
+    };
+
+    // === ترجمه قبل از ذخیره ===
+    const translations = await translateFields(dataForTranslation, {
+      stringFields: ["title", "summary"] // This stays as summary for the translation API
+    });
+
+    const en = translations.en?.fields || {};
+    const tr = translations.tr?.fields || {};
+    const ar = translations.ar?.fields || {};
 
     const newsType = new NewsType({
-      title,
-      description,
+      title: {
+        fa: title,
+        en: en.title || title,
+        tr: tr.title || title,
+        ar: ar.title || title
+      },
+      summary: {
+        fa: description, // Changed from summary to description
+        en: en.summary || description, // Changed from summary to description
+        tr: tr.summary || description, // Changed from summary to description
+        ar: ar.summary || description // Changed from summary to description
+      },
       icon,
       creator: req.admin._id
     });
+    
     const result = await newsType.save();
-    const slug = await generateSlug(title);
-
-    try {
-      const translations = await translateFields(
-        {
-          title,
-          description,
-          slug
-        },
-        {
-          stringFields: ["title", "description","slug"]
-        }
-      );
-      const translationDocs = Object.entries(translations).map(
-        ([lang, { fields }]) => ({
-          language: lang,
-          refModel: "NewsType",
-          refId: result._id,
-          fields
-        })
-      );
-      const savedTranslations = await Translation.insertMany(translationDocs);
-      const translationInfos = savedTranslations.map((t) => ({
-        translation: t._id,
-        language: t.language
-      }));
-      await NewsType.findByIdAndUpdate(result._id, {
-        $set: { translations: translationInfos }
-      });
-      res.status(201).json({
-        acknowledgement: true,
-        message: "Created",
-        description: "نوع خبر با موفقیت ایجاد شد",
-        data: result
-      });
-    } catch (translationError) {
-      await NewsType.findByIdAndDelete(result._id);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. نوع خبر حذف شد.",
-        error: translationError.message
-      });
-    }
+    
+    res.status(201).json({
+      acknowledgement: true,
+      message: "Created",
+      description: "نوع خبر با موفقیت ایجاد و ترجمه شد",
+      data: result
+    });
   } catch (error) {
     const errorMessage = error.message.split(":")[2]?.trim();
 
@@ -76,22 +69,44 @@ exports.addNewsType = async (req, res) => {
 /* 📌 دریافت همه نوع خبر */
 exports.getNewsTypes = async (req,res) => {
   try {
-    const newsType = await NewsType.find({ isDeleted: false }).populate([
+    const locale = req.locale || "fa";
+    
+    const pipeline = [
+      { $match: { isDeleted: false } },
+      
+      // Populate creator with only necessary fields
       {
-        path: "translations.translation",
-        match: { language: req.locale }
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator",
+        },
       },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
       {
-        path: "creator",
-        select: "name avatar"
-      }
-    ]);
-    console.log(req.locale)
+        $project: {
+          icon: 1,
+          status: 1,
+          createdAt: 1,
+          title: `$title.${locale}`,
+          summary: `$summary.${locale}`,
+          "creator._id": 1,
+          "creator.name": 1,
+          "creator.avatar": 1,
+        },
+      },
+    ];
+
+    const newsTypes = await NewsType.aggregate(pipeline);
+    
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
       description: "لیست نوع خبر با موفقیت دریافت شد",
-      data: newsType
+      data: newsTypes
     });
   } catch (error) {
     res.status(500).json({
@@ -106,9 +121,51 @@ exports.getNewsTypes = async (req,res) => {
 /* 📌 دریافت یک نوع خبر */
 exports.getNewsType = async (req, res) => {
   try {
-    const newsType = await NewsType.findById(req.params.id);
+    const locale = req.locale || "fa";
+    
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        acknowledgement: false,
+        message: "Bad Request",
+        description: "شناسه نامعتبر است"
+      });
+    }
 
-    if (!newsType) {
+    const objectId = new mongoose.Types.ObjectId(req.params.id);
+
+    const pipeline = [
+      { $match: { _id: objectId, isDeleted: false } },
+      
+      // Populate creator
+      {
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
+      {
+        $project: {
+          icon: 1,
+          status: 1,
+          createdAt: 1,
+          title: `$title.${locale}`,
+          summary: `$summary.${locale}`,
+          "creator._id": 1,
+          "creator.name": 1,
+          "creator.avatar": 1,
+        },
+      },
+    ];
+
+    const newsTypes = await NewsType.aggregate(pipeline);
+    
+    if (!newsTypes || newsTypes.length === 0) {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
@@ -120,7 +177,7 @@ exports.getNewsType = async (req, res) => {
       acknowledgement: true,
       message: "Ok",
       description: "نوع خبر با موفقیت دریافت شد",
-      data: newsType
+      data: newsTypes[0]
     });
   } catch (error) {
     res.status(500).json({
@@ -135,89 +192,82 @@ exports.getNewsType = async (req, res) => {
 /* 📌 بروزرسانی نوع خبر */
 exports.updateNewsType = async (req, res) => {
   try {
-    const updatedNewsType = req.body;
-
-    let translatedTitleEn = "";
-    let translatedTitleTr = "";
-    let translatedDescriptionEn = "";
-    let translatedDescriptionTr = "";
-
-    if (updatedNewsType.title || updatedNewsType.description) {
-      try {
-        if (updatedNewsType.title) {
-          const resultTitleEn = await translate(updatedNewsType.title, {
-            to: "en",
-            client: "gtx"
-          });
-          translatedTitleEn = resultTitleEn.text;
-
-          const resultTitleTr = await translate(updatedNewsType.title, {
-            to: "tr",
-            client: "gtx"
-          });
-          translatedTitleTr = resultTitleTr.text;
-        }
-
-        if (updatedNewsType.description) {
-          const resultDescriptionEn = await translate(
-            updatedNewsType.description,
-            {
-              to: "en",
-              client: "gtx"
-            }
-          );
-          translatedDescriptionEn = resultDescriptionEn.text;
-
-          const resultDescriptionTr = await translate(
-            updatedNewsType.description,
-            {
-              to: "tr",
-              client: "gtx"
-            }
-          );
-          translatedDescriptionTr = resultDescriptionTr.text;
-        }
-
-        await Translation.updateOne(
-          { refModel: "NewsType", refId: req.params.id, language: "en" },
-          {
-            $set: {
-              ...(translatedTitleEn && { "fields.title": translatedTitleEn }),
-              ...(translatedDescriptionEn && {
-                "fields.description": translatedDescriptionEn
-              })
-            }
-          },
-          { upsert: true }
-        );
-
-        await Translation.updateOne(
-          { refModel: "NewsType", refId: req.params.id, language: "tr" },
-          {
-            $set: {
-              ...(translatedTitleTr && { "fields.title": translatedTitleTr }),
-              ...(translatedDescriptionTr && {
-                "fields.description": translatedDescriptionTr
-              })
-            }
-          },
-          { upsert: true }
-        );
-      } catch (translateErr) {
-        console.error("❌ خطا در ترجمه:", translateErr.message);
-        return res.status(404).json({
+    const { title, description, icon } = req.body; // Changed from summary to description
+    
+    // Prepare update data
+    const updateData = {};
+    
+    // Handle title updates
+    if (title !== undefined) {
+      if (title === null || title.trim() === "") {
+        return res.status(400).json({
           acknowledgement: false,
-          message: "ترجمه نشد",
-          description: "خطا در  فرآیند ترجمه"
+          message: "Error",
+          description: "عنوان فارسی نمی‌تواند خالی باشد"
         });
       }
+      
+      // === آماده‌سازی داده برای ترجمه ===
+      const dataForTranslation = {
+        title
+      };
+
+      // === ترجمه قبل از ذخیره ===
+      const translations = await translateFields(dataForTranslation, {
+        stringFields: ["title"]
+      });
+
+      const en = translations.en?.fields || {};
+      const tr = translations.tr?.fields || {};
+      const ar = translations.ar?.fields || {};
+
+      updateData.title = {
+        fa: title,
+        en: en.title || title,
+        tr: tr.title || title,
+        ar: ar.title || title
+      };
     }
-    if (updatedNewsType.title) {
-      updatedNewsType.slug = await generateSlug(updatedNewsType.title);
+    
+    // Handle description updates
+    if (description !== undefined) { // Changed from summary to description
+      if (description === null || description.trim() === "") { // Changed from summary to description
+        return res.status(400).json({
+          acknowledgement: false,
+          message: "Error",
+          description: "توضیحات فارسی نمی‌تواند خالی باشد" // Changed from summary to description
+        });
+      }
+      
+      // === آماده‌سازی داده برای ترجمه ===
+      const dataForTranslation = {
+        title: description // Using title field for translation since translateFields expects it
+      };
+
+      // === ترجمه قبل از ذخیره ===
+      const translations = await translateFields(dataForTranslation, {
+        stringFields: ["title"]
+      });
+
+      const en = translations.en?.fields || {};
+      const tr = translations.tr?.fields || {};
+      const ar = translations.ar?.fields || {};
+
+      updateData.summary = { // This stays as summary in the model
+        fa: description, // Changed from summary to description
+        en: en.title || description, // Using title from translation
+        tr: tr.title || description, // Using title from translation
+        ar: ar.title || description // Using title from translation
+      };
     }
+
+    if (icon) {
+      updateData.icon = icon;
+    }
+
     const result = await NewsType.findByIdAndUpdate(
       req.params.id,
-      updatedNewsType,
+      updateData,
       { new: true }
     );
 
@@ -232,14 +282,14 @@ exports.updateNewsType = async (req, res) => {
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
-      description: "نوع خبر با موفقیت دریافت و بروزرسانی شد",
+      description: "نوع خبر با موفقیت بروزرسانی و ترجمه شد",
       data: result
     });
   } catch (error) {
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
-      description: "خطایی در دریافت یا بروزرسانی نوع خبر رخ داد",
+      description: "خطایی در بروزرسانی نوع خبر رخ داد",
       error: error.message
     });
   }
@@ -275,3 +325,5 @@ exports.deleteNewsType = async (req, res) => {
     });
   }
 };
+
+

@@ -6,6 +6,7 @@ import NavigationButton from "@/components/shared/button/NavigationButton";
 const PositionStep = ({ register, errors, prevStep, nextStep }) => {
   return (
     <div className="flex flex-col gap-y-4 overflow-y-auto h-96 p-2">
+    
      <label htmlFor="position" className="flex flex-col gap-y-1">
         <span className="text-sm">* سمت </span>
         <input
@@ -31,6 +32,7 @@ const PositionStep = ({ register, errors, prevStep, nextStep }) => {
           <span className="text-red-500 text-sm">{errors?.position.message}</span>
         )}
       </label>
+   
       <label htmlFor="department" className="flex flex-col gap-y-1">
         <span className="text-sm">* دپارتمان </span>
         <input

@@ -31,13 +31,6 @@ const ListNews = () => {
   ] = useRemoveNewsMutation();
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
   const news = useMemo(() => data?.data || [], [data]);
-  // Function to get the title and summary in Persian
-  const getPersianTranslation = (translations) => {
-    const persianTranslation = translations?.find(
-      (t) => t.language === "fa"
-    );
-    return persianTranslation ? persianTranslation.translation.fields : {};
-  };
 
   useEffect(() => {
     if (isLoading) {
@@ -64,6 +57,12 @@ const ListNews = () => {
     }
   }, [data, error, isLoading, removeData, removeError, isRemoving]);
 
+  // Function to open edit modal
+  const openEditModal = (newsItem) => {
+    // Implementation for opening edit modal
+    console.log("Edit news item:", newsItem);
+  };
+
   return (
     <>
       <ControlPanel>
@@ -88,7 +87,10 @@ const ListNews = () => {
           <SkeletonItem repeat={5} />
         ) : (
           news.map((newsItem) => {
-            const { title, summary } = getPersianTranslation(newsItem.translations); // دریافت ترجمه به زبان فارسی
+            // Updated to use direct model fields instead of translation documents
+            const title = newsItem?.title || "";
+            const summary = newsItem?.summary || "";
+            
             return (
               <div
                 key={newsItem._id}

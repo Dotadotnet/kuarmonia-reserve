@@ -5,59 +5,47 @@ const { translate } = require("google-translate-api-x");
 const Translation = require("../models/translation.model");
 const translateFields = require("../utils/translateFields");
 const { generateSlug } = require("../utils/seoUtils");
+
 exports.addNewsCountry = async (req, res) => {
   try {
-    const { title, ...otherInformation } = req.body;
-    console.log(req.body)
+    const { title, code, icon } = req.body;
+    
+    // === Validation اولیه ===
+    if (!title) return res.status(400).json({ acknowledgement: false, description: "عنوان فارسی الزامی است" });
+    if (!code) return res.status(400).json({ acknowledgement: false, description: "کد کشور الزامی است" });
+    
+    // === آماده‌سازی داده برای ترجمه ===
+    const dataForTranslation = {
+      title
+    };
+
+    // === ترجمه قبل از ذخیره ===
+    const translations = await translateFields(dataForTranslation, {
+      stringFields: ["title"]
+    });
+
+    const en = translations.en?.fields || {};
+    const tr = translations.tr?.fields || {};
+
     const newsCountry = new NewsCountry({
-      ...otherInformation,
+      title: {
+        fa: title,
+        en: en.title || title,
+        tr: tr.title || title
+      },
+      code,
+      icon,
       creator: req.admin._id
     });
 
     const result = await newsCountry.save();
-    const slug = await generateSlug(title);
-    try {
-      const translations = await translateFields(
-        {
-          title,
-          slug
-        },
-        {
-          stringFields: ["title", "slug"]
-        }
-      );
-      const translationDocs = Object.entries(translations).map(
-        ([lang, { fields }]) => ({
-          language: lang,
-          refModel: "NewsCountry",
-          refId: result._id,
-          fields
-        })
-      );
-      const savedTranslations = await Translation.insertMany(translationDocs);
-      const translationInfos = savedTranslations.map((t) => ({
-        translation: t._id,
-        language: t.language
-      }));
-      await NewsCountry.findByIdAndUpdate(result._id, {
-        $set: { translations: translationInfos }
-      });
-      res.status(201).json({
-        acknowledgement: true,
-        message: "Created",
-        description: "اخبار با موفقیت ایجاد شد",
-        data: result
-      });
-    } catch (translationError) {
-      await NewsCountry.findByIdAndDelete(result._id);
-      console.log(translationError.message);
-      return res.status(500).json({
-        acknowledgement: false,
-        message: "Translation Save Error",
-        description: "خطا در ذخیره ترجمه‌ها. کشور خبر حذف شد.",
-        error: translationError.message
-      });
-    }
+    
+    res.status(201).json({
+      acknowledgement: true,
+      message: "Created",
+      description: "کشور خبر با موفقیت ایجاد و ترجمه شد",
+      data: result
+    });
   } catch (error) {
     console.log(error.message)
     const errorMessage = error.message.split(":")[2]?.trim();
@@ -71,21 +59,41 @@ exports.addNewsCountry = async (req, res) => {
 };
 
 /* 📌 دریافت همه کشور خبر */
-exports.getNewsCountries = async (res,req) => {
+exports.getNewsCountries = async (req, res) => {
   try {
-    console.log(req)
-    const countries = await NewsCountry.find({
-      isDeleted: false
-    }).populate([
+    const locale = req.locale || "fa";
+    
+    const pipeline = [
+      { $match: { isDeleted: false } },
+      
+      // Populate creator with only necessary fields
       {
-        path: "translations.translation",
-        match: { language: req.locale }
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator",
+        },
       },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
       {
-        path: "creator",
-        select: "name avatar"
-      }
-    ])
+        $project: {
+          code: 1,
+          icon: 1,
+          status: 1,
+          createdAt: 1,
+          title: `$title.${locale}`,
+          "creator._id": 1,
+          "creator.name": 1,
+          "creator.avatar": 1,
+        },
+      },
+    ];
+
+    const countries = await NewsCountry.aggregate(pipeline);
+    
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
@@ -105,9 +113,51 @@ exports.getNewsCountries = async (res,req) => {
 /* 📌 دریافت یک کشور خبر */
 exports.getNewsCountry = async (req, res) => {
   try {
-    const newsCountry = await NewsCountry.findById(req.params.id);
+    const locale = req.locale || "fa";
+    
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        acknowledgement: false,
+        message: "Bad Request",
+        description: "شناسه نامعتبر است"
+      });
+    }
 
-    if (!newsCountry) {
+    const objectId = new mongoose.Types.ObjectId(req.params.id);
+
+    const pipeline = [
+      { $match: { _id: objectId, isDeleted: false } },
+      
+      // Populate creator
+      {
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
+      {
+        $project: {
+          code: 1,
+          icon: 1,
+          status: 1,
+          createdAt: 1,
+          title: `$title.${locale}`,
+          "creator._id": 1,
+          "creator.name": 1,
+          "creator.avatar": 1,
+        },
+      },
+    ];
+
+    const countries = await NewsCountry.aggregate(pipeline);
+    
+    if (!countries || countries.length === 0) {
       return res.status(404).json({
         acknowledgement: false,
         message: "Not Found",
@@ -119,7 +169,7 @@ exports.getNewsCountry = async (req, res) => {
       acknowledgement: true,
       message: "Ok",
       description: "کشور خبر با موفقیت دریافت شد",
-      data: newsCountry
+      data: countries[0]
     });
   } catch (error) {
     console.log(error);
@@ -137,48 +187,59 @@ exports.getNewsCountry = async (req, res) => {
 /* 📌 بروزرسانی کشور خبر */
 exports.updateNewsCountry = async (req, res) => {
   try {
-    const updatedNewsCountry = req.body;
-    let translatedTitleEn = "";
-    let translatedTitleTr = "";
-    if (updatedNewsCountry.title) {
-      try {
-        const resultTitleEn = await translate(updatedNewsCountry.title, {
-          to: "en",
-          client: "gtx"
-        });
-        translatedTitleEn = resultTitleEn.text;
-
-        const resultTitleTr = await translate(updatedNewsCountry.title, {
-          to: "tr",
-          client: "gtx"
-        });
-        translatedTitleTr = resultTitleTr.text;
-
-        await Translation.updateOne(
-          { refModel: "NewsCountry", refId: req.params.id, language: "en" },
-          { $set: { "fields.title": translatedTitleEn } }
-        );
-
-        await Translation.updateOne(
-          { refModel: "NewsCountry", refId: req.params.id, language: "tr" },
-          { $set: { "fields.title": translatedTitleTr } }
-        );
-      } catch (translateErr) {
-        console.error("خطا در ترجمه:", translateErr);
-        return res.status(500).json({
+    const { title, code, icon } = req.body;
+    
+    // Prepare update data
+    const updateData = {};
+    
+    // Handle title updates
+    if (title !== undefined) {
+      if (title === null || title.trim() === "") {
+        return res.status(400).json({
           acknowledgement: false,
           message: "Error",
-          description: "خطایی در فرآیند ترجمه هنگام بروزرسانی رخ داد",
-          error: translateErr.message
+          description: "عنوان فارسی نمی‌تواند خالی باشد"
         });
       }
+      
+      // === آماده‌سازی داده برای ترجمه ===
+      const dataForTranslation = {
+        title
+      };
+
+      // === ترجمه قبل از ذخیره ===
+      const translations = await translateFields(dataForTranslation, {
+        stringFields: ["title"]
+      });
+
+      const en = translations.en?.fields || {};
+      const tr = translations.tr?.fields || {};
+
+      updateData.title = {
+        fa: title,
+        en: en.title || title,
+        tr: tr.title || title
+      };
     }
-    if (updatedNewsCountry.title) {
-      updatedNewsCountry.slug = await generateSlug(updatedNewsCountry.title);
+
+    if (code !== undefined) {
+      if (code === null || code.trim() === "") {
+        return res.status(400).json({
+          acknowledgement: false,
+          message: "Error",
+          description: "کد کشور نمی‌تواند خالی باشد"
+        });
+      }
+      updateData.code = code;
     }
+
+    if (icon) {
+      updateData.icon = icon;
+    }
+
     const result = await NewsCountry.findByIdAndUpdate(
       req.params.id,
-      updatedNewsCountry,
+      updateData,
       { new: true, runValidators: true }
     );
 
@@ -193,7 +254,7 @@ exports.updateNewsCountry = async (req, res) => {
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
-      description: "کشور خبر با موفقیت بروزرسانی شد",
+      description: "کشور خبر با موفقیت بروزرسانی و ترجمه شد",
       data: result
     });
   } catch (error) {
@@ -237,3 +298,7 @@ exports.deleteNewsCountry = async (req, res) => {
     });
   }
 };
+
+
+
+

@@ -114,7 +114,7 @@ const ListSocialLink = () => {
                   <article className="flex-col flex gap-y-2  ">
                     <span className="line-clamp-1 text-base ">
                       <span className="hidden lg:flex ">
-                        {socialLink?.creator?.name}
+                        {socialLink?.creator?.name?.fa}
                       </span>
                       <span className=" lg:hidden ">{socialLink?.title}</span>
                     </span>

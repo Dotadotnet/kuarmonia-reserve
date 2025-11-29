@@ -1,25 +1,24 @@
-/* External Imports */
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 const baseSchema = require("./baseSchema.model");
 const Counter = require("./counter");
+
 const newsTypeSchema = new mongoose.Schema(
   {
+    title: {
+      fa: { type: String, required: [true, "عنوان فارسی الزامی است"], minlength: [3], maxlength: [100] },
+      en: { type: String, default: "" },
+      tr: { type: String, default: "" },
+      ar: { type: String, default: "" }
+    },
     
-    translations: [
-      {
-        translation: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Translation",
-          required: true
-        },
-        language: {
-          type: String,
-          enum: ["en", "tr", "ar"],
-          required: true
-        }
-      }
-    ],
+    // Summary with multilingual support
+    summary: {
+      fa: { type: String, required: [true, "خلاصه فارسی الزامی است"], minlength: [10], maxlength: [500] },
+      en: { type: String, default: "" },
+      tr: { type: String, default: "" },
+      ar: { type: String, default: "" }
+    },
    
     icon: {
       type: String,
@@ -42,7 +41,6 @@ const newsTypeSchema = new mongoose.Schema(
 
 newsTypeSchema.pre("save", async function (next) {
   try {
-  
     const counter = await Counter.findOneAndUpdate(
       { name: "newsTypeId" },
       { $inc: { seq: 1 } },

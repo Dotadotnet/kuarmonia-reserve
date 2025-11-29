@@ -117,20 +117,20 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
       { title: "انواع ویزا", icon: Passport, path: "/visa-types" },
     ],
   },
+  {
+    title: "اخبار",
+    icon: News,
+    subItems: [
+      { title: "لیست اخبار", icon: News, path: "/news" },
+      { title: "کشور خبر", icon: Country, path: "/news-countries" },
+      { title: "نوع خبر", icon: PSale, path: "/news-types" },
+    ],
+  },
     { title: "پست ها ", icon: Post, path: "/posts" },
     { title: "مجله", icon: Blog, path: "/blogs" },
     { title: "گالری", icon: Gallery, path: "/galleries" },
     { title: "هتل ها", icon: Hotel, path: "/rents" },
     { title: "تنظیمات", icon: Setting, path: "/settings" },
-    {
-      title: "اخبار",
-      icon: News,
-      subItems: [
-        { title: "لیست اخبار", icon: News, path: "/news" },
-        { title: "کشور خبر", icon: Country, path: "/news-countries" },
-        { title: "نوع خبر", icon: PSale, path: "/news-types" },
-      ],
-    },
 
     {
       title: "ملک",

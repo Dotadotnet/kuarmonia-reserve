@@ -38,7 +38,7 @@ const teamMemberApi = kuarmoniaApi.injectEndpoints({
 
     updateTeamMember: builder.mutation({
       query: ({ id, ...formData }) => ({
-        url: `/teamMember/update-teamMember${id}`,
+        url: `/teamMember/update-teamMember/${id}`,
         method: "PATCH",
         body: formData
       }),

@@ -25,6 +25,8 @@ const ListNewsType = () => {
   ] = useRemoveNewsTypeMutation();
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
   const newsTypes = useMemo(() => data?.data || [], [data]);
+
+  console.log("newsTypes",newsTypes)
   useEffect(() => {
     if (isLoading) {
       toast.loading("در حال دریافت  ..", { id: "newsType-loading" });
@@ -74,7 +76,9 @@ const ListNewsType = () => {
           <SkeletonItem repeat={5} />
         ) : (
           newsTypes.map((newsType) => {
-            const {title,description}=newsType.translations[0].translation.fields
+            // Updated to use direct model fields instead of translation documents
+            const title = newsType?.title || "";
+            const summary = newsType?.summary || "";
             return (
             <div
               key={newsType._id}
@@ -97,8 +101,8 @@ const ListNewsType = () => {
                       {new Date(newsType.createdAt).toLocaleDateString("fa-IR")}
                     </span>
                     <span className=" lg:hidden text-xs  line-clamp-1">
-                      {description
-                        ? description
+                      {summary
+                        ? summary
                         : new Date(newsType.createdAt).toLocaleDateString(
                             "fa-IR"
                           )}
@@ -109,7 +113,7 @@ const ListNewsType = () => {
               <div className="lg:col-span-2 hidden gap-2 lg:flex justify-left items-center text-right">
                 <article className="flex-col flex gap-y-2">
                   <span className="text-sm lg:text-base overflow-hidden text-ellipsis line-clamp-1">
-                    <span className="flex">{newsType.creator.name}</span>
+                    <span className="flex">{newsType.creator.name.fa}</span>
                   </span>
                 </article>
               </div>
@@ -117,7 +121,7 @@ const ListNewsType = () => {
               <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
                 <article className="flex-col flex gap-y-2">
                   <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                    {newsType.description}
+                    {summary}
                   </span>
                 </article>
               </div>

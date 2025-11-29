@@ -75,6 +75,8 @@ const ListNewsCountry = () => {
           <SkeletonItem repeat={5} />
         ) : (
           countries.map((newsCountry) => {
+            // Updated to use direct model fields instead of translation documents
+            const title = newsCountry?.title || "";
             return (
               <div
                 key={newsCountry._id}
@@ -91,7 +93,7 @@ const ListNewsCountry = () => {
                     </div>
                     <article className="flex-col flex gap-y-2  ">
                       <span className="line-clamp-1 text-base ">
-                        <span className=" ">{newsCountry?.translations[0].translation.fields.title}</span>
+                        <span className=" ">{title}</span>
                       </span>
                       <span className="text-xs hidden lg:flex">
                         {new Date(newsCountry.createdAt).toLocaleDateString(

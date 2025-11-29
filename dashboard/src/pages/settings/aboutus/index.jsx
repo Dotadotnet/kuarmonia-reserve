@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo } from "react";
 
 import {
@@ -54,6 +53,11 @@ const ListTeamMember = () => {
     }
   }, [data, error, isLoading, removeData, removeError, isRemoving]);
 
+  const openEditModal = (teamMember) => {
+    console.log("Edit team member:", teamMember);
+    // Implementation for opening edit modal
+  };
+
   return (
     <>
       <ControlPanel>
@@ -67,7 +71,7 @@ const ListTeamMember = () => {
             سمت
           </div>
           <div className="lg:col-span-4 lg:flex hidden text-sm md:block">
-          کشور محل فعالیت
+          توضیحات
           </div>
 
           <div className="col-span-1 md:block text-sm">عملیات</div>
@@ -121,7 +125,7 @@ const ListTeamMember = () => {
               <div className="lg:col-span-4 hidden gap-2 lg:flex justify-left items-center text-right">
                 <article className="flex-col flex gap-y-2">
                   <span className="text-sm lg:text-base overflow-hidden text-ellipsis block line-clamp-1 max-h-[1.2em]">
-                    {teamMember.activeCountry}
+                    {teamMember.description}
                   </span>
                 </article>
               </div>

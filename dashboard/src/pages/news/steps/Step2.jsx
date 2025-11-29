@@ -35,7 +35,7 @@ const Step2 = ({
     () =>
       fetchNewsTypesData?.data?.map((newsType) => ({
         id: newsType._id,
-        value: newsType.translations[0].translation?.fields.title,
+        value: newsType.title,
         label: newsType.title,
         icon: newsType.icon
       })) || [],

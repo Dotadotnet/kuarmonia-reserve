@@ -5,16 +5,19 @@ import { Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useGetTeamMembersQuery } from "@/services/teamMember/teamMemberApi";
+
 function TeamMembers() {
   const t = useTranslations("About");
   const locale = useLocale();
   const [positions, setPositions] = useState(0);
+  
   const handleSlideChange = (swiper) => {
     const currentIndex = swiper.activeIndex;
     const totalSlides = -swiper.slides.length;
     const newPosition = (currentIndex / totalSlides) * 100;
     setPositions(newPosition);
   };
+  
   const { data, isLoading, error } = useGetTeamMembersQuery({ locale });
   const members = useMemo(() => data?.data || [], [data]);
 
@@ -106,15 +109,12 @@ function TeamMembers() {
             className="!flex !gap-2"
           >
             {members.map((member, index) => {
-              const translation = member?.translations?.find(
-                (t) => t.language === locale && t.translationId
-              )?.translationId?.fields;
-
-              const { fullName, position, description } = translation || member;
+              // Now we can access fields directly since they're already localized by the API
+              const { fullName, position, description } = member;
 
               return (
                 <SwiperSlide
-                  key={index}
+                  key={member._id}
                   className="flex gap-2 border mb-16 dark:border-gray-100 border-gray-400 justify-between rounded-primary"
                 >
                   <div className="swiper-slide">
@@ -141,17 +141,17 @@ function TeamMembers() {
                           {description}
                         </p>
                         <div className="flex items-center gap-4 justify-center lg:justify-start max-sm:bottom-0 relative">
-                          {member.socialLinks?.map((sosial, idx) => (
+                          {member.socialLinks?.map((social, idx) => (
                             <a
                               key={idx}
-                              href={sosial.link}
+                              href={social.link}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="cursor-pointer text-gray-900 dark:text-gray-400 hover:text-white group w-12 h-12 rounded-full flex justify-center items-center dark:bg-black bg-gray-100 transition-all duration-500 hover:bg-indigo-600"
                             >
                               <span
                                 dangerouslySetInnerHTML={{
-                                  __html: sosial?.network?.icon
+                                  __html: social?.network?.icon
                                 }}
                                 className="w-7 h-7"
                               />

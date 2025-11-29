@@ -10,20 +10,26 @@ const newsSchema = new mongoose.Schema(
       type: Number,
       unique: true
     },
-    translations: [
-      {
-        translation: {
-          type: ObjectId,
-          ref: "Translation",
-          required: true
-        },
-        language: {
-          type: String,
-          enum: ["fa", "en", "tr"],
-          required: true
-        }
-      }
-    ],
+    title: {
+      fa: { type: String, required: [true, "عنوان فارسی الزامی است"], minlength: [3], maxlength: [100] },
+      en: { type: String, default: "" },
+      tr: { type: String, default: "" }
+    },
+    
+    // Summary with multilingual support
+    summary: {
+      fa: { type: String, required: [true, "خلاصه فارسی الزامی است"], minlength: [10], maxlength: [500] },
+      en: { type: String, default: "" },
+      tr: { type: String, default: "" }
+    },
+    
+    // Content with multilingual support
+    content: {
+      fa: { type: String, default: "" },
+      en: { type: String, default: "" },
+      tr: { type: String, default: "" }
+    },
+    
     thumbnail: {
       url: { type: String, required: true },
       public_id: { type: String, default: "N/A" }
@@ -130,6 +136,18 @@ const newsSchema = new mongoose.Schema(
         }
       }
     ],
+    slug: {
+      fa: { type: String, unique: true, index: true },
+      en: { type: String, unique: true, index: true },
+      tr: { type: String, unique: true, index: true }
+    },
+
+    // Canonical URL with multilingual support
+    canonicalUrl: {
+      fa: { type: String },
+      en: { type: String },
+      tr: { type: String }
+    },
     ...baseSchema.obj
   },
   { timestamps: true }

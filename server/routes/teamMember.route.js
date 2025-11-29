@@ -1,5 +1,3 @@
-
-
 /* external import */
 const express = require("express");
 
@@ -34,7 +32,7 @@ router.get("/get-teamMembers",localeMiddleware, teamMemberController.getTeamMemb
 router.get("/get-leader",localeMiddleware, teamMemberController.getLeader);
 
 // get a teamMember
-router.get("/get-teamMember/:id", teamMemberController.getTeamMember);
+router.get("/get-teamMember/:id", localeMiddleware, teamMemberController.getTeamMember);
 
 // update teamMember
 router.patch(

@@ -22,10 +22,16 @@ const AddSocialLink = () => {
       toast.loading("در حال افزودن  شبکه اجتماعی...", { id: "add-SocialLink" });
     }
 
-    if (addData) {
+    if (addData && addData.acknowledgement) {
       toast.success(addData?.description, { id: "add-SocialLink" });
       setIsOpen(false);
       reset();
+    }
+
+    
+    if (addData && !addData.acknowledgement) {
+      toast.error(addData?.description, { id: "add-SocialLink" });
+
     }
 
     if (addError?.data) {
