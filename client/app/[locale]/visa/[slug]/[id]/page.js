@@ -23,6 +23,25 @@ async function fetchVisa(id, locale) {
   }
 }
 
+async function fetchTagsByIds(ids, locale) {
+  const api = `${process.env.NEXT_PUBLIC_API}/tag/get-tagById`;
+  try {
+    const response = await fetch(api, {
+      method: 'POST',
+      body: JSON.stringify(ids),
+      headers: {
+        "Accept-Language": locale,
+        "Content-Type": "application/json",
+      }
+    });
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error fetching tags by IDs:", error);
+    return [];
+  }
+}
+
 async function fetchRelatedVisas(locale) {
   const api = `${process.env.NEXT_PUBLIC_API}/visa/get-visas`;
   try {
@@ -45,23 +64,35 @@ export async function generateMetadata({ params }) {
   
   // Simple API call to fetch visa data
   const visa = await fetchVisa(id, locale);
-  
+  console.log(visa)
+
   const canonical = await canonicalUrl()
   const seoTranslations = await getTranslations('Seo');
   const class_language = new language(locale);
   const lang = class_language.getInfo()
+  
+  // Fetch tag details for metadata if visa has tag IDs
+  let visaWithTags = { ...visa };
+  if (visa && visa.tags && visa.tags.length > 0 && typeof visa.tags[0] === 'string') {
+    const tagDetails = await fetchTagsByIds(visa.tags, locale);
+    visaWithTags = { ...visa, tags: tagDetails };
+  }
+  
   const metadata = {
-    title: visa.title,
-    description: visa.summary,
-    category: visa.type.title,
-    creator: visa.creator.name,
-    keywords: Array.isArray(visa.tags) ? visa.tags.map(tag => { return tag.title }).join(" , ") : visa.tags.keynotes.map(tag => { return tag }).join(" , "),
+    title: visaWithTags.title,
+    description: visaWithTags.summary,
+    category: visaWithTags.type.title,
+    creator: visaWithTags.creator.name,
+    keywords: Array.isArray(visaWithTags.tags) ? visaWithTags.tags.map(tag => { 
+      // Handle both cases: tags with title property or tags as strings
+      return tag.title ? tag.title : tag;
+    }).join(" , ") : (visaWithTags.tags && visaWithTags.tags.keynotes ? visaWithTags.tags.keynotes.join(" , ") : ""),
     openGraph: {
-      title: visa.title,
-      description: visa.summary,
+      title: visaWithTags.title,
+      description: visaWithTags.summary,
       url: canonical.canonical,
       siteName: seoTranslations("siteName"),
-      images: visa.thumbnail.url,
+      images: visaWithTags.thumbnail.url,
       locale: lang.lang + "-" + lang.loc,
       type: "website"
     },
@@ -81,6 +112,15 @@ const VisaPost = async ({ params }) => {
   if (!visa || visa.slug !== slug) {
     return <RedirectVisa params={params} />
   }
+  
+  // Enhance visa with full tag details if tags are just IDs
+  let enhancedVisa = { ...visa };
+  if (visa.tags && visa.tags.length > 0 && typeof visa.tags[0] === 'string') {
+    // Tags are IDs, fetch full tag details
+    const tagDetails = await fetchTagsByIds(visa.tags, locale);
+    enhancedVisa = { ...visa, tags: tagDetails };
+  }
+  
   const seoTranslations = await getTranslations("Seo");
   const visaTranslations = await getTranslations("Visa")
   
@@ -93,13 +133,16 @@ const VisaPost = async ({ params }) => {
       {
         "@type": "Service",
         "@id": canonical.canonical + "#main",
-        "name": visa.title,
+        "name": enhancedVisa.title,
         "url": canonical.canonical,
-        "keywords": Array.isArray(visa.tags) ? visa.tags.map(tag => { return tag.title }).join(" , ") : visa.tags.keynotes.map(tag => { return tag }).join(" , "),
-        "serviceType": visa.type.title,
+        "keywords": Array.isArray(enhancedVisa.tags) ? enhancedVisa.tags.map(tag => { 
+          // Handle both cases: tags with title property or tags as strings
+          return tag.title ? tag.title : tag;
+        }).join(" , ") : (enhancedVisa.tags && enhancedVisa.tags.keynotes ? enhancedVisa.tags.keynotes.join(" , ") : ""),
+        "serviceType": enhancedVisa.type.title,
         "image": {
           "@type": "ImageObject",
-          "url": visa.thumbnail.url
+          "url": enhancedVisa.thumbnail.url
         },
         "provider": {
           "@type": "Organization",
@@ -107,9 +150,9 @@ const VisaPost = async ({ params }) => {
         },
         "areaServed": {
           "@type": "Country",
-          "name": visa.country.title
+          "name": enhancedVisa.country.title
         },
-        "description": visa.summary,
+        "description": enhancedVisa.summary,
         "hasPart": [
           { "@id": canonical.canonical + "#faq" },
           { "@id": canonical.canonical + "#howto" }
@@ -168,10 +211,12 @@ const VisaPost = async ({ params }) => {
       }
     ]
   };
+
+  console.log("visa",visa)
   return (
     <Main schema={schema} >
       <Container className="!px-0">
-        <VisaContent visa={visa} locale={locale} related={visas} />
+        <VisaContent visa={enhancedVisa} locale={locale} related={visas} />
       </Container>
     </Main>
   );

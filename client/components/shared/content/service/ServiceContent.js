@@ -10,7 +10,7 @@ import FloatingRequestButton from "@/components/shared/FloatingRequestButton";
 export default function ServiceContent({ service }) {
   const locale = useLocale();
   const t = useTranslations("Service");
-
+console.log("service",service)
   return (
     <Main>
       <div className="dark:bg-gray-800 relative scrollbar-hide h-screen overflow-y-auto">

@@ -100,6 +100,7 @@ app.use("/api/opportunities", require("./routes/opportunity.route"));
 app.use("/api/news", require("./routes/news.route"));
 app.use("/api/properties", require("./routes/property.route"));
 app.use("/api/request", require("./routes/request.route"));
+app.use("/api/contact", require("./routes/contact.route"));
 
 app.use(error);
 

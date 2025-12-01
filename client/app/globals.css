@@ -627,3 +627,9 @@ div.infinity-box-scroll {
   @apply transition-all ;
   scroll-behavior: smooth;
 }
+
+
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}

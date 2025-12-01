@@ -44,7 +44,7 @@ const StepAddNews = ({
     formData.append("tags", extractIds(data.tags));
     formData.append("category",extractIds(data.category));
     formData.append("type",data.newsType.id);
-    formData.append("country",data.newsCountry.id);
+    formData.append("country",data.country.id);
     formData.append("content", data.content);
     formData.append("publishDate", publishDate);
     formData.append("socialLinks",JSON.stringify(socialLinksData));

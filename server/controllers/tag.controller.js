@@ -15,6 +15,7 @@ exports.getTags = async (req, res, next) => {
 
 /* get a tag */
 exports.getTag = async (req, res, next) => {
+  console.log("getTag route called with id:", req.params.id);
   try {
     await tagService.getTag(req, res);
   } catch (error) {
@@ -60,6 +61,29 @@ exports.updateTag = async (req, res, next) => {
 exports.deleteTag = async (req, res, next) => {
   try {
     await tagService.deleteTag(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+/* get tags by IDs */
+exports.getTagsByIds = async (req, res, next) => {
+  try {
+    await tagService.getTagsByIds(req, res);
+  } catch (error) {
+    next(error);
+  } finally {
+    console.log(`Route: ${req.url} || Method: ${req.method}`);
+  }
+};
+
+/* get a tag by tagId */
+exports.getTagByTagId = async (req, res, next) => {
+  console.log("getTagByTagId route called with tagId:", req.params.tagId);
+  try {
+    await tagService.getTagByTagId(req, res);
   } catch (error) {
     next(error);
   } finally {

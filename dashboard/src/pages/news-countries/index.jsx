@@ -25,7 +25,7 @@ const ListNewsCountry = () => {
   ] = useRemoveNewsCountryMutation();
   const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 1;
   const countries = useMemo(() => data?.data || [], [data]);
-
+console.log("countries",countries)
   useEffect(() => {
     if (isLoading) {
       toast.loading("در حال دریافت  ..", { id: "newsCountry-loading" });

@@ -410,7 +410,7 @@ const VisaContent = ({ visa, locale, related }) => {
                     <thead className="bg-gray-50 dark:bg-gray-700 text-xs">
                       <tr>
                         <th className="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">
-                          {visaTranslations("Advantage")}
+                          {visaTranslations("Advantages")}
                         </th>
                       </tr>
                     </thead>
@@ -443,7 +443,7 @@ const VisaContent = ({ visa, locale, related }) => {
                     <thead className="bg-gray-50 dark:bg-gray-700 text-xs">
                       <tr>
                         <th className="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">
-                          {visaTranslations("Disadvantage")}
+                          {visaTranslations("Disadvantages")}
                         </th>
                       </tr>
                     </thead>

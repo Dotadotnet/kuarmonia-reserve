@@ -14,14 +14,18 @@ export default async function sitemap() {
         const tagItems = await tagItemsResponse.json();
         const lastItem = tagItems.data[0];
         const image = lastItem?.thumbnail ? lastItem.thumbnail.url : lastItem?.gallery ? lastItem.gallery[0].url : (host + "/banners/1.jpg")
-        const item = {
-            priority: 0.5,
-            url: host + "/tag/" + tag.tagId + "/" + tag.slug,
-            lastModified: tag.lastUpdated,
-            changeFrequency: 'daily',
-            images: [image]
-        };
-        sitemap.push(item)
+        // Generate URLs for each locale
+        const locales = ['fa', 'en', 'tr'];
+        for (const locale of locales) {
+            const item = {
+                priority: 0.5,
+                url: host + "/" + locale + "/tag/" + tag.tagId + "/" + tag.slug,
+                lastModified: tag.lastUpdated,
+                changeFrequency: 'daily',
+                images: [image]
+            };
+            sitemap.push(item);
+        }
     }
 
     setLangSitemap(sitemap);

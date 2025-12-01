@@ -28,7 +28,7 @@ export async function GET(request) {
             title: item.title,
             description: item.description,
             guid: item.tagId,
-            url: hostLang + "/tag/" + item.tagId + "/" + item.slug,
+            url: host + "/" + lang.lang + "/tag/" + item.tagId + "/" + item.slug,
             categories: typeof item.category == "object" ? [item.category.title] : [],
             date: item.createdAt,
             author: typeof item.authorId == "object" ? item.authorId.name : "",

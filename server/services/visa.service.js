@@ -543,6 +543,7 @@ exports.getVisa = async (req, res) => {
   try {
     console.log("req.params",req.params)
     const { id } = req.params;
+    const locale = req.locale || "fa";
 
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -601,7 +602,7 @@ exports.getVisa = async (req, res) => {
         }
       },
 
-      // Select final fields
+      // Select final fields with localization
       {
         $project: {
           visaId: 1,
@@ -609,23 +610,62 @@ exports.getVisa = async (req, res) => {
           status: 1,
           views: 1,
           createdAt: 1,
-          title: 1,
-          summary: 1,
-          content: 1,
-          processingTime: 1,
-          validity: 1,
-          difficultyLevel: 1,
-          roadmap: 1,
-          faqs: 1,
-          costs: 1,
-          documents: 1,
-          conditions: 1,
-          advantages: 1,
-          disadvantages: 1,
-          rejectionReasons: 1,
-          successTips: 1,
-          slug: 1,
-          canonicalUrl: 1,
+          title: `$title.${locale}`,
+          summary: `$summary.${locale}`,
+          content: `$content.${locale}`,
+          processingTime: `$processingTime.${locale}`,
+          validity: `$validity.${locale}`,
+          difficultyLevel: `$difficultyLevel.${locale}`,
+          roadmap: {
+            $map: {
+              input: "$roadmap",
+              as: "item",
+              in: {
+                title: `$$item.title.${locale}`,
+                description: `$$item.description.${locale}`,
+                duration: `$$item.duration.${locale}`,
+                link: `$$item.link.${locale}`
+              }
+            }
+          },
+          faqs: {
+            $map: {
+              input: "$faqs",
+              as: "item",
+              in: {
+                question: `$$item.question.${locale}`,
+                answer: `$$item.answer.${locale}`
+              }
+            }
+          },
+          costs: {
+            $map: {
+              input: "$costs",
+              as: "item",
+              in: {
+                title: `$$item.title.${locale}`,
+                fee: `$$item.fee.${locale}`
+              }
+            }
+          },
+          documents: {
+            $map: {
+              input: "$documents",
+              as: "item",
+              in: {
+                title: `$$item.title.${locale}`,
+                description: `$$item.description.${locale}`,
+                type: "$$item.type"
+              }
+            }
+          },
+          conditions: `$conditions.${locale}`,
+          advantages: `$advantages.${locale}`,
+          disadvantages: `$disadvantages.${locale}`,
+          rejectionReasons: `$rejectionReasons.${locale}`,
+          successTips: `$successTips.${locale}`,
+          slug: `$slug.${locale}`,
+          canonicalUrl: `$canonicalUrl.${locale}`,
           "creator._id": 1,
           "creator.name": 1,
           "creator.avatar": 1,
@@ -635,8 +675,16 @@ exports.getVisa = async (req, res) => {
           "country._id": 1,
           "country.title": 1,
           tags: {
-            _id: 1,
-            title: 1
+            $map: {
+              input: "$tags",
+              as: "tag",
+              in: {
+                _id: "$$tag._id",
+                tagId: "$$tag.tagId",
+                slug: "$$tag.slug",
+                title: `$$tag.title.${locale}`
+              }
+            }
           }
         }
       }
@@ -830,13 +878,18 @@ console.log("locale",locale);
       _id: "$country._id",
       title: `$country.title.${locale}`
     },
-tags: {
-  $map: {
-    input: "$tags",
-    as: "tag",
-    in: "$$tag._id"
-  }
-}
+    tags: {
+      $map: {
+        input: "$tags",
+        as: "tag",
+        in: {
+          _id: "$$tag._id",
+          tagId: "$$tag.tagId",
+          slug: "$$tag.slug",
+          title: `$$tag.title.${locale}`
+        }
+      }
+    }
   }
 }
 
@@ -1346,6 +1399,20 @@ exports.getAllVisas = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

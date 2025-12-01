@@ -169,6 +169,17 @@ exports.getAllNews = async (req,res) => {
         },
       },
 
+      // Populate country
+      {
+        $lookup: {
+          from: "countries",
+          localField: "country",
+          foreignField: "_id",
+          as: "country",
+        },
+      },
+      { $unwind: { path: "$country", preserveNullAndEmptyArrays: true } },
+
       // Select final fields with localization
       {
         $project: {
@@ -187,6 +198,9 @@ exports.getAllNews = async (req,res) => {
           "type._id": 1,
           "type.title": `$type.title.${locale}`,
           "type.icon": 1,
+          "country._id": 1,
+          "country.name": `$country.name.${locale}`,
+          "country.icon": 1,
           categoriesCount: { $size: "$categories" }
         },
       },
@@ -308,6 +322,17 @@ exports.getNews = async (req, res) => {
         },
       },
 
+      // Populate country
+      {
+        $lookup: {
+          from: "countries",
+          localField: "country",
+          foreignField: "_id",
+          as: "country",
+        },
+      },
+      { $unwind: { path: "$country", preserveNullAndEmptyArrays: true } },
+
       // Select final fields with localization
       {
         $project: {
@@ -327,6 +352,9 @@ exports.getNews = async (req, res) => {
           "type._id": 1,
           "type.title": `$type.title.${locale}`,
           "type.icon": 1,
+          "country._id": 1,
+          "country.name": `$country.name.${locale}`,
+          "country.icon": 1,
           tags: 1,
           categories: 1,
           socialLinks: 1,
@@ -564,3 +592,7 @@ exports.deleteNews = async (req, res) => {
     });
   }
 };
+
+
+
+

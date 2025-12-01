@@ -27,6 +27,8 @@ router.get("/get-visas", localeMiddleware, visaController.getVisas);
 // get all visas for client (lightweight version)
 router.get("/get-visas-client", localeMiddleware, visaController.getVisasClient);
 
+// get visas by tag
+
 // get a visa
 router.get("/get-visa/:id", localeMiddleware, visaController.getVisa);
 

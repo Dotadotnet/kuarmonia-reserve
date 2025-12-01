@@ -27,8 +27,14 @@ router.post(
 // get all tags
 router.get("/get-tags",localeMiddleware, tagController.getTags);
 
-// get a tag
+// get a tag by tagId (more specific route should come first)
+router.get("/get-tag-by-id/:tagId", localeMiddleware, tagController.getTagByTagId);
+
+// get a tag by MongoDB _id
 router.get("/get-tag/:id", localeMiddleware, tagController.getTag);
+
+// get tags by IDs
+router.post("/get-tags-by-ids", localeMiddleware, tagController.getTagsByIds);
 
 // update tag
 router.patch(

@@ -1,7 +1,5 @@
 const Product = require("../models/product.model");
 const remove = require("../utils/remove.util");
-const dynamicImportModel = require("../utils/dynamicImportModel")
-const autoTranslation = require("../utils/autoTranslation");
 const { translate } = require("google-translate-api-x");
 
 

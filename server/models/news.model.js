@@ -49,7 +49,7 @@ const newsSchema = new mongoose.Schema(
     },
     country: {
       type: ObjectId,
-      ref: "NewsCountry"
+      ref: "Country"
     },
     relatedNews: [
       {

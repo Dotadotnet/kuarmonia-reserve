@@ -3,17 +3,20 @@ import Navbar from "@/components/shared/navbar/Navbar";
 // import RouteLoadingIndicator from "@/components/shared/RouteLoadingIndicator";
 import CurrencyRates from "@/hooks/useExchangeRatesToIRR";
 import Chat from "@/components/shared/chat/page";
-import SwiperTransiotion from "@/components/shared/tools/swiperTransiotion";
+import TopContactBar from "@/components/shared/TopContactBar";
+
 const Main = ({ children, schema = {} }) => {
   return (
     <>
-
-      <div className="dark:bg-gray-900">
+      <div className="dark:bg-gray-900 flex flex-col min-h-screen">
+        <TopContactBar />
+        
         <CurrencyRates />
-        {children}
-        <Chat />
-        <SwiperTransiotion />
         <Navbar />
+        <main className="flex-grow">
+          {children}
+        </main>
+        <Chat />
         <Footer />
       </div>
     </>

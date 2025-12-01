@@ -158,6 +158,9 @@ exports.getTags = async (req, res) => {
     ];
 
     const tags = await Tag.aggregate(pipeline);
+    
+    // Log the tags for debugging
+    console.log("Fetched tags:", JSON.stringify(tags, null, 2));
 
     // Get total count
     const total = await Tag.countDocuments(matchStage);
@@ -182,7 +185,9 @@ exports.getTags = async (req, res) => {
   }
 };
 
+// Get tag by MongoDB _id
 exports.getTag = async (req, res) => {
+  console.log("getTag service called with id:", req.params.id);
   try {
     const { id } = req.params;
     const locale = req.locale || "fa";
@@ -251,6 +256,78 @@ exports.getTag = async (req, res) => {
     });
   } catch (error) {
     console.error("Error fetching tag:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در دریافت تگ",
+      error: error.message
+    });
+  }
+};
+
+// Get tag by tagId
+exports.getTagByTagId = async (req, res) => {
+  try {
+    const { tagId } = req.params;
+    const locale = req.locale || "fa";
+    
+    // Convert tagId to number for comparison since it's stored as Number in DB
+    const numericTagId = Number(tagId);
+
+    const pipeline = [
+      { $match: { tagId: numericTagId, isDeleted: false } },
+
+      // Populate creator
+      {
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+
+      // Select final fields with localization
+      {
+        $project: {
+          tagId: 1,
+          title: `$title.${locale}`,
+          description: `$description.${locale}`,
+          keynotes: `$keynotes.${locale}`,
+          slug: 1,
+          canonicalUrl: 1,
+          status: 1,
+          thumbnail: 1,
+          createdAt: 1,
+          creator: {
+            _id: "$creator._id",
+            name: { $ifNull: [`$creator.name.${locale}`, `$creator.name`] },
+            avatar: "$creator.avatar"
+          }
+        }
+      }
+    ];
+
+    const [tag] = await Tag.aggregate(pipeline);
+    
+    if (!tag) {
+      console.log(`No tag found with tagId: ${numericTagId}`);
+      return res.status(404).json({
+        acknowledgement: false,
+        message: "Not Found",
+        description: "تگ پیدا نشد"
+      });
+    }
+
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "تگ با موفقیت دریافت شد",
+      data: tag
+    });
+  } catch (error) {
+    console.error("Error fetching tag by tagId:", error);
     res.status(500).json({
       acknowledgement: false,
       message: "Error",
@@ -364,36 +441,51 @@ exports.updateTag = async (req, res) => {
 
 exports.getItem = async (req, res) => {
   let { page, id } = req.params;
-  // مهم
-  const modelsNames = [ "visa" ,"service", "property", "rent", "opportunity", "news", "blog"]
-  // مهم
-  let items = [];
-  for (let i = 0; i < modelsNames.length; i++) {
-    const modelsName = modelsNames[i];
-    const Model = dynamicImportModel(modelsName);
-    const FieldsModel = await Model.find({ tags: id }).lean();
-    FieldsModel.forEach(FieldModel => {
-      items.push(FieldModel);
-    });
+  const locale = req.locale || "fa";
+  console.log("getItem service called with page:", page, "and id:", id, "and locale:", locale);
+  
+  // Only search in visa model with aggregation
+  const Visa = require("../models/visa.model");
+  const mongoose = require("mongoose");
+  
+  // Convert string ID to ObjectId if it's a valid ObjectId
+  let tagId;
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    tagId = new mongoose.Types.ObjectId(id);
+  } else {
+    tagId = id;
   }
   
+  // Find all visa items that use this tag and select fields based on locale
+  const items = await Visa.aggregate([
+    { $match: { tags: tagId } },
+    {
+      $project: {
+        title: `$title.${locale}`,
+        thumbnail: 1,
+        summary: `$summary.${locale}`,
+        slug: 1,
+        canonicalUrl: 1,
+        createdAt: 1
+      }
+    }
+  ]);
+  
+  console.log("Total visa items found:", items.length);
   const total = items.length;
-  items = paginateArray(items, page, 10);
-  if(req.query.scope){
-    items = [items[0]]
-  }
-  const replaceRefClass = new replaceRef(items, req);
-  const result = await replaceRefClass.getRefFields();
+  
+  // Return all items without pagination
+  console.log("Returning all visa items without pagination", items);
+  
   res.status(200).json({
     acknowledgement: true,
     message: "Ok",
-    description: "تگ‌ها با موفقیت دریافت شدند",
+    description: "آیتم‌های ویزا با موفقیت دریافت شدند",
     data: {
       total: total,
-      data: result,
+      data: items,
     },
   });
-
 };
 
 /* delete tag */
@@ -421,3 +513,108 @@ exports.deleteTag = async (req, res) => {
     description: "تگ با موفقیت حذف شد"
   });
 };
+
+/* 📌 دریافت تگ‌ها بر اساس آیدی‌ها */
+exports.getTagsByIds = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    const locale = req.locale || "fa";
+    
+    // Validate input
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({
+        acknowledgement: false,
+        message: "Bad Request",
+        description: "آیدی‌ها الزامی هستند و باید آرایه باشند"
+      });
+    }
+    
+    // Validate each ID
+    for (const id of ids) {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+          acknowledgement: false,
+          message: "Bad Request",
+          description: `شناسه نامعتبر: ${id}`
+        });
+      }
+    }
+    
+    // Convert string IDs to ObjectIds
+    const objectIds = ids.map(id => new mongoose.Types.ObjectId(id));
+    
+    const pipeline = [
+      { $match: { _id: { $in: objectIds }, isDeleted: false } },
+      
+      // Populate creator
+      {
+        $lookup: {
+          from: "admins",
+          localField: "creator",
+          foreignField: "_id",
+          as: "creator"
+        }
+      },
+      { $unwind: { path: "$creator", preserveNullAndEmptyArrays: true } },
+      
+      // Select final fields with localization
+      {
+        $project: {
+          tagId: 1,
+          title: `$title.${locale}`,
+          description: `$description.${locale}`,
+          keynotes: `$keynotes.${locale}`,
+          slug: 1,
+          canonicalUrl: 1,
+          status: 1,
+          thumbnail: 1,
+          createdAt: 1,
+          creator: {
+            _id: "$creator._id",
+            name: { $ifNull: [`$creator.name.${locale}`, `$creator.name`] },
+            avatar: "$creator.avatar"
+          }
+        }
+      }
+    ];
+    
+    const tags = await Tag.aggregate(pipeline);
+    
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "تگ‌ها با موفقیت دریافت شدند",
+      data: tags
+    });
+  } catch (error) {
+    console.error("Error fetching tags by IDs:", error);
+    res.status(500).json({
+      acknowledgement: false,
+      message: "Error",
+      description: "خطا در دریافت تگ‌ها",
+      error: error.message
+    });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

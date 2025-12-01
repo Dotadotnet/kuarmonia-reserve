@@ -1,8 +1,11 @@
 import { Link } from "@/i18n/navigation";
 import { FaTag } from "react-icons/fa";
+import { useLocale } from "next-intl";
 
 function TagBox({ tags }) {
     let tagCollections = Array.isArray(tags) ? tags : [tags]
+    const locale = useLocale();
+    
     return (
         <div className=" w-full overflow-x-auto scrollbar-hide  flex flex-wrap justify-start gap-2">
             {tagCollections?.length > 0 &&
@@ -10,7 +13,7 @@ function TagBox({ tags }) {
                     <Link
                         key={tag.tagId}
                         title={tag.description}
-                        href={"/tag/" + tag.tagId + "/" + tag.slug}
+                        href={`/tag/${tag.tagId}/${tag.slug}`}
                         className="rounded-lg px-3 transition-all cursor-pointer  flex justify-center items-center gap-x-2 bg-gray-200  py-2 text-xs text-gray-700 dark:text-gray-100 dark:hover:bg-gray-600  hover:bg-gray-300  dark:bg-gray-800"
                     >
                         <FaTag className="w-4 h-4 text-gray-500" />

@@ -33,6 +33,8 @@ router.get(
   serviceController.getServices
 );
 
+// get services by tag
+
 // get all services without pagination (for dashboard)
 router.get(
   "/get-all-services",

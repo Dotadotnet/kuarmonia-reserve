@@ -3,7 +3,7 @@ import SocialLinksInput from "@/components/shared/input/SocialLinksInput";
 import StatusSwitch from "@/components/shared/button/StatusSwitch";
 import { Controller } from "react-hook-form";
 import Dropdown from "@/components/shared/dropDown/Dropdown";
-import { useGetNewsCountriesQuery } from "@/services/newsCountry/newsCountryApi";
+import { useGetCountriesQuery } from "@/services/country/countryApi";
 import Plus from "@/components/icons/Plus";
 
 const Step3 = ({
@@ -23,35 +23,35 @@ const Step3 = ({
     };
   });
   const {
-    isLoading: fetchingNewsCountries,
-    data: fetchNewsCountriesData,
-    error: fetchNewsCountriesError
-  } = useGetNewsCountriesQuery();
+    isLoading: fetchingCountries,
+    data: fetchCountriesData,
+    error: fetchCountriesError
+  } = useGetCountriesQuery();
 
-  const newsCountries = useMemo(
+  const countries = useMemo(
     () =>
-      fetchNewsCountriesData?.data?.map((newsCountry) => ({
-        id: newsCountry._id,
-        value: newsCountry.translations[0].translation?.fields.title,
-        label: newsCountry.title,
-        icon: newsCountry.icon
+      fetchCountriesData?.data?.map((country) => ({
+        id: country._id,
+        value: country.name,
+        label: country.name,
+        icon: country.icon
       })) || [],
-    [fetchNewsCountriesData]
+    [fetchCountriesData]
   );
   return (
     <>
       <div className="flex flex-col gap-y-2 w-full  ">
         <div className="flex-1 flex items-center justify-between gap-2 gap-y-2 w-full">
           <div className="flex flex-col flex-1">
-            <label htmlFor="newsCountry" className="flex flex-col gap-y-2 ">
+            <label htmlFor="country" className="flex flex-col gap-y-2 ">
              کشور خبر
               <Controller
                 control={control}
-                name="newsCountry"
+                name="country"
                 rules={{ required: "انتخاب کشور خبر الزامی است" }}
                 render={({ field: { onChange, value } }) => (
                   <Dropdown
-                    items={newsCountries}
+                    items={countries}
                     selectedItems={value || []}
                     handleSelect={onChange}
                     placeholder="یک مورد انتخاب کنید"
@@ -114,7 +114,6 @@ const Step3 = ({
             pattern: {
               value:
                 /^(https?:\/\/)([\w.-]+)(:[0-9]+)?(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/,
-
               message: "فرمت لینک معتبر نیست"
             }
           })}

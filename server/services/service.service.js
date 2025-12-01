@@ -291,7 +291,18 @@ exports.getServices = async (req, res) => {
           "category._id": 1,
           "category.title": `$category.title.${locale}`,
           "category.icon": 1,
-          tagsCount: { $size: "$tags" }
+          tags: {
+            $map: {
+              input: "$tags",
+              as: "tag",
+              in: {
+                _id: "$$tag._id",
+                tagId: "$$tag.tagId",
+                slug: "$$tag.slug",
+                title: `$$tag.title.${locale}`
+              }
+            }
+          }
         },
       },
     ];
@@ -386,10 +397,27 @@ exports.getService = async (req, res) => {
           title: `$title.${locale}`,
           summary: `$summary.${locale}`,
           content: `$content.${locale}`,
-          roadmap: `$roadmap.${locale}`,
+          roadmap: {
+            $map: {
+              input: "$roadmap",
+              as: "item",
+              in: {
+                title: `$$item.title.${locale}`,
+                description: `$$item.description.${locale}`,
+                duration: `$$item.duration.${locale}`,
+                link: `$$item.link.${locale}`
+              }
+            }
+          },
           faqs: {
-            question: `$faqs.question.${locale}`,
-            answer: `$faqs.answer.${locale}`
+            $map: {
+              input: "$faqs",
+              as: "item",
+              in: {
+                question: `$$item.question.${locale}`,
+                answer: `$$item.answer.${locale}`
+              }
+            }
           },
           whatYouWillRead: `$whatYouWillRead.${locale}`,
           slug: `$slug.${locale}`,
@@ -405,8 +433,16 @@ exports.getService = async (req, res) => {
             icon: "$category.icon"
           },
           tags: {
-            _id: 1,
-            title: `$tags.title.${locale}`
+            $map: {
+              input: "$tags",
+              as: "tag",
+              in: {
+                _id: "$$tag._id",
+                tagId: "$$tag.tagId",
+                slug: "$$tag.slug",
+                title: `$$tag.title.${locale}`
+              }
+            }
           }
         }
       }
@@ -535,13 +571,18 @@ console.log("locale",locale);
       title: `$category.title.${locale}`,
       icon: "$category.icon"
     },
-tags: {
-  $map: {
-    input: "$tags",
-    as: "tag",
-    in: "$$tag._id"
-  }
-}
+    tags: {
+      $map: {
+        input: "$tags",
+        as: "tag",
+        in: {
+          _id: "$$tag._id",
+          tagId: "$$tag.tagId",
+          slug: "$$tag.slug",
+          title: `$$tag.title.${locale}`
+        }
+      }
+    }
   }
 }
 
@@ -549,7 +590,7 @@ tags: {
 
     const [service] = await Service.aggregate(pipeline);
 
-console.log("service",service)
+console.log("service",service);
     if (!service) {
       return res.status(404).json({
         acknowledgement: false,
@@ -557,7 +598,7 @@ console.log("service",service)
         description: "خدمت مورد نظر یافت نشد"
       });
     }
-console.log("service",service)
+console.log("service",service);
     res.status(200).json({
       acknowledgement: true,
       message: "Ok",
@@ -804,7 +845,12 @@ exports.getAllServices = async (req, res) => {
             $map: {
               input: "$tags",
               as: "tag",
-              in: "$$tag._id"
+              in: {
+                _id: "$$tag._id",
+                tagId: "$$tag.tagId",
+                slug: "$$tag.slug",
+                title: `$$tag.title.${locale}`
+              }
             }
           }
         }
@@ -829,6 +875,14 @@ exports.getAllServices = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
+
 
 
 

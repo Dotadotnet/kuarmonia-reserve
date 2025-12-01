@@ -8,7 +8,6 @@ const modelsMap = {
   news: require("../models/news.model"),
   opportunity: require("../models/opportunity.model")
 };
-const dynamicImportModel = require("../utils/dynamicImportModel")
 
 exports.addReview = async (req, res) => {
   const user = await User.findById(req?.user?._id);
