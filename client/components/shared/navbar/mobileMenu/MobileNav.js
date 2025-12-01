@@ -41,20 +41,20 @@ const MobileNav = ({ isOpen, setIsOpen , setSearchIsOpen }) => {
               <div className="overflow-auto w-full gap-10 flex h-full flex-col py-5  overflow-x-hidden">
                 {[
                   {
-                    href: `/${locale}/`,
+                    href: `/`,
                     icon: <Home className="text-[#22b973]" />,
                     text: t("5")
                   },
-                  { href: `/${locale}`, icon: <Category />, text: t("6") },
-                  { href: `/${locale}/store`, icon: <Shop />, text: t("7") },
+                  { href: ``, icon: <Category />, text: t("6") },
+                  { href: `/store`, icon: <Shop />, text: t("7") },
                   {
-                    href: `/${locale}/auth/signin`,
+                    href: `/auth/signin`,
                     icon: <User />,
                     text: t("8")
                   },
-                  { href: `/${locale}/terms`, icon: <Rules />, text: t("9") },
-                  { href: `/${locale}/about`, icon: <About />, text: t("4") },
-                  { href: `/${locale}/contact`, icon: <Phone />, text: t("3") }
+                  { href: `/terms`, icon: <Rules />, text: t("9") },
+                  { href: `/about`, icon: <About />, text: t("4") },
+                  { href: `/contact`, icon: <Phone className={"h-6 w-6 text-primary"} />, text: t("3") }
                 ].map((item, index) => (
                   <motion.div
                     key={index}

@@ -7,7 +7,7 @@ const TopContactBar = () => {
   const t = useTranslations("ContactUs");
   
   return (
-    <div className="bg-primary text-white py-1 px-4 text-sm">
+    <div className="bg-primary fixed top-0 w-full text-white py-1 px-4 text-sm z-40">
       <div className="container mx-auto flex flex-wrap justify-between items-center">
         <div className="flex items-center space-x-4">
           <Link href="tel:+14376675933" className="text-white hover:text-gray-200 flex items-center space-x-1">

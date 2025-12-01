@@ -1,71 +1,59 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React from "react";
 import VisaCard from "@/components/shared/card/VisaCard";
-import useEmblaCarousel from 'embla-carousel-react';
-import { DotButton, useDotButton } from './EmblaCarouselDotButton';
-import {
-  PrevButton,
-  NextButton,
-  usePrevNextButtons
-} from './EmblaCarouselArrowButtons';
-import './embla.css';
 import { useLocale } from "next-intl";
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Import Swiper modules
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 const VisaSlider = ({ visas }) => {
   const locale = useLocale();
   const isRTL = ["ar", "fa", "he"].includes(locale);
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "center",
-    containScroll: "trimSnaps",
-    direction: isRTL ? "rtl" : "ltr",
-    slidesToScroll: 1,
-  });
-
-  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
-
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick
-  } = usePrevNextButtons(emblaApi);
-
   return (
-    <section className="embla">
-      <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
-          {visas.map((visa, index) => (
-            <div 
-              className="embla__slide flex-[0_0_95%] md:flex-[0_0_30%] px-2 md:px-4 min-w-0" 
-              key={visa._id || index}
-            >
+    <section className="relative">
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={10}
+        slidesPerView={1.2}
+        centeredSlides={true}
+        loop={true}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+
+        pagination={{
+          clickable: true,
+        }}
+        dir={isRTL ? "rtl" : "ltr"}
+        breakpoints={{
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+        }}
+        className="mySwiper"
+      >
+        {visas.map((visa, index) => (
+          <SwiperSlide key={visa._id || index}>
+            <div className="px-2 md:px-4">
               <VisaCard visa={visa} />
             </div>
-          ))}
-        </div>
-      </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-      <div className="embla__controls">
-        <div className="embla__buttons">
-          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
-          <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
-        </div>
-
-        <div className="embla__dots">
-          {scrollSnaps.map((_, index) => (
-            <DotButton
-              key={index}
-              onClick={() => onDotButtonClick(index)}
-              className={'embla__dot'.concat(
-                index === selectedIndex ? ' embla__dot--selected' : ''
-              )}
-            />
-          ))}
-        </div>
-      </div>
+    
     </section>
   );
 };
