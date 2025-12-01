@@ -58,62 +58,62 @@ const ContactForm = () => {
           
           <div className="mt-8 grid grid-cols-2 gap-6">
             <div className="flex items-center gap-4">
-              <div className="bg-primary/10 p-3 rounded-full">
-                <Phone className="text-primary w-8 h-8 text-xl" />
+              <div className="bg-primary/10 p-2 md:p-3 rounded-full">
+                <Phone className="text-primary w-6 h-6 md:w-8 md:h-8 text-lg md:text-xl" />
               </div>
               <div className="text-left">
-                <h3 className="font-semibold text-gray-900 dark:text-white">{t("phone")}</h3>
-                <a href="tel:+14376675933" className="text-gray-600 dark:text-gray-300 block">
+                <h3 className="text-gray-900 dark:text-white text-sm md:text-base">{t("phone")}</h3>
+                <a href="tel:+14376675933" className="text-gray-600 dark:text-gray-300 block text-xs md:text-sm">
                   <LTRText>+1(437)667-5933</LTRText>
                 </a>
-                <a href="tel:+905433575933" className="text-gray-600 dark:text-gray-300 block">
+                <a href="tel:+905433575933" className="text-gray-600 dark:text-gray-300 block text-xs md:text-sm">
                   <LTRText>+90 543 357 5933</LTRText>
                 </a>
               </div>
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="bg-primary/10 p-3 rounded-full">
-                <Whatsapp className="text-primary w-8 h-8 text-xl" />
+              <div className="bg-primary/10 p-2 md:p-3 rounded-full">
+                <Whatsapp className="text-primary w-6 h-6 md:w-8 md:h-8 text-lg md:text-xl" />
               </div>
               <div className="text-left">
-                <h3 className="font-semibold text-gray-900 dark:text-white">WhatsApp</h3>
-                <a href="https://wa.me/14376675933" className="text-gray-600 dark:text-gray-300 block">
+                <h3 className="text-gray-900 dark:text-white text-sm md:text-base">WhatsApp</h3>
+                <a href="https://wa.me/14376675933" className="text-gray-600 dark:text-gray-300 block text-xs md:text-sm">
                   <LTRText>+1(437)667-5933</LTRText>
                 </a>
-                <a href="https://wa.me/905433575933" className="text-gray-600 dark:text-gray-300 block">
+                <a href="https://wa.me/905433575933" className="text-gray-600 dark:text-gray-300 block text-xs md:text-sm">
                   <LTRText>+90 543 357 5933</LTRText>
                 </a>
               </div>
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="bg-primary/10 p-3 rounded-full">
-                <Email className="text-primary w-8 h-8 text-xl" />
+              <div className="bg-primary/10 p-2 md:p-3 rounded-full">
+                <Email className="text-primary w-6 h-6 md:w-8 md:h-8 text-lg md:text-xl" />
               </div>
               <div className="text-left">
-                <h3 className="font-semibold text-gray-900 dark:text-white">{t("email")}</h3>
-                <a href="mailto:info@kuarmonia.com" className="text-gray-600 dark:text-gray-300 block">info@kuarmonia.com</a>
+                <h3 className="text-gray-900 dark:text-white text-sm md:text-base">{t("email")}</h3>
+                <a href="mailto:info@kuarmonia.com" className="text-gray-600 dark:text-gray-300 block text-xs md:text-sm">info@kuarmonia.com</a>
               </div>
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="bg-primary/10 p-3 rounded-full">
-                <Telegram className="text-primary w-8 h-8 text-xl" />
+              <div className="bg-primary/10 p-2 md:p-3 rounded-full">
+                <Telegram className="text-primary w-6 h-6 md:w-8 md:h-8 text-lg md:text-xl" />
               </div>
               <div className="text-left">
-                <h3 className="font-semibold text-gray-900 dark:text-white">Telegram</h3>
-                <a href="https://t.me/kuarmonia" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 block">@kuarmonia</a>
+                <h3 className="text-gray-900 dark:text-white text-sm md:text-base">Telegram</h3>
+                <a href="https://t.me/kuarmonia" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 block text-xs md:text-sm">@kuarmonia</a>
               </div>
             </div>
             
             <div className="flex items-center gap-4 md:col-span-2">
-              <div className="bg-primary/10 p-3 rounded-full">
-                <Instagram className="text-primary w-8 h-8 text-xl" />
+              <div className="bg-primary/10 p-2 md:p-3 rounded-full">
+                <Instagram className="text-primary w-6 h-6 md:w-8 md:h-8 text-lg md:text-xl" />
               </div>
               <div className="text-left">
-                <h3 className="font-semibold text-gray-900 dark:text-white">Instagram</h3>
-                <a href="https://instagram.com/kuarmonia" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 block">@kuarmonia</a>
+                <h3 className="text-gray-900 dark:text-white text-sm md:text-base">Instagram</h3>
+                <a href="https://instagram.com/kuarmonia" target="_blank" rel="noopener noreferrer" className="text-gray-600 dark:text-gray-300 block text-xs md:text-sm">@kuarmonia</a>
               </div>
             </div>
           </div>
