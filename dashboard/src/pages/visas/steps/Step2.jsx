@@ -27,7 +27,7 @@ const Step2 = ({
     error: fetchTagsError
   } = useGetTagsQuery({
     page: 1,
-    limit: Infinity,
+    limit: 1000, // Fetch a large number of tags instead of Infinity
     status: "all",
     search: ""
   });
