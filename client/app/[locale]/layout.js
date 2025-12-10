@@ -73,11 +73,10 @@ export default async function RootLayout({ children, params }) {
                 </head>
                 {/* داداش دستم به دامنت دست نزن */}
                 <body>
-                  
+                  <Toaster />
                   {children}
                 </body>
               </html>
-              <Toaster />
             </Auth>
           </Session>
         </Providers>

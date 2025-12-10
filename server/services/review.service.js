@@ -2,13 +2,6 @@
 const Review = require("../models/review.model");
 const User = require("../models/user.model");
 const Session = require("../models/session.model");
-const modelsMap = {
-  property: require("../models/property.model"),
-  rent: require("../models/rent.model"),
-  news: require("../models/news.model"),
-  opportunity: require("../models/opportunity.model")
-};
-
 exports.addReview = async (req, res) => {
   const user = await User.findById(req?.user?._id);
   const guest = await Session.findOne({ sessionId: req.sessionID });
@@ -23,31 +16,6 @@ exports.addReview = async (req, res) => {
     });
   }
 
-  const TargetModel = dynamicImportModel(targetType);
-
-  if (!TargetModel) {
-    return res.status(400).json({
-      acknowledgement: false,
-      message: "Invalid Type",
-      description: "نوع هدف نامعتبر است"
-    });
-  }
-
-  // بررسی وجود هدف (مثلاً محصول یا رنت)
-
-  const exists = await TargetModel.exists({
-    _id: targetId,
-  });
-
-
-  if (!exists) {
-    return res.status(400).json({
-      acknowledgement: false,
-      message: "Not Found",
-      description: "هدف یافت نشد"
-    });
-  }
-
   const review = await Review.create({
     reviewer: user?._id || null,
     guest: guest?.userId || req.sessionID ,
@@ -57,9 +25,8 @@ exports.addReview = async (req, res) => {
     comment
   });
 
-  await TargetModel.findByIdAndUpdate(targetId, {
-    $push: { reviews: review._id }
-  });
+  // Don't need TargetModel since client handles targeting
+  // Just save the review with target info
 
   if (user) {
     await User.findByIdAndUpdate(user._id, {
@@ -81,15 +48,32 @@ exports.addReview = async (req, res) => {
 };
 
 /* get from review */
-exports.getReviews = async (res) => {
-  const reviews = await Review.find().sort({ updatedAt: 1 });
-
-  res.status(200).json({
-    acknowledgement: true,
-    message: "Ok",
-    description: "Review fetched successfully",
-    data: reviews
-  });
+exports.getReviews = async (req, res) => {
+  // Check if we're getting reviews for a specific target
+  if (req.params && req.params.type && req.params.id) {
+    // Filter by targetType and targetId
+    const reviews = await Review.find({
+      targetType: req.params.type,
+      targetId: req.params.id
+    }).sort({ updatedAt: -1 }); // Sort by newest first
+    
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "Reviews fetched successfully",
+      data: reviews
+    });
+  } else {
+    // Get all reviews (existing behavior)
+    const reviews = await Review.find().sort({ updatedAt: -1 });
+    
+    res.status(200).json({
+      acknowledgement: true,
+      message: "Ok",
+      description: "All reviews fetched successfully",
+      data: reviews
+    });
+  }
 };
 
 /* update review */
@@ -107,13 +91,22 @@ exports.updateReview = async (req, res) => {
 exports.deleteReview = async (req, res) => {
   const review = await Review.findByIdAndDelete(req.params.id);
 
-  await Product.findByIdAndUpdate(review.product, {
-    $pull: { reviews: review._id }
-  });
+  // Remove review from the target model
+  if (review && review.targetType && review.targetId) {
+    const TargetModel = modelsMap[review.targetType];
+    if (TargetModel) {
+      await TargetModel.findByIdAndUpdate(review.targetId, {
+        $pull: { reviews: review._id }
+      });
+    }
+  }
 
-  await User.findByIdAndUpdate(review.reviewer, {
-    $pull: { reviews: review._id }
-  });
+  // Remove from User if reviewer exists
+  if (review.reviewer) {
+    await User.findByIdAndUpdate(review.reviewer, {
+      $pull: { reviews: review._id }
+    });
+  }
 
   res.status(200).json({
     acknowledgement: true,

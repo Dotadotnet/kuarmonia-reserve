@@ -360,7 +360,14 @@
     "starLimit": "بین ۱ تا ۵ ستاره انتخاب کنید",
     "placeholder": "نظرت را بنویس...",
     "submit": "ارسال نظر",
-    "addingReview": "در حال افزودن نظر"
+    "addingReview": "در حال افزودن نظر",
+    "reply": "پاسخ",
+    "replyPlaceholder": "پاسخ خود را بنویسید...",
+    "submitReply": "ارسال پاسخ",
+    "cancel": "لغو",
+    "cancelReply": "لغو پاسخ",
+    "replyRequired": "محتوای پاسخ الزامی است",
+    "adminResponse": "پاسخ مدیر"
   },
   "whatsapp": {
     "accountName": "مرجان ",

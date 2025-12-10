@@ -358,7 +358,14 @@
     "starLimit": "Choose stars between 1 to 5",
     "placeholder": "Write your thoughts...",
     "submit": "Add Review",
-    "addingReview": "Adding Review"
+    "addingReview": "Adding Review",
+    "reply": "Reply",
+    "replyPlaceholder": "Write your reply...",
+    "submitReply": "Submit Reply",
+    "cancel": "Cancel",
+    "cancelReply": "Cancel Reply",
+    "replyRequired": "Reply content is required",
+    "adminResponse": "Admin Response"
   },
   "Rss": {
     "blogTitle": "kuarmonia.com website blogs Feeds",

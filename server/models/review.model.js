@@ -57,6 +57,9 @@ const reviewSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Add compound index for better query performance
+reviewSchema.index({ targetType: 1, targetId: 1 });
+
 reviewSchema.pre("save", async function (next) {
   if (!this.isNew || this.reviewId) {
     return next();

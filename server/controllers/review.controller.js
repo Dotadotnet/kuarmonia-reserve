@@ -1,4 +1,3 @@
-
 /* internal import */
 const reviewService = require("../services/review.service");
 
@@ -14,9 +13,9 @@ exports.addReview = async (req, res,next) => {
 };
 
 /* get from review */
-exports.getReviews = async (req, res) => {
+exports.getReviews = async (req, res, next) => {
   try {
-    await reviewService.getReviews(res);
+    await reviewService.getReviews(req, res);
   } catch (error) {
     next(error);
   } finally {
@@ -25,7 +24,7 @@ exports.getReviews = async (req, res) => {
 };
 
 /* update review */
-exports.updateReview = async (req, res) => {
+exports.updateReview = async (req, res, next) => {
   try {
     await reviewService.updateReview(req, res);
   } catch (error) {
@@ -36,7 +35,7 @@ exports.updateReview = async (req, res) => {
 };
 
 /* delete review */
-exports.deleteReview = async (req, res) => {
+exports.deleteReview = async (req, res, next) => {
   try {
     await reviewService.deleteReview(req, res);
   } catch (error) {

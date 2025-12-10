@@ -38,7 +38,7 @@ const VisaTypeContent = ({ visaType, locale, relatedVisas }) => {
     }
   };
 
-
+console.log("visaType",visaType)
   return (
     <Main>
 

@@ -18,7 +18,7 @@ import LoadImage from "../shared/image/LoadImage";
 import Modal from "../shared/modal/Modal";
 import Spinner from "../shared/spinner/Spinner";
 
-const animation = { duration: 50000, easing: (t) => t };
+const animation = { duration: 3000, easing: (t) => t };
 
 const AllReviews = ({
   className,
@@ -30,8 +30,11 @@ const AllReviews = ({
   const locale = useLocale();
   const { handleSubmit, control, reset } = useForm();
   const [isOpen, setIsOpen] = useState(false);
-  const { data: reviewsData, isLoading: reviewsLoading, refetch } = useGetReviewsQuery({ targetId, targetType });
-  const user = useSelector((state) => state?.user);
+  // Pass the targetType and targetId as parameters to match the API endpoint
+  const { data: reviewsData, isLoading: reviewsLoading, refetch } = useGetReviewsQuery({ 
+    type: targetType, 
+    id: targetId 
+  });
   const [addReview, { isLoading, data, error }] = useAddReviewMutation();
   
   const reviewList = reviewsData?.data || reviews;
@@ -41,6 +44,7 @@ const AllReviews = ({
     return `/avatar/male/${randomIndex}.png`;
   };
   
+  // Toast notifications should be in the component scope, not inside modal
   useEffect(() => {
     if (isLoading) {
       toast.loading(t("addingReview"), {
@@ -65,25 +69,16 @@ const AllReviews = ({
     }
   }, [data, error, isLoading, reset, refetch]);
 
-  const [sliderRef] = useKeenSlider({
+  // Determine if we should show loading state
+  const showLoading = reviewsLoading || reviewList?.length === 0;
+
+  const [sliderRef, instanceRef] = useKeenSlider({
     loop: true,
-    initial: 0,
-    created(s) {
-      s.moveToIdx(5, true, animation);
-    },
-    updated(s) {
-      s.moveToIdx(s.track.details.abs + 5, true, animation);
-    },
-    animationEnded(s) {
-      s.moveToIdx(s.track.details.abs + 5, true, animation);
+    slides: {
+      perView: 1,
+      spacing: 15
     },
     breakpoints: {
-      "(max-width: 768px)": {
-        slides: {
-          perView: 1,
-          spacing: 15
-        }
-      },
       "(min-width: 768px)": {
         slides: {
           perView: 2,
@@ -98,7 +93,27 @@ const AllReviews = ({
       }
     }
   });
+  
+  // Auto play functionality
+  useEffect(() => {
+    if (!instanceRef.current) return;
+    
+    const interval = setInterval(() => {
+      if (instanceRef.current) {
+        instanceRef.current.next();
+      }
+    }, animation.duration);
 
+    return () => clearInterval(interval);
+  }, [instanceRef]);
+  
+  // Refresh slider when review data changes
+  useEffect(() => {
+    if (instanceRef.current) {
+      instanceRef.current.update();
+    }
+  }, [reviewList, instanceRef]);
+  
   const handleAddReview = (data) => {
     addReview({ ...data, targetId, targetType });
   };
@@ -111,19 +126,19 @@ const AllReviews = ({
             <article className="flex flex-col gap-y-4"></article>
             <div className="text-primary border-b-2 border-b-transparent hover:border-b-primary transition-all">
               <button
-                className="flex flex-row gap-x-1 items-center whitespace-nowrap"
+                className="flex flex-row gap-x-1 items-center whitespace-nowrap cursor-pointer"
                 onClick={() => setIsOpen(true)}
               >
                 {t("addReview")} <LiaPlusSolid />
               </button>
             </div>
           </div>
-          {reviewsLoading ? (
-            <div ref={sliderRef} className="keen-slider ">
-              {[...Array(4)].map((_, index) => (
+          <div ref={sliderRef} className="keen-slider">
+            {reviewsLoading || reviewList?.length === 0 ? (
+              [...Array(4)].map((_, index) => (
                 <div
                   key={index}
-      className="keen-slider__slide animate-pulse  flex flex-col gap-y-4 border border-gray-200 p-4 rounded h-40"
+                  className="keen-slider__slide animate-pulse flex flex-col gap-y-4 border border-gray-200 p-4 rounded h-40"
                 >
                   <div className="flex gap-x-2 items-center">
                     <div className="bg-gray-300 rounded-full h-10 w-10" />
@@ -136,18 +151,12 @@ const AllReviews = ({
                   <div className="h-3 bg-gray-200 rounded w-5/6" />
                   <div className="h-3 bg-gray-200 rounded w-3/4" />
                 </div>
-              ))}
-            </div>
-          ) : reviewList?.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500">{t("noReviews")}</p>
-            </div>
-          ) : (
-            <div ref={sliderRef} className="keen-slider flex gap-2">
-              {reviewList.map((review, index) => (
+              ))
+            ) : (
+              reviewList.map((review, index) => (
                 <article
                   key={review._id || index}
-                  className="group relative flex flex-col  gap-y-4 border border-gray-200 hover:border-primary transition-colors ease-linear p-4 rounded keen-slider__slide"
+                  className="group relative flex flex-col gap-y-4 border border-gray-200 hover:border-primary transition-colors ease-linear p-4 rounded keen-slider__slide"
                 >
                   <div className="flex flex-row items-end">
                     <LoadImage
@@ -210,9 +219,9 @@ const AllReviews = ({
                     {review?.comment}
                   </p>
                 </article>
-              ))}
-            </div>
-          )}
+              ))
+            )}
+          </div>
         </div>
       </Container>
 
@@ -220,7 +229,7 @@ const AllReviews = ({
         <Modal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          className="lg:w-1/4 md:w-1/2 w-full z-50"
+          className="lg:w-1/4 md:w-1/2 w-full"
         >
           <section className="h-full w-full flex flex-col gap-y-8">
             <article className="flex flex-col gap-y-2">
@@ -281,7 +290,7 @@ const AllReviews = ({
 
               <button
                 type="submit"
-                className="px-8 mx-auto py-2 border border-primary rounded-secondary bg-primary hover:bg-primary/90 text-white transition-colors drop-shadow w-fit flex flex-row gap-x-2 items-center"
+                className="px-8 mx-auto py-2 border border-primary rounded-secondary bg-primary hover:bg-primary/90 text-white transition-colors drop-shadow w-fit flex flex-row gap-x-2 items-center cursor-pointer"
               >
                 {isLoading ? <Spinner /> : <>{t("submit")}</>}
               </button>

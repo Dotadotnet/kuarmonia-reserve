@@ -521,8 +521,16 @@ exports.getVisaType = async (req, res) => {
             icon: "$category.icon"
           },
           tags: {
-            _id: 1,
-            title: `$tags.title.${locale}`
+            $map: {
+              input: "$tags",
+              as: "tag",
+              in: {
+                _id: "$$tag._id",
+                tagId: "$$tag.tagId",
+                slug: "$$tag.slug",
+                title: `$$tag.title.${locale}`
+              }
+            }
           }
         }
       }
@@ -560,7 +568,6 @@ exports.getVisaTypeById = async (req, res) => {
   try {
     const { id } = req.params;
     const locale = req.locale || "fa";
-
     // Validate visaTypeId
     if (!id) {
       return res.status(400).json({
@@ -679,6 +686,8 @@ exports.getVisaTypeById = async (req, res) => {
               as: "tag",
               in: {
                 _id: "$$tag._id",
+                tagId: "$$tag.tagId",
+                slug: "$$tag.slug",
                 title: `$$tag.title.${locale}`
               }
             }
@@ -688,7 +697,7 @@ exports.getVisaTypeById = async (req, res) => {
     ];
 
     const [visaType] = await VisaType.aggregate(pipeline);
-
+    console.log("visaType", visaType);
     if (!visaType) {
       return res.status(404).json({
         acknowledgement: false,
@@ -1024,7 +1033,12 @@ exports.getAllVisaTypes = async (req, res) => {
             $map: {
               input: "$tags",
               as: "tag",
-              in: "$$tag._id"
+              in: {
+                _id: "$$tag._id",
+                tagId: "$$tag.tagId",
+                slug: "$$tag.slug",
+                title: `$$tag.title.${locale}`
+              }
             }
           }
         }
