@@ -13,7 +13,12 @@ import './embla.css';
 
 const EmblaCarousel = (props) => {
   const { slides, options, children, locale } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: 'start',
+    slidesToScroll: 1,
+    loop: true,
+    ...options
+  });
 
   const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(emblaApi);
 
@@ -59,8 +64,6 @@ const EmblaCarousel = (props) => {
       </section>
     );
   }
-
-
 
   return (
     <section className="embla">

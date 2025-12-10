@@ -23,7 +23,7 @@ const VisaSlider = ({ visas }) => {
     <section className="relative">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={10}
+        spaceBetween={0}
         slidesPerView={1.2}
         centeredSlides={true}
         loop={true}
@@ -46,7 +46,7 @@ const VisaSlider = ({ visas }) => {
       >
         {visas.map((visa, index) => (
           <SwiperSlide key={visa._id || index}>
-            <div className="px-2 md:px-4">
+            <div className="">
               <VisaCard visa={visa} />
             </div>
           </SwiperSlide>

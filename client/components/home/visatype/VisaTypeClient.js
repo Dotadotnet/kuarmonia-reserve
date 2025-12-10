@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import EmblaCarousel from './EmblaCarousel';
+import VisaTypeCard from './VisaTypeCard';
 import HighlightText from '@/components/shared/highlightText/page';
 import { useTranslations } from "next-intl";
 import Container from '@/components/shared/container/Container';
@@ -17,8 +17,6 @@ const VisaTypeClient = ({ visaTypes, locale }) => {
             backgroundPosition: "125% 80%"
         }}>
             <Container>
-
-
                 <div className="w-full h-full flex flex-col gap-y-6 px-4">
                     <div className="flex flex-row justify-between items-center">
                         <article className="flex flex-col gap-y-4">
@@ -36,12 +34,16 @@ const VisaTypeClient = ({ visaTypes, locale }) => {
                         </div>
                     </div>
                     <p className="text-base px-4">{t("Description")}</p>
+                    
+                    {/* Simple overflow solution instead of carousel */}
+                    <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide">
+                        {visaTypes.map((visaType) => (
+                            <div key={visaType._id} className="flex-shrink-0 w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6">
+                                <VisaTypeCard visaType={visaType} locale={locale} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <EmblaCarousel
-                    slides={visaTypes}
-                    options={{ align: 'start', slidesToScroll: 1 }}
-                    locale={locale}
-                />
             </Container>
         </section>
     );
