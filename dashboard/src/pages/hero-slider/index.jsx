@@ -135,6 +135,8 @@ const ListHeroSlider = () => {
     setDraggedItem(null);
   };
 
+console.log("heroSliders",heroSliders)
+
   return (
     <>
       <ControlPanel>
@@ -192,7 +194,7 @@ const ListHeroSlider = () => {
                       <span className="hidden lg:flex">
                         {heroSlider?.creator?.name?.fa}
                       </span>
-                      <span className="lg:hidden">{heroSlider?.title}</span>
+                      <span className="lg:hidden">{heroSlider?.title.fa}</span>
                     </span>
                     <span className="text-xs hidden lg:flex">
                       {new Date(heroSlider.createdAt).toLocaleDateString("fa-IR")}

@@ -8,12 +8,32 @@ exports.addHeroSlider = async (req, res) => {
   try {
     let { title, subtitle, caption, link } = req.body;
     let media = null;
+    let desktopMedia = null;
+    let mobileMedia = null;
     
     if (req.uploadedFiles["media"] && req.uploadedFiles["media"].length) {
       media = {
         url: req.uploadedFiles["media"][0].url,
         public_id: req.uploadedFiles["media"][0].key,
         type: "image" // Assuming image for now, could be extended for video
+      };
+    }
+    
+    // Handle desktop media if provided
+    if (req.uploadedFiles["desktopMedia"] && req.uploadedFiles["desktopMedia"].length) {
+      desktopMedia = {
+        url: req.uploadedFiles["desktopMedia"][0].url,
+        public_id: req.uploadedFiles["desktopMedia"][0].key,
+        type: "image"
+      };
+    }
+    
+    // Handle mobile media if provided
+    if (req.uploadedFiles["mobileMedia"] && req.uploadedFiles["mobileMedia"].length) {
+      mobileMedia = {
+        url: req.uploadedFiles["mobileMedia"][0].url,
+        public_id: req.uploadedFiles["mobileMedia"][0].key,
+        type: "image"
       };
     }
 
@@ -51,6 +71,8 @@ exports.addHeroSlider = async (req, res) => {
       subtitle: translatedSubtitle,
       caption: translatedCaption,
       media,
+      desktopMedia,
+      mobileMedia,
       link: link || null,
       creator: req.admin._id,
     });
@@ -133,6 +155,8 @@ exports.getHeroSliders = async (req, res) => {
         $project: {
           heroSliderId: 1,
           media: 1,
+          desktopMedia: 1,
+          mobileMedia: 1,
           link: 1,
           status: 1,
           createdAt: 1,
@@ -197,6 +221,8 @@ exports.getHeroSlider = async (req, res) => {
         $project: {
           heroSliderId: 1,
           media: 1,
+          desktopMedia: 1,
+          mobileMedia: 1,
           link: 1,
           status: 1,
           createdAt: 1,
@@ -331,6 +357,64 @@ exports.updateHeroSlider = async (req, res) => {
         type: "image" // Assuming image for now, could be extended for video
       };
       console.log("New media data:", updateData.media);
+    }
+    
+    // Handle desktop media update if new file is uploaded
+    if (req.uploadedFiles && req.uploadedFiles["desktopMedia"] && req.uploadedFiles["desktopMedia"].length) {
+      console.log("Processing desktop media update");
+      console.log("Uploaded desktop media files:", req.uploadedFiles["desktopMedia"]);
+      
+      // Get the current heroSlider to access old desktop media info
+      const currentHeroSlider = await HeroSlider.findById(id);
+      console.log("Current heroSlider:", currentHeroSlider);
+
+      // If there's an existing desktop media file, we should remove it
+      if (currentHeroSlider && currentHeroSlider.desktopMedia && currentHeroSlider.desktopMedia.public_id) {
+        console.log("Deleting old desktop media from Cloudinary:", currentHeroSlider.desktopMedia.public_id);
+        // Delete the old desktop media file from Cloudinary
+        try {
+          await deleteFromCloudinary(currentHeroSlider.desktopMedia.public_id, 'image');
+          console.log("Old desktop media deleted successfully");
+        } catch (error) {
+          console.error("Error deleting old desktop media from Cloudinary:", error);
+        }
+      }
+
+      updateData.desktopMedia = {
+        url: req.uploadedFiles["desktopMedia"][0].url,
+        public_id: req.uploadedFiles["desktopMedia"][0].key,
+        type: "image"
+      };
+      console.log("New desktop media data:", updateData.desktopMedia);
+    }
+    
+    // Handle mobile media update if new file is uploaded
+    if (req.uploadedFiles && req.uploadedFiles["mobileMedia"] && req.uploadedFiles["mobileMedia"].length) {
+      console.log("Processing mobile media update");
+      console.log("Uploaded mobile media files:", req.uploadedFiles["mobileMedia"]);
+      
+      // Get the current heroSlider to access old mobile media info
+      const currentHeroSlider = await HeroSlider.findById(id);
+      console.log("Current heroSlider:", currentHeroSlider);
+
+      // If there's an existing mobile media file, we should remove it
+      if (currentHeroSlider && currentHeroSlider.mobileMedia && currentHeroSlider.mobileMedia.public_id) {
+        console.log("Deleting old mobile media from Cloudinary:", currentHeroSlider.mobileMedia.public_id);
+        // Delete the old mobile media file from Cloudinary
+        try {
+          await deleteFromCloudinary(currentHeroSlider.mobileMedia.public_id, 'image');
+          console.log("Old mobile media deleted successfully");
+        } catch (error) {
+          console.error("Error deleting old mobile media from Cloudinary:", error);
+        }
+      }
+
+      updateData.mobileMedia = {
+        url: req.uploadedFiles["mobileMedia"][0].url,
+        public_id: req.uploadedFiles["mobileMedia"][0].key,
+        type: "image"
+      };
+      console.log("New mobile media data:", updateData.mobileMedia);
     }
 
     console.log("Update data to be saved:", updateData);

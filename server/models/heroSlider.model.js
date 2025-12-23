@@ -94,6 +94,18 @@ const heroSliderSchema = new mongoose.Schema(
       public_id: { type: String, default: "N/A" }
     },
 
+    desktopMedia: {
+      url: { type: String, default: "https://placehold.co/1200x600.png" },
+      type: { type: String, enum: ["image"], default: "image" },
+      public_id: { type: String, default: "N/A" }
+    },
+
+    mobileMedia: {
+      url: { type: String, default: "https://placehold.co/600x800.png" },
+      type: { type: String, enum: ["image"], default: "image" },
+      public_id: { type: String, default: "N/A" }
+    },
+
     link: {
       type: String,
       required: false,

@@ -3,7 +3,8 @@ import { toast } from "react-hot-toast";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import { useForm } from "react-hook-form";
 import { useGetHeroSliderQuery, useUpdateHeroSliderMutation } from "@/services/heroSlider/heroSliderApi";
-import MediaStep from "./MediaStep";
+import DesktopMediaStep from "./DesktopMediaStep";
+import MobileMediaStep from "./MobileMediaStep";
 import StepIndicator from "./StepIndicator";
 import TitleStep from "./CompleteStep";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,6 +14,8 @@ const StepUpdateHeroSlider = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [media, setMedia] = useState(null);
+  const [desktopMedia, setDesktopMedia] = useState(null);
+  const [mobileMedia, setMobileMedia] = useState(null);
   const { data: heroSliderData, isLoading: isFetching } = useGetHeroSliderQuery(id);
   const [updateHeroSlider, { isLoading, data, error }] = useUpdateHeroSliderMutation();
   const [currentStep, setCurrentStep] = useState(1);
@@ -29,7 +32,7 @@ const StepUpdateHeroSlider = () => {
   } = useForm({
     mode: "onChange",
   });
-  const totalSteps = 2;
+  const totalSteps = 3;
 
   const watchedFields = watch();
 
@@ -44,6 +47,14 @@ const StepUpdateHeroSlider = () => {
       if (heroSlider.media?.url) {
         setMedia(heroSlider.media.url);
       }
+      
+      if (heroSlider.desktopMedia?.url) {
+        setDesktopMedia(heroSlider.desktopMedia.url);
+      }
+      
+      if (heroSlider.mobileMedia?.url) {
+        setMobileMedia(heroSlider.mobileMedia.url);
+      }
     }
   }, [heroSliderData, setValue]);
 
@@ -53,6 +64,16 @@ const StepUpdateHeroSlider = () => {
     // Only append media if a new file is selected
     if (media && typeof media !== 'string') {
       formData.append("media", media);
+    }
+    
+    // Only append desktopMedia if a new file is selected
+    if (desktopMedia && typeof desktopMedia !== 'string') {
+      formData.append("desktopMedia", desktopMedia);
+    }
+    
+    // Only append mobileMedia if a new file is selected
+    if (mobileMedia && typeof mobileMedia !== 'string') {
+      formData.append("mobileMedia", mobileMedia);
     }
 
     formData.append("title", data.title);
@@ -98,21 +119,31 @@ const StepUpdateHeroSlider = () => {
     let valid = false;
     switch (currentStep) {
       case 1:
-        valid = await trigger("media");
+        valid = await trigger("desktopMedia");
         if (!valid) {
-          toast.error("لطفاً تصویر را وارد کنید");
+          toast.error("لطفاً تصویر دسکتاپ را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
         valid = true;
         break;
       case 2:
+        valid = await trigger("mobileMedia");
+        if (!valid) {
+          toast.error("لطفاً تصویر موبایل را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        valid = true;
+        break;
+      case 3:
         valid = await trigger(["title", "subtitle", "caption"]);
         if (!valid) {
           toast.error("لطفاً فیلدهای الزامی را تکمیل کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
+        valid = true;
         break;
       default:
         break;
@@ -156,11 +187,12 @@ const StepUpdateHeroSlider = () => {
 
   useEffect(() => {
     const fieldToStep = {
-      media: 1,
-      title: 2,
-      subtitle: 2,
-      caption: 2,
-      link: 2
+      desktopMedia: 1,
+      mobileMedia: 2,
+      title: 3,
+      subtitle: 3,
+      caption: 3,
+      link: 3
     };
 
     setInvalidSteps((prevInvalidSteps) => {
@@ -180,7 +212,7 @@ const StepUpdateHeroSlider = () => {
     setCompletedSteps((prevCompletedSteps) => {
       const newCompletedSteps = { ...prevCompletedSteps };
       Object.entries(watchedFields).forEach(([field, value]) => {
-        if (field === "media") {
+        if (field === "desktopMedia" || field === "mobileMedia") {
           newCompletedSteps[fieldToStep[field]] = !!value;
         } else {
           newCompletedSteps[fieldToStep[field]] = value && value.length > 0;
@@ -206,9 +238,9 @@ const StepUpdateHeroSlider = () => {
           />
           
           {currentStep === 1 && (
-            <MediaStep
-              media={media}
-              setMedia={handleMediaChange}
+            <DesktopMediaStep
+              desktopMedia={desktopMedia}
+              setDesktopMedia={setDesktopMedia}
               setValue={setValue}
               register={register}
               errors={errors}
@@ -216,6 +248,17 @@ const StepUpdateHeroSlider = () => {
             />
           )}
           {currentStep === 2 && (
+            <MobileMediaStep
+              mobileMedia={mobileMedia}
+              setMobileMedia={setMobileMedia}
+              setValue={setValue}
+              register={register}
+              errors={errors}
+              nextStep={nextStep}
+              prevStep={prevStep}
+            />
+          )}
+          {currentStep === 3 && (
             <TitleStep
               register={register}
               errors={errors}

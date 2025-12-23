@@ -3,7 +3,8 @@ import { toast } from "react-hot-toast";
 import NavigationButton from "@/components/shared/button/NavigationButton";
 import { useForm } from "react-hook-form";
 import { useAddHeroSliderMutation } from "@/services/heroSlider/heroSliderApi";
-import MediaStep from "./MediaStep";
+import DesktopMediaStep from "./DesktopMediaStep";
+import MobileMediaStep from "./MobileMediaStep";
 import StepIndicator from "./StepIndicator";
 import TitleStep from "./CompleteStep";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,8 @@ import SendButton from "@/components/shared/button/SendButton";
 
 const StepAddHeroSlider = () => {
   const [media, setMedia] = useState(null);
+  const [desktopMedia, setDesktopMedia] = useState(null);
+  const [mobileMedia, setMobileMedia] = useState(null);
   const [addHeroSlider, { isLoading, data, error }] = useAddHeroSliderMutation();
   const [currentStep, setCurrentStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState({});
@@ -28,7 +31,7 @@ const StepAddHeroSlider = () => {
   } = useForm({
     mode: "onChange",
   });
-  const totalSteps = 2;
+  const totalSteps = 3;
 
   const watchedFields = watch();
 
@@ -37,6 +40,14 @@ const StepAddHeroSlider = () => {
 
     if (media) {
       formData.append("media", media);
+    }
+    
+    if (desktopMedia) {
+      formData.append("desktopMedia", desktopMedia);
+    }
+    
+    if (mobileMedia) {
+      formData.append("mobileMedia", mobileMedia);
     }
 
     formData.append("title", data.title);
@@ -74,21 +85,31 @@ const StepAddHeroSlider = () => {
     let valid = false;
     switch (currentStep) {
       case 1:
-        valid = await trigger("media");
+        valid = await trigger("desktopMedia");
         if (!valid) {
-          toast.error("لطفاً تصویر را وارد کنید");
+          toast.error("لطفاً تصویر دسکتاپ را وارد کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
         valid = true;
         break;
       case 2:
+        valid = await trigger("mobileMedia");
+        if (!valid) {
+          toast.error("لطفاً تصویر موبایل را وارد کنید");
+          setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
+          return;
+        }
+        valid = true;
+        break;
+      case 3:
         valid = await trigger(["title", "subtitle", "caption"]);
         if (!valid) {
           toast.error("لطفاً فیلدهای الزامی را تکمیل کنید");
           setInvalidSteps((prev) => ({ ...prev, [currentStep]: true }));
           return;
         }
+        valid = true;
         break;
       default:
         break;
@@ -132,12 +153,13 @@ const StepAddHeroSlider = () => {
 
   useEffect(() => {
     const fieldToStep = {
-      media: 1,
-      title: 2,
-      subtitle: 2,
-      caption: 2,
-      link: 2,
-      order: 2
+      desktopMedia: 1,
+      mobileMedia: 2,
+      title: 3,
+      subtitle: 3,
+      caption: 3,
+      link: 3,
+      order: 3
     };
 
     setInvalidSteps((prevInvalidSteps) => {
@@ -157,7 +179,7 @@ const StepAddHeroSlider = () => {
     setCompletedSteps((prevCompletedSteps) => {
       const newCompletedSteps = { ...prevCompletedSteps };
       Object.entries(watchedFields).forEach(([field, value]) => {
-        if (field === "media") {
+        if (field === "desktopMedia" || field === "mobileMedia") {
           newCompletedSteps[fieldToStep[field]] = !!value;
         } else {
           newCompletedSteps[fieldToStep[field]] = value && value.length > 0;
@@ -183,9 +205,9 @@ const StepAddHeroSlider = () => {
           />
           
           {currentStep === 1 && (
-            <MediaStep
-              media={media}
-              setMedia={handleMediaChange}
+            <DesktopMediaStep
+              desktopMedia={desktopMedia}
+              setDesktopMedia={setDesktopMedia}
               setValue={setValue}
               register={register}
               errors={errors}
@@ -193,6 +215,17 @@ const StepAddHeroSlider = () => {
             />
           )}
           {currentStep === 2 && (
+            <MobileMediaStep
+              mobileMedia={mobileMedia}
+              setMobileMedia={setMobileMedia}
+              setValue={setValue}
+              register={register}
+              errors={errors}
+              nextStep={nextStep}
+              prevStep={prevStep}
+            />
+          )}
+          {currentStep === 3 && (
             <TitleStep
               register={register}
               errors={errors}

@@ -18,7 +18,7 @@ router.post(
   "/add-hero-slider",
   verify,
   authorize("superAdmin", "admin"),
-  upload("hero-slider").single("media"),
+  upload("hero-slider").fields([{ name: 'media', maxCount: 1 }, { name: 'desktopMedia', maxCount: 1 }, { name: 'mobileMedia', maxCount: 1 }]),
   heroSliderController.addHeroSlider
 );
 
@@ -30,7 +30,7 @@ router.patch(
   "/update-hero-slider/:id",
   verify,
   authorize("superAdmin", "admin"),
-  upload("hero-slider").single("media"),
+  upload("hero-slider").fields([{ name: 'media', maxCount: 1 }, { name: 'desktopMedia', maxCount: 1 }, { name: 'mobileMedia', maxCount: 1 }]),
   heroSliderController.updateHeroSlider
 );
 

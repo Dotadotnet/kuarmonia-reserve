@@ -50,6 +50,7 @@ export default function SliderClient({ slides }) {
 
   return (
     <div className="relative w-full">
+
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y touch-pinch-zoom">
           {slides.map((slide, index) => (
@@ -60,39 +61,47 @@ export default function SliderClient({ slides }) {
               <div className="relative w-full h-[150px] md:h-[300px] overflow-hidden rounded-xl md:rounded-none">
                 {index === 0 ? (
                   // First image with priority for LCP optimization
-                  <Image
-                    src={slide.media.url}
-                    alt={slide.title}
-                    fill
-                    priority
-                    fetchPriority="high"
-                    className={`object-cover transition-transform duration-300 rounded-xl md:rounded-none rtl:scale-x-[-1] `}
-                  />
+                  <>
+                    {/* Desktop image */}
+                    <Image
+                      src={slide.desktopMedia?.url }
+                      alt={slide.title}
+                      fill
+                      priority
+                      fetchPriority="high"
+                      className={`object-cover hidden md:block transition-transform duration-300 rounded-xl md:rounded-none  desktop-image`}
+                    />
+                    {/* Mobile image */}
+                    <Image
+                      src={slide.mobileMedia?.url }
+                      alt={slide.title}
+                      fill
+                      priority
+                      fetchPriority="high"
+                      className={`object-cover block md:hidden transition-transform duration-300 rounded-xl md:rounded-none  mobile-image`}
+                    />
+                  </>
                 ) : (
                   // Other images without priority
-                  <Image
-                    src={slide.media.url}
-                    alt={slide.title}
-                    fill
-                    loading="lazy"
-                    className={`object-cover transition-transform duration-300 rounded-xl md:rounded-none rtl:scale-x-[-1]
-                    }`}
-                  />
+                  <>
+                    {/* Desktop image */}
+                    <Image
+                      src={slide.desktopMedia?.url }
+                      alt={slide.title}
+                      fill
+                      loading="lazy"
+                      className={`object-cover  hidden md:block  transition-transform duration-300 rounded-xl md:rounded-none  desktop-image`}
+                    />
+                    {/* Mobile image */}
+                    <Image
+                      src={slide.mobileMedia?.url }
+                      alt={slide.title}
+                      fill
+                      loading="lazy"
+                      className={`object-cover block md:hidden transition-transform duration-300 rounded-xl md:rounded-none  mobile-image`}
+                    />
+                  </>
                 )}
-
-                {/* فقط پشت متن تار و شیشه‌ای */}
-                <div
-                  className={`absolute top-1/2 -translate-y-1/2 
-                    rtl:right-4 rtl:text-right ltr:left-4 ltr:text-left
-                  } md:right-12 text-white space-y-2`}
-                >
-                  <h3 className="text-2xl md:text-5xl font-bold bg-black/40 backdrop-blur-sm px-4 py-2 rounded-md w-fit">
-                    {slide.title}
-                  </h3>
-                  <p className="text-base md:text-2xl opacity-90 bg-black/40 backdrop-blur-sm px-4 py-2 rounded-md w-fit">
-                    {slide.subtitle}
-                  </p>
-                </div>
               </div>
             </div>
           ))}
