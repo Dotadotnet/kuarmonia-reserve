@@ -57,7 +57,7 @@ export default function SliderClient({ slides }) {
               key={slide._id}
               className="relative flex-[0_0_90%] md:flex-[0_0_100%] px-1 md:px-0 min-w-0"
             >
-              <div className="relative w-full h-[200px] md:h-[300px] overflow-hidden rounded-xl md:rounded-none">
+              <div className="relative w-full h-[170px] md:h-[300px] overflow-hidden rounded-xl md:rounded-none">
                 {index === 0 ? (
                   // First image with priority for LCP optimization
                   <Image
