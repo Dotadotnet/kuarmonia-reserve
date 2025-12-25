@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-const API_KEY = "FreeQj1qTYP36STO4Oj7g3dSuAVfiGAv";
+const API_KEY = "BXYjLAx4p44QKszks9ABrrttY8Hz5MGE";
 const BASE_URL = `https://BrsApi.ir/Api/Market/Gold_Currency.php?key=${API_KEY}`;
 
 const fallbackRates = {
