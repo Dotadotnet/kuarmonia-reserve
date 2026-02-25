@@ -1,7 +1,6 @@
 import React from "react";
 import { siteConfig, conclusion, getLocalizedIntroData } from "./Data";
 import IntroClient from "./IntroClient";
-import { Metadata } from 'next';
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }) {
